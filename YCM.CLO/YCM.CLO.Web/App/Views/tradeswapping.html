@@ -1,0 +1,264 @@
+﻿<div class="col-md-12 p-0 text-center" ng-click="tradeswapping.hideUnhideDefinitions()">
+	<div class="col-md-4 p-0">
+	</div>
+
+	<div class="col-md-4 text-center p-0">
+		<label>
+			DEFINITION&nbsp;&nbsp;({{(tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.criteria.cash ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.criteria.moodyAdjCfr ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.criteria.moodyAdjFacility ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.criteria.spread ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.criteria.excludeZeroTotalExposure ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.constraints.liquidityScoreOperatorId && tradeswapping.tradeSwappingParam.constraints.liquidityScore != null && tradeswapping.tradeSwappingParam.constraints.liquidityScore.toString().length ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.constraints.maturityDateOperatorId && tradeswapping.tradeSwappingParam.constraints.maturityDate != null && tradeswapping.tradeSwappingParam.constraints.maturityDate.toString().length ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.constraints.pctPositionOperatorId && tradeswapping.tradeSwappingParam.constraints.pctPosition != null && tradeswapping.tradeSwappingParam.constraints.pctPosition.toString().length ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.constraints.recoveryOperatorId && tradeswapping.tradeSwappingParam.constraints.recovery != null && tradeswapping.tradeSwappingParam.constraints.recovery.toString().length ? 1 : 0) + (tradeswapping.tradeSwappingParam && tradeswapping.tradeSwappingParam.constraints.yieldOperatorId && tradeswapping.tradeSwappingParam.constraints.yield != null &&  tradeswapping.tradeSwappingParam.constraints.yield.toString().length  ? 1 : 0) }})
+		</label>
+	</div>
+	<div class="col-md-4 p-0 text-center" style="">
+		<span ng-show="tradeswapping.tradeSwapDefinition.status == 1">
+			<img src="{{tradeswapping.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b style="font-style: italic">&nbsp;&nbsp;Running Analysis for all CLOs...</b>
+		</span>
+		<span class="pull-right">
+			<a class="fa fa-chevron-up" ng-show="!tradeswapping.hideDefinitions"></a>
+			<a class="fa fa-chevron-down" ng-show="tradeswapping.hideDefinitions"></a>
+		</span>
+	</div>
+</div>
+
+<div class="col-md-12 p-0" ng-show="!tradeswapping.hideDefinitions">
+	<div class="col-md-4 p-0">
+		<div class="" style="padding: 10px 0px">
+			<div class="text-center" style="border-bottom: 1px lightgray solid; padding-bottom: 5px; font-size: 13px; color: gray">CRITERIA</div>
+			<div class="col-sm-12" style="margin-top: 10px">
+				<div class="col-sm-8 text-right">
+					<label for="checkCash" class="control-label2">Cash</label>
+				</div>
+				<div class="col-sm-4">
+					<input type="checkbox" class="form-control checkbox-inline"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.criteria.cash" id="checkCash" />
+				</div>
+				<div class="col-sm-8 text-right">
+					<label for="checkMoodyAdjCfr" class="control-label2">Moody's Adj CFR</label>
+				</div>
+				<div class="col-sm-4">
+					<input type="checkbox" class="form-control checkbox-inline"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.criteria.moodyAdjCfr" id="checkMoodyAdjCfr" />
+				</div>
+				<div class="col-sm-8 text-right">
+					<label for="checkRecovery" class="control-label2">Recovery</label>
+				</div>
+				<div class="col-sm-4">
+					<input type="checkbox" class="form-control checkbox-inline"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.criteria.recovery" id="checkRecovery" />
+				</div>
+				<div class="col-sm-8 text-right">
+					<label for="checkSpread" class="control-label2">Spread</label>
+				</div>
+				<div class="col-sm-4">
+					<input type="checkbox" class="form-control checkbox-inline"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.criteria.spread" id="checkSpread" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4 p-0">
+		<div class="" style="padding: 10px 20px">
+			<div class="text-center" style="border-bottom: 1px lightgray solid; padding-bottom: 5px; font-size: 13px; color: gray">CONSTRAINTS</div>
+			<div class="col-sm-12" style="margin-top: 10px">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label class="control-label2" for="txtCreditScore">Credit Score</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.creditScoreOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators "></select>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" id="txtCreditScore" class="form-control"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.constraints.creditScore" />
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtMaturityDate" class="control-label2">Moody's Adj CFR</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.moodyAdjCfrRankOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control"
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators "></select>
+				</div>
+				<div class="col-sm-5">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.moodyAdjCfrRank"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.rank as item.ratingDesc for item in tradeswapping.moodyRatings "></select>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtRecovery" class="control-label2">Recovery</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.recoveryOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators"></select>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" id="txtRecovery" class="form-control"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.constraints.recovery" />
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtRecovery" class="control-label2">Spread</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.spreadOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators"></select>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" id="txtSpread" class="form-control"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.constraints.spread" />
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtMaturityDate" class="control-label2">Maturity Date</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.maturityDateOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators "></select>
+				</div>
+				<div class="col-sm-5">
+					<p class="input-group" style="margin-bottom: 0 !important">
+						<input type="text" id="txtMaturityDate" class="form-control" datepicker-popup="MM/dd/yyyy" style="margin-top: 1px"
+							   ng-model="tradeswapping.tradeSwappingParam.constraints.maturityDate"
+							   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							   is-open="tradeswapping.isMaturityDateOpen"
+							   show-weeks="false"
+							   datepicker-options="tradeswapping.dateOptions" close-text="Close" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-info" ng-click="tradeswapping.openDate($event,'isMaturityDateOpen')">
+								<i class="fa fa-calendar"></i>
+							</button>
+						</span>
+					</p>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtPctPosition" class="control-label2">% Position</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.pctPositionOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators"></select>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" id="txtPctPosition" class="form-control"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.constraints.pctPosition" />
+				</div>
+			</div>
+
+
+
+
+			<div class="col-sm-12">
+				<div class="col-sm-5 text-right" style="padding-right: 20px">
+					<label for="txtYield" class="control-label2">Yield</label>
+				</div>
+				<div class="col-sm-2 p-0">
+					<select ng-model="tradeswapping.tradeSwappingParam.constraints.yieldOperatorId"
+							ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+							class="form-control" style=""
+							ng-options="item.operatorId as item.operatorCode for item in tradeswapping.operators"></select>
+				</div>
+				<div class="col-sm-5">
+					<input type="text" id="txtYield" class="form-control"
+						   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+						   ng-model="tradeswapping.tradeSwappingParam.constraints.yield" />
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<div class="col-md-4 p-0">
+		<div class="" style="padding: 10px 0px">
+			<div class="text-center" style="border-bottom: 1px lightgray solid; padding-bottom: 5px; font-size: 13px; color: gray">RUN</div>
+			<div class="col-sm-12 text-center" style="margin-top: 10px">
+				<button class="btn btn-primary" ng-disabled="tradeswapping.isLoading || (tradeswapping.tradeSwapDefinition.status == 1)" ng-click="tradeswapping.checkForTradeSwap()">Run Trade Swap Analysis</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-show="tradeswapping.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+	<img src="{{tradeswapping.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{tradeswapping.statusText}}...</b>
+</div>
+<div class="col-md-12 p-0">
+	<div class="col-md-3 p-0">
+		<div class="col-sm-12 p-0">
+			<div class="col-sm-3 p-0">
+				<div style="padding-top: 7px">
+					<label class="control-label2">Group By:</label>
+				</div>
+
+			</div>
+			<div class="col-sm-1 p-0 text-right">
+				<div style="padding-top: 7px">
+					<label class="control-label2" ng-hide="tradeswapping.isBusy " ng-click="tradeswapping.changeGroupBy()" style="cursor: none">Buy</label>
+					<label class="control-label2" ng-show="tradeswapping.isBusy">Sell</label>
+				</div>
+
+			</div>
+			<div class="col-sm-2 p-0 text-center">
+				<a ng-hide="tradeswapping.isBusy || tradeswapping.tradeSwapDefinition.status == 1" ng-click="tradeswapping.changeGroupBy();">
+					<i style="font-size: 30px" class="fa  fa-toggle-on toggle-active" ng-if="tradeswapping.groupBySell == true"></i>
+					<i style="font-size: 30px" class="fa  fa-toggle-on fa-rotate-180 toggle-inactive" ng-if="tradeswapping.groupBySell == false"></i>
+				</a>
+				<a ng-show="tradeswapping.isBusy || tradeswapping.tradeSwapDefinition.status == 1" style="cursor: none">
+					<i style="font-size: 30px" class="fa  fa-toggle-on toggle-active" ng-if="tradeswapping.groupBySell == true"></i>
+					<i style="font-size: 30px" class="fa  fa-toggle-on fa-rotate-180 toggle-inactive" ng-if="tradeswapping.groupBySell == false"></i>
+				</a>
+
+			</div>
+			<div class="col-sm-1 p-0">
+				<div ng-hide="tradeswapping.isBusy" style="padding-top: 7px">
+					<label class="control-label2" ng-click="tradeswapping.changeGroupBy()">Sell</label>
+				</div>
+				<div ng-show="tradeswapping.isBusy" style="padding-top: 7px">
+					<label class="control-label2" style="cursor: none">Sell</label>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="col-md-3 text-center p-0">
+		<div style="padding-top: 5px" ng-show="tradeswapping.tradeSwapDefinition.status==2 && !tradeswapping.isLoading">LAST RUN ON: {{tradeswapping.tradeSwapDefinition.createdOn|date:'MM/dd/yyyy h:mm a'}} by {{tradeswapping.tradeSwapDefinition.createdBy}}</div>
+	</div>
+	<div class="col-md-3 p-0 text-center" style="">
+		<div class="pull-right">
+			<input ng-model="tradeswapping.gridApi.grid.columns[1].filters[0].term"
+				   ng-disabled="tradeswapping.isLoading || tradeswapping.tradeSwapDefinition.status == 1"
+				   ng-change="tradeswapping.refreshGrid()" class="form-control" style="width: 300px;height: 20px" placeholder="Search" />
+		</div>
+	</div>
+</div>
+<div class="col-md-12 div-table-bordered" style="padding: 0 0 0 0 !important;">
+	<div id="grid1" ui-grid="tradeswapping.gridOptions" style="width: 100%;" ng-style="tradeswapping.gridHeight" class="tradeSwapgrid" ui-grid-pinning ui-grid-tree-view ui-grid-auto-resize ui-grid-selection></div>
+</div>

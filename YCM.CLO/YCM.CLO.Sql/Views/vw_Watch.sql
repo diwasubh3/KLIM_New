@@ -1,0 +1,2 @@
+﻿CREATE VIEW [CLO].[vw_Watch]
+	AS SELECT * FROM CLO.Watch WITH(NOLOCK)

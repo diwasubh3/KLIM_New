@@ -1,0 +1,36 @@
+CREATE TABLE [CLO].[AnalystResearchHeader](
+	[AnalystResearchHeaderId] [INT] IDENTITY(1,1) NOT NULL,
+	[IssuerId] [INT] NOT NULL,
+	[BusinessDescription] [VARCHAR](MAX) NULL,
+	[CLOAnalystId] [INT] NULL,
+	[HFAnalystId] [INT] NULL,
+	[CreditScore] [NUMERIC](10, 4) NULL,
+	[AgentBank] [VARCHAR](100) NULL,
+	[CreatedOn] [DATETIME] NULL,
+	[CreatedBy] [VARCHAR](100) NULL,
+	[LastUpdatedOn] [DATETIME] NULL,
+	[LastUpdatedBy] [VARCHAR](100) NULL,
+	[Sponsor] [VARCHAR](1000) NULL,
+	[LiborCategory] [VARCHAR](50) NULL,
+	[LiborTransitionNote] [VARCHAR](1000) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AnalystResearchHeaderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [UQ_AnalystResearchHeader_IssuerId] UNIQUE NONCLUSTERED 
+(
+	[IssuerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [CLO].[AnalystResearchHeader] ADD  DEFAULT (GETDATE()) FOR [CreatedOn]
+GO
+
+ALTER TABLE [CLO].[AnalystResearchHeader] ADD  DEFAULT (GETDATE()) FOR [LastUpdatedOn]
+GO
+
+ALTER TABLE [CLO].[AnalystResearchHeader]  WITH CHECK ADD FOREIGN KEY([IssuerId])
+REFERENCES [CLO].[Issuer] ([IssuerId])
+GO

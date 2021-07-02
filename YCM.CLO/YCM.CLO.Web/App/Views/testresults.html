@@ -1,0 +1,143 @@
+﻿<style>
+	.panel-default .panel-body {
+		padding: 0px;
+	}
+	.panel-default .panel-heading {
+		text-align: center;
+		padding: 6px;
+	}
+	.panel-default .panel-title {
+		font-size: 12px;
+	}
+</style>
+<div ng-show="testResults.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+	<img src="{{testResults.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{testResults.statusText}}...</b>
+</div>
+<div style="padding:0px !important" id="data">
+	<uib-accordion close-others="oneAtATime">
+		<div uib-accordion-group class="panel-default" is-open="status.open">
+			<uib-accordion-heading>
+				TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': status.open, 'fa-chevron-down': !status.open}"></i>
+			</uib-accordion-heading>
+			<div style="padding: 4px !important">
+				<div class="pull-left" style="padding: 0px 0px 10px !important">
+					<button class="btn btn-primary"
+					        ng-click="testResults.downloadSummaries()"
+					        ng-disabled="testResults.isLoading">
+						<i class="fa fa-file-excel-o">&nbsp;&nbsp;Export to Excel</i>
+					</button>
+				</div>
+			</div>
+			<div class="table-header" style="padding:0px ">
+				<table class="table table-bordered table-3pxcondensed table-fixedheight" ng-table="testResults.summaryTableParams" style="border-width: 0;margin-bottom: 0px">
+					<thead>
+                        <tr>
+                            <!--<th style="width: 50px; border-width: 0; background-color: white !important; padding: 0 !important">
+        <div style="display: inline-block; background-color: white; width: 50px; height: 24px">&nbsp;</div>
+    </th>-->
+                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                            </th>
+                            <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
+                            <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
+                            <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
+                            <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>SPREAD</div></th>
+                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL COUPON</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
+                            <th style="text-align: right; width: 110px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                <div>MOODY'S RECOVERY</div>
+                            </th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA LIFE</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
+                            <th style="text-align: right; width: 80px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                <div>Diversity</div>
+                            </th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>S &amp; P Recovery</div></th>
+                        </tr>
+					</thead>
+				</table>
+			</div>
+			<div style="max-height: {{44*testResults.summaryData.length}}px;">
+				<table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="testResults.summaryTableParams"
+				       id="tblSummaryBody"
+				       style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+					<thead style="display:none">
+
+					</thead>
+					<tbody ng-repeat="data in $data">
+                        <tr ng-class="{'active':data==testResults.selectedFund}"
+                            ng-hide="data!=testResults.selectedFund && data.inActive"
+                            ng-click="testResults.selectFund(data)" class="pointer">
+                            <!--<td style="width: 50px; background: none !important; cursor: default !important; border-width: 0 !important" ng-class="{'stale':data.isStale}"></td>-->
+                            <td style="width: 25px; text-align: right; border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                &nbsp;
+                            </td>
+                            <td style="border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                <span uib-tooltip-html="(data.isStale?'STATUS | STALE':'')+(data.isStale?'<br/>':'')+('AS OF DATE | ' + data.positionDate)" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.fundCode}}</span>
+                            </td>
+                            <td ng-style="data.parBgStyle"
+                                style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                <span uib-tooltip-html="data.parTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.par| number:0}}</span>
+                            </td>
+                            <td ng-style="data.assetParBgStyle"
+                                style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                <span ng-click="testResults.downloadLoanPositions(data.fundId)" uib-tooltip-html="data.assetParTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.assetPar| number:0}}</span>
+                            </td>
+                            <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.principalCashBgStyle">
+                                <span uib-tooltip-html="data.principalCashTooltip" tooltip-append-to-body="true">
+                                    {{data.principalCash| number:2}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoSpreadBgStyle">
+                                <span ng-show="data.spread" uib-tooltip-html="data.wsoSpreadTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsoSpread| number:2}}%
+                                </span>
+                            </td>
+                            <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
+                                <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.totalCoupon| number:2}}%
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
+                                <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsowarf| number:0}}
+                                </span>
+                            </td>
+                            <td style="width: 110px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoMoodyRecoveryBgStyle">
+                                <span uib-tooltip-html="data.wsoMoodyRecoveryTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsoMoodyRecovery| number:2}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
+                                <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsowaLife| number:2}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
+                                <span uib-tooltip-html="data.bidTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.bid| number:2}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.cleanNavBgStyle">
+                                <span uib-tooltip-html="data.cleanNavTooltip" tooltip-append-to-body="true">
+                                    {{data.cleanNav| number:2}}%
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
+                                <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
+                                    {{data.wsoDiversity| number:0}}
+                                </span>
+                            </td>
+                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.snpRecoveryBgStyle">
+                                <span uib-tooltip-html="data.snpRecoveryTooltip" tooltip-append-to-body="true">
+                                    {{data.snpRecovery| number:0}}
+                                </span>
+                            </td>
+                        </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</uib-accordion>
+</div>

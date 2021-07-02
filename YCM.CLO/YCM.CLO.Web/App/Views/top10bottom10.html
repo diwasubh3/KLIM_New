@@ -1,0 +1,89 @@
+﻿<div ng-show="top10bottom10.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+	<img src="{{top10bottom10.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{top10bottom10.statusText}}...</b>
+</div>
+<div class="col-md-12 " style="padding-right: 10px;padding-left: 0">
+	<div class="col-md-5 p-0" style="">
+		<div class="pull-left">
+			<button class="btn  btn-icon" ng-class="{'btn-filtered':top10bottom10.gridApi.grid.columns[0].filters[0].term}"
+					ng-click="top10bottom10.filterBy(0)"
+					style="color: black" ng-disabled="top10bottom10.isLoading">
+				<i class="fa  fa-binoculars"></i>
+			</button>
+			<button class="btn  btn-icon" ng-class="{'btn-filtered':top10bottom10.gridApi.grid.columns[1].filters[0].term}"
+					ng-click="top10bottom10.filterBy(1)"
+					style="color: red" ng-disabled="top10bottom10.isLoading">
+				<i class="fa  fa-exclamation-triangle"></i>
+			</button>
+			<button class="btn buy  btn-icon" ng-class="{'btn-filtered':top10bottom10.gridApi.grid.columns[3].filters[0].term}"
+					ng-click="top10bottom10.filterBy(3)"
+					style="" ng-disabled="top10bottom10.isLoading">
+				<span class="isp">B</span>
+			</button>
+			<button class="btn sell btn-icon" ng-class="{'btn-filtered':top10bottom10.gridApi.grid.columns[4].filters[0].term}"
+					ng-click="top10bottom10.filterBy(4)"
+					style="width: 22px;" ng-disabled="top10bottom10.isLoading">
+				<span class="isp">S</span>
+			</button>
+			<span style="display:none">
+				{{forCompareCount = (top10bottom10.bottomGridApi.selection.getSelectedRows()).length + (top10bottom10.topGridApi.selection.getSelectedRows()).length}}
+			</span>
+			<button class="btn btn-secondary"
+					ng-click="top10bottom10.comapreLoans()"
+					style="margin-left:20px" ng-disabled="top10bottom10.isLoading || forCompareCount==0">
+				<i class="fa  fa-thumb-tack"></i> Loan Comparison Tool {{forCompareCount?'('+forCompareCount+')':''}}
+			</button>
+
+		</div>
+		<!--<div class="pull-right">
+
+
+			<div ng-show="top10bottom10.isLoading" style="text-align: center">
+				<img src="{{top10bottom10.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;Loading...</b>
+			</div>
+		</div>-->
+	</div>
+
+	<div class="col-md-1 text-right" style="padding-top: 2px;">
+		<label class="control-label" for="selectRules" style="margin-bottom: 0; font-size: 10px">Select Rule</label>
+	</div>
+	<div class="col-md-2 p-0">
+		<select class=""
+				id="selectRules"
+				ng-disabled="top10bottom10.isLoading"
+				style="height: 20px; width: 100%"
+				ng-change="top10bottom10.onRuleChanged()"
+				ng-model="top10bottom10.selectedRule" ng-options="rule.ruleName for rule in top10bottom10.rules"></select>
+	</div>
+	<div class="col-md-1">
+
+	</div>
+	<div class="col-md-3 p-0" style="text-align: right" class="pull-right">
+		<input ng-model="top10bottom10.topGridApi.grid.columns[3].filters[0].term"
+			   ng-disabled="top10bottom10.isLoading"
+			   ng-change="top10bottom10.refreshGrids()" class="form-control" style="width: 300px; height: 20px" placeholder="Search" />
+	</div>
+</div>
+
+<div class="col-md-12 " style="padding: 0 0 0 0 !important; margin-top: 20px; height: 280px; max-height: 321px;">
+	<div class="col-md-1 p-0" style="width: 2%; font-weight: bold; padding-top: 115px;text-align: center">
+		B<br />O<br />T<br />T<br />O<br />M
+	</div>
+	<div class="col-md-11 p-0" style="width: 98%">
+		<div id="grid2" ui-grid="top10bottom10.bottomGridOptions" style="height: 270px; width: 100%" ui-grid-pinning ui-grid-selection></div>
+	</div>
+</div>
+
+
+<div class="col-md-12 " style="padding: 0 0 0 0 !important; margin-top: 10px; height: 280px; max-height: 301px;">
+	<div class="col-md-1 p-0" style="width: 2%; font-weight: bold; padding-top: 135px;text-align: center">
+		T<br />O<br />P
+	</div>
+	<div class="col-md-11 p-0" style="width: 98%">
+		<div id="grid1" ui-grid="top10bottom10.topGridOptions" style="height: 270px; width: 100%; overflow-y: hidden" ui-grid-pinning ui-grid-selection>
+
+		</div>
+	</div>
+</div>
+
+
+

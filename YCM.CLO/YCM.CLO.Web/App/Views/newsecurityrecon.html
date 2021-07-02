@@ -1,0 +1,63 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-4 p-0">
+        
+    </div>
+    <div class="col-md-4 " style="padding-left: 68px; text-align: center">
+        <span ng-show="newsecurityrecon.isLoading"><img src="{{newsecurityrecon.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;Loading...</b></span>
+    </div>
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="newsecurityrecon.tableParams.filter().searchText"
+                   ng-disabled="newsecurityrecon.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th style="text-align: left; border-width: 1px 0 1px 0;border-top: 1px solid #dddddd;"
+                    ng-style="newsecurityrecon.getStyle(headerField,null)"
+                    ng-repeat="headerField in newsecurityrecon.headerFields">
+                    <div>
+                        {{headerField.fieldTitle}}
+                    </div>
+                </th>
+                <th style="width: 150px; border-width: 1px 0 1px 0; text-align: center;border-top: 1px solid #dddddd;">
+                    <button class="btn btn-info" ng-click="newsecurityrecon.confirmSecurityRecon()"
+                            style="padding-left: 15px !important;padding-right: 15px !important"
+                            ng-disabled="newsecurityrecon.canSelectWSO || newsecurityrecon.canSelectYCM">Match</button>
+                </th>
+                <th style="width: 17px; border-width: 1px 0 1px 0 !important;border-top: 1px solid #dddddd;"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="overflow-y: scroll; max-height: 680px;margin-top: 7px">
+    <table class="table table-bordered noth table-condensed" ng-table="newsecurityrecon.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat="security in $data">
+                <td style="text-align: left; border-width: 0 0 1px 0;"
+                    ng-style="newsecurityrecon.getStyle(headerField,null)"
+                    ng-repeat="headerField in newsecurityrecon.headerFields">
+                    <div>
+                        {{security[headerField.jsonPropertyName]}}
+                    </div>
+                </td>
+                <td style="width: 150px; border-width: 0 0 1px 0; text-align: center">
+                    <input class="" type="checkbox" style="text-align: center; width: 13px; height: 13px;margin-top: 0" ng-click="newsecurityrecon.selectForMatch(security)"
+                           ng-disabled="!newsecurityrecon['canSelect'+security.source] && !security.checked"
+                           ng-model="security.checked"
+                           />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

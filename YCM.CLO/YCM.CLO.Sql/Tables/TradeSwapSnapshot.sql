@@ -1,0 +1,46 @@
+﻿CREATE TABLE [CLO].[TradeSwapSnapshot]
+(
+	[TradeSwapSnapshotId] BIGINT NOT NULL  IDENTITY(1,1),
+	[TradeSwapId] INT NOT NULL references	[CLO].[TradeSwap]([TradeSwapId]),
+	[SellSecurityId] int not null references CLO.Security(SecurityId),
+	[SellFundId] int not null references CLO.Fund(FundId),
+	[SellExposure] DECIMAL(38,10) NULL,
+	[SellTotalExposure] DECIMAL(38,10) NULL,
+	[SellSecurityBidPrice] DECIMAL(38,10) NULL,
+	[SellPctPosition] DECIMAL(38,10) NULL,
+	[SellSpread]			DECIMAL(38,10) NULL,
+	[SellLiquidityScore]	DECIMAL(38,10) NULL,
+	[SellMaturityDate]		DATETIME NULL,
+	[SellIssuer]			VARCHAR(100),
+	[SellFacility]			VARCHAR(100),
+	[SellMoodyAdjCFR]		VARCHAR(100),
+	[SellMoodyAdjFacility]	VARCHAR(100),
+	
+	[BuySecurityId] int not null references CLO.Security(SecurityId),
+	[BuySecurityOfferPrice] DECIMAL(38,10) NULL,
+	[BuyFundId] int not null references CLO.Fund(FundId),
+	[BuyExposure] DECIMAL(38,10) NULL,
+	[BuyTotalExposure] DECIMAL(38,10) NULL,
+	[BuyPctPosition] DECIMAL(38,10) NULL,
+	[BuySpread] DECIMAL(38,10) NULL,
+	[BuyLiquidityScore] DECIMAL(38,10) NULL,
+	[BuyMaturityDate]	DATETIME NULL,
+	[BuyIssuer]			VARCHAR(100),
+	[BuyFacility]		VARCHAR(100),
+	[BuyMoodyAdjCFR]		VARCHAR(100),
+	[BuyMoodyAdjFacility]	VARCHAR(100),
+
+	[SellRecovery]	DECIMAL(38,10),
+	[BuyRecovery]	DECIMAL(38,10),
+	[SellYield]	DECIMAL(38,10),
+	[BuyYield]	DECIMAL(38,10),
+
+	[BuySecurityBidPrice] DECIMAL(38,10) NULL,
+	[SellSecurityOfferPrice] DECIMAL(38,10) NULL,
+
+	[BuySecurityCreditScore]  DECIMAL(38,10) NULL,
+	[SellSecurityCreditScore] DECIMAL(38,10) NULL,
+
+	[CreatedOn] DATETIME DEFAULT(GETDATE()),
+    CONSTRAINT [PK_TradeSwappingSnapshot] PRIMARY KEY ([TradeSwapId], [SellFundId], [SellSecurityId], [BuySecurityId]),
+)

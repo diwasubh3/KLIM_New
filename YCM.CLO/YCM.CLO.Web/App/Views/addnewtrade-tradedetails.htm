@@ -1,0 +1,57 @@
+﻿<div class="col-sm-12 p-0" ng-class="{'mt15':!buyselltrade.trade.tradeId}">
+    <div class="col-sm-2 text-right p-0">
+        <label for="tradeamount">Trade Amount:</label>
+    </div>
+    <div class="col-sm-4 pr0">
+        <quick-input ng-if="buyselltrade.trade.isBuy">
+            <input class="form-control text-right" ng-required="true" id="tradeamount"
+                   name="tradeamount"
+                   ng-disabled="buyselltrade.isLoading"
+                   ng-class="{'invalid-custom':buyselltrade.invalidTradeAmountAndTotalAllocation}"
+                   format="currency"
+                   ng-model="buyselltrade.trade.tradeAmount"
+                   ng-change="buyselltrade.checkForMismatchTradeAmountAndTotalAllocation()" />
+        </quick-input>
+        <quick-input ng-if="!buyselltrade.trade.isBuy">
+            <input class="form-control text-right" ng-required="true"
+                   ng-class="{'invalid-custom':buyselltrade.invalidTradeAmountAndTotalAllocation}"
+                   name="tradeamount1"
+                   ng-disabled="buyselltrade.isLoading || buyselltrade.trade.sellAll"
+                   format="currency"
+                   id="tradeamount"
+                   ng-change="buyselltrade.checkForMismatchTradeAmountAndTotalAllocation()"
+                   ng-model="buyselltrade.trade.tradeAmount" />
+        </quick-input>
+    </div>
+    <div class="col-sm-2 p-0 text-right">
+        <label for="txtTradePrice">Trade Price:</label>
+    </div>
+    <div class="col-sm-4 pr0">
+        <quick-input>
+            <input format="currency2" class="form-control text-right" ng-disabled="buyselltrade.isLoading" ng-required="true" id="txtTradePrice" ng-model="buyselltrade.trade.tradePrice" />
+        </quick-input>
+    </div>
+</div>
+<div class="col-sm-12 p-0" >
+    <div class="col-sm-2 text-right">
+        
+    </div>
+    <div class="col-sm-4 pr0 text-right">
+        <div class="pull-left">
+            <div ng-hide="buyselltrade.trade.isBuy">
+                <label class="control-label">Sell All:&nbsp;&nbsp;</label><input type="checkbox" ng-disabled="buyselltrade.isLoading" ng-click="buyselltrade.sellAll()" style="height: 16px; width: 16px"  ng-model="buyselltrade.trade.sellAll">
+            </div>
+        </div>
+        <div class="pull-right">
+            <label class="control-label">Keep On Blotter:&nbsp;&nbsp;</label><input type="checkbox" ng-disabled="buyselltrade.isLoading" style="height: 16px; width: 16px" ng-model="buyselltrade.trade.keepOnBlotter">
+        </div>
+    </div>
+    <div class="col-sm-2 p-0 text-right ">
+        <label style="cursor: default">{{buyselltrade.trade.isBuy?'Offer':'Bid'}}:</label>
+    </div>
+    <div class="col-sm-4 pr0">
+        <quick-input>
+            <input ng-disabled="true" format="currency2" class="form-control text-right" ng-model="buyselltrade.trade.bidOfferPrice" />
+        </quick-input>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+﻿--CREATE VIEW [CLO].[vw_CurrentPosition]  WITH SCHEMABINDING 
+--AS
+--	SELECT 
+--		   p.[PositionId] 
+--		  ,p.DateId PositionDateId
+--		  ,FORMAT(NULLIF((ISNULL(p.[Exposure],0) + ISNULL(ta.Allocation,0)),0) , '#,###') [Exposure]
+--		  ,(ISNULL(p.[Exposure],0) + ISNULL(ta.Allocation,0))  [NumExposure]
+--		  ,ISNULL(p.[Exposure],0) [BODExposure]
+--		  ,ISNULL(p.[Exposure],0) + ISNULL((CASE WHEN ta.HasBuy =1 then ta.Allocation ELSE 0 END),0) [BODwithBuyExposure]
+--		  ,FORMAT(((ISNULL(p.[Exposure],0) + ISNULL(ta.Allocation,0))/f.TargetPar) , 'p')  [PctExposure]  
+
+--          ,p.[PxPrice] 
+--		  ,((ISNULL(p.[Exposure],0) + ISNULL(ta.Allocation,0))/f.TargetPar) PctExposureNum
+--		  ,f.FundId
+--		  ,f.FundCode
+--		  ,f.FundDesc
+--		  ,s.SecurityId
+--		  ,s.[SecurityCode]
+--		  ,s.[SecurityDesc]
+--		  ,s.[BBGId]
+--		  ,s.[Issuer]
+--		  ,s.[IssuerId]
+--		  ,LTRIM(s.[Facility]) [Facility]
+--		  ,case when s.CallDate <> '1900-01-01' then  CONVERT(VARCHAR(10), s.[CallDate], 101) else null end [CallDate]
+--		  ,country.[CountryDesc]
+--		  ,CONVERT(VARCHAR(10), s.[MaturityDate], 101) [MaturityDate]
+--		  ,s.[SnpIndustry]
+--		  ,s.[MoodyIndustry]
+--		  ,case when (p.[IsCovLite] =1 ) then 'Y' else 'N' end [IsCovLite]
+--		  ,case when (s.[IsFloating] = 1) then 'Floating' else 'Fixed' end [IsFloating]
+--		  ,s.[LienType]
+		  
+--		  ,s.[IsOnWatch]
+--		  ,s.WatchObjectTypeId
+--		  ,s.WatchObjectId
+--		  ,s.[WatchId]
+--		  ,s.[WatchComments]
+--		  ,s.WatchLastUpdatedOn
+--		  ,s.WatchUser
+		  
+--		  ,s.[OrigSecurityCode]
+--		  ,s.[OrigSecurityDesc]
+--		  ,s.[OrigBBGId]
+--		  ,s.[OrigIssuer]
+--		  ,s.[OrigFacility]
+--		  ,s.[OrigCallDate] 
+--		  ,s.[OrigMaturityDate]
+--		  ,s.[OrigSnpIndustry]
+--		  ,s.[OrigMoodyIndustry]
+--		  ,s.[OrigIsFloating] 
+--		  ,s.[OrigLienType]
+--		  ,c.[MoodyFacilityRatingAdjusted] AS OrigMoodyFacilityRatingAdjusted
+--		  ,m.[MoodyCashFlowRatingAdjusted] AS OrigMoodyCashFlowRatingAdjusted
+
+
+--		  ,f.PrincipalCash
+--		  ,f.LiabilityPar
+--		  ,f.EquityPar
+--		  ,s.[MoodyIndustryId]
+--		  ,s.[SecurityLastUpdatedOn]
+--		  ,s.[SecurityLastUpdatedBy]
+--	      ,s.[SecurityCreatedOn]
+--		  ,s.[SecurityCreatedBy]
+
+--		  ,m.[DateId] MarketDateId
+--		  ,m.[MarketDataId]
+--		  ,m.[OverrideMarketDataId]
+--		  ,CONVERT(varchar, CAST(m.[Bid] AS money), 1) [Bid]
+--		  ,CONVERT(varchar, CAST(m.[Offer] AS money), 1) [Offer]
+--		  ,CONVERT(varchar, CAST(pm.[Bid] AS money), 1) [PrevDayBid]
+--		  ,CONVERT(varchar, CAST(pm.[Offer] AS money), 1) [PrevDayOffer]
+--		  ,CONVERT(varchar, CAST(m.[CostPrice] AS money), 1) [CostPrice]
+--		  ,m.[CostPrice] [CostPriceNum]
+--		  ,m.[Bid] BidNum
+--		  ,m.[Offer] OfferNum
+--		  ,CASE WHEN ISNULL(m.[Bid],0) <> 0 AND ISNULL(pm.[Bid],0) <> 0 THEN FORMAT(((m.Bid - pm.Bid)/m.Bid),'p') ELSE NULL END PctBidDiff
+--		  ,CASE WHEN ISNULL(m.[Bid],0) <> 0 AND ISNULL(pm.[Bid],0) <> 0 THEN ((m.Bid - pm.Bid)/m.Bid) ELSE NULL END PctBidDiffNum
+--		  ,CASE WHEN ISNULL(m.[Offer],0) <> 0 AND ISNULL(pm.[Offer],0) <> 0 THEN FORMAT(((m.Offer - pm.Offer)/m.Offer),'p') ELSE NULL END PctOfferDiff
+--		  ,CASE WHEN ISNULL(m.[Offer],0) <> 0 AND ISNULL(pm.[Offer],0) <> 0 THEN ((m.Offer - pm.Offer)/m.Offer) ELSE NULL END PctOfferDiffNum
+--		  ,CASE WHEN ISNULL(m.[Bid],0) <> 0 AND ISNULL(pm.[Bid],0) <> 0 THEN (m.Bid - pm.Bid) ELSE NULL END PriceMove
+--		  ,pm.[Bid] PrevDayBidNum
+--		  ,pm.[Offer] PrevDayOfferNum
+--		  ,m.[Spread]
+--		  ,m.[LiborFloor]
+--		  ,m.[MoodyCashFlowRating]
+--		  ,ISNULL(s.[MoodyCashFlowRatingAdjusted], m.[MoodyCashFlowRatingAdjusted]) [MoodyCashFlowRatingAdjusted]
+--		  ,m.[MoodyFacilityRating]
+--		  ,m.[MoodyRecovery]
+--		  ,m.[SnPIssuerRating]
+--		  ,m.[SnPIssuerRatingAdjusted]
+--		  ,m.[SnPFacilityRating]
+--		  ,m.[SnPfacilityRatingAdjusted]
+--		  ,m.[SnPRecoveryRating]
+--		  ,m.[MoodyOutlook]
+--		  ,m.[MoodyWatch]
+--		  ,m.[SnPWatch]
+--		  ,CONVERT(VARCHAR(10), m.[NextReportingDate], 101) [NextReportingDate]
+--		  ,CONVERT(VARCHAR(10), m.[FiscalYearEndDate], 101) [FiscalYearEndDate]
+--		  ,m.[AgentBank] 
+--		  ,c.[CalculationId]
+--		  ,c.[YieldBid]
+--		  ,c.[YieldOffer]
+--		  ,c.[YieldMid]
+--		  ,c.[CappedYieldBid]
+--		  ,c.[CappedYieldOffer]
+--		  ,c.[CappedYieldMid]
+--		  ,c.[TargetYieldBid]
+--		  ,c.[TargetYieldOffer]
+--		  ,c.[TargetYieldMid]
+--		  ,c.[BetterWorseBid]
+--		  ,c.[BetterWorseOffer]
+--		  ,c.[BetterWorseMid]
+--		  ,c.[TotalCoupon]
+--		  ,c.[WARF]
+--		  ,c.[WARFRecovery]
+--		  ,c.[Life]
+--		  ,c.DateId CalculationDateId
+--		  , FORMAT(NULLIF((ISNULL(c.[TotalPar],0) + ISNULL(ta.TotalAllocation,0)),0), '#,###') [TotalPar]
+--		  , NULLIF((ISNULL(c.[TotalPar],0) + ISNULL(ta.TotalAllocation,0)),0) [TotalParNum]
+--		  , (ISNULL(c.[TotalPar],0)) [BODTotalPar]
+--		  ,ISNULL(s.[MoodyFacilityRatingAdjusted],  c.[MoodyFacilityRatingAdjusted]) [MoodyFacilityRatingAdjusted]
+
+--		  ,[a].AnalystResearchId
+--		  ,[a].[CLOAnalyst]
+--		  ,[a].[HFAnalyst]
+--		  ,CONVERT(VARCHAR(10), [a].[AsOfDate], 101) [AsOfDate]
+--		  ,[a].[CreditScore]
+--		  ,[a].[LiquidityScore]
+--		  ,[a].[OneLLeverage]
+--		  ,CONVERT(varchar, CAST([a].[TotalLeverage] AS money), 1) [TotalLeverage]
+--		  ,CONVERT(varchar, CAST([a].[EVMultiple] AS money), 1) [EVMultiple]
+--		  ,CONVERT(varchar, CAST([a].[LTMRevenues] AS money), 1) [LTMRevenues]
+--		  ,CONVERT(varchar, CAST([a].[LTMEBITDA] AS money), 1) [LTMEBITDA]
+--		  ,CONVERT(varchar, CAST([a].[FCF] AS money), 1) [FCF]
+--		  ,[a].[Comments]            
+
+--		  ,cfra.Rank MoodyCashFlowRatingAdjustedRank
+--		  ,fra.Rank MoodyFacilityRatingAdjustedRank
+--		  ,s.[MaturityDate] SecurityMaturityDate
+--		  ,CASE WHEN s.MaturityDate IS NOT NULL THEN DATEDIFF(DAY, GETDATE(), s.MaturityDate) ELSE NULL END MaturityDays
+--		  ,f.WALifeAdjustment
+--		  ,Cast(0 as bit) as IsOnAlert
+--		  ,NULL As SearchText
+--		  ,ROW_NUMBER() OVER ( PARTITION BY p.PositionId,p.[FundId],p.[SecurityId]
+--                                                ORDER BY p.DateId DESC ) AS POSROWNUM
+
+--    FROM  [CLO].Position p WITH (NOLOCK) 
+--		  LEFT	JOIN [CLO].[vw_security] s  WITH (NOLOCK) ON s.SecurityId		= p.SecurityId 
+--		  LEFT	JOIN [CLO].Country country   with(nolock) on country.CountryId = p.CountryId
+--		  LEFT	JOIN [CLO].Fund f WITH(NOLOCK) ON p.FundId = f.FundId
+--		  LEFT	JOIN [CLO].[GetActiveTrades]() ta ON s.SecurityId = ta.SecurityId AND f.FundId = ta.FundId
+--          LEFT  JOIN [CLO].vw_MarketData m WITH (NOLOCK) ON s.SecurityId			= m.SecurityId and f.FundId = m.FundId
+--		  LEFT  JOIN [CLO].vw_PrevDayMarketData pm WITH (NOLOCK) ON s.SecurityId	= pm.SecurityId and f.FundId = pm.FundId
+--		  LEFT  JOIN [CLO].vw_CurrentAnalystResearch a WITH (NOLOCK) ON a.IssuerId	= s.IssuerId
+--		  LEFT  JOIN [CLO].vw_Calculation c WITH (NOLOCK) ON s.SecurityId			= c.SecurityId and f.FundId = c.FundId
+--		  LEFT	JOIN [CLO].Rating cfra WITH(NOLOCK) ON cfra.[RatingDesc]			= ISNULL(s.[MoodyCashFlowRatingAdjusted], m.[MoodyCashFlowRatingAdjusted])
+--		  LEFT	JOIN [CLO].Rating fra WITH(NOLOCK) ON fra.[RatingDesc]				= ISNULL(s.[MoodyFacilityRatingAdjusted],  c.[MoodyFacilityRatingAdjusted])
+
+--	WHERE p.DateId = [CLO].[GetPrevDayDateId]()

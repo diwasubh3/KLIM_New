@@ -1,0 +1,172 @@
+﻿<style>
+	/*.dropdown-menu {
+		background-color: yellow !important;
+	}*/
+	.dropdown-menu > .disabled > a:hover {
+		background-color: white !important;
+		color: #777777 !important;
+		cursor: not-allowed !important;
+	}
+	/*.dropdown-menu > .disabled > a,
+	.dropdown-menu > .disabled > a:hover,
+	.dropdown-menu > .disabled > a:focus {
+		color: #999999;
+	}
+	.dropdown-menu > .disabled > a:hover,
+	.dropdown-menu > .disabled > a:focus {
+		text-decoration: none;
+		background-color: transparent;
+		background-image: none;
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+		cursor: not-allowed;
+	}*/
+	.is-default {
+		color: green !important;
+	}
+
+	.not-default {
+		color: red !important;
+	}
+
+	.red {
+		color: red;
+	}
+</style>
+<!--<div ng-show="topNav.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+	<img src="@HttpContext.Current.Request.Url.AbsoluteUri/Content/images/ajax-loader.gif" style="height: 25px; width: 25px" /><b>&nbsp;&nbsp;Loading...</b>
+</div>-->
+<div ng-show="positions.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+	<img src="{{positions.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{positions.statusText}}...</b>
+</div>
+<div class="col-md-12 p-0">
+	<div class="col-md-6 p-0">
+		<div  style="width:495px;display:inline-block">
+			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnWatch').filters[0].term}"
+					ng-click="positions.filterByName('IsOnWatch')"
+					style="color: black" ng-disabled="positions.isLoading">
+				<i class="fa  fa-binoculars"></i>
+			</button>
+			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnAlert').filters[0].term}"
+					ng-click="positions.filterByName('IsOnAlert')"
+					style="color: red" ng-disabled="positions.isLoading">
+				<i class="fa  fa-exclamation-triangle"></i>
+			</button>
+			<button class="btn sell btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsSellCandidate').filters[0].term}"
+					ng-click="positions.filterByName('IsSellCandidate')"
+					style="width: 22px;color: red;" ng-disabled="positions.isLoading">
+				<span class="isp">S</span>
+			</button>
+			<button class="btn btn-icon"
+					ng-click="positions.export()"
+					style="color: black" ng-disabled="positions.isLoading">
+				<i class="fa  fa-file-excel-o"></i>
+			</button>
+			<span style="display:none">
+				{{forCompareCount = (positions.gridApi.selection.getSelectedRows()).length}}
+			</span>
+			<button class="btn btn-secondary"
+					ng-click="positions.comapreLoans()"
+					style="margin-left:10px" ng-disabled="positions.isLoading || forCompareCount==0">
+				<i class="fa  fa-thumb-tack"></i> Loan Comparison Tool {{forCompareCount?'('+forCompareCount+')':''}}
+			</button>
+			<label class="checkbox-inline" style="font-size: 11px;padding-left:10px">
+				Show No Exposure:&nbsp;<input type="checkbox" ng-disabled="positions.isLoading" ng-model="positions.onlyWithExposures"
+									  style="margin-left:0;margin-top:2px!important" ng-change="positions.onFieldGroupChanged(true)">
+			</label>
+		</div>
+        <div style="display:inline;width:150px;margin-left:20px">
+            <div class="dropdown" uib-dropdown auto-close="outsideClick" style="display:inline">
+                <button class="btn btn-info" ng-disabled="positions.isLoading" uib-dropdown-toggle>Implied Matrix Spread </button>
+                <ul class="dropdown-menu status-select" style="width:130px" ng-if="$index == selectedFilterIndex" uib-dropdown-menu>
+                    <li ng-repeat="fund in positions.funds" ng-click="positions.onShowImpliedMatrixSpreadChanged(fund)">
+                        <div class="checkbox">
+                            <label >
+                                <input type="checkbox" style="margin-top:3px !important" ng-model="fund.isImsSelected" />
+                                {{fund.fundCode}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!--<select class="form-control" style="width:60px;display:inline" 
+                             ng-disabled="positions.isLoading"      
+                            ng-model="positions.selectedMatrixSpreadFund"
+							ng-options="fund.fundCode for fund in positions.funds"></select>-->
+        </div>
+	</div>
+	<div class="col-md-2 p-0 text-center" style="">
+		<div class="pull-left">
+			<div class="pull-left">
+				<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin:0">
+					<div class="btn-group mr-2" role="group" aria-label="First group" style="margin-right: 10px !important;">
+						<button type="button" class="btn btn-info" ng-repeat="fund in positions.funds"
+								ng-click="positions.showHideClo(fund)"
+								style="width: 25px; font-size: 12px !important;"
+								ng-class="{'btn-cancelled':fund.isNotSelected}"
+								ng-disabled="positions.isLoading">
+							{{fund.displayText?fund.displayText:fund.fundId}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--<div class="pull-right">
+			<div ng-show="positions.isLoading" class="">
+				<img src="{{positions.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;{{positions.statusText}}...</b>
+			</div>
+		</div>-->
+	</div>
+	<!--<div class="col-md-1 text-right p-0">
+		<div ng-show="positions.isLoading" class="">
+			<img src="{{positions.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;{{positions.statusText}}...</b>
+		</div>
+	</div>-->
+	<div class="col-md-4 p-0 ">
+		<div class="pull-left">
+			<div class="btn-group" uib-dropdown is-open="status.isopen">
+				<div class="pull-left" style="display: inline-block; font-weight: bold;width: 150px">
+					<select class="form-control" 
+                             ng-disabled="positions.isLoading"
+                            ng-model="positions.selectedCustomView" ng-change="positions.changeView(view)"
+							ng-options="view as view.displayName disable when view.isDisabled for view in positions.customViews"></select>
+					<!--options-class="{ 'is-default' : isDefault, 'not-default': !isDefault }"-->
+				</div>
+				<button class="btn btn-icon"
+						ng-click="positions.showViewEditor(0)"
+						style="color: black" ng-disabled="positions.isLoading">
+					<i class="fa  fa-plus"></i>
+				</button>
+				<button class="btn btn-icon"
+						ng-click="positions.showViewEditor(positions.selectedCustomView.viewId)"
+						style="color: black" ng-disabled="positions.isLoading">
+					<i class="fa  fa-pencil"></i>
+				</button>
+			</div>
+		</div>
+        <div class="pull-left" style="margin-left:15px">
+            <button class="" ng-disabled="positions.isLoading" style="margin: 0 5px; font-size: 18px;background:transparent;border:none"
+               ng-click="positions.showFilter()">
+                <i class="fa fa-filter"></i>
+                <span style="font-size: 12px">{{positions.positionFilter.count?('('+positions.positionFilter.count+')'):''}}</span>
+            </button>
+        </div>
+		<div class="pull-right">
+			<input ng-model="positions.searchText"
+				   ng-disabled="positions.isLoading"
+				   ng-change="positions.refreshGrid()" class="form-control" style="width: 145px; height: 20px" placeholder="Search" />
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12 div-table-bordered" style="padding: 0 0 0 0 !important; margin-top: 10px; max-height: 750px; overflow-y: hidden;overflow-x: hidden" ng-style="{'height': positions.gridHeight + 'px'}">
+	<div ng-if="!positions.needsRefresh" id="grid1" ui-grid="positions.gridOptions" class="grid" ui-grid-pinning ui-grid-exporter ui-grid-selection ui-grid-auto-resize></div>
+</div>
+<!--<div class="col-md-12 div-table-bordered" style="padding: 50px;">
+</div>
+<div class="col-md-12 div-table-bordered" ng-style="{'color': 'blue', 'font-size': '24px', 'font-weight': 'bold'}">
+	style using ngStyle
+</div>
+<div class="col-md-12 div-table-bordered" style="padding: 0 0 0 0 !important; margin-top: 10px; height: 700px; max-height: 750px; overflow-y: hidden;overflow-x: hidden">
+	<div ng-if="!positions.needsRefresh" id="grid1" ui-grid="positions.gridOptions" class="grid" ui-grid-pinning ui-grid-exporter ui-grid-selection ui-grid-auto-resize></div>
+</div>-->

@@ -1,0 +1,220 @@
+﻿<div class="col-md-12 p-0" style="margin-top: 10px">
+    <div class="col-md-6 p-0">
+        <div style="display: inline-block; width: 88px; padding-right: 10px; font-weight: bold">
+            Select Fund:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 269px">
+            <select class="form-control" ng-model="collateralqualitymatrix.selectedFund" 
+                    ng-disabled="collateralqualitymatrix.isLoading"
+                    ng-change="collateralqualitymatrix.loadData()"
+                    ng-options="fund as fund.fundCode for fund in collateralqualitymatrix.funds"></select>
+        </div>
+    </div>
+    <div class="col-md-2 p-0">
+        <div ng-show="collateralqualitymatrix.isLoading">
+            <span ng-show="collateralqualitymatrix.isLoading"><img src="{{collateralqualitymatrix.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;{{collateralqualitymatrix.statusText}}...</b></span>
+        </div>
+    </div>
+    <div class="col-md-4 p-0" style="padding-left:50px">
+        <div style="display: inline-block; width: 88px; padding-right: 10px; font-weight: bold">
+            History:
+        </div>
+    </div>
+</div>
+<div class="col-md-12 p-0" style="margin-top: 10px" >
+    <div class="col-md-8 p-0">
+        <div  style="display:inline-flex" ng-show="collateralqualitymatrix.matrix.data.length">
+            <div style="display:inline-block;width:91px;">
+                <div style="display:inline-block;width:90px;height:41px;border-top:1px solid lightgray;border-left:1px solid lightgray;border-bottom:1px solid lightgray;border-right:1px solid lightgray;background-color:lightyellow;padding-top:10px;padding-left:18px">
+                    <div style="display:inline;width:40px">
+                        <a>
+                            <i class="icon-minus" ng-click="collateralqualitymatrix.hideMinors()" style="font-size:22px"></i>
+                        </a>&nbsp;
+                    </div>
+                </div>
+
+                <div style="display:inline-block;width:91px;max-height:601px;overflow:hidden;background-color:lightyellow;"
+                     class="childY"
+                     ng-style="{'height':(collateralqualitymatrix.matrix.rowGroups.length*20)+'px'}">
+                    <table style="width:90px;border-top-width:0" class="table table-supercondensed"
+                           >
+                        <tbody>
+                            <tr ng-repeat="row in collateralqualitymatrix.matrix.rowGroups" >
+                                <td style="text-align:left; width:90px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray;border-left:1px solid lightgray;"
+                                    ng-style="{'cursor':(!$last && !row.isMinor)?'pointer':'default'}"
+                                    ng-click="collateralqualitymatrix.showHideSpreadMinors($index)">
+                                    <div style="display:inline;padding-left:15px" ng-if="!$last && !row.isMinor">
+                                        <a>
+                                            <i class="icon-plus" ng-show="!row.showMinors" style="font-size:12px"></i>
+                                            <i class="icon-minus" ng-show="row.showMinors" style="font-size:12px"></i>
+                                        </a>&nbsp;
+                                        <b>{{row.title}}%</b>
+                                    </div>
+                                    <div style="display:inline;padding-left:33px" ng-if="$last || row.isMinor">
+                                        <b>{{row.title}}%</b>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="display:inline;">
+                <div style="display:inline-block;background-color:lightyellow;max-width:720px;overflow:hidden"
+                     class="childX"
+                     ng-style="{'width':((collateralqualitymatrix.matrix.colGroups.length+1)*90)+'px'}">
+
+                    <table style="width:100%;border-top-width:0;margin:0" class="table table-supercondensed"
+                           ng-style="{'width':((collateralqualitymatrix.matrix.colGroups.length+1)*90)+'px'}">
+                        <tbody>
+                            <tr>
+                                <td ng-repeat="col in collateralqualitymatrix.matrix.colGroups"
+                                    ng-style="{'cursor':(!$last && !col.isMinor?'pointer':'default')}"
+                                    ng-click="collateralqualitymatrix.showHideDiversityMinors($index)"
+                                    style="text-align:center; width:91px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray;border-top:1px solid lightgray;">
+                                    <a ng-if="!$last && !col.isMinor">
+                                        <i class="icon-plus" style="font-size:12px" ng-show="!col.showMinors"></i>
+                                        <i class="icon-minus" style="font-size:12px" ng-show="col.showMinors"></i>
+                                    </a>
+                                </td>
+                                <td style="vertical-align:bottom !important; padding-bottom:0; text-align:center; width:90px;height:20px;border-top-width:0;border-right:1px solid lightgray;border-top:1px solid lightgray;">
+                                    <span >WARF </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td ng-repeat="col in collateralqualitymatrix.matrix.colGroups"
+                                    ng-click="collateralqualitymatrix.showHideDiversityMinors($index)"
+                                    ng-style="{'cursor':(!$last && !col.isMinor?'pointer':'default')}"
+                                    style="text-align:center; width:90px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray">
+                                    <b>{{col.title}}</b>
+                                </td>
+                                <td style="vertical-align:top !important; padding-top:0;text-align:center; width:90px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray">
+                                    <span >MODIFER</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="display:inline-block;max-width:737px;max-height:601px;overflow-y:auto"
+                     scroll-group="test"
+                     id="collateral-matrix"
+                     class="parent"
+                     ng-style="{ 'height':(collateralqualitymatrix.matrix.rowGroups.length*20)+'px','width':(((collateralqualitymatrix.matrix.colGroups.length+1)*90)+17)+'px', 'overflow-x':((collateralqualitymatrix.matrix.rowGroups.length*20)> 737 ? '':'')}">
+                    <table style="width:100%;border-top-width:0;margin:0" class="table table-supercondensed"
+                           ng-style="{'width':((collateralqualitymatrix.matrix.colGroups.length+1)*90)+'px'}"
+                           >
+                        <tbody>
+                            <tr ng-repeat="row in collateralqualitymatrix.matrix.data" ng-init="rowIndex = $index">
+                                <td style="text-align:center; width:91px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray"
+                                    ng-style="{'background':(col.Warf==collateralqualitymatrix.matrixPoint.Warf && col.Spread== collateralqualitymatrix.matrixPoint.Spread?'red':(col.DataPoint=='Major'?'#FCE4D6':''))
+                                    ,'color':(col.Warf==collateralqualitymatrix.matrixPoint.Warf && col.Spread== collateralqualitymatrix.matrixPoint.Spread?'white':'#333333')
+                                    ,'font-weight':(col.Warf==collateralqualitymatrix.matrixPoint.Warf && col.Spread== collateralqualitymatrix.matrixPoint.Spread?'bold':'normal')
+                                    }"
+                                    ng-repeat="col in collateralqualitymatrix.matrix.data[rowIndex]"
+                                    ng-init="colIndex = $index"
+                                    context-menu="collateralqualitymatrix.showMenu(col,rowIndex,colIndex)"
+                                    >
+                                    <div uib-tooltip-html="'<table><tr><td></td><td>CUSHION</td></tr><tr><td>WARF RECOVERY'+ '</td><td>' + (collateralqualitymatrix.getRoundedUpNumber(((collateralqualitymatrix.selectedFund.walwarfAdj?collateralqualitymatrix.selectedFund.walwarfAdj:0) + col.Warf + ((collateralqualitymatrix.selectedFundSummary.moodyRecovery - collateralqualitymatrix.paramWarfRecovery)*collateralqualitymatrix.matrix.data[rowIndex][collateralqualitymatrix.selectedDiversity].WarfModifier)) - collateralqualitymatrix.selectedFundSummary.warf)) +'</td></tr><tr><td>SPREAD</td><td>' + ((collateralqualitymatrix.selectedFundSummary.spread - (col.Spread*100)).toFixed(2)) + '%' + '</td></tr><tr><td>' + ('DIVERSITY' + '</td><td>') + (collateralqualitymatrix.selectedFundSummary.wsoDiversity - col.Diversity).toFixed(0) + '</td></tr></table>'">
+                                    <span ng-if="col.DataPoint=='Major'">{{col.Warf}}</span>
+                                        <span ng-if="col.DataPoint!='Major'">{{col.Warf.toFixed(1)}}</span>
+                                    </div>
+                                </td>
+                                <td style="text-align:center; width:91px;height:20px;border-top-width:0;border-bottom:1px solid lightgray;border-right:1px solid lightgray;background:lightyellow"
+                                    >
+                                    <span>{{collateralqualitymatrix.matrix.data[rowIndex][collateralqualitymatrix.selectedDiversity].WarfModifier}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="col-md-4" style="padding-right:0;padding-left:50px">
+        <div style="max-height:642px;overflow-y:auto;font-size:9px">
+            <table class="table table-bordered table-supercondensed" style="border-radius:0;margin-bottom:0">
+                <thead>
+                    <tr>
+                        <th style="border-left-width:0;border-right-width:0;border-bottom-width:0;height:20px;padding-left:25px">DATE/TIME</th>
+                        <th style="border-left-width:0;border-right-width:0;border-bottom-width:0;height:20px">USER</th>
+                        <th style="width:60px;border-left-width:0;border-right-width:0;border-bottom-width:0;height:20px;text-align:center">MATRIX POINT</th>
+                        <th style="width:60px;border-left-width:0;border-right-width:0;border-bottom-width:0;height:20px;text-align:center">CUSHION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="mp in collateralqualitymatrix.matrixPoints">
+                        <td ng-click="mp.showDetails=!mp.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                            <a style="margin-right:10px">
+                                <i class="icon-plus" style="font-size:12px" ng-show="!mp.showDetails"></i>
+                                <i class="icon-minus" style="font-size:12px" ng-show="mp.showDetails"></i>
+                            </a>
+                            {{mp.CreatedOnString | date:'MM/dd/yyyy HH:mm Z' }}
+                        </td>
+                        <td ng-click="mp.showDetails=!mp.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                            {{mp.CreatedBy}}
+                        </td>
+                        <td ng-click="mp.showDetails=!mp.showDetails"
+                            ng-style="{'background':($index==0?'red':''),'color':($index==0?'white':'#333333'),'font-weight':($index==0?'bold':'normal')}"
+                            style="border-bottom-width:0;border-left-width:0;border-right-width:0;text-align:center;cursor:pointer">
+                            {{mp.Warf}}
+                        </td>
+                        <td ng-click="mp.showDetails=!mp.showDetails"
+                            style="border-bottom-width:0;border-left-width:0;border-right-width:0;text-align:center;cursor:pointer">
+                            
+                        </td>
+                    </tr>
+                    <tr ng-show="mp.showDetails">
+                        <td colspan="2" style="text-align:right;border-left-width:0;border-right-width:0">
+                            WARF RECOVERY 
+                        </td>
+                        <td style="border-left-width:0;border-right-width:0;text-align:center">
+                            {{collateralqualitymatrix.getRoundedUpNumber((collateralqualitymatrix.selectedFund.walwarfAdj?collateralqualitymatrix.selectedFund.walwarfAdj:0) + mp.Warf +  ((collateralqualitymatrix.selectedFundSummary.moodyRecovery - collateralqualitymatrix.paramWarfRecovery)*mp.WarfModifier))}}
+                        </td>
+                        <td style="border-left-width:0;border-right-width:0;text-align:center">
+                            <span>{{(collateralqualitymatrix.getRoundedUpNumber((collateralqualitymatrix.selectedFund.walwarfAdj?collateralqualitymatrix.selectedFund.walwarfAdj:0) + mp.Warf + ((collateralqualitymatrix.selectedFundSummary.moodyRecovery - collateralqualitymatrix.paramWarfRecovery)*mp.WarfModifier)) - collateralqualitymatrix.selectedFundSummary.warf)| number : 0}}</span>
+                        </td>
+                    </tr>
+                    <tr ng-show="mp.showDetails">
+                        <td colspan="2" style="text-align:right;border-left-width:0;border-right-width:0;border-top-width:0">
+                            SPREAD
+                        </td>
+                        <td style="border-top-width:0;border-left-width:0;border-right-width:0;text-align:center;">
+                            {{(mp.Spread*100).toFixed(2)}}%
+                        </td>
+                        <td style="border-top-width:0;border-left-width:0;border-right-width:0;text-align:center">
+                            <span>{{(collateralqualitymatrix.selectedFundSummary.spread - (mp.Spread*100)).toFixed(2)}}%</span>
+                        </td>
+                    </tr>
+                    <tr ng-show="mp.showDetails">
+                        <td colspan="2" style="text-align:right;border-left-width:0;border-right-width:0;border-top-width:0">
+                            DIVERSITY
+                        </td>
+                        <td style="border-top-width:0;border-right-width:0;border-left-width:0;text-align:center">
+                            {{mp.Diversity}}
+                        </td>
+                        <td style="border-top-width:0;border-right-width:0;border-left-width:0;text-align:center">
+                            <span>{{(collateralqualitymatrix.selectedFundSummary.wsoDiversity - mp.Diversity).toFixed(0)}}</span>
+                        </td>
+                    </tr>
+                    <tr ng-repeat-end ng-show="mp.showDetails">
+                        <td colspan="2" style="text-align:right;border-left-width:0;border-right-width:0;border-top-width:0;border-bottom-width:0">
+                            WARF MODIFIER
+                        </td>
+                        <td style="border-top-width:0;border-right-width:0;border-left-width:0;border-bottom-width:0;text-align:center">
+                            {{mp.WarfModifier}}
+                        </td>
+                        <td style="border-top-width:0;border-right-width:0;border-left-width:0;border-bottom-width:0;text-align:center">
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

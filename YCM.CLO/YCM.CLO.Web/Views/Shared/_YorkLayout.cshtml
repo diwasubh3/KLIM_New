@@ -1,0 +1,426 @@
+﻿@using System.Configuration
+@using System.Reflection
+<!DOCTYPE html>
+<style>
+	.panel-default .panel-body {
+		padding: 0px;
+	}
+
+	.panel-default .panel-heading {
+		text-align: center;
+		padding: 6px;
+	}
+
+	.panel-default .panel-title {
+		font-size: 12px;
+	}
+</style>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Content/images/KennedyLewis.ico">
+    @Styles.Render("~/Content/Yorknet/YorkMenuBootstrapCss")
+    @Styles.Render("~/Content/YorkCss")
+    @Styles.Render("~/Content/BootstrapCssResponsive")
+    @Styles.Render("~/Content/BootstrapCss")
+    @Styles.Render("~/Content/AppCss")
+    @RenderSection("PageCss", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800" rel="stylesheet" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="isLoadinghttp://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="body-content">
+
+    <div id="NavContainer">
+        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top  navbar-inverse">
+            <div>
+                <div class="navbar-inner">
+                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container">
+                        <div class="subnavbar pull-left" id="subnav" style="width:1250px">
+                            <div class="subnavbar-inner">
+                                <div class="container" id="york-menu-container">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.HasPermission)
+    {
+        <div ng-app="app">
+            <div data-ng-controller="topNavController as topNav" class="row">
+
+                @*<div ng-show="topNav.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+                        <img src="@HttpContext.Current.Request.Url.AbsoluteUri/Content/images/ajax-loader.gif" style="height: 25px; width: 25px" /><b>&nbsp;&nbsp;Loading...</b>
+                    </div>*@
+                <div ng-hide="topNav.isBusy">
+                    <div class="col-md-12" style="padding: 10px 50px 10px 0 !important">
+                        <div class="col-md-10 ">
+                            @*<div ng-show="topNav.isLoading" style="padding-left: 40px; position: fixed !important; top: 5% !important; left: 50% !important;">
+                                    <img src="@HttpContext.Current.Request.Url.AbsoluteUri/Content/images/ajax-loader.gif" style="height: 25px; width: 25px" /><b>&nbsp;&nbsp;Loading...</b>
+                                </div>*@
+                            <div ng-hide="topNav.isLoading" style="padding-left: 40px; padding-top: 4px">
+                                <span style="display: none">
+                                    {{stalefundscount = (topNav.summaryData | filter:{isStale:true}).length }}
+                                    {{currentfundscount = (topNav.summaryData.length - stalefundscount) }}
+                                </span>
+                                <span>
+                                    WSO Data Upload:&nbsp;
+                                    <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 ? (currentfundscount + ' current') : ''}}</span>
+                                    <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 && stalefundscount > 0 ? ' | ':''}}</span>
+                                    <span ng-class="{'inactive-securities':stalefundscount}">{{stalefundscount > 0 ? (stalefundscount + ' stale') :'' }}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 p-0 text-right">
+                            Auto Refresh:
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="autoRefresh" checked ng-model="topNav.isAutoRefresh" auto-refresh-button ng-change="topNav.onAutoRefreshChanged()">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="topNav.isBusy">
+                    <div class="col-md-12" style="padding: 0px 50px !important;">
+                        <div style="padding:0px !important" id="data">
+                            <uib-accordion close-others="oneAtATime">
+                                <div uib-accordion-group class="panel-default" ng-click="topNav.onTestResultsVisibilityChanged(topNav.testResultIsOpen)" is-open="topNav.testResultIsOpen">
+                                    <uib-accordion-heading>
+                                        <div>
+                                            TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>
+                                        </div>
+                                    </uib-accordion-heading>
+                                    @*<div style="padding: 4px !important">
+                                            <div class="pull-left" style="padding: 0px 0px 10px !important">
+                                                <button class="btn btn-primary"
+                                                        ng-click="topNav.downloadSummaries()"
+                                                        ng-disabled="topNav.isLoading">
+                                                    <i class="fa fa-file-excel-o">&nbsp;&nbsp;Export to Excel</i>
+                                                </button>
+                                            </div>
+                                        </div>*@
+                                    <div class="table-header" style="padding:0px ">
+                                        <table class="table table-bordered table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams" style="border-width: 0;margin-bottom: 0px">
+                                            <thead>
+                                                <tr>
+                                                    <!--<th style="width: 50px; border-width: 0; background-color: white !important; padding: 0 !important">
+        <div style="display: inline-block; background-color: white; width: 50px; height: 24px">&nbsp;</div>
+    </th>-->
+                                                    <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                                    </th>
+                                                    <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
+                                                    <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
+                                                    <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
+                                                    <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
+                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
+                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
+                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
+                                                    <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
+                                                    <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
+                                                    <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                                        <div>MOODY'S RECOVERY</div>
+                                                    </th>
+                                                    <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
+                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
+                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div style="max-height: {{44*topNav.summaryData.length}}px;">
+                                        <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams"
+                                               id="tblSummaryBody"
+                                               style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                            <thead style="display:none">
+
+                                            </thead>
+                                            <tbody ng-repeat="data in $data">
+                                                <tr ng-class="{'active':data==topNav.selectedFund}"
+                                                    ng-hide="data!=topNav.selectedFund && data.inActive"
+                                                    ng-click="topNav.selectFund(data)" class="pointer">
+                                                    <!--<td style="width: 50px; background: none !important; cursor: default !important; border-width: 0 !important" ng-class="{'stale':data.isStale}"></td>-->
+                                                    <td style="width: 25px; text-align: right; border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                                        &nbsp;
+                                                    </td>
+                                                    <td style="border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                                        <span uib-tooltip-html="(data.isStale?'STATUS | STALE':'')+(data.isStale?'<br/>':'')+('AS OF DATE | ' + data.positionDate)" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.fundCode}}</span>
+                                                    </td>
+                                                    <td ng-style="data.parBgStyle"
+                                                        style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                                        <span uib-tooltip-html="data.parTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.par| number:0}}</span>
+                                                    </td>
+                                                    <td ng-style="data.assetParBgStyle"
+                                                        style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                                        <span ng-click="topNav.downloadLoanPositions(data.fundId)" uib-tooltip-html="data.assetParTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.assetPar| number:0}}</span>
+                                                    </td>
+                                                    <td style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.principalCashBgStyle">
+                                                        <span uib-tooltip-html="data.principalCashTooltip" tooltip-append-to-body="true">
+                                                            {{data.principalCash| number:0}}
+                                                        </span>
+                                                    </td>
+
+                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" @*ng-style="data.wsoSpreadBgStyle"*@>
+                                                        <span ng-show="data.spread" uib-tooltip-html="data.wsoSpreadTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.wsoSpread| number:2}}%
+                                                        </span>
+                                                    </td>
+
+                                                    @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
+            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.totalCoupon| number:2}}%
+            </span>
+        </td>*@
+
+                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
+                                                        <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.wsowarf| number:0}}
+                                                        </span>
+                                                    </td>
+
+                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.b3ToAssetParPctStyle">
+                                                        <span uib-tooltip-html="data.b3ToAssetParPctTooltip" tooltip-append-to-body="true">
+                                                            {{data.b3ToAssetParPct| number:0}}{{data.b3ToAssetParPct != null && data.b3ToAssetParPct.toString().length? '%':''}}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bMinusToAssetParPctStyle">
+                                                        <span uib-tooltip-html="data.b3MinusToAssetParPctTooltip" tooltip-append-to-body="true">
+                                                            {{data.bMinusToAssetParPct| number:0}}{{data.bMinusToAssetParPct != null && data.bMinusToAssetParPct.toString().length? '%':''}}
+                                                        </span>
+                                                    </td>
+
+                                                    <td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoWalCushionBgStyle">
+                                                        <span uib-tooltip-html="data.walCushionTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.walCushion| number:1}}
+                                                        </span>
+                                                    </td>
+
+                                                    <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.timeToReinvestBgStyle">
+                                                        <span uib-tooltip-html="data.timeToReinvestTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.timeToReinvest| number:1}}
+                                                        </span>
+                                                    </td>
+
+
+
+
+                                                    <td style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoMoodyRecoveryBgStyle">
+                                                        <span uib-tooltip-html="data.wsoMoodyRecoveryTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.wsoMoodyRecovery| number:1}}
+                                                        </span>
+                                                    </td>
+
+                                                    @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
+            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.wsowaLife| number:2}}
+            </span>
+        </td>*@
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
+                                                        <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
+                                                            {{data.wsoDiversity| number:0}}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
+                                                        <span uib-tooltip-html="data.bidTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.bid| number:2}}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bbmvocBgStyle">
+                                                        <span uib-tooltip-html="data.bbmvocfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.bbmvoc| number:2}}{{data.bbmvoc != null && data.bbmvoc.toString().length? '%':''}}
+                                                        </span>
+                                                    </td>
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.cleanNavBgStyle">
+                                                        <span uib-tooltip-html="data.cleanNavTooltip" tooltip-append-to-body="true">
+                                                            {{data.cleanNav| number:2}}%
+                                                        </span>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </uib-accordion>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="topNav.isBusy">
+                    <div class="col-md-12 tabbed-navbar" style="height:33px;padding:0 50px">
+                        <nav class="navbar navbar-default p-0" role="navigation" style="height:24px!important;position:static !important;border-radius:0 !important">
+                            <div class="container-fluid  p-0" style="height:25px!important;">
+                                <div class="collapse navbar-collapse  p-0" style="height:24px!important;position:static !important">
+                                    <ul class="nav navbar-nav" style="height:24px">
+                                        @*@if (ViewBag.HasPositionScreenPermission)
+        {
+            <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
+        }*@
+                                        @if (ViewBag.HasPositionScreenPermission)
+                                        {
+                                            <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
+                                        }
+                                        @if (ViewBag.HasTop10Bottom10Permission)
+                                        {
+                                            <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
+                                            @*<li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>*@
+                                        }
+                                        else
+                                        {
+                                            <li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>
+                                        }
+                                        @if (ViewBag.HasTradePermission)
+                                        {
+                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='trades'?'active':''}}"><a href="#/trades">Trades</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='trades'?'active':''}}"><a href="#/positions">Trades</a></li>
+                                        }
+                                        @if (ViewBag.HasTradeSwapPermission)
+                                        {
+                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/tradeswapping">Trade Swapping</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
+                                        }
+                                        @*@if (ViewBag.HasAnalystResearchPermission)
+        {
+            <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
+        }*@
+                                        @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
+                                        {
+
+                                            <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
+                                                <a class="dropdown-toggle" style="cursor: pointer !important"
+                                                   data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    @if (ViewBag.HasBidOfferUploadPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
+                                                        <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
+                                                    }
+                                                    @if (ViewBag.HasFundTriggersPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
+                                                    }
+                                                    @if (ViewBag.HasFundOverridesPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
+                                                    }
+                                                    @*<li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>*@
+                                                    @if (ViewBag.HasParametersPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
+                                                    }
+                                                    @if (ViewBag.HasLoanAttributeOverridePermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
+                                        }
+                                        @if (ViewBag.HasNewLoanReconPermission || ViewBag.HasLoanAttributeOverridesReconPermission || ViewBag.HasAdminPermission)
+                                        {
+                                            <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
+                                                <a class="dropdown-toggle" style="cursor:pointer !important"
+                                                   data-toggle="dropdown">WSO<b class="caret" style="margin-top:4px !important"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    @if (ViewBag.HasNewLoanReconPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#newsecurityrecon">New Loan Recon</a></li>
+                                                    }
+                                                    @if (ViewBag.HasLoanAttributeOverridesReconPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#loanattributeoverriderecon">Loan Attribute Overrides Recon</a></li>
+                                                    }
+                                                    @if (ViewBag.HasAdminPermission)
+                                                    {
+                                                        <li><a style="font-size: 12px" href="#admin">Admin</a></li>
+                                                    }
+                                                    @*<li><a style="font-size: 12px" href="#reconreport">Recon Report</a></li>*@
+                                                </ul>
+                                            </li>
+                                        }
+                                        @if (ViewBag.HasReportEditPermission)
+                                        {
+                                            <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+            <div style="padding: 0 35px 0 35px;" id="main-body">
+                @RenderBody()
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="padding-top: 300px">
+            <h1 style="text-align: center;color: red">You don't have permission to see this Application.</h1>
+        </div>
+    }
+    <script>
+        pageOptions = {};
+        pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
+        pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
+        pageOptions.dwhBasePath = '@ConfigurationManager.AppSettings["DWHPath"]';
+        pageOptions.menuWebApiUri = '@ConfigurationManager.AppSettings["BaseWebPath"]/NavigationMenu/GetMenus';
+        pageOptions.pageTitle = 'CLO';
+        pageOptions.appName = '@ConfigurationManager.AppSettings["ApplicationName"]';
+        pageOptions.env = '@ConfigurationManager.AppSettings["Environment"]';
+        pageOptions.appBasePath = '@HttpContext.Current.Request.Url.AbsoluteUri' + '/';
+        pageOptions.version = '@File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("MMddyyyyhhmmss")';
+        pageOptions.appVersion = '@File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString("MMddyyyyhhmmss")';
+
+        pageOptions.HasPermission                                   = @ViewBag.HasPermission.ToString().ToLower();
+        pageOptions.HasPositionScreenPermission                     = @ViewBag.HasPositionScreenPermission.ToString().ToLower();
+        pageOptions.HasTop10Bottom10Permission                      = @ViewBag.HasTop10Bottom10Permission.ToString().ToLower();
+        pageOptions.HasTradePermission                              = @ViewBag.HasTradePermission.ToString().ToLower();
+        pageOptions.HasTradeSwapPermission                          = @ViewBag.HasTradeSwapPermission.ToString().ToLower();
+        pageOptions.HasAnalystResearchPermission                    = @ViewBag.HasAnalystResearchPermission.ToString().ToLower();
+        pageOptions.HasBidOfferUploadPermission                     = @ViewBag.HasBidOfferUploadPermission.ToString().ToLower();
+        pageOptions.HasFundTriggersPermission                       = @ViewBag.HasFundTriggersPermission.ToString().ToLower();
+        pageOptions.HasFundOverridesPermission                      = @ViewBag.HasFundOverridesPermission.ToString().ToLower();
+        pageOptions.HasParametersPermission                         = @ViewBag.HasParametersPermission.ToString().ToLower();
+        pageOptions.HasLoanAttributeOverridePermission              = @ViewBag.HasLoanAttributeOverridePermission.ToString().ToLower();
+        pageOptions.HasNewLoanReconPermission                       = @ViewBag.HasNewLoanReconPermission.ToString().ToLower();
+        pageOptions.HasLoanAttributeOverridesReconPermission = @ViewBag.HasLoanAttributeOverridesReconPermission.ToString().ToLower();
+        pageOptions.canEditReportData = @ViewBag.HasReportEditPermission.ToString().ToLower()
+        pageOptions.PositionSettings = {};
+
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/YorkScripts")
+    @Scripts.Render("~/bundles/VendorJS")
+    @RenderSection("PageScripts", required: false)
+    @Scripts.Render("~/bundles/YorkScriptsFinal")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.9.12/xlsx.full.min.js"></script>
+
+</body>
+
+</html>

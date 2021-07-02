@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "CLO";
+}
+
+
+<div ng-view="" style="margin-top: 0px">
+
+</div>
+
+@section PageScripts
+{
+    <script>
+        function setFocus(element) {
+            window.setTimeout(function () {
+                var nextId = $(element).attr("data-next-focus-item");
+                $(nextId).focus();
+            });
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/AppJS")
+
+}
+
+
+
+

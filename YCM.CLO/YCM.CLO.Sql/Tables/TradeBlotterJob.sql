@@ -1,0 +1,9 @@
+﻿CREATE TABLE [CLO].[TradeBlotterJob]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[StartedOn] DATETIME NULL,
+	[FileName] VARCHAR(500) NOT NULL,
+	[DateId] INT NOT NULL,
+	[CompletedOn] DATETIME NULL,
+	[Error] VARCHAR(max) NULL
+)

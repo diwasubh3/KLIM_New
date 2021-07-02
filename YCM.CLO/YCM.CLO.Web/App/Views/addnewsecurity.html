@@ -1,0 +1,98 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-4 p-0">
+        <div class="control-group">
+            <select style=""
+                    ng-model="newsecurity.selectedSecurityOverrideType"
+                    ng-change="newsecurity.loadSecurityOverrides()"
+                    ng-options="so as so.Text for so in newsecurity.securityOverrideTypes"></select>
+        </div>
+    </div>
+    <div class="col-md-4 " style="padding-left: 68px; text-align: center">
+        <span ng-show="newsecurity.isLoading"><img src="{{newsecurity.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;Loading...</b></span>
+
+    </div>
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="newsecurity.tableParams.filter().searchText"
+                   ng-disabled="newsecurity.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th style="text-align: left; border-width: 0 0 1px 0;width: 30px"></th>
+                <th style="text-align: left; border-width: 0 0 1px 0;"
+                    ng-style="newsecurity.getStyle(headerField,null)"
+                    ng-repeat="headerField in newsecurity.headerFields">
+                    <div>
+                        {{headerField.fieldTitle}}
+                    </div>
+                </th>
+                <th style="width: 100px; border-width: 0 0 1px 0; text-align: center">
+                    <a ng-click="newsecurity.editSecurityOverride()">ADD NEW</a>
+                </th>
+                <th style="width: 17px; border-width: 0 !important"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="overflow-y: scroll;max-height: 680px">
+    <table class="table table-bordered noth table-condensed" ng-table="newsecurity.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat-start="group in $data">
+                <td style="width: 30px; border-width: 0;cursor: pointer"
+                    ng-click="group.$showRows = !group.$showRows">
+                    <a ng-if="!group.$showRows"><i style="font-size: 10px" class="fa fa-plus"></i></a>
+                    <a ng-if="group.$showRows"><i style="font-size: 10px" class="fa fa-minus"></i></a>
+                </td>
+                <td colspan="4" style="border-width: 0px;cursor: pointer" ng-click="group.$showRows = !group.$showRows">
+                    <div>
+                        {{group.securityCode + ' | ' + group.issuerDesc + ' | ' + group.facilityDesc}}
+                    </div>
+                </td>
+                <td rowspan="{{ group.$showRows ? (group.securities| filter: {isVisible : 'true'}).length+1:0}}"
+                    style="vertical-align: middle; width: 100px; text-align: center;border-width: 0">
+                    <a ng-click="newsecurity.editSecurityOverride(group.securities[0])">Edit</a>
+                </td>
+            </tr>
+
+            <tr ng-show="!newsecurity.tableParams.filter().searchText || d.isVisible" ng-repeat="d in group.securities"
+                ng-if="group.$showRows">
+                <td style="width: 30px;border-width: 0"></td>
+                <td ng-repeat="col in newsecurity.headerFields"
+                    ng-style="newsecurity.getStyle(col,d)">
+
+                    <div ng-if="$index == 0" class="col-sm-12">
+                        <div class="col-sm-11" style="text-align: right">{{d.field.fieldTitle}}</div>
+                        <div class="col-sm-1 p-0" tooltip-append-to-body="true" tooltip="{{d.comments?('COMMENTS : ' + d.comments):''}}" style="border-right: 1px lightgray solid">
+                            <a ng-if="d.comments"><i class="fa fa-comment"></i> </a>
+                            &nbsp;
+
+                        </div>
+                    </div>
+
+                    <div ng-if="$index == 1 || $index == 2">
+                        {{d[col.jsonPropertyName]}}
+                    </div>
+
+                    <div ng-if="$index == 3">
+                        {{d[col.jsonPropertyName]?d[col.jsonPropertyName]:(d.isCurrent?'Current':'')}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-repeat-end>
+                <td colspan="6" style="border-width: 1px 0 0 0; height: 1px;padding: 0 !important"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,10 @@
+﻿CREATE FUNCTION [dbo].[GetDateIdFromDate]
+(
+	@dt AS DATETIME
+)
+RETURNS INT   WITH SCHEMABINDING 
+BEGIN	
+	
+	RETURN  DATEPART(yyyy, @dt) * 10000 +  DATEPART(m, @dt) * 100 + DATEPART(dd, @dt)
+
+END

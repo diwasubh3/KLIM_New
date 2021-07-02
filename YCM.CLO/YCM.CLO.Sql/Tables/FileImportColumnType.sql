@@ -1,0 +1,6 @@
+CREATE TABLE CLO.FileImportColumnType
+(
+      Id INT NOT NULL IDENTITY(1, 1) PRIMARY KEY
+	, TypeDescription VARCHAR(50) NOT NULL UNIQUE
+)
+GO

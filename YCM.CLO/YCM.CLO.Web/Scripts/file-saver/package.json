@@ -1,0 +1,89 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "file-saver@1.2.0",
+        "scope": null,
+        "escapedName": "file-saver",
+        "name": "file-saver",
+        "rawSpec": "1.2.0",
+        "spec": "1.2.0",
+        "type": "version"
+      },
+      "D:\\Temp"
+    ]
+  ],
+  "_from": "file-saver@1.2.0",
+  "_id": "file-saver@1.2.0",
+  "_inCache": true,
+  "_location": "/file-saver",
+  "_nodeVersion": "6.2.0",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/file-saver-1.2.0.tgz_1464209731649_0.17330146208405495"
+  },
+  "_npmUser": {
+    "name": "endless",
+    "email": "jimmy@warting.se"
+  },
+  "_npmVersion": "3.8.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "file-saver@1.2.0",
+    "scope": null,
+    "escapedName": "file-saver",
+    "name": "file-saver",
+    "rawSpec": "1.2.0",
+    "spec": "1.2.0",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/file-saver/-/file-saver-1.2.0.tgz",
+  "_shasum": "4e8b896992d977022a53e8dcec9e4a4a89c99945",
+  "_shrinkwrap": null,
+  "_spec": "file-saver@1.2.0",
+  "_where": "D:\\Temp",
+  "author": {
+    "name": "Eli Grey",
+    "email": "me@eligrey.com"
+  },
+  "bugs": {
+    "url": "https://github.com/eligrey/FileSaver.js/issues"
+  },
+  "dependencies": {},
+  "description": "An HTML5 saveAs() FileSaver implementation",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "4e8b896992d977022a53e8dcec9e4a4a89c99945",
+    "tarball": "https://registry.npmjs.org/file-saver/-/file-saver-1.2.0.tgz"
+  },
+  "gitHead": "a6d11998e279e94f2926b2a897231355dfab48ab",
+  "homepage": "https://github.com/eligrey/FileSaver.js#readme",
+  "keywords": [
+    "filesaver",
+    "saveas",
+    "blob"
+  ],
+  "license": "MIT",
+  "main": "FileSaver.js",
+  "maintainers": [
+    {
+      "name": "endless",
+      "email": "jimmy@warting.se"
+    }
+  ],
+  "name": "file-saver",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eligrey/FileSaver.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "version": "1.2.0"
+}

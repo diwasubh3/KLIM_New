@@ -1,0 +1,176 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-5 p-0">
+        <div class="pull-left">
+            <div class="control-group" style="">
+                <button class="btn btn-icon" ng-class="{'btn-filtered':trades.tableParams.filter().isOnWatch}"
+                        ng-click="trades.resetFilter('isOnWatch')"
+                        style="color: black" ng-disabled="trades.isLoading">
+                    <i class="fa  fa-binoculars"></i>
+                </button>
+                <button class="btn btn-icon" ng-class="{'btn-filtered':trades.tableParams.filter().isOnAlert}"
+                        ng-click="trades.resetFilter('isOnAlert')"
+                        style="color: red;" ng-disabled="trades.isLoading">
+                    <i class="fa  fa-exclamation-triangle"></i>
+                </button>
+                <button class="btn buy btn-icon" ng-class="{'btn-filtered':trades.tableParams.filter().isBuy}"
+                        ng-click="trades.resetFilter('isBuy')"
+                        style="" ng-disabled="trades.isLoading">
+                    <span class="isp">B</span>
+                </button>
+                <button class="btn sell btn-icon" ng-class="{'btn-filtered':trades.tableParams.filter().isSell}"
+                        ng-click="trades.resetFilter('isSell')"
+                        style="" ng-disabled="trades.isLoading">
+                    <span class="isp">S</span>
+                </button>
+                <span style="display:none">
+                    {{forCompareCount = (trades.data|filter:{forCompare:true}).length}}
+                </span>
+                <button class="btn btn-secondary"
+                        ng-click="trades.comapreLoans()"
+                        style="margin-left:20px" ng-disabled="trades.isLoading || forCompareCount==0">
+                    <i class="fa  fa-thumb-tack"></i> Loan Comparison Tool {{forCompareCount?'('+forCompareCount+')':''}}
+                </button>
+            </div>
+        </div>
+        <div class="pull-right">
+            <label class="checkbox-inline" style="font-size: 11px">
+                Show Cancelled?:&nbsp;<input type="checkbox" ng-disabled="trades.isLoading" ng-model="trades.includeCancelled" style="margin-left: 0; margin-top: 2px !important" ng-click="trades.loadData()">
+            </label>
+        </div>
+        
+    </div>
+    <div class="col-md-1 text-right">
+
+    </div>
+    <div class="col-md-2 " style="text-align: center">
+        <span ng-show="trades.isLoading"><img src="{{trades.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;Loading...</b></span>
+    </div>
+
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="trades.tableParams.filter().searchText"
+                   ng-disabled="trades.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12 p-0 table-header" style="height:50px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th colspan="2" style="border:0"></th>
+                <th colspan="4" style="border:0 0 0px 0;text-align:center;border-bottom:1px solid black;border-right-width:0!important;border-left-width:0!important">
+                    <div>TRADE DETAILS</div>
+                </th>
+                <th colspan="2" style="border:0"></th>
+            </tr>
+            <tr>
+                <th style="text-align: left; border-width: 0 0 1px 0;width: 90px"></th>
+                <th style="text-align: left; border-width: 0 0 1px 0;"
+                    ng-style="trades.getStyle(headerField,null)"
+                    ng-repeat="headerField in trades.headerFields">
+                    <div>
+                        {{headerField.fieldTitle}}
+                    </div>
+                </th>
+                <th style="width: 100px; border-width: 0 0 1px 0; text-align: center">
+                    <a ng-click="trades.editTrade()">ADD NEW TRADE</a>
+                </th>
+                <th style="width: 17px; border-width: 0 !important"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="overflow-y: scroll;max-height: 610px;margin-top:15px">
+    <table class="table table-bordered noth table-condensed" ng-table="trades.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat-start="trade in $data" ng-class="{'fx':trade.isCancelled}">
+                <td style="width: 30px; border-width: 0;">
+                    <a ng-if="!trade.$showRows" ng-click="trade.$showRows = !trade.$showRows"><i style="font-size: 10px" class="fa fa-plus"></i></a>
+                    <a ng-if="trade.$showRows" ng-click="trade.$showRows = !trade.$showRows"><i style="font-size: 10px" class="fa fa-minus"></i></a>
+                </td>
+                <td style="width: 60px; border-width: 0;">
+                    <div class="col-sm-12 p-0" context-menu="trades.showMenu(trade)" style="cursor: pointer" uib-tooltip-html="trade.toolTipText" tooltip-append-to-body="true">
+                        <div class="col-sm-3 p-0" ng-click="trades.select(trade)">
+                            <a ng-show="trade.forCompare" style=""><i class="fa fa-check"></i></a>
+                            <a ng-show="!trade.forCompare" style="color:lightblue"><i class="fa fa-check"></i></a>
+                        </div>
+                        <div class="col-sm-3 p-0">
+                            <a ng-if="trade.isOnWatch"><i style="color: black" class="fa  fa-binoculars" ng-disabled="true"></i></a>
+                        </div>
+                        <div class="col-sm-3 p-0">
+                            <a ng-if="trade.isOnAlert"><i class="fa  fa-exclamation-triangle" style="color: red" ng-disabled="true"></i></a>
+                        </div>
+                        <div class="col-sm-3 p-0">
+                            <a>
+                                <span ng-if="trade.isBuy" class="buy isp">B</span>
+                                <span ng-if="trade.isSell" class="isp sell">S</span>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td style="border-width: 0px;cursor: pointer" ng-click="trade.$showRows = !trade.$showRows" ng-repeat="col in trades.headerFields"
+                    ng-style="trades.getStyle(col,trade,0)">
+                    <div ng-if="$index == 0">
+                        {{trade.security[col.jsonPropertyName]}}
+                    </div>
+                    <div ng-if="$index == 1 || $index == 4">
+                        {{trade[col.jsonPropertyName]|currency:'':0}}
+                    </div>
+                    <div ng-if="$index == 2">
+                        {{trade[col.jsonPropertyName]|currency:'':2}}
+                    </div>
+                    <div ng-if="$index == 3">
+                        {{(trade.tradeAmount*trade.tradePrice/100)|currency:'':2}}
+                    </div>
+                </td>
+                <td rowspan="{{ trade.$showRows ? (trade.tradeAllocations| filter: {isVisible : 'true'}).length+2:0}}"
+                    style="vertical-align: middle; width: 100px; text-align: center;border-width: 0">
+                    <a style="text-decoration: none" ng-click="trades.editTrade(trade)">Edit</a>
+                </td>
+            </tr>
+
+            <tr ng-show="!trades.tableParams.filter().searchText || ta.isVisible"
+                class="fs10"
+                ng-repeat="ta in trade.tradeAllocations" ng-class="{'fx':trade.isCancelled}"
+                ng-if="trade.$showRows">
+                <td style="width: 90px;border-width: 0" colspan="2"> <span style="display:none">{{ rowIndex=$index}}</span> </td>
+                <td ng-repeat="col in trades.headerFields"
+                    ng-style="trades.getStyle(col,ta)">
+                    <div ng-if="$index == 0" class="col-sm-12">
+                        {{ta.fund.fundCode}}
+                    </div>
+                    <div ng-if="$index == 1">
+                        {{ta.newAllocation |currency:'':0}}
+                    </div>
+
+                    <div ng-if="$index == 3">
+                        {{ta.tradeCash|currency:'':2}}
+                    </div>
+
+                    <div ng-if="$index == 4">
+                        {{ta.finalAllocation|currency:'':0}}
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="trade.$showRows">
+                <td style="border-width:0px 0 0 0" colspan="2"></td>
+                <td colspan="5" style="border-width:1px 0 0 0">
+                    <div><b>KEEP ON BLOTTER:</b><span ng-class="{'fx':trade.isCancelled}">{{trade.keepOnBlotter?' Yes':' No'}}</span></div>
+                    <div><b>COMMENT:</b>&nbsp;<span ng-class="{'fx':trade.isCancelled}" style="font-style: italic">{{trade.comments}}</span></div>
+                </td>
+            </tr>
+            <tr ng-repeat-end>
+                <td colspan="9" style="border-width: 1px 0 0 0; height: 1px;padding: 0 !important"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

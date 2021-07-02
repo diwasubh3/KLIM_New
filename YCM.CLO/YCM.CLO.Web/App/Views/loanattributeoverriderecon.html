@@ -1,0 +1,127 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-4 p-0">
+        <div class="control-group">
+
+        </div>
+    </div>
+    <div class="col-md-4 " style="padding-left: 68px; text-align: center">
+        <span ng-show="laor.isLoading"><img src="{{laor.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;Loading...</b></span>
+    </div>
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="laor.tableParams.filter().searchText"
+                   ng-disabled="laor.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th style="text-align: left; border-width: 1px 0 1px 0; width: 30px;border-top: 1px solid #dddddd;"></th>
+                <th style="text-align: left; border-width: 1px 0 1px 0;border-top: 1px solid #dddddd;"
+                    ng-style="laor.getStyle(headerField,null)"
+                    ng-repeat="headerField in laor.headerFields">
+                    <div>
+                        {{headerField.fieldTitle}}
+                    </div>
+                </th>
+                <th style="width: 150px; border-width: 1px 0 1px 0; text-align: center;border-top: 1px solid #dddddd;">
+                    <div>ACTION</div>
+                </th>
+                <th style="width: 17px; border-width: 1px 0 1px 0;border-top: 1px solid #dddddd;"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="overflow-y: scroll;max-height: 650px">
+    <table class="table table-bordered noth table-condensed" ng-table="laor.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat-start="security in $data">
+                <td style="width: 30px; border-width: 0;cursor: pointer"
+                    ng-click="security.$showRows = !security.$showRows">
+                    <a ng-if="!security.$showRows"><i style="font-size: 10px" class="fa fa-plus"></i></a>
+                    <a ng-if="security.$showRows"><i style="font-size: 10px" class="fa fa-minus"></i></a>
+                </td>
+                <td colspan="5" style="border-width: 0px;cursor: pointer" ng-click="security.$showRows = !security.$showRows">
+                    <div>
+                        {{security.securityName}}
+                    </div>
+                </td>
+                <td style="vertical-align: middle; width: 150px  !important; text-align: center; border-width: 0;cursor: pointer" ng-click="security.$showRows = !security.$showRows"></td>
+            </tr>
+
+            <tr ng-show="!laor.tableParams.filter().searchText || d.isVisible" ng-repeat-start="d in security.loanAttributeOverrides | orderBy:'field.fieldTitle'" ng-if="security.$showRows">
+                <td style="width: 30px; border-width: 0"></td>
+
+                <td ng-repeat="col in laor.headerFields"
+                    ng-style="laor.getStyle(col,d)" rowspan="{{$index<=1 ? 2:0}}" style="border-width: 0 {{$index==2?'1':'0'}}px 0 0">
+                    <div ng-if="$index == 0">
+                    </div>
+                    <div ng-if="$index == 1">
+                        <div>{{d.field.fieldTitle}}</div>
+                    </div>
+                    <div ng-if="$index == 2">
+                        <div>YCM</div>
+                    </div>
+                    <div ng-if="$index == 3">
+                        <div>{{d.overrideValue}}</div>
+                    </div>
+                    <div ng-if="$index == 4">
+                        {{d.effectiveFrom?('effective ' + d.effectiveFrom):''}}
+                        {{' through ' + (d.effectiveTo?d.effectiveTo :'Current')}}
+                    </div>
+                </td>
+                <td style="width: 150px  !important;border-width: 0 0 0 0;text-align:center">
+                    <a ng-click="laor.resetConflict(d)">Accept YCM</a>
+                </td>
+            </tr>
+            <tr ng-show="!laor.tableParams.filter().searchText || d.isVisible" ng-if="security.$showRows" >
+                <td style="width: 30px; border-width: 0"></td>
+                
+                <td ng-style="laor.getStyle(laor.headerFields[2],d)" style="border-width: 0 1px 0px 0">
+                    <div>WSO</div>
+                </td>
+                <td ng-style="laor.getStyle(laor.headerFields[3],d)" style="border-width: 0 0 0px 0">
+                    <div>{{security['orig' + laor.capitalizeFirstLetter(d.field.jsonPropertyName)]}}</div>
+                </td>
+                <td ng-style="laor.getStyle(laor.headerFields[4],d)" style="border-width: 0 0 0px 0">
+                    <div>loaded on {{security.securityLastUpdatedOn }}</div>
+                </td>
+                <td style="border-width: 0 0 0px 0; text-align: center;width: 150px !important;">
+                    <a ng-click="laor.endSecurityOverride(d)">Accept WSO</a>
+                </td>
+            </tr>
+            <tr ng-show="!laor.tableParams.filter().searchText || d.isVisible" ng-if="security.$showRows && !$last ">
+                <td style="border-width: 0;width: 30px;"></td>
+                <td ng-style="laor.getStyle(laor.headerFields[0],d)" style="border-width: 0"></td>
+                <td ng-style="laor.getStyle(laor.headerFields[1],d)" style="border-width: 0 0 {{$last ?'0':'1'}}px 0 ; "></td>
+                <td ng-style="laor.getStyle(laor.headerFields[2],d)" style="border-width: 0 0 {{$last ?'0':'1'}}px 0 ; "></td>
+                <td ng-style="laor.getStyle(laor.headerFields[3],d)" style="border-width: 0 0 {{$last ?'0':'1'}}px 0 ; "></td>
+                <td ng-style="laor.getStyle(laor.headerFields[4],d)" style="border-width: 0 0 {{$last ?'0':'1'}}px 0 ; "></td>
+                <td style="border-width: 0 0 {{$last ?'0':'1'}}px 0 ;width:150px"></td>
+            </tr>
+
+            <tr ng-show="!laor.tableParams.filter().searchText || d.isVisible"  ng-if="security.$showRows " ng-repeat-end>
+                <td  style="border-width: 0;width: 30px;"></td>
+                <td  style="border-width: 0;"></td>
+                <td  style="border-width:0"></td>
+                <td  style="border-width: 0;"></td>
+                <td  style="border-width: 0"></td>
+                <td  style="border-width:0"></td>
+                <td  style="border-width: 0;width: 150px"></td>
+            </tr>
+        <tr ng-repeat-end>
+            <td colspan="6" style="border-width: 1px 0 0 0; height: 1px; padding: 0 !important"></td>
+            <td style="border-width: 1px 0 0 0; height: 1px; padding: 0 !important;width: 150px"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

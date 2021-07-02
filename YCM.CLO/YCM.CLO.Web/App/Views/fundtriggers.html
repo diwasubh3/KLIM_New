@@ -1,0 +1,76 @@
+﻿<div class="col-md-12" style="margin-top: 10px">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<div style="display: inline-block; width: 150px; text-align: right; padding-right: 20px; font-weight: bold">
+			Select Fund:
+		</div>
+		<div style="display: inline-block; font-weight: bold; width: 485px">
+			<select class="form-control" ng-model="fundtriggers.selectedFund" ng-change="fundtriggers.loadData()"
+			        ng-options="fund as fund.fundCode for fund in fundtriggers.funds">
+			</select>
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12 p-0" style="margin-top: 15px">
+	<div class="col-md-2"></div>
+	<div class="col-md-4" ng-class="{'pl25':$index==0,'pl15':$index==1}" ng-repeat="fundrestrictiontype in fundtriggers.fundRestrictionTypes">
+		<div style="display: inline-block; width: 150px" ng-hide="fundrestrictiontype.fundRestrictionTypeId==2"></div>
+		<div style="display: inline-block; width: 50px; text-align: right; padding-right: 20px; font-weight: bold"
+		     ng-show="fundrestrictiontype.fundRestrictionTypeId==2">
+
+		</div>
+		<div style="display: inline-block; text-align: center; width: 200px; height: 30px; padding: 10px; font-size: 12px; font-weight: bold;" ng-style="fundrestrictiontype.displayColorStyle">{{fundrestrictiontype.fundRestrictionTypeName}}</div>
+
+	</div>
+	<div class="col-md-2"></div>
+	<div class="col-md-2">
+		<div ng-show="fundtriggers.isLoading" style="text-align: center">
+			<img src="{{fundtriggers.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px"/><b>&nbsp;&nbsp;Loading...</b>
+		</div>
+	</div>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 15px">
+	<!--<div class="col-md-2"></div>-->
+	<div class="col-md-6" ng-repeat="fundrestrictiontype in fundtriggers.fundRestrictionTypes">
+		<div ng-repeat="fundrestriction in fundtriggers.fundRestrictions|filter:{fundRestrictionTypeId:fundrestrictiontype.fundRestrictionTypeId}"
+		     style="margin-bottom: 10px">
+			<div style="display: inline-block; width: 340px; text-align: right; padding-right: 20px; font-weight: bold"
+			     ng-hide="fundrestrictiontype.fundRestrictionTypeId==2">
+				<div ng-hide="fundrestrictiontype.fundRestrictionTypeId==2">{{fundrestriction.fieldTitle}}</div>
+			</div>
+			<div style="display: inline-block; width: 50px; text-align: right; padding-right: 20px; font-weight: bold"
+			     ng-show="fundrestrictiontype.fundRestrictionTypeId==2">
+
+			</div>
+			<div style="display: inline-block; width: 45px;">
+				<select ng-model="fundrestriction.operatorId"
+				        class="form-control" style=""
+                        ng-options="item.operatorId as item.operatorCode for item in $parent.$parent.fundtriggers.operators ">
+				</select>
+			</div>
+			<div style="display: inline-block; height: 30px; width: 152px;">
+				<quick-input>
+					<input format="currency2" class="form-control text-right"
+                        ng-disabled="fundrestriction.isDisabled"
+				        ng-model="fundrestriction.restrictionValue"/>
+				</quick-input>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12" style="margin-top: 20px">
+	<div class="col-md-9 text-right" style="padding-right: 20px">
+		<button class="btn btn-primary pull-right" ng-disabled="fundtriggers.isLoading" ng-click="fundtriggers.save()">
+			Save
+			<i class="fa fa-floppy-o"></i>
+		</button>
+	</div>
+</div>
+
+
+

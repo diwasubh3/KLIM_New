@@ -1,0 +1,77 @@
+﻿<div class="modal-body" style="height: 330px">
+    <div class="col-sm-12">
+        <div class="control-group">
+            <label class="control-label">
+                Parameter Type
+            </label>
+            <select ng-model="pv.parameterValue.parameterTypeId" class="form-control"
+                    ng-options="pt.parameterTypeId as pt.parameterTypeName for pt in pv.parameterTypes"></select>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin: 10px 0px">
+        <div class="control-group">
+            <label class="control-label">
+                Parameter Value (Number)
+            </label>
+            <input class="form-control" only-numeric-keys ng-model="pv.parameterValue.parameterValueNumber"/>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin: 10px 0px">
+        <div class="control-group">
+            <label class="control-label">
+                Parameter Value (Text)
+            </label>
+            <input class="form-control" only-numeric-keys ng-model="pv.parameterValue.parameterValueText" />
+        </div>
+    </div>
+
+    <div class="col-sm-12" style="margin: 10px 0px">
+        <div class="control-group">
+            <label class="control-label">
+                Minimum Value
+            </label>
+            <input class="form-control" only-numeric-keys ng-model="pv.parameterValue.parameterMinValueNumber" />
+        </div>
+    </div>
+
+    <div class="col-sm-12" style="margin: 10px 0px">
+        <div class="control-group">
+            <label class="control-label">
+                Maximum Value
+            </label>
+            <input class="form-control" only-numeric-keys ng-model="pv.parameterValue.parameterMaxValueNumber" />
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-7" style="text-align: left">
+            <div ng-show="pv.error" style="margin-bottom: 0">
+                <b>Error: {{pv.error}}</b>
+            </div>
+            <div ng-show="pv.warning" style="margin-bottom: 0">
+                <b>Warning: {{pv.warning}}</b>
+            </div>
+
+            <div ng-show="pv.isLoading">
+                <label>{{pv.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{pv.appBasePath}}/Content/Images/ajax-loader.gif" />
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div>
+                <button class="btn btn-primary" id="btnSave" ng-disabled="(!pv.parameterValue.parameterTypeId) || pv.isLoading "
+                        ng-click="pv.save()">
+                    Save
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+             
+                <button class="btn btn-warning" ng-click="pv.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+﻿<style>
+	td.nb {
+		padding: 6px;
+		text-align: right;
+		font-weight: normal;
+		width: 140px;
+	}
+
+	td.lc {
+		border: 1px;
+		border-right-style: solid;
+		border-right-color: lightgray;
+		padding: 6px;
+		text-align: right;
+		font-weight: normal;
+		width: 140px;
+	}
+
+	td.vc {
+		padding: 6px;
+		font-weight: bold;
+		color: deepskyblue;
+		width: 175px;
+	}
+
+	td.vclarge {
+		padding: 6px;
+		line-height: 1.1;
+		font-size: 12pt;
+		font-weight: bold;
+		color: deepskyblue;
+		width: 250px;
+	}
+
+	td.vcitalics {
+		padding: 6px;
+		font-style: italic;
+		font-weight: bold;
+		color: deepskyblue;
+		width: 150px;
+	}
+	.nav-tabs > li.disabled > a:hover,
+	.nav-tabs > li.disabled > a:focus {
+		border-style: none;
+		cursor: crosshair;
+		padding: 11px 16px 11px 18px;
+	}
+</style>
+<div class="modal-body" style="max-height: 777px;overflow-y: auto">
+	<button type="button" class="close" data-dismiss="dialog" data-ng-click="researchpopup.cancel()">
+		<span aria-hidden="true">&times;</span>
+		<span class="sr-only">Close</span>
+	</button>
+	<form name="frmtrade" id="frmtrade" novalidate>
+
+		<uib-tabset>
+			<uib-tab heading="Analyst Research">
+				<div class="col-md-12 p-0" style="padding-top:15px;">
+                    <table>
+                        <tr>
+                            <td class="lc" rowspan="2">ISSUER NAME</td>
+                            <td class="vclarge" rowspan="2">{{researchpopup.analystResearchHeader.issuer}}</td>
+                            <td class="lc">CLO ANALYST</td>
+                            <td class="vc">{{researchpopup.analystResearchHeader.cloAnalyst}}</td>
+                            <td class="lc">CREDIT SCORE</td>
+                            <td class="vc">{{researchpopup.analystResearchHeader.creditScore}}</td>
+                        </tr>
+                        <tr>
+                            <td class="lc">HF ANALYST</td>
+                            <td class="vc">{{researchpopup.analystResearchHeader.hfAnalyst}}</td>
+                            <td class="lc">AGENT BANK</td>
+                            <td class="vc">{{researchpopup.analystResearchHeader.agentBank}}</td>
+                        </tr>
+                        <tr>
+                            <td class="nb"></td>
+                            <td class="vc"></td>
+                            <td class="nb"></td>
+                            <td class="vc"></td>
+                            <td class="lc">SPONSOR</td>
+                            <td class="vc">{{researchpopup.analystResearchHeader.sponsor}}</td>
+                        </tr>
+                        <tr style="height: 10px;" />
+                        <tr>
+                            <td class="lc">BUSINESS DESCRIPTION</td>
+                            <td class="vcitalics" colspan="5">{{researchpopup.analystResearchHeader.businessDescription}}</td>
+                        </tr>
+                        <tr>
+                            <td class="lc">COMMENTS</td>
+                            <td class="vcitalics" colspan="5">{{researchpopup.comments}}</td>
+                        </tr>
+                        <tr>
+                            <td class="lc">LIBOR Category</td>
+                            <td class="vcitalics" colspan="5">{{researchpopup.analystResearchHeader.liborCategory}}</td>
+                        </tr>
+                        <tr>
+                            <td class="lc">LIBOR Transition Note</td>
+                            <td class="vcitalics" colspan="5">{{researchpopup.analystResearchHeader.liborTransitionNote}}</td>
+                        </tr>
+                        <tr style="height: 10px"></tr>
+                    </table>
+				</div>
+				<div>
+					<table class="table table-3pxcondensed table-striped">
+						<tbody>
+						<tr ng-hide="key == 'comments' || key == 'lastUpdatedOn'" ng-repeat="(key, val) in researchpopup.analystResearchDetails[0]">
+							<th>
+								{{researchpopup.getDisplayText(key)}}
+							</th>
+							<td style="text-align: right;" ng-click="researchpopup.setComments(row)" ng-repeat="row in researchpopup.analystResearchDetails">
+								{{row[key]}}
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</uib-tab>
+			<uib-tab style="float: right;" disable="true" heading="5/8/2018 7:00 AM">
+				<uib-tab-heading>
+					DATA LAST UPDATED ON | {{researchpopup.lastUpdatedOn | date:'MM/dd/yyyy HH:mm a'}}
+				</uib-tab-heading>
+			</uib-tab>
+		</uib-tabset>
+	</form>
+</div>

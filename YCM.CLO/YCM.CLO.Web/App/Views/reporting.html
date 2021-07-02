@@ -1,0 +1,330 @@
+﻿<div class="reporting">
+
+    <div class="tab">
+        <button class="tablinks {{reporting.reportDisplay == 'block' ? 'active' : ''}}" ng-click="reporting.openTab('Report')">Report</button>
+        <button class="tablinks {{reporting.capitalStructureDisplay == 'block' ? 'active' : ''}}" ng-click="reporting.openTab('Capital Structure')">Capital Structure</button>
+        <button class="tablinks {{reporting.cloStatsDisplay == 'block' ? 'active' : ''}}" ng-click="reporting.openTab('CLO Stats')">CLO Stats</button>
+        <button class="tablinks {{reporting.defaultedLoansDisplay == 'block' ? 'active' : ''}}" ng-click="reporting.openTab('Defaulted Loans')">Defaulted Loans</button>
+        <button class="tablinks {{reporting.equityDisplay == 'block' ? 'active' : ''}}" ng-click="reporting.openTab('Equity')">Equity</button>
+    </div>
+
+    <div id="Report" class="tabcontent" style="display:{{reporting.reportDisplay}}">
+
+        <div class="col-md-12" style="margin:20px 0" ng-if="reporting.env=='UAT'">
+            <iframe width="1000" height="910"
+                    src="https://app.powerbi.com/reportEmbed?reportId=c93b7a33-85b7-454e-b8f0-0dd8eaee1ddb&autoAuth=true&ctid=f81d1efa-d05d-4f32-baec-e8b4bcf32051&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXVzLW5vcnRoLWNlbnRyYWwtYi1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true">
+            </iframe>
+        </div>
+        <div class="col-md-12" style="margin:20px 0" ng-if="reporting.env!='UAT'">
+            <iframe width="1000" height="910" src="https://app.powerbi.com/reportEmbed?reportId=bce05799-1066-4120-bd35-bb3486ba17f0&autoAuth=true&ctid=f81d1efa-d05d-4f32-baec-e8b4bcf32051&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXVzLW5vcnRoLWNlbnRyYWwtYi1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true">
+            </iframe>
+        </div>
+    </div>
+
+    <div id="CapitalStructure" class="tabcontent" style="display:{{reporting.capitalStructureDisplay}}">
+        <div class="col-md-12" style="margin:20px 0;padding:0">
+            <div class="col-md-4" style="padding:0 0 0 152px">
+                <div style="display: inline-block; padding-right: 20px; font-weight: bold;">
+                    Report:
+                </div>
+                <div style="display: inline-block; font-weight: bold; width: 200px">
+                    <select class="form-control" ng-model="reporting.selectedFund"
+                            ng-disabled="reporting.isLoading"
+                            ng-options="fund as fund.fundCode for fund in reporting.data.funds"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-show="reporting.isLoading"><img src="{{reporting.appBasePath}}/Content/images/ajax-loader.gif" style="height: 14px;width: 14px" /><b>&nbsp;&nbsp;{{reporting.statusText}}...</b></div>
+            </div>
+
+            <div class="col-md-4 text-right">
+                <button class="btn btn-primary" ng-disabled="!reporting.canEdit || reporting.isLoading" ng-click="reporting.save()">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+            </div>
+        </div>
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <label>Class</label>
+                    </th>
+                    <th>
+                        <label>Notional</label>
+                    </th>
+                    <th>
+                        <label>Spread</label>
+                    </th>
+                    <th>
+                        <label>LIBOR</label>
+                    </th>
+                    <th>
+                        <label>Start Date</label>
+                    </th>
+                    <th>
+                        <label>End Date</label>
+                    </th>
+                    <th>
+                        <label>Moody's Rating</label>
+                    </th>
+                    <th>
+                        <label>Override Calculation Spread</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="fa in reporting.getFilteredAssetClasses()">
+                    <td>
+                        <select class="form-control" ng-model="fa.assetClassId"
+                                ng-disabled="true"
+                                ng-options="assetClass.assetClassId as assetClass.assetClassCode for assetClass  in reporting.data.assetClasses "></select>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="fa.notional" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="percent" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="fa.spread" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="percent" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="fa.libor" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <div style="display: inline-block; font-weight: bold; width: 200px">
+                            <p class="input-group h19" style="margin-bottom: 0 !important">
+                                <input class="form-control h19" ng-model="fa.startDate"
+                                       show-weeks="false"
+                                       datepicker-popup="MM/dd/yyyy"
+                                       style="width:180px!important"
+                                       ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                       datepicker-options="reporting.dateOptions" close-text="Close"
+                                       is-open="fa.startDateOpened" />
+                                <span class="input-group-btn h19">
+                                    <button type="button" class="btn btn-info"
+                                            ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="reporting.openDate($event,fa,'startDateOpened')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: inline-block; font-weight: bold; width: 200px">
+                            <p class="input-group h19" style="margin-bottom: 0 !important">
+                                <input class="form-control h19" ng-model="fa.endDate"
+                                       show-weeks="false"
+                                       datepicker-popup="MM/dd/yyyy"
+                                       style="width:180px!important"
+                                       ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                       datepicker-options="reporting.dateOptions" close-text="Close"
+                                       is-open="fa.endDateOpened" />
+                                <span class="input-group-btn h19">
+                                    <button type="button" class="btn btn-info"
+                                            ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="reporting.openDate($event,fa,'endDateOpened')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </td>
+                    <td>
+                        <select class="form-control" ng-model="fa.moodyRatingId"
+                                ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                ng-options="rating.ratingId as rating.ratingDesc for rating  in reporting.data.ratings"></select>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="percent" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="fa.overrideCalcSpread" />
+                        </quick-input>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="CloStats" class="tabcontent" ng-style="{}" style="display:{{reporting.cloStatsDisplay}}">
+        <div class="col-md-12" style="margin:20px 0;padding:0">
+            <div class="col-md-4" style="padding:0 0 0 152px">
+                <div style="display: inline-block; padding-right: 20px; font-weight: bold;">
+                    Report:
+                </div>
+                <div style="display: inline-block; font-weight: bold; width: 200px">
+                    <select class="form-control" ng-model="reporting.selectedFund"
+                            ng-disabled="reporting.isLoading"
+                            ng-options="fund as fund.fundCode for fund in reporting.data.funds"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-show="reporting.isLoading"><img src="{{reporting.appBasePath}}/Content/images/ajax-loader.gif" style="height: 14px;width: 14px" /><b>&nbsp;&nbsp;{{reporting.statusText}}...</b></div>
+            </div>
+
+            <div class="col-md-4 text-right">
+                <button class="btn btn-primary" ng-disabled="!reporting.canEdit || reporting.isLoading" ng-click="reporting.save()">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="margin-top: 5px">
+            <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+                Projected Equity Distribution:
+            </div>
+            <div style="display: inline-block; font-weight: bold; width: 200px">
+                <quick-input>
+                    <input format="percent" class="form-control text-right" id="txtEquityPar" ng-disabled="!reporting.canEdit || reporting.isLoading" ng-model="reporting.selectedFund.projectedEquityDistribtion" />
+                </quick-input>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div id="DefaultedLoans" class="tabcontent" ng-style="{}" style="display:{{reporting.defaultedLoansDisplay}}">
+        <div class="col-md-12" style="margin:20px 0;padding:0">
+            <div class="col-md-4" style="padding:0 0 0 152px">
+                <div style="display: inline-block; padding-right: 20px; font-weight: bold;">
+                    Report:
+                </div>
+                <div style="display: inline-block; font-weight: bold; width: 200px">
+                    <select class="form-control" ng-model="reporting.selectedFund"
+                            ng-disabled="reporting.isLoading"
+                            ng-options="fund as fund.fundCode for fund in reporting.data.funds"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-show="reporting.isLoading"><img src="{{reporting.appBasePath}}/Content/images/ajax-loader.gif" style="height: 14px;width: 14px" /><b>&nbsp;&nbsp;{{reporting.statusText}}...</b></div>
+            </div>
+
+            <div class="col-md-4 text-right">
+                <button class="btn btn-primary" ng-disabled="!reporting.canEdit || reporting.isLoading" ng-click="reporting.save()">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+            </div>
+        </div>
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <label>Loan</label>
+                    </th>
+                    <th>
+                        <label>Notional</label>
+                    </th>
+                    <th>
+                        <label>Bid</label>
+                    </th>
+                    <th>
+                        <label>Defaulted Date</label>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="df in reporting.data.defaultSecurities | filter: {fundId: reporting.selectedFund.fundId}">
+                    <td>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="df.notional" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19"
+                                   ng-disabled="true"
+                                   ng-model="df.bid" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <label>{{df.defaultDate}}</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="Equity" class="tabcontent" ng-style="{}" style="display:{{reporting.equityDisplay}}">
+        <div class="col-md-12" style="margin:20px 0;padding:0">
+            <div class="col-md-4" style="padding:0 0 0 152px">
+                <div style="display: inline-block; padding-right: 20px; font-weight: bold;">
+                    Report:
+                </div>
+                <div style="display: inline-block; font-weight: bold; width: 200px">
+                    <select class="form-control" ng-model="reporting.selectedFund"
+                            ng-disabled="reporting.isLoading"
+                            ng-options="fund as fund.fundCode for fund in reporting.data.funds"></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div ng-show="reporting.isLoading"><img src="{{reporting.appBasePath}}/Content/images/ajax-loader.gif" style="height: 14px;width: 14px" /><b>&nbsp;&nbsp;{{reporting.statusText}}...</b></div>
+            </div>
+
+            <div class="col-md-4 text-right">
+                <button class="btn btn-primary" ng-disabled="!reporting.canEdit || reporting.isLoading || !reporting.canSave()" ng-click="reporting.save()">
+                    Save <i class="fa fa-floppy-o"></i>
+                </button>
+            </div>
+        </div>
+
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <label>Loan</label>
+                    </th>
+                    <th>
+                        <label>Notional</label>
+                    </th>
+                    <th>
+                        <label>Bid</label>
+                    </th>
+                    <th>
+                        <button ng-disabled="!reporting.canEdit || reporting.isLoading" ng-click="reporting.addNewSecurityOverride()">Add New</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="eo in reporting.data.equityOverrides | filter: {fundId: reporting.selectedFund.fundId} | filter : {isDeleted:false}">
+                    <td>
+                        <input ng-model="eo.securityCode"  ng-disabled="!reporting.canEdit || reporting.isLoading" ng-required="true" class="form-control h19" />
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="eo.notional" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19"
+                                   ng-disabled="!reporting.canEdit || reporting.isLoading"
+                                   ng-model="eo.bid" />
+                        </quick-input>
+                    </td>
+                    <td>
+                        <button ng-disabled="!reporting.canEdit || reporting.isLoading" ng-click="reporting.deleteSecurityOverride(eo)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,479 @@
+﻿<div class="col-md-12" style="margin-top:10px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Select Fund:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <select class="form-control" ng-model="fundoverrides.selectedFund"
+                    ng-disabled="fundoverrides.isLoading"
+                    ng-change="fundoverrides.updateAssetParThreshold()"
+                    ng-options="fund as fund.fundCode for fund in fundoverrides.funds"></select>
+        </div>
+        <div style="display: inline-block; font-weight: bold;width: 200px" class="text-right">
+            <div ng-show="fundoverrides.isLoading" style="text-align:center">
+                <img src="{{fundoverrides.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px;width: 20px" /><b>&nbsp;&nbsp;{{fundoverrides.statusText}}...</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 20px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            BOD Principal Cash:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" ng-disabled="fundoverrides.isLoading" id="txtPrincipalCash" ng-model="fundoverrides.selectedFund.principalCash" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Liability Par:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtLiabilityPar" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.liabilityPar" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Equity Par:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtEquityPar" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.equityPar" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Target Par:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtTargetPar" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.targetPar" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Recovery Multiplier:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtRecoveryMultiplier" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.recoveryMultiplier" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WA Life Adjustment:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWALifeAdjustment" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.waLifeAdjustment" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Asset Par Alert %:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="percent" ng-change="fundoverrides.updateAssetParThreshold()" ng-disabled="fundoverrides.isLoading" class="form-control text-right" id="txtAssetParPercentageThreshold" ng-model="fundoverrides.selectedFund.assetParPercentageThreshold" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Asset Par Alert $:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" ng-readonly="true" class="form-control text-right" id="txtAssetParThreshold" ng-model="fundoverrides.assetParThreshold" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WSO Weighted Average Spread:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="percent" class="form-control text-right" id="txtWSOSpread" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.wsoSpread" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WSO WARF:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWSOWARF" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.wsowarf" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WSO Moody's Recovery:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWSOMoodyRecovery" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.wsoMoodyRecovery" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WSO Weighted Average Life:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWSOWALife" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.wsowaLife" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WSO Diversity:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWSODiversity" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.wsoDiversity" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WAL WARF Adj:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWALWARFAdj" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.walwarfAdj" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Max WARF Trigger:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtMaxWARFTrigger" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.maxWarfTrigger" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Class E Par:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtClassEPar" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.classEPar" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WAL Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.walDate"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.waldateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'waldateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            WAL Trigger Adjustment:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtWallDateAdj" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.walDateAdj" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Bloomberg Code:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <input class="form-control text-right" id="txtBbergCode" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.bloombergCode" />
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Management Fees:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtMgmtFees" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.mgmtFees" />
+            </quick-input>
+        </div>
+        <span style="font-weight:bolder">/</span>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <quick-input>
+                <input format="currency2" class="form-control text-right" id="txtOperatingExpenses" ng-disabled="fundoverrides.isLoading" ng-model="fundoverrides.selectedFund.operatingExpenses" />
+            </quick-input>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12" style="margin-top: 5px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Reinvest End Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.reInvestEndDate"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.reinvestenddateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'reinvestenddateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Pricing Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.pricingDate"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.pricingdateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'pricingdateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Closing Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.closingDate"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.closingdateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'closingdateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Non-Call Ends Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.nonCallEndsDate"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.noncallendsdateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'noncallendsdateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12" style="margin-top: 15px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+            Final Maturity Date:
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px">
+            <p class="input-group h19" style="margin-bottom: 0 !important">
+                <input class="form-control h19" ng-model="fundoverrides.selectedFund.finalMaturity"
+                       show-weeks="false"
+                       datepicker-popup="MM/dd/yyyy"
+                       style="width:180px!important"
+                       ng-disabled="fundoverrides.isLoading"
+                       datepicker-options="fundoverrides.dateOptions" close-text="Close"
+                       is-open="fundoverrides.selectedFund.finalmaturitydateopened" />
+                <span class="input-group-btn h19">
+                    <button type="button" class="btn btn-info"
+                            ng-disabled="fundoverrides.isLoading"
+                            style="padding:1px 5px  !important;border-radius:0!important" ng-click="fundoverrides.openDate($event,'finalmaturitydateopened')">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12" style="margin-top: 40px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="display: inline-block; width: 200px; text-align: right; padding-right: 20px; font-weight: bold">
+
+        </div>
+        <div style="display: inline-block; font-weight: bold; width: 200px" class="text-right">
+            <button class="btn btn-primary pull-right" ng-disabled="fundoverrides.isLoading || !(fundoverrides.selectedFund)" ng-click="fundoverrides.save()">
+                Save <i class="fa fa-floppy-o"></i>
+            </button>
+        </div>
+    </div>
+</div>

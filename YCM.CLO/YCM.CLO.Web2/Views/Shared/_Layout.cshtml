@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+@using System.Configuration
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="shortcut icon" href="~/Content/images/YorkIcon.ico">
+    <base href="~/" />
+
+
+    <script src="~/node_modules/core-js/client/shim.min.js"></script>
+
+    <script src="~/node_modules/zone.js/dist/zone.js"></script>
+    <script src="~/node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="~/node_modules/systemjs/dist/system.src.js"></script>
+
+    <!-- Configure SystemJS -->
+
+    <script src="~/systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+    @Styles.Render("~/Content/Yorknet/YorkMenuBootstrapCss")
+</head>
+<body>
+    <div id="NavContainer">
+        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top  navbar-inverse">
+            <div>
+                <div class="navbar-inner">
+                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container">
+                        <ul class="nav"><li><a href="javascript:;" id="menu-button" title="Toggle Menu"><i class="icon-th-large icon-border-hidden"></i></a></li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    <script>
+        pageOptions = {};
+        pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
+        pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
+        pageOptions.dwhBasePath = '@ConfigurationManager.AppSettings["DWHPath"]';
+        pageOptions.appBasePath = '@HttpContext.Current.Request.Url.AbsoluteUri';
+        pageOptions.menuWebApiUri = '@ConfigurationManager.AppSettings["BaseWebPath"]/NavigationMenu/GetMenus';
+    </script>
+    @Scripts.Render("~/bundles/YorkScripts")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

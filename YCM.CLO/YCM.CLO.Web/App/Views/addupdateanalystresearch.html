@@ -1,0 +1,170 @@
+﻿
+<div class="modal-body" style="max-height: 647px;overflow-y: auto">
+    <form name="frmanalystresearch" id="analystresearch" novalidate>
+        <div class="col-sm-12 p-0">
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 150px">
+                        <label class="control-label" for="txtIssuer">Issuer:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" ng-model="ar.selectedIssuer" id="txtIssuer" autocomplete="off"
+                               ng-disabled="ar.selectedIssuerId"
+                               typeahead="iss as iss.issuerDesc  for iss in ar.issuers | filter:{issuerDesc:$viewValue} | limitTo:20"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px">
+                        <label class="control-label" for="txtIssuer">Business Description:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" ng-model="ar.businessDescription" id="txtBusinessDescription" 
+                               ng-disabled="ar.selectedIssuerId" ng-required="true" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="padding: 40px 0px 12px 0px;text-align: center" >
+            <label>ANALYST RESEARCH</label>
+            <hr/>
+        </div>
+
+        <div style="padding-right: 17px">
+            <table class="table table-bordered table-3pxcondensed" style="border-width: 0; margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <th style="text-align: left; border-width: 0px 0px 1px 0; "
+                        ng-if="headerField.fieldName != 'Comments'"
+                        ng-style="ar.getStyle(headerField)"
+                        class=""
+                        ng-repeat="headerField in ar.fields">
+                        <div class="{{headerField.cellClass}}">
+                            {{headerField.fieldTitle}}
+                        </div>
+                    </th>
+                    <th style="border-width: 0px 0px 1px 0; text-align: center" >
+                        <a ng-show="!ar.selectedIssuer || (ar.data && ar.data.length && !ar.data[0].asOfDate)" style="color:lightgray">ADD NEW</a>
+                        <a ng-click="ar.addNewAnalystResearch()" ng-show="ar.selectedIssuer && (ar.data && ar.data.length && ar.data[0].asOfDate)">ADD NEW</a>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="overflow-y: scroll; min-height: 350px;margin-top: 10px"  >
+            <table class="table table-bordered table-condensed table-3pxcondensed " style="border-width: 0; margin-bottom: 0px">
+                <thead style="display: none">
+                </thead>
+                <tbody>
+                <tr ng-repeat-start="d in ar.data">
+                    <td ng-repeat="headerField in ar.fields" 
+                        ng-style="ar.getStyle(headerField)"
+                        style="border-width: 0 0 0px 0px; "
+                        ng-if="headerField.fieldName != 'Comments'">
+                        <div ng-if="$index==0">
+                            <span ng-if="!d.isEditMode" >{{d[headerField.jsonPropertyName]}}</span>
+                            <p class="input-group" style="margin-bottom: 0 !important" ng-if="d.isEditMode" >
+                                <input class="form-control" ng-model="d[headerField.jsonPropertyName]"
+                                       ng-change="d.isDirty=true;"
+                                       ng-required="ar.data.length > 1"
+                                       min-date="d.minAsOfDate"
+                                       show-weeks="false"
+                                       datepicker-popup="MM/dd/yyyy"
+                                       style="margin-top: 1px"
+                                       datepicker-options="ar.dateOptions" close-text="Close"
+                                       is-open="d['is' +headerField.jsonPropertyName + 'opened']"
+                                       placeholder="{{d[headerField.jsonPropertyName+'PlaceHolder']}}" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" ng-click="ar.openDate($event,d,headerField)">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                        <div ng-if="$index==1">
+                            <select ng-if="d.isEditMode" ng-model="d.cloAnalystUserId"
+                                    ng-options="u.userId as u.fullName for u in ar.analysts.cloAnalysts"
+                                    ng-required="true"
+                                    class="form-control" ></select>
+                            <span ng-if="!d.isEditMode">{{d[headerField.jsonPropertyName]}}</span>
+                        </div>
+                        <div ng-if="$index==2">
+                            <select ng-if="d.isEditMode" ng-model="d.hfAnalystUserId"
+                                    ng-options="u.userId as u.fullName for u in ar.analysts.hFnalysts"
+                                    class="form-control" ></select>
+                            <span ng-if="!d.isEditMode">{{d[headerField.jsonPropertyName]}}</span>
+                        </div>
+                        <div ng-if="$index > 2" class="{{headerField.cellClass}}">
+                            <div ng-if="!d.isEditMode" class="">{{d[headerField.jsonPropertyName]}}</div>
+                            <input ng-if="d.isEditMode"
+                                   only-numeric-keys
+                                   placeholder="{{d[headerField.jsonPropertyName+'PlaceHolder']}}"
+                                   ng-required="!(d.creditScore || d.oneLLeverage || d.totalLeverage || d.evMultiple || d.ltmRevenues || d.ltmebitda ||d.fcf)"
+                                   ng-model="d[headerField.jsonPropertyName]" class="form-control text-right"/>
+                        </div>
+                    </td>
+
+                    <td style="border-width: 0 0 0px 0; text-align: center; vertical-align: middle !important" rowspan="2">
+
+                    </td>
+                </tr>
+                <tr ng-hide="!d.isEditMode && !d.comments">
+                    <td style="border-width: 0"></td>
+                    <td colspan="9" style="border-width: 0">
+                        <input ng-if="d.isEditMode" ng-model="d.comments" placeholder="COMMENT" ng-change="d.isDirty=true;" class="form-control"/>
+                        <div ng-if="!d.isEditMode" class="col-md-12 p-0">
+                            <div class="col-md-1 p-0"><b style="font-size: 10px">COMMENTS:</b></div>
+                            <div class="col-md-10" style="font-style: italic">{{d.comments}}</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr  ng-repeat-end>
+                    <td style="border-width: 0; height: 5px !important; line-height: 5px" colspan="10">&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-10" style="text-align: left">
+            
+            <div ng-show="ar.error" style="margin-bottom: 0;color: red">
+                <b>Error: {{ar.error}}</b>
+            </div>
+
+            <div ng-show="ar.warning" style="margin-bottom: 0; color: red">
+                <div class="alert alert-danger" role="alert" style="margin-bottom: 0;font-size: 14px">
+                    <strong>Warning: </strong> <span ng-bind-html="ar.warning"></span>
+                </div>
+            </div>
+
+            <div ng-show="ar.isLoading">
+                <label>{{ar.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{ar.appBasePath}}/Content/Images/ajax-loader.gif"/>
+            </div>
+
+            
+        </div>
+
+
+        <div class="col-sm-2">
+            <div >
+                <button class="btn btn-primary" 
+                        id="btnSave" ng-disabled="ar.isLoading || (!(ar.data && ar.data.length)) || frmanalystresearch.$invalid
+                        || (!ar.selectedIssuer)
+                        "
+                        ng-click="ar.save(false)">
+                    Save
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+
+                <button class="btn btn-warning" ng-click="ar.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

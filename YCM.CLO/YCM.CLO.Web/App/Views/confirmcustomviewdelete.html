@@ -1,0 +1,28 @@
+﻿<div class="modal-header">
+	<h4>Warning</h4>
+</div>
+
+<div class="modal-body" style="height: 100px">
+	<div class="col-sm-12">
+		<p>
+			<b>You are about to delete this view. This action cannot be undone.<br/>Do you want to proceed?</b>
+		</p>
+	</div>
+</div>
+
+<div class="modal-footer" ng-class="{'alert-warning':watch.warning,'alert-error':watch.error}">
+	<div class="col-sm-12">
+		<div ng-hide="newpg.warning">
+			<button class="btn btn-primary" id="btnConfirm" 
+			        ng-click="confirmdelete.proceed()">
+				Proceed
+				<i class="fa fa-thumbs-up"></i>
+			</button>
+                
+			<button class="btn btn-warning" ng-click="confirmdelete.cancel()">
+				Cancel
+				<i class="fa fa-thumbs-down"></i>
+			</button>
+		</div>
+	</div>
+</div>

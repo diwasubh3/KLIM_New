@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [CLO].[spGetFunds]
+	
+AS
+	SELECT * FROM CLO.Fund WITH(NOLOCK) WHERE IsActive = 1 ORDER BY SortOrder
+RETURN 0

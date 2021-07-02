@@ -1,0 +1,69 @@
+﻿<div class="modal-header" style="padding: 5px 15px">
+    <h4 >Proceed?</h4>
+    
+</div>
+<div class="modal-body" style="max-height: 647px;overflow-y: auto">
+    <form name="frmsecurityrecon" id="frmsecurityrecon" novalidate>
+
+        <div style="padding: 20px 0px 12px 0px;text-align: center" >
+            <label>Are you sure you want to proceed with the following match? Note that this action will delete the York user-entered ID and retain the WSO-sourced ID.</label>
+            <hr/>
+        </div>
+
+        <div>
+            <table class="table table-bordered table-condensed" style="border-width: 0; margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <th style="text-align: left; border-width: 0px 0px 1px 0;"
+                        ng-style="confirmsecurityrecon.getStyle(headerField)"
+                        ng-repeat="headerField in confirmsecurityrecon.fields">
+                        <div>
+                            {{headerField.fieldTitle}}
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="overflow-y: auto; margin-top: 10px" >
+            <table class="table table-bordered table-condensed " style="border-width: 0; margin-bottom: 0px">
+                <thead style="display: none">
+                </thead>
+                <tbody>
+                <tr ng-repeat="securityrecon in  confirmsecurityrecon.securities" >
+                    <td ng-repeat="headerField in confirmsecurityrecon.fields" ng-style="confirmsecurityrecon.getStyle(headerField)" style="border-width: 0 0 0px 0px; word-break: break-all;word-wrap: break-word">
+                        <div>
+                            {{securityrecon[headerField.jsonPropertyName]}}
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-10" style="text-align: left">
+            <div ng-show="confirmsecurityrecon.isLoading">
+                <label>{{confirmsecurityrecon.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{confirmsecurityrecon.appBasePath}}/Content/Images/ajax-loader.gif"/>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div >
+                <button class="btn btn-primary" id="btnProceed" ng-disabled="confirmsecurityrecon.isLoading"
+                        ng-click="confirmsecurityrecon.save(false)">
+                    Proceed
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+
+                <button class="btn btn-warning" ng-click="confirmsecurityrecon.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

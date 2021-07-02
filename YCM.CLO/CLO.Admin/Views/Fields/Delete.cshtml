@@ -1,0 +1,139 @@
+﻿@model YCM.CLO.DataAccess.Models.Field
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Field</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldGroup.FieldGroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FieldGroup.FieldGroupName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FieldName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JsonPropertyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JsonPropertyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FieldTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JsonFormatString)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JsonFormatString)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayWidth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayWidth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPercentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPercentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SortOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SortOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FieldType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FieldType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeaderCellClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeaderCellClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CellClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CellClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CellTemplate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CellTemplate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hidden)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hidden)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PinnedLeft)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PinnedLeft)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSecurityOverride)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

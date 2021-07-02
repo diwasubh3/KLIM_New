@@ -1,0 +1,83 @@
+﻿@using System.Configuration
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">    
+        <title>@ViewBag.Title</title>
+        <link rel="shortcut icon" href="~/Content/images/YorkIcon.ico">
+
+        <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+        @Styles.Render("~/Content/Yorknet/YorkMenuBootstrapCss")
+        @Styles.Render("~/Content/YorkCss")
+        @Styles.Render("~/Content/BootstrapCssResponsive")
+        @Styles.Render("~/Content/BootstrapCss")
+        @RenderSection("PageCss", required: false)
+        @Scripts.Render("~/bundles/modernizr")
+        <link href="~/Content/Site.css" rel="stylesheet" />
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+
+    <div id="NavContainer">
+        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top  navbar-inverse">
+            <div>
+                <div class="navbar-inner">
+                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container">
+                        <ul class="nav"><li><a href="javascript:;" id="menu-button" title="Toggle Menu"><i class="icon-th-large icon-border-hidden"></i></a></li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li><a href="@ConfigurationManager.AppSettings["BaseWebPath"]/cloadmin/FieldGroups">Field Groups</a></li>
+                    <li><a href="@ConfigurationManager.AppSettings["BaseWebPath"]/cloadmin/Fields">Fields</a></li>
+                    <li><a href="@ConfigurationManager.AppSettings["BaseWebPath"]/cloadmin/Rules">Rules</a></li>
+                    <li><a href="@ConfigurationManager.AppSettings["BaseWebPath"]/cloadmin/RuleFields">Rule Field Mapping</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div ng-app="app" style="">
+            <div class="container body-content"  class="col-md-12"  >
+                @RenderBody()
+            </div>
+        </div>
+        <script>
+            pageOptions = {};
+            pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
+            pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
+            pageOptions.dwhBasePath = '@ConfigurationManager.AppSettings["DWHPath"]';
+            pageOptions.pageTitle = "CLO-Admin";
+            pageOptions.menuWebApiUri = '@ConfigurationManager.AppSettings["BaseWebPath"]/NavigationMenu/GetMenus';
+        </script>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/YorkScripts")
+
+
+
+        @RenderSection("PageScripts", required: false)
+        @RenderSection("Scripts", required: false)
+        @Scripts.Render("~/bundles/YorkScriptsFinal")
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                "paging": false
+            });
+        });
+    </script>
+        
+    </body>
+</html>

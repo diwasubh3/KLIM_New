@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "YCM.CLO.TradeFileImporter": {
+      "commandName": "Project",
+      "commandLineArgs": "20200218"
+    }
+  }
+}

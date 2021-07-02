@@ -1,0 +1,140 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-4 p-0">
+        <div class="control-group">
+            <select style=""
+                    ng-model="analystresearch.selectedLoadType"
+                    ng-change="analystresearch.loadAnalystResearches()"
+                    ng-options="lt as lt.Text for lt in analystresearch.loadTypes"></select>
+        </div>
+    </div>
+    <div class="col-md-4 " style="padding-left: 68px; text-align: center">
+        <span ng-show="analystresearch.isLoading"><img src="{{analystresearch.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;Loading...</b></span>
+
+    </div>
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="analystresearch.tableParams.filter().searchText"
+                   ng-disabled="analystresearch.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th style="text-align: left; border-width: 1px 0 1px 0 !important;border-top: 1px #dddddd solid;width: 30px"></th>
+                <th style="text-align: left; border-width: 1px 0 1px 0 !important;border-top: 1px #dddddd solid"
+                    ng-style="analystresearch.getStyle(headerField,null,true)"
+                    ng-repeat="headerField in analystresearch.analystResearchHeaderFields.issuerFields">
+                    <div ng-if="$index != 0">
+                        {{headerField.fieldTitle}}
+                    </div>
+                    <div ng-if="$index == 0">
+                        ISSUER | DESCRIPTION
+                    </div>
+                </th>
+                <!--
+                <th style="width: 100px; border-width: 1px 0 1px 0 !important;border-top: 1px #dddddd solid; text-align: center">
+                    <a ng-click="analystresearch.editAnalystResearch()">ADD NEW</a>
+                </th>
+                    -->
+                <th style="width: 17px; border-width: 1px 0 1px 0 !important;border-top: 1px #dddddd solid"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="col-md-12 p-0" style="overflow-y: scroll;max-height: 580px">
+    <table class="table table-bordered noth table-condensed" ng-table="analystresearch.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat-start="group in $data">
+                <td style="width: 30px; border-width: 0;cursor: pointer"
+                    ng-click="group.$showRows = !group.$showRows">
+                    <a ng-if="!group.$showRows && group.analystResearches.length"><i style="font-size: 10px" class="fa fa-plus"></i></a>
+                    <a ng-if="group.$showRows  && group.analystResearches.length"><i style="font-size: 10px" class="fa fa-minus"></i></a>
+                </td>
+                <td style="border-width: 0px; cursor: pointer"
+                    ng-style="analystresearch.getStyle(field,null,true)"
+                    ng-repeat="field in analystresearch.analystResearchHeaderFields.issuerFields"
+                    ng-click="group.$showRows = !group.$showRows">
+                    <div >
+                        {{group.issuerData[field.jsonPropertyName]}}
+                    </div>
+                </td>
+                <!--
+                <td rowspan="2"
+                    style="vertical-align: middle; width: 100px; text-align: center;border-width: 0">
+                    <a ng-click="analystresearch.editAnalystResearch(group.analystResearches[0])" ng-if="group.analystResearches.length">Edit</a>
+                    <a ng-click="analystresearch.editAnalystResearch(group)" ng-if="!group.analystResearches.length">New</a>
+                </td>
+                 -->
+            </tr>
+
+            <tr ng-if="group.$showRows">
+                <td style="width: 30px;border-width: 0"></td>
+                <td colspan="3" style="border-width: 0">
+                    <div style="font-style: italic;font-weight: bold">
+                        {{group.issuerData['businessDescription']}}    
+                    </div>
+                </td>
+            </tr>
+
+        <tr ng-if="group.$showRows">
+                <td style="width: 30px;border-width: 0"></td>
+                <td colspan="4" style="border-width: 0">
+                    <div>
+                        <div style="display: none">
+                            {{visibleRowCount = ( analystresearch.tableParams.filter().searchText ? (group.analystResearches| filter: {'isVisible': 'true'}).length : group.analystResearches.length)-1}}
+                        </div>
+                        <table style="margin-bottom: 0" class="table table-3pxcondensed">
+                            <thead>
+                            <tr>
+                                <th ng-repeat="col in analystresearch.analystResearchHeaderFields.analystResearchFields"
+                                    ng-if="col.fieldName != 'Comments'  && col.fieldName != 'BusinessDescription' "
+                                    ng-style="analystresearch.getStyle(col,null,false)"
+                                    style="border-width: 1px 0 1px 0 !important;border-top: 1px #dddddd solid">
+                                    <div class="{{col.cellClass}}">{{col.fieldTitle}}</div>
+                                </th>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat-start="d in group.analystResearches" ng-show="!analystresearch.tableParams.filter().searchText || d.isVisible">
+                                <td ng-repeat="col in analystresearch.analystResearchHeaderFields.analystResearchFields"
+                                    ng-if="col.fieldName != 'Comments' && col.fieldName != 'BusinessDescription' "
+                                    ng-style="analystresearch.getStyle(col,null,false)"
+                                    style="border-width: 0">
+                                    <div ng-if="$index==0" class="{{col.cellClass}}"><b style="font-size: 10px">{{d[col.jsonPropertyName]}}</b>
+                                    </div>
+                                    <div ng-if="$index!=0" class="{{col.cellClass}}">{{d[col.jsonPropertyName]}}</div>
+                                </td>
+
+                            </tr>
+                            <tr ng-show="(!analystresearch.tableParams.filter().searchText || d.isVisible) && d['comments']">
+                                <td style="border-width: 0">
+                                    
+                                </td>
+                                <td colspan="10" style="border-width: 0">
+                                    <b style="font-size: 10px">COMMENTS: </b>
+                                    <span style="font-style: italic">{{d['comments']}}</span>
+                                </td>
+                            </tr>
+                            <tr ng-show="$index != visibleRowCount" ng-repeat-end>
+                                <td colspan="14" style="border-width: 1px 0 0 0; height: 1px; padding: 0 !important"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-repeat-end>
+                <td colspan="5" style="border-width: 1px 0 0 0; height: 1px;padding: 0 !important"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

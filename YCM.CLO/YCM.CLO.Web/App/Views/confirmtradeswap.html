@@ -1,0 +1,38 @@
+﻿<div class="modal-header">
+    <h4>Warning</h4>
+</div>
+
+<div class="modal-body" style="height: 170px">
+    <div class="col-sm-12">
+        <p>
+            <b>You want to run a new trade swap analysis.</b>
+        </p>
+        <p>
+            <b>Note that there is a prior analysis run on {{confirmtradeswap.tradeSwap.createdOn|date:'MM/dd/yyyy h:mm a'}}.</b>
+        </p>
+        <p>
+            <b>If you proceed, the prior data will be wiped out and replaced with the new data. <br/>Do you want to proceed?</b>
+        </p>
+    </div>
+</div>
+
+<div class="modal-footer" ng-class="{'alert-warning':watch.warning,'alert-error':watch.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-7" style="text-align: left">
+        </div>
+        <div class="col-sm-5">
+            <div ng-hide="newpg.warning">
+                <button class="btn btn-primary" id="btnConfirm" 
+                        ng-click="confirmtradeswap.proceed()">
+                    Proceed
+                    <i class="fa fa-thumbs-up"></i>
+                </button>
+                
+                <button class="btn btn-warning" ng-click="confirmtradeswap.cancel()">
+                    Cancel
+                    <i class="fa fa-thumbs-down"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

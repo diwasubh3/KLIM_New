@@ -1,0 +1,25 @@
+﻿
+<div class="text-center">
+    <h2 class="text-center" ng-show="admin.isLoading">
+        <img src="{{admin.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;{{admin.statusText}}...</b>
+    </h2>
+</div>
+
+<div class="text-center" ng-show="admin.success">
+    <h2 class="text-center" style="color:red">{{admin.success}}</h2>
+</div>
+
+
+<div class="text-center" ng-show="admin.error">
+    <h2 class="text-center" style="color:green">{{admin.error}}</h2>
+</div>
+
+<button class="btn btn-primary" ng-click="admin.process('/calculation/process','Recalculating')"><i class="fa fa-calculator"></i>&nbsp;&nbsp;Recalculate</button>
+
+<button class="btn btn-primary" ng-click="admin.process('/calculation/processtradefiles','Processing Files')"><i class="fa fa-files-o"></i>&nbsp;&nbsp;Process Principal Files</button>
+
+<button class="btn btn-primary" ng-click="admin.process('/calculation/processtradefile?fundid='+admin.selectedFund.fundId,'Processing Files for ' + admin.selectedFund.fundId)"><i class="fa fa-file-excel-o"></i>&nbsp;&nbsp;Process Principal File {{admin.selectedFund.fundCode}}</button>
+
+<button class="btn btn-primary" ng-click="admin.process('/calculation/refreshstalepositions','Refreshing Stale Positions')"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Refresh Stale Positions</button>
+
+<button class="btn btn-primary" ng-click="admin.process('/calculation/calculatefrontier','Calculating Frontier')"><i class="fa fa-calculator"></i>&nbsp;&nbsp;Calculate Frontier</button>

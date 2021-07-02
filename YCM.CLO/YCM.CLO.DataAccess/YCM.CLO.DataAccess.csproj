@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{91F91003-4F09-4DBC-BB26-1C7201CED110}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YCM.CLO.DataAccess</RootNamespace>
+    <AssemblyName>YCM.CLO.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UAT|AnyCPU'">
+    <OutputPath>bin\UAT\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PROD|AnyCPU'">
+    <OutputPath>bin\PROD\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.4.0.3\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Models\AnalystResearchFile.cs" />
+    <Compile Include="Models\AnalystResearchDetailHistory.cs" />
+    <Compile Include="Models\AnalystResearchHeaderHistory.cs" />
+    <Compile Include="Contracts\IEntity.cs" />
+    <Compile Include="Models\AnalystResearchImportLog.cs" />
+    <Compile Include="Models\AnalystResearchRowLocation.cs" />
+    <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\ExpressionBuilder.cs" />
+    <Compile Include="Extensions\Extension.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="Models\AnalystResearch.cs" />
+    <Compile Include="Models\AnalystResearchDetail.cs" />
+    <Compile Include="Models\AnalystResearchHeader.cs" />
+    <Compile Include="Models\ApplicationRole.cs" />
+    <Compile Include="Models\AssetClass.cs" />
+    <Compile Include="Models\AssetExposure.cs" />
+    <Compile Include="Models\CacheSetting.cs" />
+    <Compile Include="Models\DefaultSecurity.cs" />
+    <Compile Include="Models\FundAssetClass.cs" />
+    <Compile Include="Models\FundCalculation.cs" />
+    <Compile Include="Models\CreditScore.cs" />
+    <Compile Include="Models\CustomView.cs" />
+    <Compile Include="Models\CustomViewField.cs" />
+    <Compile Include="Models\C__RefactorLog.cs" />
+    <Compile Include="Models\DatabaseEntityOperationResult.cs" />
+    <Compile Include="Models\DatabaseOperation.cs" />
+    <Compile Include="Models\EmailHelper.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Models\GicsToSnpMoodyIndustryMap.cs" />
+    <Compile Include="Models\Industry.cs" />
+    <Compile Include="Models\LoanPosition.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchDetailHistoryMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchDetailMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchFileMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchHeaderHistoryMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchHeaderMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchImportLogMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchMap.cs" />
+    <Compile Include="Models\Mapping\AnalystResearchRowLocationMap.cs" />
+    <Compile Include="Models\Mapping\ApplicationRoleMap.cs" />
+    <Compile Include="Models\Mapping\FundAssetClassMap.cs" />
+    <Compile Include="Models\Mapping\FundCalculationMap.cs" />
+    <Compile Include="Models\Mapping\CreditScoreMap.cs" />
+    <Compile Include="Models\Mapping\CustomViewFieldMap.cs" />
+    <Compile Include="Models\Mapping\CustomViewMap.cs" />
+    <Compile Include="Models\Mapping\C__RefactorLogMap.cs" />
+    <Compile Include="Models\Mapping\GicsToSnpMoodyIndustryMapMap.cs" />
+    <Compile Include="Models\Mapping\IndustryMap.cs" />
+    <Compile Include="Models\Mapping\MatrixPointMap.cs" />
+    <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
+    <Compile Include="Models\Mapping\MatrixDataMap.cs" />
+    <Compile Include="Models\MatrixPoint.cs" />
+    <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\vw_Mismatch.cs" />
+    <Compile Include="Models\vw_MatrixData.cs" />
+    <Compile Include="Models\MatrixData.cs" />
+    <Compile Include="Models\Mapping\PricingMap.cs" />
+    <Compile Include="Models\Mapping\RuleSectionTypeMap.cs" />
+    <Compile Include="Models\Mapping\SecurityOverrideMap.cs" />
+    <Compile Include="Models\Mapping\TradeAllocationMap.cs" />
+    <Compile Include="Models\Mapping\TradeMap.cs" />
+    <Compile Include="Models\Mapping\TradeSwapMap.cs" />
+    <Compile Include="Models\Mapping\TradeSwapSnapshotMap.cs" />
+    <Compile Include="Models\Mapping\UserApplicationRoleMap.cs" />
+    <Compile Include="Models\Mapping\UserDefaultCustomViewMap.cs" />
+    <Compile Include="Models\Mapping\vw_Position_ExposureMap.cs" />
+    <Compile Include="Models\Mapping\vw_PriceMoveMap.cs" />
+    <Compile Include="Models\Mapping\vw_SecurityFundMap.cs" />
+    <Compile Include="Models\Mapping\vw_AggregatePositionMap.cs" />
+    <Compile Include="Models\Mapping\vw_AnalystResearchMap.cs" />
+    <Compile Include="Models\Mapping\vw_CalculationMap.cs" />
+    <Compile Include="Models\Mapping\vw_CurrentActiveSecurityOverridesMap.cs" />
+    <Compile Include="Models\Mapping\vw_CurrentAnalystResearchMap.cs" />
+    <Compile Include="Models\Mapping\vw_LatestPositionMap.cs" />
+    <Compile Include="Models\Mapping\vw_PriceMap.cs" />
+    <Compile Include="Models\Mapping\vw_Security_WatchMap.cs" />
+    <Compile Include="Models\Mapping\vw_SecurityMarketCalculationMap.cs" />
+    <Compile Include="Models\Mapping\vw_TradeSwapMap.cs" />
+    <Compile Include="Models\Mapping\vw_YorkCoreGenevaAnalystMap.cs" />
+    <Compile Include="Models\Mapping\v_PhoneListMap.cs" />
+    <Compile Include="Models\Mapping\WSOExtractAssetMap.cs" />
+    <Compile Include="Models\Pricing.cs" />
+    <Compile Include="Models\RuleResult.cs" />
+    <Compile Include="Models\RuleSectionType.cs" />
+    <Compile Include="Models\SecurityOverride.cs" />
+    <Compile Include="Models\Trade.cs" />
+    <Compile Include="Models\TradeAllocation.cs" />
+    <Compile Include="Models\TradeSwap.cs" />
+    <Compile Include="Models\TradeSwapParam.cs" />
+    <Compile Include="Models\TradeSwapParamConstraints.cs" />
+    <Compile Include="Models\TradeSwapParamCriteria.cs" />
+    <Compile Include="Models\TradeSwapSnapshot.cs" />
+    <Compile Include="Models\UserApplicationRole.cs" />
+    <Compile Include="Models\UserDefaultCustomView.cs" />
+    <Compile Include="Models\vw_Position_Exposure.cs" />
+    <Compile Include="Models\vw_PriceMove.cs" />
+    <Compile Include="Models\RatingChange.cs" />
+    <Compile Include="Models\vw_Security_Watch.cs" />
+    <Compile Include="Models\vw_SecurityFund.cs" />
+    <Compile Include="Models\vw_AggregatePosition.cs" />
+    <Compile Include="Models\vw_AnalystResearch.cs" />
+    <Compile Include="Models\vw_Calculation.cs" />
+    <Compile Include="Models\vw_CurrentActiveSecurityOverrides.cs" />
+    <Compile Include="Models\vw_CurrentAnalystResearch.cs" />
+    <Compile Include="Models\vw_LatestPosition.cs" />
+    <Compile Include="Models\vw_Price.cs" />
+    <Compile Include="Models\vw_SecurityMarketCalculation.cs" />
+    <Compile Include="Models\vw_TradeSwap.cs" />
+    <Compile Include="Models\vw_YorkCoreGenevaAnalyst.cs" />
+    <Compile Include="Models\v_PhoneList.cs" />
+    <Compile Include="Models\WSOExtractAsset.cs" />
+    <Compile Include="Models\AlertProcessor.cs" />
+    <Compile Include="Models\Calculation.cs" />
+    <Compile Include="Models\CLOContext.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Facility.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\FieldGroup.cs" />
+    <Compile Include="Models\Fund.cs" />
+    <Compile Include="Models\FundRestriction.cs" />
+    <Compile Include="Models\FundRestrictionType.cs" />
+    <Compile Include="Models\Issuer.cs" />
+    <Compile Include="Models\LienType.cs" />
+    <Compile Include="Models\Mapping\AlertProcessorMap.cs" />
+    <Compile Include="Models\Mapping\CalculationMap.cs" />
+    <Compile Include="Models\Mapping\CountryMap.cs" />
+    <Compile Include="Models\Mapping\FacilityMap.cs" />
+    <Compile Include="Models\Mapping\FieldGroupMap.cs" />
+    <Compile Include="Models\Mapping\FieldMap.cs" />
+    <Compile Include="Models\Mapping\FundMap.cs" />
+    <Compile Include="Models\Mapping\FundRestrictionMap.cs" />
+    <Compile Include="Models\Mapping\FundRestrictionTypeMap.cs" />
+    <Compile Include="Models\Mapping\IssuerMap.cs" />
+    <Compile Include="Models\Mapping\LienTypeMap.cs" />
+    <Compile Include="Models\Mapping\MarketDataMap.cs" />
+    <Compile Include="Models\Mapping\OperatorMap.cs" />
+    <Compile Include="Models\Mapping\ParameterTypeMap.cs" />
+    <Compile Include="Models\Mapping\ParameterValueMap.cs" />
+    <Compile Include="Models\Mapping\PositionMap.cs" />
+    <Compile Include="Models\Mapping\RatingMap.cs" />
+    <Compile Include="Models\Mapping\RuleFieldMap.cs" />
+    <Compile Include="Models\Mapping\RuleMap.cs" />
+    <Compile Include="Models\Mapping\SecurityMap.cs" />
+    <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\Mapping\vw_CLOSummaryMap.cs" />
+    <Compile Include="Models\Mapping\vw_MarketDataMap.cs" />
+    <Compile Include="Models\Mapping\vw_PositionMap.cs" />
+    <Compile Include="Models\Mapping\vw_SecurityMap.cs" />
+    <Compile Include="Models\Mapping\WatchMap.cs" />
+    <Compile Include="Models\MarketData.cs" />
+    <Compile Include="Models\Operator.cs" />
+    <Compile Include="Models\ParameterType.cs" />
+    <Compile Include="Models\ParameterValue.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Rating.cs" />
+    <Compile Include="Models\Rule.cs" />
+    <Compile Include="Models\RuleField.cs" />
+    <Compile Include="Models\Security.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Summary.cs" />
+    <Compile Include="Models\vw_CLOSummary.cs" />
+    <Compile Include="Models\vw_MarketData.cs" />
+    <Compile Include="Models\vw_Position.cs" />
+    <Compile Include="Models\vw_Security.cs" />
+    <Compile Include="Models\Watch.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

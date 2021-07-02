@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="16faa106-f875-4b50-8cf9-7422c0215c7b" ChangeDateTime="05/03/2017 18:39:22">
+    <Property Name="ElementName" Value="[CLO].[Fund].[WSOLastUpdatedOn]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[CLO].[Fund]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WSOLastUpdatedWhen" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="05042e65-7907-4e4e-8504-0082b2887260" ChangeDateTime="08/14/2017 20:37:34">
+    <Property Name="ElementName" Value="[CLO].[TradeSwap].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[CLO].[TradeSwap]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TradeSwapId" />
+  </Operation>
+</Operations>

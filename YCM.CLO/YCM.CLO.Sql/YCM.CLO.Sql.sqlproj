@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>YCM.CLO.Sql</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{8150f911-0785-4b6c-adf3-43299a6f7c50}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>YCM.CLO.Sql</RootNamespace>
+    <AssemblyName>YCM.CLO.Sql</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'UAT|AnyCPU' ">
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'PROD|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Views" />
+    <Folder Include="Scripts" />
+    <Folder Include="Function" />
+    <Folder Include="Stored Procedures" />
+    <Folder Include="ReleaseScripts" />
+    <Folder Include="Types" />
+    <Folder Include="Scripts\Bakup" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="CLO.sql" />
+    <Build Include="Tables\Fund.sql" />
+    <Build Include="Tables\Security.sql" />
+    <Build Include="Tables\Position.sql" />
+    <Build Include="Tables\AnalystResearch.sql" />
+    <Build Include="Tables\MarketData.sql" />
+    <Build Include="Tables\OverrideMarketData.sql" />
+    <Build Include="Tables\Issuer.sql" />
+    <Build Include="Tables\Facility.sql" />
+    <Build Include="Tables\Country.sql" />
+    <Build Include="Tables\Industry.sql" />
+    <Build Include="Tables\LienType.sql" />
+    <Build Include="Tables\Rating.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Calculation.sql" />
+    <Build Include="Views\vw_CLOSummary.sql" />
+    <Build Include="Views\vw_MarketData.sql" />
+    <Build Include="Tables\Rule.sql" />
+    <Build Include="Tables\FieldGroup.sql" />
+    <Build Include="Tables\Field.sql" />
+    <Build Include="Tables\RuleField.sql" />
+    <Build Include="Tables\FundRestrictionType.sql" />
+    <Build Include="Tables\FundRestriction.sql" />
+    <Build Include="Tables\Operator.sql" />
+    <Build Include="Views\vw_Security.sql" />
+    <None Include="Views\vw_AnalystResearch.sql" />
+    <Build Include="Views\vw_Calculation.sql" />
+    <Build Include="Tables\Watch.sql" />
+    <None Include="Views\vw_Position.sql" />
+    <Build Include="Tables\Alert.sql" />
+    <Build Include="Tables\ParameterType.sql" />
+    <Build Include="Tables\ParameterValue.sql" />
+    <Build Include="Tables\RuleSectionType.sql" />
+    <Build Include="Stored Procedures\spPositionSizeByCreditScoreRuleProcessor.sql" />
+    <Build Include="Stored Procedures\spCreditScoreAlertProcessor.sql" />
+    <Build Include="Tables\SecurityOverride.sql" />
+    <Build Include="Views\vw_CurrentActiveSecurityOverrides.sql" />
+    <Build Include="Views\vw_PositionCountryFund.sql" />
+    <Build Include="Tables\Pricing.sql" />
+    <None Include="Views\v_PhoneList.sql" />
+    <Build Include="Stored Procedures\spCalculateSummaryData.sql" />
+    <Build Include="Views\vw_Price.sql" />
+    <Build Include="Tables\Trade.sql" />
+    <Build Include="Tables\TradeAllocation.sql" />
+    <Build Include="Tables\GicsToSnpMoodyIndustryMap.sql" />
+    <Build Include="Function\GetActiveTrades.sql" />
+    <Build Include="Stored Procedures\spGetPositions.sql" />
+    <Build Include="Types\IntegerArray.sql" />
+    <Build Include="Stored Procedures\spGetPositionForSecurities.sql" />
+    <Build Include="Stored Procedures\spGetFixedFields.sql" />
+    <Build Include="Stored Procedures\spGetFundRestrictionTypes.sql" />
+    <Build Include="Stored Procedures\spGetFundRestrictions.sql" />
+    <Build Include="Function\GetPrevDayDateId.sql" />
+    <Build Include="Types\DatasetKeys.sql" />
+    <Build Include="Stored Procedures\LoadWso_MarketData.sql" />
+    <Build Include="Stored Procedures\LoadWso_Position.sql" />
+    <Build Include="Function\GetPrevToPrevDayDateId.sql" />
+    <Build Include="Views\vw_PrevDayMarketData.sql" />
+    <Build Include="Stored Procedures\spTop10Bottom10Movers.sql" />
+    <Build Include="Stored Procedures\spGetSummaryDataOldDiversity.sql" />
+    <Build Include="Stored Procedures\LoadWso.sql" />
+    <Build Include="Stored Procedures\LoadWso_ByDatasetKeys.sql" />
+    <Build Include="Stored Procedures\LoadWso_Country.sql" />
+    <Build Include="Stored Procedures\LoadWso_Facility.sql" />
+    <Build Include="Stored Procedures\LoadWso_Fund.sql" />
+    <Build Include="Stored Procedures\LoadWso_Industry.sql" />
+    <Build Include="Stored Procedures\LoadWso_Issuer.sql" />
+    <Build Include="Stored Procedures\LoadWso_Rating.sql" />
+    <Build Include="Stored Procedures\LoadWso_Security.sql" />
+    <Build Include="Tables\SecurityData.sql" />
+    <Build Include="Tables\TradeSwap.sql" />
+    <Build Include="Tables\TradeSwapSnapshot.sql" />
+    <Build Include="Views\vw_TradeSwap.sql" />
+    <Build Include="Stored Procedures\spGetTradeSwaps.sql" />
+    <None Include="Views\vw_SecurityMarketCalculation.sql" />
+    <Build Include="Views\vw_CalculationSecurity.sql" />
+    <None Include="Views\vw_MarketDataSecurity.sql" />
+    <Build Include="Stored Procedures\spCleanUpTradeSwaps.sql" />
+    <Build Include="Stored Procedures\spGetSecurities.sql" />
+    <Build Include="Views\vw_AggregatePosition.sql" />
+    <Build Include="Views\vw_PivotedPositionExposure.sql" />
+    <Build Include="Views\vw_PivotedTradeAllocation.sql" />
+    <Build Include="Views\vw_PivotedPositionCountry.sql" />
+    <Build Include="Views\vw_PivotedPositionIsCovLite.sql" />
+    <Build Include="Views\vw_PivotedTradeTotalAllocation.sql" />
+    <Build Include="Views\vw_PivotedFundTargetPar.sql">
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+    </Build>
+    <Build Include="Stored Procedures\spGetAllPositions.sql" />
+    <Build Include="Stored Procedures\spGetAllPositionForSecurities.sql" />
+    <None Include="Views\vw_Watch.sql" />
+    <Build Include="Function\GetDateIdFromDate.sql" />
+    <Build Include="Stored Procedures\sp_GetExcelPluginData.sql" />
+    <None Include="Views\vw_CurrentPosition.sql" />
+    <Build Include="Views\vw_SecurityFund.sql" />
+    <None Include="Views\vw_Position_Exposure.sql" />
+    <Build Include="Stored Procedures\spGetPositionExposure.sql" />
+    <None Include="Views\vw_Security_Watch.sql" />
+    <Build Include="Stored Procedures\spGetSecurityWatch.sql" />
+    <None Include="Views\vw_PriceMove.sql" />
+    <Build Include="Stored Procedures\spGetPriceMove.sql" />
+    <Build Include="Stored Procedures\spFixAnalystIssuer.sql" />
+    <Build Include="Function\SafeDivideBy.sql" />
+    <Build Include="Views\vw_SecurityMarket.sql" />
+    <Build Include="Views\vw_PrevDaySecurityMarket.sql" />
+    <Build Include="Stored Procedures\spAddPositionsForTempSecurities.sql" />
+    <Build Include="Stored Procedures\spLoadStalePositions.sql" />
+    <Build Include="Stored Procedures\spUpsertAnalystResearch.sql" />
+    <Build Include="Tables\FundDailySnapshot.sql" />
+    <Build Include="Stored Procedures\spLoadFundDailySnapshot.sql" />
+    <Build Include="Tables\WSOPosition.sql" />
+    <Build Include="Stored Procedures\spCleanPositionsBasedOnPrincipalCash.sql" />
+    <Build Include="Stored Procedures\spRefillPositionsBasedOnPrincipalCash.sql" />
+    <Build Include="Tables\WSOMarketData.sql" />
+    <Build Include="Stored Procedures\spGetFunds.sql" />
+    <Build Include="Tables\AnalystResearchDetail.sql" />
+    <Build Include="Tables\AnalystResearchHeader.sql" />
+    <Build Include="Tables\AnalystResearchRowLocation.sql" />
+    <Build Include="Tables\AnalystResearchDetailHistory.sql" />
+    <Build Include="Tables\AnalystResearchHeaderHistory.sql" />
+    <Build Include="Tables\AnalystResearchFile.sql" />
+    <Build Include="Tables\AnalystResearchImportLog.sql" />
+    <BuildExtensionConfiguration Include="Views\vw_YorkCoreGenevaAnalyst.sql" />
+    <None Include="Views\vw_PivotedCostPrice.sql" />
+    <None Include="Views\WsoExtractAssets.sql" />
+    <Build Include="Stored Procedures\spGetAggregatedLoanPositions.sql" />
+    <Build Include="Tables\FileImport.sql" />
+    <Build Include="Tables\FileImportColumnMap.sql" />
+    <Build Include="Tables\FileImportColumnType.sql" />
+    <Build Include="Views\vwSecurityFund.sql" />
+    <Build Include="Tables\CreditScore.sql" />
+    <Build Include="Tables\LoanContract.sql" />
+    <Build Include="Tables\CacheSetting.sql" />
+    <Build Include="Tables\WatchObjectType.sql" />
+    <Build Include="Tables\WatchType.sql" />
+    <Build Include="Tables\MatrixData.sql" />
+    <Build Include="Views\vw_MatrixData.sql" />
+    <None Include="Scripts\Bakup\20190327.sql" />
+    <None Include="Scripts\Bakup\FilterScript.sql" />
+    <None Include="Scripts\Bakup\InsertScript.sql" />
+    <None Include="Scripts\Bakup\IssuerChanges-20180131.sql" />
+    <None Include="Scripts\Bakup\TagDuplicateIssuers.sql" />
+    <None Include="Scripts\Bakup\Task-7296-AnalystResearchChanges.sql" />
+    <Build Include="Tables\MatrixPoint.sql" />
+    <Build Include="Tables\FundCalculation.sql" />
+    <Build Include="Stored Procedures\spGenerateAggregatedPositions.sql" />
+    <Build Include="Tables\AggregatedPosition.sql" />
+    <Build Include="YDA.sql" />
+    <None Include="Scripts\Bakup\20190514.sql" />
+    <None Include="Scripts\Bakup\20190709.sql" />
+    <Build Include="Stored Procedures\spUpdateFundtriggersForMatrixPoint.sql" />
+    <Build Include="Stored Procedures\spDeleteCustomView.sql" />
+    <None Include="Function\GetHistoricalPositions.sql" />
+    <BuildExtensionConfiguration Include="Views\vw_CurrentAnalystResearch.sql" />
+    <None Include="Views\YorkCoreGenevaAnalyst.sql" />
+    <None Include="Scripts\Bakup\20190729.sql" />
+    <None Include="Views\vw_AllAnalystResearch.sql">
+      <CopyToOutputDirectory>DoNotCopy</CopyToOutputDirectory>
+    </None>
+    <Build Include="Stored Procedures\spGetRatingsChange.sql" />
+    <None Include="Scripts\Bakup\20190905.sql" />
+    <None Include="Scripts\Bakup\2019-01-29.sql" />
+    <Build Include="Tables\TradeBlotterJob.sql" />
+    <Build Include="Tables\StageTradeBlotter.sql" />
+    <Build Include="Tables\TradeBlotter.sql" />
+    <Build Include="Stored Procedures\MergeTradeBlotter.sql" />
+    <None Include="Scripts\Bakup\0_NewFieldsAndTest2020-02-26.sql" />
+    <None Include="Scripts\Bakup\Rollback Script.sql" />
+    <None Include="Scripts\Bakup\2020-02-06.sql" />
+    <None Include="Scripts\Bakup\0_NewFieldsFullScript.sql" />
+    <None Include="Scripts\Bakup\2020-05-18.sql" />
+    <None Include="Scripts\Bakup\2020-06-09.sql" />
+    <Build Include="Views\vw_Fund.sql" />
+    <None Include="Scripts\Bakup\2020-08-03.sql" />
+    <None Include="Scripts\Bakup\20201026.sql" />
+    <None Include="Scripts\Bakup\20201030.sql" />
+    <None Include="Scripts\20201208.sql" />
+    <Build Include="Tables\AssetClass.sql" />
+    <Build Include="Tables\FundAssetClass.sql" />
+    <Build Include="Views\vw_DefaultSecurities.sql" />
+    <Build Include="Tables\EquityOverride.sql" />
+    <Build Include="Views\vw_Report_Funds.sql" />
+    <Build Include="Views\vw_Report_Equities.sql" />
+    <Build Include="Views\vw_Report_DefaultedSecurities.sql" />
+    <Build Include="Views\vw_Report_FundCapitalStructures.sql" />
+    <Build Include="Stored Procedures\spGetMismatchData.sql" />
+    <Build Include="Tables\UserApplicationTab.sql" />
+    <Build Include="Tables\ApplicationTab.sql" />
+    <Build Include="Stored Procedures\GetRolesandPermissions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DEV-YCM.CLO.Sql.publish.xml" />
+    <None Include="Function\CLO.GetPrevDayDateId.sql" />
+    <None Include="YCM.CLO.Sql.publish.xml" />
+    <None Include="YCM_1.CLO.Sql.publish.xml" />
+    <None Include="uat.publish.xml" />
+    <None Include="PROD.publish.xml" />
+    <None Include="YCM_2.CLO.Sql.publish.xml" />
+    <None Include="YCM_3.CLO.Sql.publish.xml" />
+    <None Include="ReleaseScripts\20200221.sql" />
+    <None Include="Scripts\20201215.sql" />
+    <None Include="Scripts\Bakup\20200105-New CLO-8.sql" />
+    <None Include="Scripts\20210326.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="YCM.CLO.Sql.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="YorkCore_Geneva">
+      <DefaultValue>YorkCore_Geneva</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,58 @@
+﻿<div class="modal-body" style="height: 200px">
+    <div class="col-sm-12">
+        <div class="radio">
+			<label>
+				<input type="radio" ng-disabled="watch.watch.inDeleteMode" ng-model="watch.watch.watchObjectTypeId" ng-value="2" name="securitywatch">For Issuer | {{watch.watch.issuer}}
+			</label>
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin: 10px 0px">
+        <div class="radio">
+			<label>
+				<input type="radio" ng-disabled="watch.watch.inDeleteMode" ng-model="watch.watch.watchObjectTypeId" ng-value="1" name="securitywatch">For Loan&nbsp;&nbsp;&nbsp;| {{watch.watch.securityCode}}
+			</label>
+        </div>
+    </div>
+    <div class="col-sm-12" style="padding-left: 35px">
+        <label class="control-label" for="txtReasonForWatch">
+            Comments
+        </label>
+        <textarea rows="3" class="form-control" ng-disabled="watch.watch.inDeleteMode" ng-model="watch.watch.watchComments" id="txtReasonForWatch"></textarea>
+    </div>
+
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':watch.warning,'alert-error':watch.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-7" style="text-align: left">
+            <div ng-show="watch.error" style="margin-bottom: 0">
+                <b>Error: {{watch.error}}</b>
+            </div>
+            <div ng-show="watch.warning" style="margin-bottom: 0">
+                <b>Warning: {{watch.warning}}</b>
+            </div>
+
+            <div ng-show="watch.isLoading">
+                <label>{{watch.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{watch.appBasePath}}/Content/Images/ajax-loader.gif" />
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div ng-hide="newpg.warning">
+                <button class="btn btn-primary" id="btnSave" ng-hide="watch.watch.inDeleteMode" ng-disabled="(!watch.watch.watchObjectTypeId) || watch.isLoading "
+                        ng-click="watch.save()">
+                    Save
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+                <button class="btn btn-primary" id="btnDelete" ng-show="watch.watch.inDeleteMode" ng-disabled="(!watch.watch.watchObjectTypeId) || watch.isLoading "
+                        ng-click="watch.delete()">
+                    Delete
+                    <i class="fa fa-trash"></i>
+                </button>
+                <button class="btn btn-warning" ng-click="watch.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

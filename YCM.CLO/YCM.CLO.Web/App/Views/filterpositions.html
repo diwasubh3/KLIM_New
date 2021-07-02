@@ -1,0 +1,581 @@
+﻿<div class="modal-header" style="padding:5px 15px">
+	<fieldset>
+		<div class="col-md-12 p-0">
+			<div class="col-md-4 p-0">
+				<h4>
+					Select Filter(s)
+				</h4>
+			</div>
+			<div class="col-md-4 text-center " style="padding-top: 7px">
+				<div class="btn-group" role="group" aria-label="First group">
+					<button type="button" class="btn btn-info" ng-repeat="fund in filter.positionfilter.funds"
+							ng-click="fund.isNotSelected = !fund.isNotSelected"
+							style="width: 27px"
+							ng-class="{'btn-cancelled':fund.isNotSelected}"
+							ng-disabled="filter.isLoading">
+						{{fund.displayText?fund.displayText:fund.fundId}}
+					</button>
+				</div>
+			</div>
+			<div class="col-md-4">
+
+			</div>
+		</div>
+	</fieldset>
+</div>
+<div class="modal-body" style="padding-top:0 !important">
+<fieldset name="frmloancomparison" id="frmloancomparison" style="margin-bottom: 0" novalidate>
+<!--<div class="col-md-12 p-0" style="margin-right: 17px">
+	<div class="col-md-6">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+			<b>SECURITY</b>
+		</div>
+	</div>
+	<div class="col-md-6 ">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+			<b>RATINGS</b>
+		</div>
+	</div>
+
+</div>-->
+<div class="col-md-12 p-0" style="margin-right: 17px;margin-top:15px">
+	<div class="col-md-6 p-0" style="padding-top: 0px">
+		<div class="" style="vertical-align: top; margin: 0px 0;">
+			<div class="col-sm-11" style="margin-top: 0px;">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:110px">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0; font-weight: bolder;">
+					FIXED FIELDS
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 0px">
+		<div class="" style="vertical-align: top; margin: 0px 0;">
+			<div class="col-sm-12" style="margin-top: 0px;">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;padding-right:0;width:110px">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0; font-weight: bolder !important;">
+					SECURITY
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3" style="width:125px">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0" style="margin-right: 17px;">
+	<div class="col-md-6">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+		</div>
+	</div>
+	<div class="col-md-6 ">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0">
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0">
+			<div class="col-sm-12" style="margin-top: 10px">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 15px;width:110px;padding-right:0">
+					<div style="">
+						LOWER&nbsp;BOUND
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0">
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3" style="width:125px">
+					<div style="">
+						UPPER BOUND
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+						AVERAGE
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0">
+			<div class="col-sm-12" style="margin-top: 10px">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 15px;padding-right:0;width:110px">
+					<div style="">
+						LOWER BOUND
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0">
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3" style="width:125px">
+					<div style="">
+						UPPER BOUND
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+						AVERAGE
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0">
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" ng-repeat="fixFilter in filter.positionfilter.fixedfields" style="margin: 5px 0">
+			<div class="col-sm-12 h19" style="margin-top: 0px">
+				<div class="col-sm-1 p-0">
+					<p class="input-group" style="margin-bottom: 0 !important">
+						<select ng-model="fixFilter.lowerBound.operator" 
+                                ng-disabled="filter.isLoading || fixFilter.isDisabled"
+								class="form-control h19" style="width: 47px"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:110px;padding-right:0">
+					<p class="input-group" style="margin-bottom: 0 !important" ng-if="fixFilter.field.fieldType==2 || fixFilter.field.fieldType==4">
+						<quick-input>
+							<input format="currency2" ng-disabled="filter.isLoading || fixFilter.isDisabled" class="form-control text-right h19" ng-model="fixFilter.lowerBound.value" />
+						</quick-input>
+					</p>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 0px 12px 0px 0;">
+                    <b>{{fixFilter.field.fieldTitle}}</b>
+				</div>
+				<div class="col-sm-1 p-0">
+					<p class="input-group" style="margin-bottom: 0 !important">
+						<select ng-model="fixFilter.upperBound.operator"
+                                ng-disabled="filter.isLoading || fixFilter.isDisabled"
+								class="form-control h19" style="width: 47px"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:110px;padding-right:0">
+					<p class="input-group" style="margin-bottom: 0 !important" ng-if="fixFilter.field.fieldType==2 || fixFilter.field.fieldType==4">
+						<quick-input>
+							<input format="currency2" 
+                                   ng-disabled="filter.isLoading || fixFilter.isDisabled"
+                                   class="form-control text-right h19" ng-model="fixFilter.upperBound.value" />
+						</quick-input>
+					</p>
+				</div>
+				<div class="col-sm-1 p-0" style="text-align: right; padding:  0 0 0 5px;">
+                    <b>{{fixFilter.average | number:2}}</b>
+				</div>
+			</div>
+		</div>
+		<!--<div style="padding-top: 140px">
+			<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+				<b>ANALYST</b>
+			</div>
+		</div>-->
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 5px;display:grid" >
+		<div class="" ng-repeat="secfilter in filter.positionfilter.security" style="vertical-align: top;">
+			<div class="col-sm-12 h19" style="margin-top: 0px;line-height:10px!important">
+				<div class="col-sm-1 p-0">
+					<p class="input-group" style="margin-bottom: 0 !important" ng-class="{'':secfilter.field.fieldType==3}">
+						<select ng-model="secfilter.lowerBound.operator"
+                                ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+								class="form-control h19" style="width: 47px"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;padding-right:0;width:110px">
+					<p class="input-group h19" style="margin-bottom: 0px !important;" ng-if="secfilter.field.fieldType==2">
+						<quick-input>
+							<input format="currency2" class="form-control text-right h19" 
+                                   ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+                                   ng-model="secfilter.lowerBound.value" />
+						</quick-input>
+					</p>
+					<p class="input-group h19" style="margin-bottom: 0 !important" ng-if="secfilter.field.fieldType==1">
+						<input class="form-control h19" ng-model="secfilter.lowerBound.value" />
+					</p>
+					<p class="input-group h19" style="margin-bottom: 0 !important" ng-if="secfilter.field.fieldType==3">
+						<input class="form-control h19" ng-model="secfilter.lowerBound.value"
+                               ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+							   show-weeks="false"
+							   datepicker-popup="MM/dd/yyyy"
+							   style="width:90px!important"
+							   datepicker-options="ar.dateOptions" close-text="Close"
+							   is-open="secfilter.lowerBound.date.opened" />
+						<span class="input-group-btn h19" style="">
+							<button type="button" style="padding:1px 5px !important;border-radius:0!important" 
+                                    ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+                                    class="btn btn-info" ng-click="filter.openDate($event,secfilter.lowerBound)">
+								<i class="fa fa-calendar"></i>
+							</button>
+						</span>
+					</p>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 0px 0">
+					<b>{{secfilter.field.fieldTitle}}</b>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div class="text-center">
+						<p class="input-group" style="margin-bottom: 0 !important;" ng-class="{'':secfilter.field.fieldType==3}">
+							<select ng-model="secfilter.upperBound.operator"
+                                    ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+									class="form-control h19" style="width: 47px"
+									ng-options="item.operatorCode for item in filter.operators "></select>
+						</p>
+					</div>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:125px">
+					<p class="input-group h19" style="margin-bottom: 0 !important" ng-if="secfilter.field.fieldType==2">
+						<quick-input>
+							<input format="currency2" class="form-control text-right h19" 
+                                   ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+                                   ng-model="secfilter.upperBound.value" />
+						</quick-input>
+					</p>
+					<p class="input-group h19" style="margin-bottom: 0 !important" ng-if="secfilter.field.fieldType==1">
+						<input class="form-control" ng-model="secfilter.upperBound.value" />
+					</p>
+					<p class="input-group h19" style="margin-bottom: 0 !important" ng-if="secfilter.field.fieldType==3">
+						<input class="form-control h19" ng-model="secfilter.upperBound.value"
+							   show-weeks="false"
+							   datepicker-popup="MM/dd/yyyy"
+							   style="width:90px!important"
+                               ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+							   datepicker-options="ar.dateOptions" close-text="Close"
+							   is-open="secfilter.upperBound.date.opened" />
+						<span class="input-group-btn h19">
+							<button type="button" class="btn btn-info" 
+                                    ng-disabled="secfilter.isLoading || secfilter.isDisabled"
+                                    style="padding:1px 5px  !important;border-radius:0!important" ng-click="filter.openDate($event,secfilter.upperBound)">
+								<i class="fa fa-calendar"></i>
+							</button>
+						</span>
+					</p>
+				</div>
+				<div class="col-sm-1 p-0" style="text-align: right; padding:  0 0 0 5px;">
+					<b>{{secfilter.average | number:2}}</b>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0" style="margin-right: 17px;margin-top:20px">
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0;">
+			<div class="col-sm-11" style="margin-top: 1px;">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:110px">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0; font-weight: bolder;">
+					RATINGS
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0;">
+			<div class="col-sm-12" style="margin-top: 1px;">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;padding-right:0;width:110px">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0; font-weight: bolder !important;">
+					ANALYST
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3">
+					<div style="">
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0" style="margin-right: 17px;">
+	<div class="col-md-6">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+		</div>
+	</div>
+	<div class="col-md-6 ">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+		</div>
+	</div>
+</div>
+<!--<div class="col-md-12 p-0" style="margin-right: 17px; padding-top: 15px;">
+	<div class="col-md-6">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+			<b>RATINGS</b>
+		</div>
+	</div>
+	<div class="col-md-6 ">
+		<div class="text-center" style="border-bottom: 1px solid darkgray; padding-bottom: 5px">
+			<b>ANALYST</b>
+		</div>
+	</div>
+</div>-->
+<div class="col-md-12 p-0" style="">
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0">
+			<div class="col-sm-12" style="margin-top: 1px">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 15px;width:110px;padding-right:0">
+					<div style="">
+						LOWER BOUND
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0">
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3" style="width:125px">
+					<div style="">
+						UPPER BOUND
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+						AVERAGE
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" style="vertical-align: top; margin: 5px 0">
+			<div class="col-sm-12" style="margin-top: 1px">
+				<div class="col-sm-1 p-0">
+				</div>
+				<div class="col-sm-3" style="padding-left: 15px;padding-right:0;width:110px">
+					<div style="">
+						LOWER BOUND
+					</div>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 5px 0">
+				</div>
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-3" style="width:125px;">
+					<div style="">
+						UPPER BOUND
+					</div>
+				</div>
+				<div class="col-sm-1 p-0">
+					<div style="">
+						AVERAGE
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-12 p-0">
+	<div class="col-md-6 p-0" style="padding-top: 5px;display:grid" >
+		<div  ng-repeat="ratingfilter in filter.positionfilter.ratings"  >
+			<div class="col-sm-12 h19" style="margin-top: 0px;line-height:10px!important">
+				<div class="col-sm-1 p-0">
+					<p class="input-group h19" style="margin-bottom: 0 !important">
+						<select ng-model="ratingfilter.lowerBound.operator"
+                                ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+								class="form-control h19" style="width: 47px"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+                <div class="col-sm-3" style="padding-left: 0;width:110px;padding-right:0">
+                    <p class="input-group h19" style="margin-bottom: 0 !important" ng-if="ratingfilter.field.fieldType==1">
+                        <select class="form-control h19"
+                                style="width:110px"
+                                ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+                                ng-options="item.value as item.label for item in ratingfilter.sourceCollection | orderBy:'-value'"
+                                ng-model="ratingfilter.lowerBound.value" ></select>
+                    </p>
+                    <p class="input-group" style="margin-bottom: 0 !important" ng-if="ratingfilter.field.fieldType==2">
+                        <quick-input>
+                            <input format="currency2" 
+                                   ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+                                   class="form-control text-right h19" ng-model="ratingfilter.lowerBound.value" />
+                        </quick-input>
+                    </p>
+                </div>
+				<div class="col-sm-3" style="text-align: center; padding: 0px 0px 0px 0;">
+					<b>{{ratingfilter.field.fieldTitle}}</b>
+				</div>
+				<div class="col-sm-1 p-0">
+					<p class="input-group" style="margin-bottom: 0 !important">
+						<select ng-model="ratingfilter.upperBound.operator"
+								class="form-control h19" style="width: 47px"
+                                ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+                <div class="col-sm-3" style="padding-left: 0;width:110px;padding-right:0">
+                    <p class="input-group" style="margin-bottom: 0 !important" ng-if="ratingfilter.field.fieldType==1">
+                        <select style="width:110px"
+                                ng-options="item.value as item.label for item in ratingfilter.sourceCollection | orderBy:'-value'"
+                                ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+                                class="form-control h19" ng-model="ratingfilter.upperBound.value"></select>
+                    </p>
+                    <p class="input-group" style="margin-bottom: 0 !important" ng-if="ratingfilter.field.fieldType==2">
+                        <quick-input>
+                            <input format="currency2" class="form-control text-right h19" 
+                                   ng-disabled="ratingfilter.isLoading || ratingfilter.isDisabled"
+                                   ng-model="ratingfilter.upperBound.value" />
+                        </quick-input>
+                    </p>
+                </div>
+				<div class="col-sm-1 p-0 h19" style="text-align: right; padding:  0 0 0 5px;">
+					<b>{{ratingfilter.average | number:2}}</b>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-0" style="padding-top: 5px">
+		<div class="" ng-repeat="analfilter in filter.positionfilter.analyst" style="margin: 5px 0">
+			<div class="col-sm-12 h19" style="margin-top: 0px">
+				<div class="col-sm-1 p-0">
+					<p class="input-group h19" style="margin-bottom: 0 !important">
+						<select ng-model="analfilter.lowerBound.operator"
+								class="form-control h19" style="width: 47px"
+                                ng-disabled="analfilter.isLoading || analfilter.isDisabled"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;padding-right:0;width:110px">
+					<p class="input-group" style="margin-bottom: 0 !important" ng-if="analfilter.field.fieldType==2">
+						<quick-input>
+							<input format="currency2" class="form-control text-right h19" 
+                                   ng-disabled="analfilter.isLoading || analfilter.isDisabled"
+                                   ng-model="analfilter.lowerBound.value" />
+						</quick-input>
+					</p>
+				</div>
+				<div class="col-sm-3" style="text-align: center; padding: 0px 0">
+					<b>{{analfilter.field.fieldTitle}}</b>
+				</div>
+				<div class="col-sm-1 p-0">
+					<p class="input-group" style="margin-bottom: 0 !important">
+						<select ng-model="analfilter.upperBound.operator"
+								class="form-control h19" style="width: 47px"
+                                ng-disabled="analfilter.isLoading || analfilter.isDisabled"
+								ng-options="item.operatorCode for item in filter.operators "></select>
+					</p>
+				</div>
+				<div class="col-sm-3" style="padding-left: 0;width:110px;padding-right:0">
+					<p class="input-group" style="margin-bottom: 0 !important" ng-if="analfilter.field.fieldType==2">
+						<quick-input>
+							<input format="currency2" class="form-control text-right h19" 
+                                   ng-disabled="analfilter.isLoading || analfilter.isDisabled"
+                                   ng-model="analfilter.upperBound.value" />
+						</quick-input>
+					</p>
+				</div>
+				<div class="col-sm-1 p-0" style="text-align: right; padding: 0 0 0 5px;">
+					<b>{{analfilter.average | number:2}}</b>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</fieldset>
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}" ng-hide="!loancomparison.trade.tradeId && loancomparison.isTempLoanActive">
+	<div class="col-sm-12 p-0">
+		<div class="col-sm-7" style="text-align: left">
+			<div ng-show="loancomparison.error" style="margin-bottom: 0; color: red">
+				<b>Error: {{loancomparison.error}}</b>
+			</div>
+			<div ng-show="loancomparison.warning" style="margin-bottom: 0; color: red">
+				<div class="alert alert-danger" role="alert" style="margin-bottom: 0; font-size: 14px">
+					<strong>Warning: </strong> <span ng-bind-html="loancomparison.warning"></span>
+				</div>
+			</div>
+			<div ng-show="loancomparison.isLoading">
+				<label>Loading...</label>
+				<img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{loancomparison.appBasePath}}/Content/Images/ajax-loader.gif" />
+			</div>
+			<div ng-show="filter.positionfilter.loanCount || filter.positionfilter.borrowerCount">
+				<label>Number of Loans | {{filter.positionfilter.loanCount}}</label>
+				<label style="padding-left: 25px;">Number of Borrowers | {{filter.positionfilter.borrowerCount}}</label>
+			</div>
+		</div>
+
+		<div class="col-sm-5 p-0">
+            <div>
+                <button class="btn btn-danger" ng-click="filter.cancel()">
+                    Clear &amp; Close
+                    <i class="fa fa-times"></i>
+                </button>
+                <button class="btn btn-primary" style="background-color: blue !important;"
+                        id="btnReset"
+                        ng-click="filter.calculateAverages()">
+                    Calculate Averages
+                    <i class="fa fa-calculator"></i>
+                </button>
+                <button class="btn btn-warning" ng-click="filter.reset()">
+                    Reset
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <button class="btn btn-primary"
+                        id="btnSave"
+                        ng-click="filter.filter(false)">
+                    Filter & Close
+                    <i class="fa fa-filter"></i>
+                </button>
+            </div>
+		</div>
+	</div>
+</div>

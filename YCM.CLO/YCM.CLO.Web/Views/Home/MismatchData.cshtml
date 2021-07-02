@@ -1,0 +1,255 @@
+﻿@model YCM.CLO.Web.Models.MismatchData
+
+@{
+    Layout = "../Shared/_BlankLayout.cshtml";
+}
+
+@if (Model.CfrAdjs.Count > 0)
+{
+    <div style="padding:20px">
+
+        <div style="text-align:center;margin:10px;width:1000px">
+            <h2>Mismtach Moody CFR Adjusted</h2>
+        </div>
+        <table style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        Security Code
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-1
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-2
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-3
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-4
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-5
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-6
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-7
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-8
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-9
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var cfr in Model.CfrAdjs)
+            {
+                <tr>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.SecurityCode
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO1
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO2
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO3
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO4
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO5
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO6
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO7
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO8
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO9
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </div>
+}
+
+
+@if (Model.Cfrs.Count > 0)
+{
+    <div style="padding:20px">
+
+        <div style="text-align:center;margin:10px;width:1000px">
+            <h2>Mismtach Moody CFR</h2>
+        </div>
+        <table style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        Security Code
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-1
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-2
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-3
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-4
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-5
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-6
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-7
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-8
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-9
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var cfr in Model.Cfrs)
+            {
+                <tr>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.SecurityCode
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO1
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO2
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO3
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO4
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO5
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO6
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO7
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO8
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO9
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </div>
+}
+
+@if (Model.Facilities.Count > 0)
+{
+    <div style="padding:20px">
+
+        <div style="text-align:center;margin:10px;width:1000px">
+            <h2>Mismtach Moody Facilities</h2>
+        </div>
+        <table style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        Security Code
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-1
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-2
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-3
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-4
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-5
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-6
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-7
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-8
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;width:100px">
+                        CLO-9
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var cfr in Model.Facilities)
+            {
+                <tr>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.SecurityCode
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO1
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO2
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO3
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO4
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO5
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO6
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO7
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO8
+                    </td>
+                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                        @cfr.CLO9
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </div>
+}

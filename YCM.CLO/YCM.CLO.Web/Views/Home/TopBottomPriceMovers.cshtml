@@ -1,0 +1,278 @@
+﻿
+@{
+    ViewBag.Title = "TopBottomPriceMovers";
+    Layout = "../Shared/_BlankLayout.cshtml";
+}
+@{
+
+    var prevDayTop = (IList<YCM.CLO.DataAccess.Models.vw_PriceMove>)ViewBag.PrevDayTop;
+    var prevDayBottom = (IList<YCM.CLO.DataAccess.Models.vw_PriceMove>)ViewBag.PrevDayBottom;
+    var prev5DayTop = (IList<YCM.CLO.DataAccess.Models.vw_PriceMove>)ViewBag.Prev5DayTop;
+    var prev5DayBottom = (IList<YCM.CLO.DataAccess.Models.vw_PriceMove>)ViewBag.Prev5DayBottom;
+
+
+    <div style="padding:10px">
+        @if (ViewBag.IsStale)
+        {
+            <div style="text-align:center;margin:10px">
+                <h2 style="color:red">Stale</h2>
+            </div>
+        }
+
+        <table style="margin:0 10px;font: 12px/1em 'Open Sans'!important;color: #333;border-spacing:0">
+            <thead style="vertical-align:top;padding:3px">
+
+                <tr>
+                    <td colspan="16" style="border:0">
+                        <h2 style="padding-left:5px">Bottom: T-1</h2>
+                    </td>
+                </tr>
+                <tr>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ISSUER
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        TOTAL EXP
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;min-width:57px">
+                        Px&nbsp;MOVE&nbsp;T-1
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        BID
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        COST
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ADJ CFR
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var count = prevDayTop.Count();
+                    count = count <= 15 ? count : 15;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var row = prevDayTop.ElementAt(i);
+                        <tr>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.Issuer
+                            </td>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.TotalPar.Value.ToString("N0")
+                            </td>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.PriceMove.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.Bid.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.CostPrice.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.MoodyCFR
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td style="border:0" colspan="16">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td colspan="16" style="border:0">
+                        <h2 style="padding-left:5px">Top: T-1</h2>
+                    </td>
+                </tr>
+                <tr>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ISSUER
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        TOTAL EXP
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        Px&nbsp;MOV&nbsp;T-1
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        BID
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        COST
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ADJ CFR
+                    </th>
+                </tr>
+                @{
+                    count = prevDayBottom.Count();
+                    count = count <= 15 ? count : 15;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var row = prevDayBottom.ElementAt(i);
+                        <tr>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.Issuer
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.TotalPar.Value.ToString("N0")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.PriceMove.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.Bid.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.CostPrice.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.MoodyCFR
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+
+                <tr>
+                    <td style="border:0" colspan="16">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="16" style="border:0">
+                        <h2 style="padding-left:5px">Bottom: T-5</h2>
+                    </td>
+                </tr>
+                <tr>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ISSUER
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        TOTAL EXP
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        Px&nbsp;MOVE&nbsp;T-5
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        BID
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        COST
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ADJ CFR
+                    </th>
+
+                </tr>
+
+                @{
+                    count = prev5DayTop.Count();
+                    count = count <= 15 ? count : 15;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var row = prev5DayTop.ElementAt(i);
+                        <tr>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.Issuer
+                            </td>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.TotalPar.Value.ToString("N0")
+                            </td>
+
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.PriceMove.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.Bid.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.CostPrice.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.MoodyCFR
+                            </td>
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <td style="border:0" colspan="16">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="16" style="border:0">
+                        <h2 style="padding-left:5px">Top:T-5</h2>
+                    </td>
+                </tr>
+                <tr>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ISSUER
+                    </th>
+
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        TOTAL EXP
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        Px&nbsp;MOVE&nbsp;T-5
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        BID
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-size:9px;font-weight:bold;text-align:right;word-break:keep-all;">
+                        COST
+                    </th>
+                    <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-size:9px;font-weight:bold;text-align:left;word-break:keep-all;">
+                        ADJ CFR
+                    </th>
+                </tr>
+                @{
+                    count = prev5DayBottom.Count();
+                    count = count <= 15 ? count : 15;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var row = prev5DayBottom.ElementAt(i);
+                        <tr>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.Issuer
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.TotalPar.Value.ToString("N0")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.PriceMove.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.Bid.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                @row.CostPrice.Value.ToString("N2")
+                            </td>
+                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                @row.MoodyCFR
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+}

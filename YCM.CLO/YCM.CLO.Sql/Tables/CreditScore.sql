@@ -1,0 +1,5 @@
+CREATE TABLE CLO.CreditScore
+(
+    Id INT NOT NULL IDENTITY(1, 1)
+	, ScoreDescription VARCHAR(2000) NOT NULL 
+)

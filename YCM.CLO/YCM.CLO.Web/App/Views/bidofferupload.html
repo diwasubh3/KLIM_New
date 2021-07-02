@@ -1,0 +1,99 @@
+﻿<div class="col-md-12 p-0">
+    <div class="col-md-6 p-0">
+        <div class="control-group">
+            <table class="table table-condensed" style="margin-bottom: 0">
+                <tr>
+                    <td style="padding-left: 0;border-width: 0">
+                        <a class="btn btn-info" ng-href="{{bidofferupload.appBasePath}}/bidofferdata/downloadtemplate">Download Template</a>
+                    </td>
+                    <td style="padding-left: 0;border-width: 0">
+                        <form id="frmFileUpload" style="margin-bottom: 0px" ng-upload="bidofferupload.complete(content)"
+                              action="{{bidofferupload.appBasePath + 'bidofferdata/uploadfile'}}"
+                              ng-upload-loading="bidofferupload.startUploading()" method="post" enctype="multipart/form-data">
+                            <input type="file" file-processor title='Upload Spreadsheet' id="uploadedfile" name="uploadedfile"
+                                   accept=".xlsx" multiple="" />
+                        </form>
+                    </td>
+                    <td style="padding-left: 0; border-width: 0">
+                        <button class="btn btn-primary"  ng-click="bidofferupload.save()" 
+                                     ng-disabled="bidofferupload.isLoading || (!bidofferupload.data) || (!bidofferupload.data.length)">Save to Database</button>
+                    </td>
+                    <td style="padding-left: 0; border-width: 0">
+                        <button class="btn btn-warning" ng-click="bidofferupload.clearUpload()" 
+                                ng-disabled="bidofferupload.isLoading || (!bidofferupload.data) || (!bidofferupload.data.length)">
+                            Clear and Try Again
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-2 " style="padding-left: 68px; text-align: center">
+        <span ng-show="bidofferupload.isLoading">
+            <img src="{{bidofferupload.appBasePath}}/Content/images/ajax-loader.gif" style="height: 20px; width: 20px" /><b>&nbsp;&nbsp;{{bidofferupload.statusText}}...</b>
+        </span>
+    </div>
+    <div class="col-md-4 p-0 ">
+        <div class="pull-right">
+            <input ng-model="bidofferupload.tableParams.filter().searchText"
+                   ng-disabled="bidofferupload.isLoading"
+                   class="form-control" style="width: 300px;" placeholder="Search" />
+        </div>
+    </div>
+</div>
+<div class="col-md-12 p-0">
+    <uib-alert ng-repeat="alert in bidofferupload.alerts" type="danger" close="bidofferupload.close(bidofferupload.alerts,$index)">
+        <span style="font-size: 12px" ng-bind-html="alert"></span>
+    </uib-alert>
+
+    <uib-alert ng-repeat="info in bidofferupload.infos" type="success" close="bidofferupload.close(bidofferupload.infos,$index)">
+       <div style="font-size: 12px" ng-bind-html="info"></div>
+    </uib-alert>
+
+</div>
+
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th style="text-align: left; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"
+                    ng-style="bidofferupload.getStyle(headerField,null)"
+                    ng-repeat="headerField in bidofferupload.headerFields">
+                    <div ng-if="$index != 5">
+                        {{headerField.fieldTitle}}
+                    </div>
+                    <div ng-if="$index == 5" style="padding-left: 20px">
+                        {{headerField.fieldTitle}}
+                    </div>
+                </th>
+                <th style="width: 17px; border-width: 1px 0px 1px 0px !important ; border-top: 1px solid #dddddd;"></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div class="col-md-12 p-0" style="overflow-y: scroll;max-height: 590px">
+    <table class="table table-bordered noth table-condensed"
+           id="tblSummaryBody"
+           ng-table="bidofferupload.tableParams"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none"></thead>
+        <tbody>
+            <tr ng-repeat="price in $data" >
+                <td style="text-align: left; border-width: 0 0 1px 0;"
+                    ng-style="bidofferupload.getStyle(headerField,null)"
+                    ng-repeat="headerField in bidofferupload.headerFields">
+                    <div ng-if="$index == 0 || $index == 1  || $index == 2 ">
+                        {{price[headerField.jsonPropertyName]}}
+                    </div>
+                    <div ng-if="$index == 3 || $index == 4">
+                        {{price[headerField.jsonPropertyName] | number : 2}}
+                    </div>
+                    <div ng-if="$index == 5" style="padding-left: 20px">
+                        {{price.createdOn + ' by ' + price.createdByFullName}}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

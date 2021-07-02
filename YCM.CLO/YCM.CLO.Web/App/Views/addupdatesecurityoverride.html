@@ -1,0 +1,234 @@
+﻿<div class="modal-header">
+    <h4>{{so.selectedSecurityId?'Edit:':'Add:'}}</h4>
+
+</div>
+
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <span ng-class="{'inactive-securities':!match.model.hasPositions}" ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+</script>
+
+
+<div class="modal-body" style="max-height: 647px;overflow-y: auto">
+    <form name="frmsecurityoverride" id="frmsecurityoverride" novalidate>
+        <div class="col-sm-12 p-0">
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 120px">
+                        <label class="control-label" for="txtSecurity">Loan ID/ CUSIP:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" ng-model="so.selectedSecurity" id="txtSecurity" autocomplete="off"
+                               ng-disabled="so.selectedSecurityId"
+                               typeahead-template-url="customTemplate.html"
+                               typeahead="sec as sec.securityName  for sec in so.securities | filter:{securityName:$viewValue} | limitTo:20" />        
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="padding: 40px 0px 12px 0px;text-align: center" >
+            <label>OVERRIDES</label>
+            <hr/>
+        </div>
+
+        <div>
+            <table class="table table-bordered table-condensed" style="border-width: 0; margin-bottom: 0px">
+                <thead>
+                <tr>
+                    <th style="text-align: left; border-width: 0px 0px 1px 0;"
+                        ng-style="so.getStyle(headerField)"
+                        ng-repeat="headerField in so.fields">
+                        <div>
+                            {{headerField.fieldTitle}}
+                        </div>
+                    </th>
+                    <th style="width: 95px; border-width: 0px 0px 1px 0; text-align: center">
+                        <a ng-hide="so.selectedSecurity" style="color:lightgray">ADD NEW</a>
+                        <a ng-click="so.addNewSecurityOverride()" ng-show="so.selectedSecurity">ADD NEW</a>
+                    </th>
+                    <th style="width: 17px; border-width: 0px 0px 1px 0 !important"></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="overflow-y: scroll; min-height: 350px;margin-top: 10px"  >
+            <table class="table table-bordered table-condensed table-3pxcondensed " style="border-width: 0; margin-bottom: 0px">
+                <thead style="display: none">
+                </thead>
+                <tbody>
+                <tr ng-repeat-start="d in filtered = ( so.data | filter: {isDeleted : '!true'})" ng-init="dataIndex = $index">
+                    
+                    <td ng-repeat="headerField in so.fields" ng-style="so.getStyle(headerField)" style="border-width: 0 0 0px 0px">
+                        <div ng-if="$index==0">
+                            <select ng-model="d.fieldId"
+                                    ng-required="true"
+                                    ng-change="so.setSelectedField(d);so.validateIsRequired()"
+                                    ng-options="f.fieldId as f.fieldTitle for f in so.overrideFields" style="height: 20px"></select>
+                        </div>
+                        <div ng-if="$index==1">
+                            {{so.selectedSecurity['orig'+ so.capitalizeFirstLetter(d.field.jsonPropertyName)]}}
+                        </div>
+                        <div ng-if="$index == 2">
+                            <div ng-if="d.field.fieldType==2 || d.field.fieldType==4">
+                                <input ng-model="d[headerField.jsonPropertyName]"
+                                       ng-change="d.isDirty=true;"
+                                       ng-required="true"
+                                       only-numeric-keys
+                                       class="form-control"/>
+                            </div>
+                            <div ng-if="d.field.fieldType==1">
+                                <input ng-model="d[headerField.jsonPropertyName]"
+                                       ng-change="d.isDirty=true;"
+                                       ng-required="true"
+                                       class="form-control"/>
+                            </div>
+                            <div ng-if="d.field.fieldType==5">
+                                <select ng-model="d[headerField.jsonPropertyName]"
+                                        class="form-control"
+                                        ng-required="true" ng-change="d.isDirty=true;">
+                                    <option value="N">N</option>
+                                    <option value="Y">Y</option>
+                                </select>
+                            </div>
+                            <div ng-if="d.field.fieldType==6">
+                                <select ng-model="d[headerField.jsonPropertyName]"
+                                        class="form-control"
+                                        ng-required="true" ng-change="d.isDirty=true;">
+                                    <option value="Fixed">Fixed</option>
+                                    <option value="Floating">Floating</option>
+                                </select>
+                            </div>
+
+                            <div ng-if="d.field.fieldType==3">
+                                <p class="input-group" style="margin-bottom: 0 !important">
+                                    <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" style="margin-top: 1px"
+                                           ng-model="d[headerField.jsonPropertyName]"
+                                           ng-change="d.isDirty=true;"
+                                           ng-required="true"
+                                           is-open="d['is' +headerField.jsonPropertyName + 'opened']"
+                                           show-weeks="false"
+                                           datepicker-options="so.dateOptions" close-text="Close"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info" ng-click="so.openDate($event,d,headerField)">
+                                            <i class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div ng-if="$index == 3">
+                            <p class="input-group" style="margin-bottom: 0 !important">
+                                <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" show-weeks="false" style="margin-top: 1px"
+                                       ng-model="d[headerField.jsonPropertyName]"
+                                       ng-change="d.isDirty=true;so.validateIsRequired()"
+                                       max-date="d.effectiveTo"
+                                       ng-required="$index == 3 || d['is' + headerField.jsonPropertyName + 'required']"
+                                       is-open="d['is' +headerField.jsonPropertyName + 'opened']"
+                                       datepicker-options="so.dateOptions" close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" ng-click="so.openDate($event,d,headerField)">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                        <div ng-if="$index == 4">
+                            <p class="input-group" style="margin-bottom: 0 !important">
+                                <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" show-weeks="false" style="margin-top: 1px"
+                                       ng-model="d[headerField.jsonPropertyName]"
+                                       ng-change="d.isDirty=true;so.validateIsRequired()"
+                                       min-date="d.effectiveFrom"
+                                       ng-class="{'ng-invalid-custom':d['is' + headerField.jsonPropertyName + 'invalid']}"
+                                       ng-required="$index == 3 || d['is' + headerField.jsonPropertyName + 'required']"
+                                       is-open="d['is' +headerField.jsonPropertyName + 'opened']"
+                                       datepicker-options="so.dateOptions" close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" ng-click="so.openDate($event,d,headerField)">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </td>
+
+                    <td style="width: 95px; border-width: 0 0 0px 0; text-align: center; vertical-align: middle !important" rowspan="2">
+                        <a ng-click="d.isDirty=true;d.isDeleted=true;">Delete</a>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="border-width: 0"></td>
+                    <td colspan="4" style="border-width: 0">
+                        <input ng-model="d.comments" placeholder="COMMENT" ng-change="d.isDirty=true;" class="form-control" />
+                    </td>
+                </tr>
+                <tr ng-if="dataIndex != (filtered.length-1)">
+                    <td style="border-width: 0 0 1px 0; height: 5px !important; line-height: 5px" colspan="6">&nbsp;</td>
+                </tr>
+                <tr ng-if="dataIndex != (filtered.length-1)" ng-repeat-end>
+                    <td style="border-width: 0; height: 5px !important; line-height: 5px" colspan="6">&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}">
+    <div class="col-sm-12">
+        <div class="col-sm-10" style="text-align: left">
+            
+            <div ng-show="so.error" style="margin-bottom: 0;color: red">
+                <b>Error: {{so.error}}</b>
+            </div>
+
+            <div ng-show="so.warning" style="margin-bottom: 0; color: red">
+                <div class="alert alert-danger" role="alert" style="margin-bottom: 0;font-size: 14px">
+                    <strong>Warning: </strong> <span ng-bind-html="so.warning"></span>
+                </div>
+            </div>
+
+            <div ng-show="so.isLoading">
+                <label>{{so.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{so.appBasePath}}/Content/Images/ajax-loader.gif"/>
+            </div>
+
+            
+        </div>
+
+
+        <div class="col-sm-2">
+            <div ng-show="so.confirmDelete">
+                <button class="btn btn-primary" id="btnYes" 
+                        ng-disabled="so.isLoading || (!(so.data && so.data.length)) || frmsecurityoverride.$invalid
+                        || (so.data|filter:{iseffectiveToinvalid:'true'}).length
+                        || (!so.selectedSecurity)
+                        "
+                        ng-click="so.save(true)">
+                    Yes
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+
+                <button class="btn btn-warning" ng-click="so.cancel()">
+                    No
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div ng-hide="so.confirmDelete">
+                <button class="btn btn-primary" id="btnSave" ng-disabled="so.isLoading || (!(so.data && so.data.length)) || frmsecurityoverride.$invalid
+                        || (so.data|filter:{iseffectiveToinvalid:'true'}).length
+                        || (!so.selectedSecurity)
+                        "
+                        ng-click="so.save(false)">
+                    Save
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+
+                <button class="btn btn-warning" ng-click="so.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

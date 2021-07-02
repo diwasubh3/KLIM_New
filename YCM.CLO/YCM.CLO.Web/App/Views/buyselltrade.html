@@ -1,0 +1,393 @@
+﻿<div class="modal-header" ng-show="!buyselltrade.inSecuritySelectMode">
+    <h4 >{{(buyselltrade.trade.isBuy?"Buy":"Sell") + " : " + (buyselltrade.selectedPosition ?  ((buyselltrade.selectedPosition.securityCode) + " | " + (buyselltrade.selectedPosition.issuer) + " | " + (buyselltrade.selectedPosition.facility)) : buyselltrade.trade.security.securityName)  }}</h4>
+</div>
+<div class="modal-body" style="max-height: 777px;overflow-y: auto">
+    <form name="frmtrade" id="frmtrade" novalidate>
+
+        <uib-tabset ng-if="buyselltrade.inSecuritySelectMode" >
+            <uib-tab heading="Add New Trade" active="buyselltrade.isAddNewTradeActive" select="buyselltrade.onAddNewTradeSelected()">
+                <div class="col-md-12 p-0" style="padding-top:15px;" >
+                    <div class="col-md-8" style="background-color: #F2F2F2; border-width: 1px 0px; border-style: solid; border-color: lightgray;padding-top:15px;">
+                        <div class="col-sm-12 p-0">
+                            <div class="col-sm-2 p-0 text-right">
+                                <label class="control-label" for="txtSecurity">Loan ID/ CUSIP:</label>
+                            </div>
+                            <div class="col-sm-10 pr0">
+                                <input class="form-control" ng-model="buyselltrade.selectedSecurity"
+                                       ng-required="true"
+                                       id="txtSecurity"
+                                       ng-disabled="buyselltrade.isLoading"
+                                       typeahead-on-select="buyselltrade.onSelectedSecurity()"
+                                       autocomplete="off"
+                                       typeahead="sec as sec.securityName  for sec in buyselltrade.sourceData.securities | filter:{securityName:$viewValue} | limitTo:5 | orderBy:'securityName'" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12 p-0" style="margin-top: 15px">
+                            <div class="col-sm-2 text-right">
+                                <label class="control-label" for="txtSecurity">Trade Type:</label>
+                            </div>
+                            <div class="col-sm-4 pr0">
+                                <select class="form-control" ng-model="buyselltrade.trade.tradeType"
+                                        ng-change="buyselltrade.onTradeTypeChange()"
+                                        ng-disabled="buyselltrade.isLoading"
+                                        ng-required="true" >
+                                    <option value="0">Buy</option>
+                                    <option value="1">Sell</option>
+                                </select>
+                            </div>
+                        </div>
+                        <ng-include src="buyselltrade.tradeDetailsPath"></ng-include>
+                    </div>
+                    <div class="col-md-4" style="padding-right:0">
+                        <div class="control-group" style="padding-left: 15px">
+                            <label class="control-label" for="txtComments">Comments</label>
+                            <textarea class="form-control" style="margin-top: 9px" rows="11" ng-disabled="buyselltrade.isLoading" id="txtComments" ng-model="buyselltrade.trade.comments"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <uib-tab heading="Temporary Loan" active="buyselltrade.isTempLoanActive">
+                <div class="col-md-12 p-0" ng-if="buyselltrade.isTempLoanActive" style="margin-top:15px;background-color: #F2F2F2; border-width: 1px 0px; border-style: solid; border-color: lightgray;" >
+                    <div class="col-md-8" style="padding-top:15px; padding-bottom:15px">
+                        <div class="col-sm-12 p-0" style="margin-top:15px">
+                            <div class="col-sm-3 text-right">
+                                <label class="control-label" for="txtTempSecurity">Temporary Id:</label>
+                            </div>
+                            <div class="col-sm-8 p-0">
+                                <input class="form-control" ng-model="buyselltrade.tempSecurity.securityCode" ng-required="true" id="txtTempSecurity" />
+                            </div>
+                            <div class="col-sm-1 p-0">
+                                <a class="" ng-click="buyselltrade.loadBloombergData()">
+                                    <img ng-src="{{buyselltrade.appBasePath}}/Content/Images/b-small-icon.png" style="height:22px;width:22px"/>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-12 p-0" style="margin-top:15px">
+                            <div class="col-sm-3 text-right">
+                                <label class="control-label" for="txtTempSecurity">Issuer:</label>
+                            </div>
+                            <div class="col-sm-9 p-0">
+                                <input class="form-control" ng-model="buyselltrade.tempSecurity.issuer" ng-required="true" id="txtIssuer" 
+                                       autocomplete="off"
+                                       typeahead="iss as iss.issuerDesc  for iss in buyselltrade.sourceData.issuers | filter:{issuerDesc:$viewValue} | limitTo:15 | orderBy:'issuerDesc'" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 p-0" style="margin-top:15px">
+                            <div class="col-sm-3 text-right">
+                                <label class="control-label" for="txtTempSecurity">Facility:</label>
+                            </div>
+                            <div class="col-sm-9 p-0">
+                                <input class="form-control" ng-model="buyselltrade.tempSecurity.facility" ng-required="true" id="txtFacility" 
+                                       autocomplete="off"
+                                       typeahead="fac as fac.facilityDesc  for fac in buyselltrade.sourceData.facilities | filter:{facilityDesc:$viewValue} | limitTo:15  | orderBy:'facilityDesc'" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 p-0" style="margin-top:15px">
+                            <div class="col-sm-3 text-right">
+                                <label class="control-label" for="txtTempSecurity">Lien Type:</label>
+                            </div>
+                            <div class="col-sm-9 p-0">
+                                <select class="form-control" 
+                                        ng-model="buyselltrade.tempSecurity.lienType" 
+                                        ng-options="lt as lt.lienTypeDesc for lt in buyselltrade.sourceData.lienTypes track by lt.lienTypeId"
+                                        ng-required="true" id="selectLien" ></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 p-0" style="padding-top:15px;">
+                    <div class="col-md-8 p-0" style="padding-top:15px;">
+                        <div class="col-sm-12" 
+                             style="background-color: #F2F2F2; border-width: 1px 0px; border-style: solid; border-color: lightgray;padding-top:25px;padding-bottom:15px">
+                            <div class="col-sm-3">
+                                <div class="control-group">
+                                    <label for="txtMaturityDate" class="control-label">Maturity Date</label>
+                                    <p class="input-group" style="margin-bottom: 0 !important">
+                                        <input type="text" id="txtMaturityDate" class="form-control" datepicker-popup="MM/dd/yyyy" style="margin-top: 1px"
+                                               ng-model="buyselltrade.tempSecurity.maturityDate"
+                                               is-open="buyselltrade.tempSecurity.isMaturityDateOpen"
+                                               show-weeks="false"
+                                               datepicker-options="buyselltrade.dateOptions" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info" ng-click="buyselltrade.openDate($event,'isMaturityDateOpen','isCallDateOpen')">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
+
+                                </div>
+
+
+                                <div class="control-group">
+                                    <label for="txtCallDate" class="control-label">Call Date</label>
+                                    <p class="input-group" style="margin-bottom: 0 !important">
+                                        <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" style="margin-top: 1px"
+                                               ng-model="buyselltrade.tempSecurity.callDate"
+                                               id="txtCallDate"
+                                               is-open="buyselltrade.tempSecurity.isCallDateOpen"
+                                               show-weeks="false"
+                                               datepicker-options="buyselltrade.dateOptions" close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-info" ng-click="buyselltrade.openDate($event,'isCallDateOpen','isMaturityDateOpen')">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
+                                    
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="control-group">
+                                    <label for="" class="control-label">Adjusted WARF:</label>
+                                    <input type="text" class="form-control" style="margin-top: 1px"
+                                           ng-model="buyselltrade.tempSecurity.adjustedWARF"
+                                           />
+                                </div>
+
+                            
+
+                                <div class="control-group">
+                                    <label for="" class="control-label">Spread:</label>
+                                    <input type="text" class="form-control" style="margin-top: 1px"
+                                           ng-model="buyselltrade.tempSecurity.spread" />
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="" class="control-label">Moody's Recovery:</label>
+                                    <input type="text" class="form-control" style="margin-top: 1px"
+                                           ng-model="buyselltrade.tempSecurity.moodyRecovery" />
+                                </div>
+
+
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="control-group">
+                                    <label for="" class="control-label">GICS Industry:</label>
+                                    <textarea rows="6" class="form-control" style="margin-bottom: 16px" ng-disabled="true"
+                                              ng-model="buyselltrade.tempSecurity.gicsIndustry">
+                                        
+                                    </textarea>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="" class="control-label">S&P Industry:</label>
+                                    <select type="text" class="form-control" style="margin-top: 1px"
+                                           ng-model="buyselltrade.tempSecurity.snpIndustryId" 
+                                           ng-options="industry.industryId as industry.industryDesc for industry in buyselltrade.sourceData.snpIndustries track by industry.industryId"></select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="" class="control-label">Moody's Industry:</label>
+                                    <select type="text" class="form-control" style="margin-top: 1px"
+                                            ng-model="buyselltrade.tempSecurity.moodyIndustryId"
+                                            ng-options="industry.industryId as industry.industryDesc for industry in buyselltrade.sourceData.moodyIndustries track by industry.industryId">
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="padding-top:15px;padding-right:0">
+                        <div style="background-color: #F2F2F2; border-width: 1px 0px; border-style: solid; border-color: lightgray;padding:15px 20px">
+                            <div style="text-align:center"><b>Ratings</b></div> 
+                            <div class="control-group">
+                                <label for="" class="control-label">S&P Issuer:</label>
+                                <select type="text" class="form-control" style="margin-top: 1px"
+                                        ng-options="rating.ratingId as rating.ratingDesc for rating in buyselltrade.sourceData.ratings track by rating.ratingId"
+                                        ng-model="buyselltrade.tempSecurity.snpIssuerRatingId">
+                                </select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="" class="control-label">S&P Asset:</label>
+                                <select type="text" class="form-control" style="margin-top: 1px"
+                                        ng-options="rating.ratingId as rating.ratingDesc for rating in buyselltrade.sourceData.ratings track by rating.ratingId"
+                                        ng-model="buyselltrade.tempSecurity.snpFacilityRatingId"></select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="" class="control-label">Moody's CFR:</label>
+                                <select type="text" class="form-control" style="margin-top: 1px"
+                                        ng-options="rating.ratingId as rating.ratingDesc for rating in buyselltrade.sourceData.ratings track by rating.ratingId"
+                                        ng-model="buyselltrade.tempSecurity.moodyCashFlowRatingId"></select>
+                            </div>
+
+                            <div class="control-group">
+                                <label for="" class="control-label">Moody's Asset:</label>
+                                <select type="text" class="form-control" style="margin-top: 1px"
+                                        ng-options="rating.ratingId as rating.ratingDesc for rating in buyselltrade.sourceData.ratings track by rating.ratingId"
+                                        ng-model="buyselltrade.tempSecurity.moodyFacilityRatingId"></select>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12 p-0" style="margin-top:50px;">
+                    <div class="col-md-10">
+                        <div ng-show="buyselltrade.isLoading">
+                            <label>{{buyselltrade.statusText}}...</label>
+                            <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{buyselltrade.appBasePath}}/Content/Images/ajax-loader.gif" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right p-0">
+                        <button class="btn btn-primary" ng-click="buyselltrade.activateAddNewTrade()" style="padding:10px 25px !important">Return to Trade Tab ></button>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+
+
+        <div class="col-md-12" style="padding-left: 0;padding-right: 0" ng-show="!buyselltrade.inSecuritySelectMode" >
+            <div class="col-md-8" style="background-color: #F2F2F2; border-width: 1px 0px; border-style: solid; border-color: lightgray;padding-top: 15px">
+                <div ng-include="buyselltrade.tradeDetailsPath"></div>
+            </div>
+            <div class="col-md-4 p-0">
+                <div class="control-group" style="padding-left: 15px">
+                    <label class="control-label" for="txtComments">Comments:</label>
+                    <textarea class="form-control" style="margin-top: 5px" rows="6" id="txtComments" ng-model="buyselltrade.trade.comments"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div ng-hide="buyselltrade.inSecuritySelectMode && buyselltrade.isTempLoanActive">
+            <div class="col-md-12 " style="margin-top: 20px; background-color: #F2F2F2; border-top: 1px solid lightgray; padding-top: 15px">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 text-right">
+                    <label>CURRENT</label>
+                </div>
+                <div class="col-md-2 text-right">
+                    <label>ALLOCATION</label>
+                </div>
+                <div class="col-md-2 text-right">
+                    <label>TRADE CASH</label>
+                </div>
+                <div class="col-md-2 text-right">
+                    <label>NEW</label>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="col-md-12 " style="background-color: #F2F2F2;padding: 15px">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <b>TOTAL</b>
+                </div>
+                <div class="col-md-2 text-right">
+                    <b>{{buyselltrade.trade.tradeAllocations | sumOfValue:'currentAllocation' | number:0 }}</b>
+                </div>
+                <div class="col-md-2 text-right">
+
+                    <b>{{buyselltrade.calculatedTotalNewAllocation | number:0}}</b>
+                </div>
+                <div class="col-md-2 text-right">
+                    <b>{{buyselltrade.trade.tradeAllocations | sumOfValueMultiplyNum:'newAllocation':(buyselltrade.trade.tradePrice/100) | currency:'':2 }}</b>
+                </div>
+                <div class="col-md-2 text-right">
+                    <b>{{buyselltrade.calculatedTotalFinalAllocation | currency:'':0}}</b>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="col-md-12 " style="background-color: #F2F2F2; padding: 15px" ng-repeat="tradeallocation in buyselltrade.trade.tradeAllocations">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <b>{{tradeallocation.fund.fundCode}}</b>
+                </div>
+                <div class="col-md-2 text-right">
+                    <input class="form-control text-right" ng-disabled="true" value="{{tradeallocation.currentAllocation| currency:'':0}}" />
+                </div>
+                <div class="col-md-2 text-right">
+                    <quick-input>
+                        <input class="form-control text-right" ng-disabled="buyselltrade.trade.sellAll"
+                               format="currency"
+                               ng-change="buyselltrade.calculateFinalAllocation(tradeallocation);"
+                               ng-model="tradeallocation.newAllocation" />
+                    </quick-input>
+                </div>
+                <div class="col-md-2 text-right">
+                    <input class="form-control text-right" ng-disabled="true"
+                           value="{{(((tradeallocation.currentAllocation?tradeallocation.newAllocation:0) * buyselltrade.trade.tradePrice)/100) | currency:'':2}}" />
+                </div>
+                <div class="col-md-2 text-right">
+                    <quick-input>
+                        <input class="form-control text-right" ng-change="buyselltrade.calculateAllocation(tradeallocation);"
+                               format="currency"
+                               ng-disabled="buyselltrade.trade.sellAll"
+                               ng-model="tradeallocation.finalAllocation" />
+                    </quick-input>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="col-md-12 " style="background-color: #F2F2F2; padding: 15px;border-bottom: 1px solid lightgray">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <b>{{tradeallocation.fund.fundCode}}</b>
+                </div>
+                <div class="col-md-2 text-right">
+                    
+                </div>
+                <div class="col-md-2 text-right">
+
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-info" ng-click="buyselltrade.clearAll()" style="width: 100%!important">Clear All</button>
+                </div>
+
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </form>
+</div> 
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}" ng-hide="!buyselltrade.trade.tradeId && buyselltrade.isTempLoanActive">
+    <div class="col-sm-12 p-0">
+        <div class="col-sm-9" style="text-align: left">
+            <div ng-show="buyselltrade.error" style="margin-bottom: 0;color: red">
+                <b>Error: {{buyselltrade.error}}</b>
+            </div>
+            <div ng-show="buyselltrade.warning" style="margin-bottom: 0; color: red">
+                <div class="alert alert-danger" role="alert" style="margin-bottom: 0;font-size: 14px">
+                    <strong>Warning: </strong> <span ng-bind-html="buyselltrade.warning"></span>
+                </div>
+            </div>
+            <div ng-show="buyselltrade.isLoading">
+                <label>{{buyselltrade.statusText}}...</label>
+                <img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{buyselltrade.appBasePath}}/Content/Images/ajax-loader.gif"/>
+            </div>
+        </div>
+
+
+        <div class="col-sm-3 p-0">
+            <div >
+                <button class="btn btn-danger"
+                        ng-if="buyselltrade.trade.tradeId"
+                        id="btnCancelTrade" ng-disabled="buyselltrade.isLoading || frmtrade.$invalid || buyselltrade.invalidTradeAmountAndTotalAllocation || (!buyselltrade.selectedSecurity) || (buyselltrade.trade.isCancelled)"
+                        ng-click="buyselltrade.cancelTrade(false)">
+                    Cancel Trade
+                    <i class="fa fa-trash"></i>
+                </button>
+
+                <button class="btn btn-primary"
+                        id="btnSave" ng-disabled="buyselltrade.isLoading || frmtrade.$invalid || buyselltrade.invalidTradeAmountAndTotalAllocation || (!buyselltrade.selectedSecurity) || (buyselltrade.trade.isCancelled) "
+                        ng-click="buyselltrade.save(false)">
+                    Save
+                    <i class="fa fa-floppy-o"></i>
+                </button>
+
+                <button class="btn btn-warning" ng-click="buyselltrade.cancel()">
+                    Cancel
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

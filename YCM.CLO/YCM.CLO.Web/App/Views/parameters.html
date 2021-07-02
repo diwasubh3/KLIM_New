@@ -1,0 +1,71 @@
+﻿
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed"  ng-table="parameters.tableParams" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                <th rowspan="2" class="sortable" style="text-align: left; border-width: 0px; ">
+                    <div style="">
+                        Parameter Type
+                    </div>
+                </th>
+
+                <th rowspan="2" class="sortable" style="text-align: left; width: 250px; border-width: 0px; ">
+                    <div>
+                        Parameter Value
+                    </div>
+                </th>
+
+                <th rowspan="2" class="sortable" style="text-align: left; width: 250px; border-width: 0px;">
+                    <div>
+                        Minimum Value
+                    </div>
+                </th>
+                <th rowspan="2" class="sortable" style="text-align: left; width: 250px; border-width: 0px;">
+                    <div>
+                        Maximum Value
+                    </div>
+                </th>
+                <th rowspan="2" class="sortable" style="text-align: left; width: 100px; border-width: 0px;">
+                    <div>
+                        <a class="" ng-click="parameters.edit()">Add New</a>
+                    </div>
+                </th>
+                <th rowspan="2" style="text-align: center; width: 168px; border-width: 0px; ">
+                    <div ng-show="parameters.isLoading"><img src="{{parameters.appBasePath}}/Content/images/ajax-loader.gif" style="height: 14px;width: 14px" /><b>&nbsp;&nbsp;Loading...</b></div> 
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="height: 650px;overflow-y: scroll">
+    <table class="table table-bordered noth table-condensed" ng-table="parameters.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none">
+
+        </thead>
+        <tbody>
+            <tr ng-repeat="data in $data" >
+                <td style=" border-width: 0 0 1px 0">
+                    {{data.parameterType.parameterTypeName}}
+
+                </td>
+                <td style="width: 250px; border-width: 0 0 1px 0">
+                    {{data.parameterValueText ? data.parameterValueText: data.parameterValueNumber}}
+                </td>
+                <td style="width: 250px; border-width: 0 0 1px 0">
+                    {{data.parameterMinValueNumber}}
+
+                </td>
+                <td style="width: 250px; border-width: 0 0 1px 0">
+                    {{data.parameterMaxValueNumber}}
+                </td>
+                <td style="width: 250px; border-width: 0 0 1px 0">
+                    <a class="" ng-click="parameters.edit(data)">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

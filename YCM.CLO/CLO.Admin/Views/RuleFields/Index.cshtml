@@ -1,0 +1,54 @@
+﻿@model IEnumerable<YCM.CLO.DataAccess.Models.RuleField>
+
+@{
+    ViewBag.Title = "Rule Fields";
+}
+
+<h2>Rule Fields</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="myTable" class="table table-striped table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Field.FieldName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rule.RuleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RuleSectionType.RuleSectionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SortOrder)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Field.FieldName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rule.RuleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RuleSectionType.RuleSectionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortOrder)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.RuleFieldId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.RuleFieldId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.RuleFieldId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

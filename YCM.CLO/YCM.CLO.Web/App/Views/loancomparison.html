@@ -1,0 +1,130 @@
+﻿<div class="modal-header" ng-show="!loancomparison.inSecuritySelectMode">
+	<fieldset>
+		<div class="col-md-12 p-0">
+			<div class="col-md-4 p-0">
+				<h4>
+					<a style="cursor: none"><i class="fa fa-thumb-tack"></i>&nbsp;&nbsp;Loan Comparison Tool ({{loancomparison.positions.length}})</a>
+				</h4>
+			</div>
+			<div class="col-md-2 text-right p-0">
+				<h4>
+					<label class="control-label">My Views:</label>
+				</h4>
+			</div>
+			<div class="col-md-2">
+				<h4>
+					<select class="form-control" ng-model="loancomparison.selectedCustomView" ng-options="fg as fg.viewName for fg in loancomparison.customViews track by fg.viewId"></select>
+				</h4>
+			</div>
+			<div class="col-md-4"></div>
+		</div>
+	</fieldset>
+</div>
+<div class="modal-body">
+	<form name="frmloancomparison" id="frmloancomparison" style="margin-bottom: 0" novalidate>
+		<div style="height: 44px; overflow-x: hidden; margin-right: 17px" class="parent">
+			<div style="">
+				<table class="table-bordered table-condensed" style="border: 0; border-radius: 0; margin-left: 211px">
+					<thead>
+					<tr>
+						<th ng-repeat="pos in loancomparison.positions" class="lcc" ng-class="{'bnr':!$last}" style="line-height: 14px">
+							<div class="text-center" style="padding: 2px 0; width: 200px !important">
+								<a style="cursor: none; font-size: 12px">{{pos.securityCode}}</a>
+								<button type="button" class="close" style="font-size: 16px !important; color: red" ng-click="loancomparison.removePosition(pos)">&times;</button>
+							</div>
+							<div>
+								<a style="cursor: none">{{pos.issuer}}</a>
+							</div>
+						</th>
+						<th style="border-width: 0 !important; background: none !important"></th>
+					</tr>
+					</thead>
+					<tbody style="display: none"></tbody>
+				</table>
+			</div>
+		</div>
+		<div style="height: 556px; overflow-y: scroll" scroll-group="scroll_grp1" class="child">
+			<div style="">
+				<table class="table-bordered table-condensed" style="border: 0; border-radius: 0;">
+					<thead style="display: none">
+					<tr>
+						<th>{{fieldCounter=$index}}</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="field in loancomparison.selectedCustomView.customViewFields"
+						ng-hide="field.field.fieldTitle=='SEARCHTEXT' || field.field.jsonPropertyName=='hasSellTrade'">
+						<td style="background-color: #e9e9e9; width: 200px !important; vertical-align: top; line-height: 14px" ng-class="{'bnt':fieldCounter!=0}">
+							<div style="width: 200px">
+								{{field.field.fieldTitle}}
+							</div>
+						</td>
+						<td style="border-bottom-width: 1px; background: none !important; width: 200px; border-top-width: 0px; border-left-width: 0; vertical-align: top; line-height: 14px"
+							ng-repeat="pos in loancomparison.positions">
+                            <div style="width: 200px">
+                                <span ng-show="field.field.jsonPropertyName=='isOnWatch'">
+                                    <i style="color: black" ng-show="pos.isOnWatch" class="fa fa-binoculars"></i>
+                                    <span ng-if="pos.isSellCandidate" style="width: 15px; display: inline-block;">
+                                        <span class="isp sell" style="font-weight: bolder !important; color: red;">S</span>
+                                    </span>
+                                </span>
+                                <span ng-show="field.field.jsonPropertyName=='isOnAlert'">
+                                    <i style="color: red" ng-show="pos.isOnAlert" class="fa fa-exclamation-triangle"></i>
+                                </span>
+                                <span ng-show="field.field.jsonPropertyName=='isSellCandidate'">
+                                    <span ng-if="pos.isSellCandidate" style="font-weight: bolder !important; color: red; width: 15px; display: inline-block">
+                                        <span class="isp sell">S</span>
+                                    </span>
+                                </span>
+                                <span ng-if="field.field.jsonFormatString" ng-show="field.field.jsonPropertyName!='isSellCandidate' && field.field.jsonPropertyName!='isOnAlert' && field.field.jsonPropertyName!='isOnWatch'">
+                                    {{ field && field.field && field.field.jsonPropertyName ? (pos[field.field.jsonPropertyName] | dynamicFilter:field.field.jsonFormatString):''}}
+                                </span>
+                                <span ng-else="field.field.jsonFormatString" ng-show="field.field.jsonPropertyName!='isSellCandidate' && field.field.jsonPropertyName!='isOnAlert' && field.field.jsonPropertyName!='isOnWatch'">
+                                    {{ field && field.field && field.field.jsonPropertyName ? (pos[field.field.jsonPropertyName]):''}}
+                                </span>
+                            </div>
+						</td>
+						<td style="border-width: 0 !important"></td>
+					</tr>
+					</tbody>
+					<tbody style="display: none"></tbody>
+				</table>
+			</div>
+		</div>
+
+	</form>
+</div>
+<div class="modal-footer" ng-class="{'alert-warning':pv.warning,'alert-error':pv.error}" ng-hide="!loancomparison.trade.tradeId && loancomparison.isTempLoanActive">
+	<div class="col-sm-12 p-0">
+		<div class="col-sm-9" style="text-align: left">
+			<div ng-show="loancomparison.error" style="margin-bottom: 0; color: red">
+				<b>Error: {{loancomparison.error}}</b>
+			</div>
+			<div ng-show="loancomparison.warning" style="margin-bottom: 0; color: red">
+				<div class="alert alert-danger" role="alert" style="margin-bottom: 0; font-size: 14px">
+					<strong>Warning: </strong> <span ng-bind-html="loancomparison.warning"></span>
+				</div>
+			</div>
+			<div ng-show="loancomparison.isLoading">
+				<label>Loading...</label>
+				<img style="width: 26px; height: 26px;" height="26" width="26" ng-src="{{loancomparison.appBasePath}}/Content/Images/ajax-loader.gif"/>
+			</div>
+		</div>
+
+		<div class="col-sm-3 p-0">
+			<div>
+				<button class="btn btn-danger"
+						id="btnSave"
+						ng-click="loancomparison.save(false)">
+					Close &amp; Remove All
+					<i class="fa fa-times"></i>
+				</button>
+
+				<button class="btn btn-primary" ng-click="loancomparison.cancel()">
+					Close
+					<i class="fa fa-check"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
