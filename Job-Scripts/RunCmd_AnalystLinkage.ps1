@@ -30,7 +30,11 @@ $runCommand = "C:\Application\AnalystLinkage\YCM.CLO.AnalystLinkage.exe"
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
+<<<<<<< HEAD
 $toEmail = @('GRTSKLIMSupport@na.linedata.com')
+=======
+$toEmail = "'rakesh.patkar@ap.linedata.com','diwakar.singh@ap.linedata.com','arti.mukherjee@ap.linedata.com'"
+>>>>>>> origin/Dev
 $ccEmail = ""
 $subject = "ALERT: Job $jobName Failed"
 $body = ""

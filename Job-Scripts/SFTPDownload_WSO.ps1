@@ -7,7 +7,11 @@ param ($fileDownloadList, $fileDownloadPath, $ftpRemotePath, $totalAttempts, $at
 # Use below block for testing
 #$fileDownloadList = 'TradeDateCashCLO120210624.csv,TradeDateCashCLO220210624.csv'
 #$fileDownloadPath = "C:\KLIM\*"
+<<<<<<< HEAD
 #$ftpRemotePath = "/"
+=======
+#$ftpRemotePath = "/mackay/"
+>>>>>>> origin/Dev
 #$totalAttempts = 5
 #$attemptTimeInterval = 2		# in seconds
 #$logFile = "C:\Users\rpatkar\Desktop\KLIM\SFTP_Download_20210624.txt"
@@ -36,7 +40,11 @@ $attemptCount = 0
 $checkAndDownloadFilesFlag = 1
 $ftpDownloadedFiles = ""
 $ftpMissingFiles = ""
+<<<<<<< HEAD
 $fileArchivePath = "\\KL02WSODB\Backups\WSOFiles_Archive\"
+=======
+$fileArchivePath = "\\KL02WSODB\Backups\WSOFiles-UAT_Archive\"
+>>>>>>> origin/Dev
 
 #WSO SFTP details
 $hostName = "sftp.wsoweb.com"

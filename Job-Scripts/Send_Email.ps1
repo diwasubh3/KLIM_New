@@ -1,7 +1,11 @@
 
 #input params
 param ($toEmail, $ccEmail, $subject, $body, $attachment, $logFile)
+<<<<<<< HEAD
 $subject = "PROD - " + $subject;
+=======
+$subject = "UAT - " + $subject;
+>>>>>>> origin/Dev
 
 # Use below block for testing
 #$toEmail = "rakesh.patkar@ap.linedata.com"
