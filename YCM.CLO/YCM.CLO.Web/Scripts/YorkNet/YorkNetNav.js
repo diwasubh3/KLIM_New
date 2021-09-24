@@ -333,17 +333,18 @@
     function renderNavbar(html, options) {
 
         html[html.length] = '<div class="only-non-mobile-device">'; //nav-collapse
-        html[html.length] = '<ul class="nav pull-right" style="padding-top:13px">'; //nav pull-right
-        html[html.length] = '<li><a href="javascript:;"  style="visibility: ' + (options.ribbonIconVisible ? 'visible' : 'hidden') + '" id="ribbon-toggle" title="Toggle Ribbon"><i class="icon-bookmark"></i></a></li>';
+        //Code change to remove unwanted and not working code 
+        //html[html.length] = '<ul class="pull-right" style="padding-top:13px">'; //nav pull-right
+        //html[html.length] = '<li><a href="javascript:;"  style="visibility: ' + (options.ribbonIconVisible ? 'visible' : 'hidden') + '" id="ribbon-toggle" title="Toggle Ribbon"><i class="icon-bookmark"></i></a></li>';
         
-        html[html.length] = '<li class="dropdown">'; //dropdown
-        html[html.length] = '<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" title="Settings"><i class="icon-cog"></i></a>';
-        renderSettingsMenu(html);
-        html[html.length] = '';
-        html[html.length] = '';
-        html[html.length] = '';
-        html[html.length] = '</li>'; //dropdown
-        html[html.length] = '</ul>'; //nav pull-right
+        //html[html.length] = '<li class="dropdown">'; //dropdown
+        //html[html.length] = '<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" title="Settings"><i class="icon-cog"></i></a>';
+        //renderSettingsMenu(html);
+        //html[html.length] = '';
+        //html[html.length] = '';
+        //html[html.length] = '';
+        //html[html.length] = '</li>'; //dropdown
+        //html[html.length] = '</ul>'; //nav pull-right
         html[html.length] = '</div>'; //nav-collapse
 
     }

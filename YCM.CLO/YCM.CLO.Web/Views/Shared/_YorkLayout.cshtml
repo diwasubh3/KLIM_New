@@ -82,12 +82,13 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-2 p-0 text-right">
+                        @* Commented, user dont need auto refresh feature
+                            <div class="col-md-2 p-0 text-right">
                             Auto Refresh:
                             <label class="checkbox-inline">
                                 <input type="checkbox" id="autoRefresh" checked ng-model="topNav.isAutoRefresh" auto-refresh-button ng-change="topNav.onAutoRefreshChanged()">
                             </label>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
                 <div ng-hide="topNav.isBusy">
