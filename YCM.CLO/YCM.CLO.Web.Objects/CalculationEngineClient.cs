@@ -1,23 +1,12 @@
-﻿using System.Configuration;
+﻿using log4net;
+using Newtonsoft.Json;
+using System.Configuration;
 using System.IO;
 using System.Net;
-using Newtonsoft.Json;
-using log4net;
-using YCM.CLO.DataAccess.Models;
-using System.Linq;
-using System.Data.Entity;
-using System;
-using YCM.CLO.DataAccess.Contracts;
-using YCM.CLO.DataAccess;
-using System.Net.Mail;
-using System.Data.SqlClient;
-using System.Data;
-using CsvHelper;
-using YCM.CLO.CalculationEngine.Objects;
 
 namespace YCM.CLO.Web.Objects
 {
-	public class CalculationEngineClient 
+    public class CalculationEngineClient 
     {
 
         private readonly ILog _logger;

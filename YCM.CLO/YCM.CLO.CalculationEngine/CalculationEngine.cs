@@ -505,7 +505,7 @@ namespace YCM.CLO.CalculationEngine
         {
             try
             {
-                _logger.Info("Started On " + DateTime.Now.ToString());
+                _logger.Info("Started On " + DateTime.Now.ToString() + " for fileDateId:" + fileDateId.ToString() + " and dateid:"+ dateId.ToString());
                 using (CLOContext context = new CLOContext())
                 {
                     IRepository repository = new Repository();
@@ -529,42 +529,54 @@ namespace YCM.CLO.CalculationEngine
 
         private void SendStaleStatusEmail()
         {
+            _logger.Info("Started Stale email at " + DateTime.Now.ToString());
             IRepository repository = new Repository();
-
-            WebClient client = new WebClient();
-            string message = client.DownloadString(ConfigurationManager.AppSettings["FundDailySnapshotURL"]);
-            string subject = ConfigurationManager.AppSettings["FundDailySnapshotSubject"];
-
-            subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
-            Console.WriteLine(message);
-
-            var msg = new MailMessage();
-            msg.Body = message;
-            msg.IsBodyHtml = true;
-            msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
-
-            var emailTos = ConfigurationManager.AppSettings["FundDailySnapshotToEmailIds"].Split(new char[] { ',', ';' });
-
-            emailTos.ToList().ForEach(e =>
+            /* As requested by user (wendy):send email only when any fund has stale data
+             * code addedd to checkisanyfuns has stale data or Pricipal Cash is stale  
+             * 20-Sep-2021
+             */
+            var FUNDS = repository.GetFunds();
+            if (FUNDS.Where(w => (w.IsStale.HasValue && w.IsStale.Value)).Any() || FUNDS.Where(w => (w.IsPrincipalCashStale.HasValue && w.IsPrincipalCashStale.Value)).Any())
             {
-                msg.To.Add(e);
-            });
+                _logger.Info("Stale Fund Or Principal Cash found");
 
-            string ccList = ConfigurationManager.AppSettings["FundDailySnapshotCCEmailIds"];
-            if (!string.IsNullOrEmpty(ccList))
-            {
-                ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                WebClient client = new WebClient();
+                string message = client.DownloadString(ConfigurationManager.AppSettings["FundDailySnapshotURL"]);
+                string subject = ConfigurationManager.AppSettings["FundDailySnapshotSubject"];
+
+                subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                Console.WriteLine(message);
+
+                var msg = new MailMessage();
+                msg.Body = message;
+                msg.IsBodyHtml = true;
+                msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+
+                var emailTos = ConfigurationManager.AppSettings["FundDailySnapshotToEmailIds"].Split(new char[] { ',', ';' });
+
+                emailTos.ToList().ForEach(e =>
                 {
-                    msg.CC.Add(e);
+                    msg.To.Add(e);
                 });
+
+                string ccList = ConfigurationManager.AppSettings["FundDailySnapshotCCEmailIds"];
+                if (!string.IsNullOrEmpty(ccList))
+                {
+                    ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                    {
+                        msg.CC.Add(e);
+                    });
+                }
+
+                msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                msg.Subject = subject;
+                msg.Body = message;
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.Send(msg);
             }
-
-            msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
-            msg.Subject = subject;
-            msg.Body = message;
-            SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Send(msg);
-
+            else
+                _logger.Info("NO - Stale Fund Or Principal Cash found and skipping email send functionality");
+            _logger.Info("Completed sending Stale email at " + DateTime.Now.ToString());
         }
 
         public bool SendPriceMoverEmail()

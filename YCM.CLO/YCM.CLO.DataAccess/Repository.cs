@@ -648,6 +648,7 @@ namespace YCM.CLO.DataAccess
 			//return person;
 			userName = userName.Substring(userName.LastIndexOf('\\') + 1).ToLower();
 			var person = _cloContext.Users.FirstOrDefault(x => x.USerNAme == userName);
+			if (person == null) person = new User();
 			return person;
 
         }
