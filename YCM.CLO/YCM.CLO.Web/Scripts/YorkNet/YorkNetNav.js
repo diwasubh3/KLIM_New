@@ -333,17 +333,18 @@
     function renderNavbar(html, options) {
 
         html[html.length] = '<div class="only-non-mobile-device">'; //nav-collapse
-        html[html.length] = '<ul class="nav pull-right" style="padding-top:13px">'; //nav pull-right
-        html[html.length] = '<li><a href="javascript:;"  style="visibility: ' + (options.ribbonIconVisible ? 'visible' : 'hidden') + '" id="ribbon-toggle" title="Toggle Ribbon"><i class="icon-bookmark"></i></a></li>';
+        //Code change to remove unwanted and not working code 
+        //html[html.length] = '<ul class="pull-right" style="padding-top:13px">'; //nav pull-right
+        //html[html.length] = '<li><a href="javascript:;"  style="visibility: ' + (options.ribbonIconVisible ? 'visible' : 'hidden') + '" id="ribbon-toggle" title="Toggle Ribbon"><i class="icon-bookmark"></i></a></li>';
         
-        html[html.length] = '<li class="dropdown">'; //dropdown
-        html[html.length] = '<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" title="Settings"><i class="icon-cog"></i></a>';
-        renderSettingsMenu(html);
-        html[html.length] = '';
-        html[html.length] = '';
-        html[html.length] = '';
-        html[html.length] = '</li>'; //dropdown
-        html[html.length] = '</ul>'; //nav pull-right
+        //html[html.length] = '<li class="dropdown">'; //dropdown
+        //html[html.length] = '<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" title="Settings"><i class="icon-cog"></i></a>';
+        //renderSettingsMenu(html);
+        //html[html.length] = '';
+        //html[html.length] = '';
+        //html[html.length] = '';
+        //html[html.length] = '</li>'; //dropdown
+        //html[html.length] = '</ul>'; //nav pull-right
         html[html.length] = '</div>'; //nav-collapse
 
     }
@@ -488,7 +489,7 @@
     function renderMenuContent(html, options, menu) {
         if (menu.Title === 'Home') {
             html[html.length] = '<a href="' + formatUri(menu, Option) + '"' + ((menu.Children.length > 0) ? ' class="dropdown-toggle" data-toggle="dropdown"' : '') + ' style="padding-top:4px" ">';
-            html[html.length] = '<img src="/content/images/Kennedy_Lewis_logo_image.png" style = "height :60px; "></i></span>';
+            html[html.length] = '<img src="/content/images/Generate_Advisors_logo.png" style = "height :50px;margin:5px; "></i></span>';
         }
         else {
             //html[html.length] = '<a href="' + formatUri(menu, Option) + '"' + ((menu.Children.length > 0) ? ' class="dropdown-toggle"  data-toggle="dropdown"' : '') + '">';

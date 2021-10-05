@@ -39,13 +39,13 @@
 <body class="body-content">
 
     <div id="NavContainer">
-        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top  navbar-inverse">
+        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top" >
             <div>
                 <div class="navbar-inner">
-                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container">
-                        <div class="subnavbar pull-left" id="subnav" style="width:1250px">
+                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container"  style="margin-left:0px">
+                        <div class="pull-left" id="subnav" style="width:1250px">
                             <div class="subnavbar-inner">
-                                <div class="container" id="york-menu-container">
+                                <div class="container" id="york-menu-container"  style="margin-left:0px">
                                 </div>
                             </div>
                         </div>
@@ -82,12 +82,13 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-2 p-0 text-right">
+                        @* Commented, user dont need auto refresh feature
+                            <div class="col-md-2 p-0 text-right">
                             Auto Refresh:
                             <label class="checkbox-inline">
                                 <input type="checkbox" id="autoRefresh" checked ng-model="topNav.isAutoRefresh" auto-refresh-button ng-change="topNav.onAutoRefreshChanged()">
                             </label>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
                 <div ng-hide="topNav.isBusy">
