@@ -233,7 +233,7 @@ textarea {
   background-repeat: repeat-x;
   border-bottom: 1px solid #000;
   background-image: linear-gradient(top, #414141, #323232);
-  background-color: #3A3A3A;
+  /* background-color: #3A3A3A; */
   background-attachment: scroll;
 }
 .subnavbar .container > ul {

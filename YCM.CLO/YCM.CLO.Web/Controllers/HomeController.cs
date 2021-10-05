@@ -58,7 +58,7 @@ namespace YCM.CLO.Web.Controllers
             #region  application permissions
             //var permissions = 1;
             //_logger.Info($"permissions: {permissions}");
-            _logger.Info("Logged In User Naam:" + System.Web.HttpContext.Current.User.Identity.Name);
+            _logger.Info("Logged In User Name:" + System.Web.HttpContext.Current.User.Identity.Name);
             var permissions = GetRolesPermissions(User.Identity.Name);
             _logger.Info($"User {User.Identity.Name} has permissions to {string.Join(",", permissions.ToArray())}");
 
