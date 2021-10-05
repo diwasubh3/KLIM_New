@@ -489,7 +489,7 @@
     function renderMenuContent(html, options, menu) {
         if (menu.Title === 'Home') {
             html[html.length] = '<a href="' + formatUri(menu, Option) + '"' + ((menu.Children.length > 0) ? ' class="dropdown-toggle" data-toggle="dropdown"' : '') + ' style="padding-top:4px" ">';
-            html[html.length] = '<img src="/content/images/Kennedy_Lewis_logo_image.png" style = "height :60px; "></i></span>';
+            html[html.length] = '<img src="/content/images/Generate_Advisors_logo.png" style = "height :50px;margin:5px; "></i></span>';
         }
         else {
             //html[html.length] = '<a href="' + formatUri(menu, Option) + '"' + ((menu.Children.length > 0) ? ' class="dropdown-toggle"  data-toggle="dropdown"' : '') + '">';

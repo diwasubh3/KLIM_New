@@ -48,16 +48,16 @@ namespace YCM.CLO.CalculationEngine
                 {
                     _logger.Info("Get calculation for dateId:" + dateId);
                     var calculations = cloContext.Calculations.Where(c => c.DateId == dateId).ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("calculations data for dateId:" + calculations.Count());
 
                     _logger.Info("Get MarketData for dateId:" + dateId);
                     var marketDatas = cloContext.vw_MarketData.AsNoTracking().Where(d => d.DateId == dateId).AsNoTracking().ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("marketData data for dateId:" + marketDatas.Count());
 
                     _logger.Info("Get Security & Fund Details");
                     var securities =
                         cloContext.vwSecurityFunds.OrderBy(v => v.SecurityId).ThenBy(v => v.FundCode).ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("securities data for dateId:" + securities.Count());
 
                     _logger.Info("Get Position data for Active Fudn And dateId:"+ dateId);
                     var groupedPositionsDictionary = cloContext.Positions
@@ -66,11 +66,11 @@ namespace YCM.CLO.CalculationEngine
                         .Where(p => p.DateId == dateId && p.Fund.IsActive)
                         .GroupBy(p => p.SecurityId).AsNoTracking()
                         .ToDictionary(p => p.Key, p => p.ToList());
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("Position data for dateId:" + groupedPositionsDictionary.Count());
 
                     _logger.Info("Get Parameter Values");
                     var parameterValues = cloContext.ParameterValues.Include(c => c.ParameterType).AsNoTracking().ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("parameterValues for dateId:" + calculations.Count());
 
                     _logger.Info("Loop all Securities details");
                     securities.ForEach(security =>
@@ -86,7 +86,6 @@ namespace YCM.CLO.CalculationEngine
                             var calculation =
                                 calculations.FirstOrDefault(
                                     c => c.SecurityId == security.SecurityId && c.FundId == security.FundId);
-                            _logger.Info("  securityPositions" + calculation.ToString());
 
                             var marketData =
                                 marketDatas.FirstOrDefault(
@@ -122,11 +121,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  Yeild calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  Yeild calculation started");
                                 yieldCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                     security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  Yeild calculation ended for SecurityId" + security.SecurityId);
-
                             }
                             catch (Exception exception)
                             {
@@ -136,10 +133,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 warfRecoveryCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -148,10 +144,9 @@ namespace YCM.CLO.CalculationEngine
                             
                             try
                             {
-                                _logger.Info("  totalParLifeCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  totalParLifeCalculator calculation started");
                                 totalParLifeCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                               security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  totalParLifeCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -160,10 +155,9 @@ namespace YCM.CLO.CalculationEngine
                             
                             try
                             {
-                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation started");
                                 moodyFacilityRatingAdjustedCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -172,10 +166,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation started");
                                 moodyCashFlowRatingAdjustedCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -184,10 +177,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  snPAssetRecoveryRatingCalculatorsnPAssetRecoveryRatingCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  snPAssetRecoveryRatingCalculatorsnPAssetRecoveryRatingCalculator calculation started");
                                 snPAssetRecoveryRatingCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -196,10 +188,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try 
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 //NOTE: this relies on calculations in snPAssetRecoveryRatingCalculator, so it must come after it
                                 snpWarfCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -208,10 +199,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  moodysLgdCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodysLgdCalculator calculation started ");
                                 //Depends on Warf calculator, must come after
                                 moodysLgdCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodysLgdCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -220,10 +210,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  yieldAvgLgdCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  yieldAvgLgdCalculator calculation started");
                                 //NOTE: depends on yieldcalculator, snpWarfCalculator and moodysLgdCalculator. Must come afterwards
                                 yieldAvgLgdCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  yieldAvgLgdCalculator dended  for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -231,10 +220,9 @@ namespace YCM.CLO.CalculationEngine
                             }
                             try
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 //NOTE: depends on snPAssetRecoveryRatingCalculator. Must come afterwards
                                 snpAAARecoveryCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
