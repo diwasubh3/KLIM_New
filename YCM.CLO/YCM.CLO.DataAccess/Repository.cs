@@ -1065,6 +1065,12 @@ namespace YCM.CLO.DataAccess
 			return data;
 		}
 
+		IEnumerable<TotalParChange> IRepository.GetTotalParChange(int startDateId, int endDateId)
+            => _cloContext.Database.SqlQuery<TotalParChange>(
+				"CLO.spGetTotalParDifference @CurrentDate, @PREVIOUSDATE",
+                new SqlParameter("@CurrentDate", startDateId),
+                new SqlParameter("@PREVIOUSDATE", endDateId));
+
 		Fund IRepository.SaveFund(Fund fund)
 		{
 			_cloContext.Funds.Attach(fund);

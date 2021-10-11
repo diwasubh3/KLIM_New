@@ -152,6 +152,7 @@ namespace YCM.CLO.DataAccess.Contracts
         LienType GetLienType(string lienType);
 
         IEnumerable<Fund> GetFunds();
+        IEnumerable<TotalParChange> GetTotalParChange(int startDateId, int endDateId);
         IEnumerable<RatingChange> GetRatingChanges(int startDateId, int endDateId);
 
         Security AddUpdateSecurity(Security security,string user);

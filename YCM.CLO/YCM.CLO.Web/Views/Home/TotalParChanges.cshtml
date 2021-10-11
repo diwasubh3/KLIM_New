@@ -1,0 +1,53 @@
+﻿@model List<YCM.CLO.DataAccess.Models.TotalParChange>
+
+@{
+    Layout = "../Shared/_BlankLayout.cshtml";
+}
+
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<div style="padding:20px">
+
+    <table style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Fund
+                </th>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Previous Day Total par
+                </th>
+                <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border-bottom: 1px solid black;">
+                    Current Day Total par
+                </th>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Total par Difference
+                </th>
+            </tr>
+        </thead>
+        @foreach (var tp in Model)
+        {
+            <tr>
+                <td style="text-align: left; padding:  0 20px 0 20px;">
+                    @tp.Fund
+                </td>
+                <td style="text-align: right; padding:  0 20px 0 20px;">
+                    @tp.Previous_TotalPar
+                </td>
+                <td style="text-align: right; padding: 0 20px 0 20px;">
+                    @tp.Current_TotalPar
+                </td>
+                <td style="text-align: right; padding: 0 20px 0 20px;">
+                    @tp.TotalPar_Diff
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>

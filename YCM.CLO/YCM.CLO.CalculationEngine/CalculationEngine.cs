@@ -623,7 +623,6 @@ namespace YCM.CLO.CalculationEngine
 
         public bool SendRatingChangeEmail()
         {
-
             try
             {
                 _logger.Info("Method SendRatingChangeEmail started");
@@ -676,7 +675,6 @@ namespace YCM.CLO.CalculationEngine
                 _logger.Info("Method SendRatingChangeEmail Ended");
             }
         }
-
 
         public bool SendMismatchEmail()
         {
@@ -752,7 +750,64 @@ namespace YCM.CLO.CalculationEngine
             }
         }
 
+        public bool SendTotalParChangeEmail(int startDateId, int endDateId)
+        {
+            try
+            {
+                _logger.Info("SendTotalParChangeEmail started");
 
+                IRepository repository = new Repository();
+                var totalParChanges = repository.GetTotalParChange(startDateId, endDateId);
+                if (totalParChanges != null && totalParChanges.Any())
+                {
+                    WebClient client = new WebClient();
+                    client.Credentials = CredentialCache.DefaultCredentials;
+                    _logger.Info("Client URL:" + ConfigurationManager.AppSettings["TotalParChangeURL"]);
+                    string message = client.DownloadString(ConfigurationManager.AppSettings["TotalParChangeURL"]);
+                    string subject = ConfigurationManager.AppSettings["TotalParChangeURLSubject"];
+
+                    subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                    Console.WriteLine(message);
+                    _logger.Info("message:" + message);
+
+                    var msg = new MailMessage();
+                    msg.Body = message;
+                    msg.IsBodyHtml = true;
+                    msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+
+                    var emailTos = ConfigurationManager.AppSettings["TotalParChangeToEmailIds"].Split(new char[] { ',', ';' });
+                    emailTos.ToList().ForEach(e =>
+                    {
+                        msg.To.Add(e);
+                    });
+
+                    string ccList = ConfigurationManager.AppSettings["TotalParChangeCCEmailIds"];
+                    if (!string.IsNullOrEmpty(ccList))
+                    {
+                        ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                        {
+                            msg.CC.Add(e);
+                        });
+                    }
+
+                    msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                    msg.Subject = subject;
+                    msg.Body = message;
+
+                    _logger.Info("SendTotalParChangeEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(msg);
+                }
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                _logger.Error(exception);
+                return false;
+            }
+        }
 
         public bool CalculateFrontier(int dateId, int fundId, string user)
         {

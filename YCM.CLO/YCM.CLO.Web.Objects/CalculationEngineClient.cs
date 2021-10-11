@@ -78,6 +78,12 @@ namespace YCM.CLO.Web.Objects
             return SendToCalculationEngine(url, request);
         }
 
+        public bool SendTotalParChangeEmail()
+        {
+            var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendTotalParChangeEmail";
+            var request = new { };
+            return SendToCalculationEngine(url, request);
+        }
         public bool SendPriceMoverEmail()
         {
             var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendPriceMoverEmail";
