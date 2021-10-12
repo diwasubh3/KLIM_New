@@ -760,28 +760,31 @@ namespace YCM.CLO.CalculationEngine
                 var totalParChanges = repository.GetTotalParChange(startDateId, endDateId);
                 if (totalParChanges != null && totalParChanges.Any())
                 {
+                    _logger.Info("Total Par Change Found:");
                     WebClient client = new WebClient();
                     client.Credentials = CredentialCache.DefaultCredentials;
-                    _logger.Info("Client URL:" + ConfigurationManager.AppSettings["TotalParChangeURL"]);
+                    _logger.Info("Client URL to get Total Par content:" + ConfigurationManager.AppSettings["TotalParChangeURL"]);
                     string message = client.DownloadString(ConfigurationManager.AppSettings["TotalParChangeURL"]);
                     string subject = ConfigurationManager.AppSettings["TotalParChangeURLSubject"];
 
                     subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
                     Console.WriteLine(message);
-                    _logger.Info("message:" + message);
+                    _logger.Info("Email Message to be sent:" + message);
 
                     var msg = new MailMessage();
-                    msg.Body = message;
                     msg.IsBodyHtml = true;
                     msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+                    _logger.Info("Email Message object created");
 
                     var emailTos = ConfigurationManager.AppSettings["TotalParChangeToEmailIds"].Split(new char[] { ',', ';' });
+                    _logger.Info("Email Message to be sent to:"+ emailTos);
                     emailTos.ToList().ForEach(e =>
                     {
                         msg.To.Add(e);
                     });
 
                     string ccList = ConfigurationManager.AppSettings["TotalParChangeCCEmailIds"];
+                    _logger.Info("Email Message to be CC:" + ccList);
                     if (!string.IsNullOrEmpty(ccList))
                     {
                         ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
@@ -797,13 +800,17 @@ namespace YCM.CLO.CalculationEngine
                     _logger.Info("SendTotalParChangeEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
                     SmtpClient smtpClient = new SmtpClient();
                     smtpClient.Send(msg);
+                    _logger.Info("TotalPar Change Email Sent successfully");
                 }
+                else
+                    _logger.Info("No change in Total Par Found and hence no email will be sent today");
 
                 return true;
             }
             catch (Exception exception)
             {
                 Console.Write(exception.ToString());
+                _logger.Info("Exeption while sending email message on TotalPar Change");
                 _logger.Error(exception);
                 return false;
             }

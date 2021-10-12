@@ -138,6 +138,7 @@
     <Compile Include="Models\Mapping\MatrixDataMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\TotalParChange.cs" />
     <Compile Include="Models\vw_Mismatch.cs" />
     <Compile Include="Models\vw_MatrixData.cs" />
     <Compile Include="Models\MatrixData.cs" />
