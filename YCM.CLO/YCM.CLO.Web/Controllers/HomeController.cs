@@ -282,24 +282,24 @@ namespace YCM.CLO.Web.Controllers
         [AllowAnonymous]
         public ViewResult totalParChanges(int? startDateId = null, int? endDateId = null)
         {
-            if (startDateId == null)
+            if (endDateId == null)
             {
                 var today = DateTime.Today;
 
                 if (today.DayOfWeek == DayOfWeek.Monday)
                 {
-                    startDateId = Helper.GetDateId(today.AddDays(-4));
+                    endDateId = Helper.GetDateId(today.AddDays(-4));
                 }
                 else
                 {
-                    startDateId = Helper.GetDateId(today.AddDays(-2));
+                    endDateId = Helper.GetDateId(today.AddDays(-2));
                 }
             }
 
-            if (endDateId == null)
+            if (startDateId == null)
             {
                 var today = DateTime.Today;
-                endDateId = Helper.GetDateId(today.AddDays(-1));
+                startDateId = Helper.GetDateId(today.AddDays(-1));
             }
 
             var totalParChanges = _repository.GetTotalParChange(
