@@ -16,6 +16,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? CLO8NumExposure { get; set; }
         public decimal? CLO9NumExposure { get; set; }
         public decimal? CLO10NumExposure { get; set; }
+        public decimal? CLO8UpNumExposure { get; set; }
 
 
         [NotMapped]
@@ -33,6 +34,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? CLO8TargetPar { get; set; }
         public decimal? CLO9TargetPar { get; set; }
         public decimal? CLO10TargetPar { get; set; }
+        public decimal? CLO8UpTargetPar { get; set; }
         [NotMapped]
 	    public decimal? TRSTargetPar { get; set; }
 	    [NotMapped]
@@ -48,6 +50,7 @@ namespace YCM.CLO.DataAccess.Models
         public string CLO8Exposure { get; set; }
         public string CLO9Exposure { get; set; }
         public string CLO10Exposure { get; set; }
+        public string CLO8UpExposure { get; set; }
         [NotMapped]
         public string TRSExposure { get; set; }
 		[NotMapped]
@@ -62,6 +65,7 @@ namespace YCM.CLO.DataAccess.Models
         public string CLO8PctExposure { get; set; }
         public string CLO9PctExposure { get; set; }
         public string CLO10PctExposure { get; set; }
+        public string CLO8UpPctExposure { get; set; }
         [NotMapped]
         public string TRSPctExposure { get; set; }
 		[NotMapped]
@@ -197,6 +201,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? CLO8MatrixImpliedSpread { get; set; }
         public decimal? CLO9MatrixImpliedSpread { get; set; }
         public decimal? CLO10MatrixImpliedSpread { get; set; }
+        public decimal? CLO8UpMatrixImpliedSpread { get; set; }
 
         public decimal? CLO1DifferentialImpliedSpread { get; set; }
         public decimal? CLO2DifferentialImpliedSpread { get; set; }
@@ -208,6 +213,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? CLO8DifferentialImpliedSpread { get; set; }
         public decimal? CLO9DifferentialImpliedSpread { get; set; }
         public decimal? CLO10DifferentialImpliedSpread { get; set; }
+        public decimal? CLO8UpDifferentialImpliedSpread { get; set; }
 
         public decimal? CLO1MatrixWarfRecovery { get; set; }
         public decimal? CLO2MatrixWarfRecovery { get; set; }
@@ -219,6 +225,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? CLO8MatrixWarfRecovery { get; set; }
         public decimal? CLO9MatrixWarfRecovery { get; set; }
         public decimal? CLO10MatrixWarfRecovery { get; set; }
+        public decimal? CLO8UpMatrixWarfRecovery { get; set; }
 
         public string zSnPAssetRecoveryRating { get; set; }
         public decimal? SnpWarf { get; set; }
