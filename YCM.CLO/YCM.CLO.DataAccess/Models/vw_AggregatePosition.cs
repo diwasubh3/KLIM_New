@@ -5,6 +5,7 @@ namespace YCM.CLO.DataAccess.Models
 {
 	public partial class vw_AggregatePosition
     {
+
         public int? PositionDateId { get; set; }
         public decimal? CLO1NumExposure { get; set; }
         public decimal? CLO2NumExposure { get; set; }
