@@ -136,6 +136,7 @@
     <Compile Include="Models\Mapping\MatrixPointMap.cs" />
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\MatrixDataMap.cs" />
+    <Compile Include="Models\Mapping\vw_ReinvestDetailsMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
     <Compile Include="Models\TotalParChange.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\vw_Position_Exposure.cs" />
     <Compile Include="Models\vw_PriceMove.cs" />
     <Compile Include="Models\RatingChange.cs" />
+    <Compile Include="Models\vw_ReinvestDetails.cs" />
     <Compile Include="Models\vw_Security_Watch.cs" />
     <Compile Include="Models\vw_SecurityFund.cs" />
     <Compile Include="Models\vw_AggregatePosition.cs" />

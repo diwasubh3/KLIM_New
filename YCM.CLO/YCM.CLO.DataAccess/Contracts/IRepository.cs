@@ -29,6 +29,8 @@ namespace YCM.CLO.DataAccess.Contracts
 
         IEnumerable<Rule> GetRules();
 
+        IEnumerable<vw_ReinvestDetails> GetReinvestDetails();
+
         Rule GetRule(short ruleId);
 
         IEnumerable<vw_Position> GetTop10Positions(string fundCode, int dateId);

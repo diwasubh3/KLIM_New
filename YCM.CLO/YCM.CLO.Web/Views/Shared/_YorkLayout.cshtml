@@ -95,50 +95,53 @@
                     <div class="col-md-12" style="padding: 0px 50px !important;">
                         <div style="padding:0px !important" id="data">
                             <uib-accordion close-others="oneAtATime">
+                                
                                 <div uib-accordion-group class="panel-default" ng-click="topNav.onTestResultsVisibilityChanged(topNav.testResultIsOpen)" is-open="topNav.testResultIsOpen">
                                     <uib-accordion-heading>
+                                        
                                         <div>
                                             TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>
+                                            &nbsp;&nbsp;&nbsp;&nbsp; <input id="btnReinvest" type="button" ng-click="$event.preventDefault();topNav.refreshSummaries();" value="Load ReInvest Data" />
                                         </div>
                                     </uib-accordion-heading>
                                     @*<div style="padding: 4px !important">
-                                            <div class="pull-left" style="padding: 0px 0px 10px !important">
-                                                <button class="btn btn-primary"
-                                                        ng-click="topNav.downloadSummaries()"
-                                                        ng-disabled="topNav.isLoading">
-                                                    <i class="fa fa-file-excel-o">&nbsp;&nbsp;Export to Excel</i>
-                                                </button>
-                                            </div>
-                                        </div>*@
+                <div class="pull-left" style="padding: 0px 0px 10px !important">
+                    <button class="btn btn-primary"
+                            ng-click="topNav.downloadSummaries()"
+                            ng-disabled="topNav.isLoading">
+                        <i class="fa fa-file-excel-o">&nbsp;&nbsp;Export to Excel</i>
+                    </button>
+                </div>
+            </div>*@
                                     @*<div class="table-header" style="padding:0px ">
-                                            <table class="table table-bordered table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams" style="border-width: 0;margin-bottom: 0px">
-                                                <thead>
-                                                    <tr>
+                <table class="table table-bordered table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams" style="border-width: 0;margin-bottom: 0px">
+                    <thead>
+                        <tr>
 
-                                                        <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                                                        </th>
-                                                        <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
-                                                        <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
-                                                        <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
-                                                        <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
-                                                        <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
-                                                        <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
-                                                        <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
-                                                        <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
-                                                        <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
-                                                        <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
-                                                        <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                                                            <div>MOODY'S RECOVERY</div>
-                                                        </th>
-                                                        <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
-                                                        <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
-                                                        <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
-                                                        <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
+                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                            </th>
+                            <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
+                            <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
+                            <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
+                            <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
+                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
+                            <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
+                            <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
+                            <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
+                            <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
+                            <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                <div>MOODY'S RECOVERY</div>
+                            </th>
+                            <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
+                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
+                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
 
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>*@
+                        </tr>
+                    </thead>
+                </table>
+            </div>*@
                                     <div style="max-height: {{44*topNav.summaryData.length}}px;">
                                         <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams"
                                                id="tblSummaryBody"
@@ -151,6 +154,7 @@
                                                     <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
                                                     <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
                                                     <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                                                    <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>REINVEST CASH</div></th>
                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
                                                     <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
@@ -192,6 +196,12 @@
                                                         </span>
                                                     </td>
 
+                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
+                                                        <a href="google.com">
+                                                            {{data.reInvestCash| number:0}}
+                                                        </a>
+                                                    </td>
+
                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" @*ng-style="data.wsoSpreadBgStyle"*@>
                                                         <span ng-show="data.spread" uib-tooltip-html="data.wsoSpreadTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
                                                             {{data.wsoSpread| number:2}}%
@@ -199,10 +209,10 @@
                                                     </td>
 
                                                     @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-                                                            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                {{data.totalCoupon| number:2}}%
-                                                            </span>
-                                                        </td>*@
+                                <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.totalCoupon| number:2}}%
+                                </span>
+                            </td>*@
 
                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
                                                         <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
@@ -243,10 +253,10 @@
                                                     </td>
 
                                                     @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-                                                            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                {{data.wsowaLife| number:2}}
-                                                            </span>
-                                                        </td>*@
+                                <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsowaLife| number:2}}
+                                </span>
+                            </td>*@
                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
                                                         <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
                                                             {{data.wsoDiversity| number:0}}
@@ -401,7 +411,7 @@
             <h1 style="text-align: center;color: red">You don't have permission to see this Application.</h1>
         </div>
     }
-    <script>
+<script>
         pageOptions = {};
         pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
         pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
@@ -430,7 +440,16 @@
         pageOptions.canEditReportData = @ViewBag.HasReportEditPermission.ToString().ToLower()
         pageOptions.PositionSettings = {};
 
+
+    //function test() {
+    //    var Excel = new ActiveXObject("Excel.Application");
+    //    Excel.Visible = true;
+    //    Excel.Workbooks.Open("\\KL-NY-DC01\Generate\LineData\CLO-1 Reinvest Proceeds.xlsx");
+    //    var excel_sheet = Excel.Worksheets("CLO-1 Reinvest Proceeds");
+    //    excel_sheet.activate();
+    //}
     </script>
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -418,6 +418,20 @@ namespace YCM.CLO.Web.Controllers
 				
 	            _logger.Info($"_repository is null? {_repository == null}");
 	            var data = CLOCache.GetSummaries();//_repository.GetSummaries(dateId).ToList();
+
+				_logger.Info($"Call to Get Reinvest Details... ");
+				var reinvest = _repository.GetReinvestDetails();
+				if (reinvest != null && reinvest.Any())
+				{
+					_logger.Info($"Found {reinvest.Count()} Reinvest Details... ");
+					foreach (var rFile in reinvest)
+					{
+						var rData = data.Where(w => w.FundCode == rFile.FundCode).FirstOrDefault();
+						rData.reInvestCash = ReadReinvestData(rFile.FilePath, rFile.FileName, rFile.SheetName, rFile.FieldLocation);
+					}
+				}
+				else _logger.Info($"No Details found for Reinvest... ");
+
 				_logger.Info($"data is null? {data == null}");
 				if(data != null)
 		            _logger.Info($"data count: {data.Count}");
@@ -432,6 +446,41 @@ namespace YCM.CLO.Web.Controllers
                 throw;
             }
         }
+
+		private decimal ReadReinvestData(string filePath, string fileName, string sheetName, string fieldLocation)
+		{
+			decimal reinvestValue = 0;
+			try
+			{
+				_logger.Info($"Checking if File Directory {filePath} exist...");
+				if (Directory.Exists(filePath))
+				{
+					_logger.Info($"File Directory {filePath} exist...");
+					var path = Path.Combine(filePath, fileName);
+					var fileInfo = new FileInfo(path);
+					_logger.Info($"Opening excel file using ExcelPackage...");
+					using (var pkg = new ExcelPackage(fileInfo))
+					{
+						var sheet1 = pkg.Workbook.Worksheets.Cast<ExcelWorksheet>().FirstOrDefault(worksheet => worksheet.Name == sheetName);
+						var sheet = pkg.Workbook.Worksheets[sheetName];
+						if (sheet == null)
+						{
+							_logger.Info($"Sheet with name {sheetName} not exist in workbook {path}...");
+							reinvestValue = 0;
+						}
+						else reinvestValue = Convert.ToDecimal(sheet.Cells[fieldLocation].Value);
+					}
+				}
+				else _logger.Info($"File Directory {filePath} not exist and no reinvest value found...");
+			}
+			catch (Exception ex)
+			{
+				reinvestValue = 0;
+				_logger.Error(ex);
+			}
+			return reinvestValue;
+		}
+
 
         public JsonNetResult GetMoodyRatings()
         {

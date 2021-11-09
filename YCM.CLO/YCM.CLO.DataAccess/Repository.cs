@@ -1360,6 +1360,14 @@ namespace YCM.CLO.DataAccess
 				, param, priorDateParam, fundParam).ToList();
 		}
 
+		IEnumerable<vw_ReinvestDetails> IRepository.GetReinvestDetails()
+		{
+			using (CLOContext context = new CLOContext())
+			{
+				return context.vw_ReinvestDetails.AsNoTracking().ToList();
+			}
+		}
+
 		List<CreditScore> IRepository.GetCreditScores()
 			=> _cloContext.CreditScores.AsNoTracking().ToList();
 
