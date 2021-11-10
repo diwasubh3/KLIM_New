@@ -29,6 +29,8 @@ namespace YCM.CLO.DataAccess.Contracts
 
         IEnumerable<Rule> GetRules();
 
+        IEnumerable<vw_ReinvestDetails> GetReinvestDetails();
+
         Rule GetRule(short ruleId);
 
         IEnumerable<vw_Position> GetTop10Positions(string fundCode, int dateId);
@@ -152,6 +154,7 @@ namespace YCM.CLO.DataAccess.Contracts
         LienType GetLienType(string lienType);
 
         IEnumerable<Fund> GetFunds();
+        IEnumerable<TotalParChange> GetTotalParChange(int startDateId, int endDateId);
         IEnumerable<RatingChange> GetRatingChanges(int startDateId, int endDateId);
 
         Security AddUpdateSecurity(Security security,string user);

@@ -169,16 +169,17 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Projects\YCM.CLO\YCM.CLO.Web\bin\StructureMap.dll</HintPath>
+      <HintPath>bin\StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap.Net4">
-      <HintPath>..\..\..\Projects\CLO Portal\packages\structuremap.3.1.1.134\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\structuremap.web.4.0.0.315\lib\net40\StructureMap.Web.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\StructureMap.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -265,10 +266,6 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="YCM.CLO.CalculationEngine.Objects, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\YCM.CLO.CalculationEngine.Objects\bin\Debug\YCM.CLO.CalculationEngine.Objects.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -651,6 +648,7 @@
     <Content Include="Views\Home\RatingChanges.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\MismatchData.cshtml" />
+    <Content Include="Views\Home\TotalParChanges.cshtml" />
     <None Include="Web.PROD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -738,6 +736,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YCM.CLO.CalculationEngine.Objects\YCM.CLO.CalculationEngine.Objects.csproj">
+      <Project>{402b0bf9-a1fb-453e-bdef-b12765abce6b}</Project>
+      <Name>YCM.CLO.CalculationEngine.Objects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YCM.CLO.DataAccess\YCM.CLO.DataAccess.csproj">
       <Project>{91f91003-4f09-4dbc-bb26-1c7201ced110}</Project>
       <Name>YCM.CLO.DataAccess</Name>

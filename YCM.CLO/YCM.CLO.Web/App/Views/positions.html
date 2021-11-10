@@ -39,8 +39,8 @@
 	<img src="{{positions.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{positions.statusText}}...</b>
 </div>
 <div class="col-md-12 p-0">
-	<div class="col-md-6 p-0">
-		<div  style="width:495px;display:inline-block">
+	<div class="col-md-5 p-0" style="display: flex;">
+		<div style="width:400px;display:inline-block">
 			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnWatch').filters[0].term}"
 					ng-click="positions.filterByName('IsOnWatch')"
 					style="color: black" ng-disabled="positions.isLoading">
@@ -53,7 +53,7 @@
 			</button>
 			<button class="btn sell btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsSellCandidate').filters[0].term}"
 					ng-click="positions.filterByName('IsSellCandidate')"
-					style="width: 22px;color: red;" ng-disabled="positions.isLoading">
+					style="width: 20px;color: red;" ng-disabled="positions.isLoading">
 				<span class="isp">S</span>
 			</button>
 			<button class="btn btn-icon"
@@ -66,36 +66,36 @@
 			</span>
 			<button class="btn btn-secondary"
 					ng-click="positions.comapreLoans()"
-					style="margin-left:10px" ng-disabled="positions.isLoading || forCompareCount==0">
+					style="margin-left:0" ng-disabled="positions.isLoading || forCompareCount==0">
 				<i class="fa  fa-thumb-tack"></i> Loan Comparison Tool {{forCompareCount?'('+forCompareCount+')':''}}
 			</button>
-			<label class="checkbox-inline" style="font-size: 11px;padding-left:10px">
+			<label class="checkbox-inline" style="font-size: 11px;padding-left:0px">
 				Show No Exposure:&nbsp;<input type="checkbox" ng-disabled="positions.isLoading" ng-model="positions.onlyWithExposures"
 									  style="margin-left:0;margin-top:2px!important" ng-change="positions.onFieldGroupChanged(true)">
 			</label>
 		</div>
-        <div style="display:inline;width:150px;margin-left:20px">
-            <div class="dropdown" uib-dropdown auto-close="outsideClick" style="display:inline">
-                <button class="btn btn-info" ng-disabled="positions.isLoading" uib-dropdown-toggle>Implied Matrix Spread </button>
-                <ul class="dropdown-menu status-select" style="width:130px" ng-if="$index == selectedFilterIndex" uib-dropdown-menu>
-                    <li ng-repeat="fund in positions.funds" ng-click="positions.onShowImpliedMatrixSpreadChanged(fund)">
-                        <div class="checkbox">
-                            <label >
-                                <input type="checkbox" style="margin-top:3px !important" ng-model="fund.isImsSelected" />
-                                {{fund.fundCode}}
-                            </label>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            
-            <!--<select class="form-control" style="width:60px;display:inline" 
-                             ng-disabled="positions.isLoading"      
-                            ng-model="positions.selectedMatrixSpreadFund"
+		<div style="display:inline;width:150px;padding-left:5px;">
+			<div class="dropdown" uib-dropdown auto-close="outsideClick" style="display:inline">
+				<button class="btn btn-info" ng-disabled="positions.isLoading" uib-dropdown-toggle>Implied Matrix Spread </button>
+				<ul class="dropdown-menu status-select" style="width:130px" ng-if="$index == selectedFilterIndex" uib-dropdown-menu>
+					<li ng-repeat="fund in positions.funds" ng-click="positions.onShowImpliedMatrixSpreadChanged(fund)">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" style="margin-top:3px !important" ng-model="fund.isImsSelected" />
+								{{fund.fundCode}}
+							</label>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<!--<select class="form-control" style="width:60px;display:inline"
+							 ng-disabled="positions.isLoading"
+							ng-model="positions.selectedMatrixSpreadFund"
 							ng-options="fund.fundCode for fund in positions.funds"></select>-->
-        </div>
+		</div>
 	</div>
-	<div class="col-md-2 p-0 text-center" style="">
+	<div class="col-md-3 p-0 text-center" style="padding-left:20px;">
 		<div class="pull-left">
 			<div class="pull-left">
 				<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin:0">
@@ -126,9 +126,9 @@
 		<div class="pull-left">
 			<div class="btn-group" uib-dropdown is-open="status.isopen">
 				<div class="pull-left" style="display: inline-block; font-weight: bold;width: 150px">
-					<select class="form-control" 
-                             ng-disabled="positions.isLoading"
-                            ng-model="positions.selectedCustomView" ng-change="positions.changeView(view)"
+					<select class="form-control"
+							ng-disabled="positions.isLoading"
+							ng-model="positions.selectedCustomView" ng-change="positions.changeView(view)"
 							ng-options="view as view.displayName disable when view.isDisabled for view in positions.customViews"></select>
 					<!--options-class="{ 'is-default' : isDefault, 'not-default': !isDefault }"-->
 				</div>
@@ -144,13 +144,13 @@
 				</button>
 			</div>
 		</div>
-        <div class="pull-left" style="margin-left:15px">
-            <button class="" ng-disabled="positions.isLoading" style="margin: 0 5px; font-size: 18px;background:transparent;border:none"
-               ng-click="positions.showFilter()">
-                <i class="fa fa-filter"></i>
-                <span style="font-size: 12px">{{positions.positionFilter.count?('('+positions.positionFilter.count+')'):''}}</span>
-            </button>
-        </div>
+		<div class="pull-left" style="margin-left:15px">
+			<button class="" ng-disabled="positions.isLoading" style="margin: 0 5px; font-size: 18px;background:transparent;border:none"
+					ng-click="positions.showFilter()">
+				<i class="fa fa-filter"></i>
+				<span style="font-size: 12px">{{positions.positionFilter.count?('('+positions.positionFilter.count+')'):''}}</span>
+			</button>
+		</div>
 		<div class="pull-right">
 			<input ng-model="positions.searchText"
 				   ng-disabled="positions.isLoading"

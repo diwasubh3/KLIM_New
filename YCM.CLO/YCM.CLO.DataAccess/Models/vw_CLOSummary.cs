@@ -34,8 +34,10 @@ namespace YCM.CLO.DataAccess.Models
 		public decimal? WAMaturityDays { get; set; }
 		public decimal? BODWAMaturityDays { get; set; }
 		public decimal? AssetPar { get; set; }
+		public decimal? reInvestCash { get; set; }
 
-        public decimal? B3ToAssetParPct { get; set; }
+
+		public decimal? B3ToAssetParPct { get; set; }
 
         public decimal? BMinusToAssetParPct { get; set; }
 
@@ -63,7 +65,9 @@ namespace YCM.CLO.DataAccess.Models
             get;set;
 		}
 
-        public decimal? MatrixImpliedSpread { get; set; }
+		
+		
+		public decimal? MatrixImpliedSpread { get; set; }
 
         public decimal? SpreadDiff { get; set; }
 

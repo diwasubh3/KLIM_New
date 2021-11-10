@@ -89,6 +89,7 @@
     <Compile Include="PositionDto.cs" />
     <Compile Include="PricingDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TotalParDto.cs" />
     <Compile Include="RatingDto.cs" />
     <Compile Include="RuleDto.cs" />
     <Compile Include="RuleFieldDto.cs" />
