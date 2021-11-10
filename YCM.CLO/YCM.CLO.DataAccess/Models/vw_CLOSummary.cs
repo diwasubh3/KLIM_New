@@ -35,6 +35,7 @@ namespace YCM.CLO.DataAccess.Models
 		public decimal? BODWAMaturityDays { get; set; }
 		public decimal? AssetPar { get; set; }
 		public decimal? reInvestCash { get; set; }
+		public string reInvestCashFilepath { get; set; }
 
 
 		public decimal? B3ToAssetParPct { get; set; }

@@ -80,6 +80,9 @@
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 && stalefundscount > 0 ? ' | ':''}}</span>
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{stalefundscount > 0 ? (stalefundscount + ' stale') :'' }}</span>
                                 </span>
+                                <span style="right:0">
+                                    <input id="btnReinvest" type="button" ng-click="topNav.refreshSummaries();" value="Refresh ReInvest Data" />
+                                </span>
                             </div>
                         </div>
                         @* Commented, user dont need auto refresh feature
@@ -101,7 +104,7 @@
                                         
                                         <div>
                                             TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>
-                                            &nbsp;&nbsp;&nbsp;&nbsp; <input id="btnReinvest" type="button" ng-click="$event.preventDefault();topNav.refreshSummaries();" value="Load ReInvest Data" />
+                                            
                                         </div>
                                     </uib-accordion-heading>
                                     @*<div style="padding: 4px !important">
@@ -197,7 +200,7 @@
                                                     </td>
 
                                                     <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
-                                                        <a href="google.com">
+                                                        <a href="ms-excel:ofe|u|{{data.reInvestCashFilepath}}" download>
                                                             {{data.reInvestCash| number:0}}
                                                         </a>
                                                     </td>

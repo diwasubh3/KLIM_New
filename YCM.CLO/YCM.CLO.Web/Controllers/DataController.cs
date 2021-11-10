@@ -419,18 +419,24 @@ namespace YCM.CLO.Web.Controllers
 	            _logger.Info($"_repository is null? {_repository == null}");
 	            var data = CLOCache.GetSummaries();//_repository.GetSummaries(dateId).ToList();
 
-				_logger.Info($"Call to Get Reinvest Details... ");
-				var reinvest = _repository.GetReinvestDetails();
-				if (reinvest != null && reinvest.Any())
+				if (data != null && data.Any())
 				{
-					_logger.Info($"Found {reinvest.Count()} Reinvest Details... ");
-					foreach (var rFile in reinvest)
+					_logger.Info($"Fund Summary data available... ");
+					_logger.Info($"Start Call to Get Reinvest Details... ");
+					var reinvest = _repository.GetReinvestDetails();
+					if (reinvest != null && reinvest.Any())
 					{
-						var rData = data.Where(w => w.FundCode == rFile.FundCode).FirstOrDefault();
-						rData.reInvestCash = ReadReinvestData(rFile.FilePath, rFile.FileName, rFile.SheetName, rFile.FieldLocation);
+						_logger.Info($"Found {reinvest.Count()} Reinvest Details... ");
+						foreach (var rFile in reinvest)
+						{
+							var rData = data.Where(w => w.FundCode == rFile.FundCode).FirstOrDefault();
+							rData.reInvestCashFilepath = new Uri(Path.Combine(rFile.FilePath, rFile.FileName)).AbsoluteUri;
+							rData.reInvestCash = ReadReinvestData(rFile.FilePath, rFile.FileName, rFile.SheetName, rFile.FieldLocation);
+						}
 					}
+					else _logger.Info($"No Details found for Reinvest... ");
 				}
-				else _logger.Info($"No Details found for Reinvest... ");
+				else _logger.Info($"No Fund Summary data available... ");
 
 				_logger.Info($"data is null? {data == null}");
 				if(data != null)
