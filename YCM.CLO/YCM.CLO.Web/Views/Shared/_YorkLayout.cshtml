@@ -199,9 +199,9 @@
                                                         </span>
                                                     </td>
 
-                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
-                                                        <a href="ms-excel:ofe|u|{{data.reInvestCashFilepath}}" download>
-                                                            {{data.reInvestCash| number:0}}
+                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle"  >
+                                                        <a ng-href="{{data.reInvestCashFilepath}}" ng-click="topNav.downloadReInvestCash(data.reInvestCashFilepath)" ng-if="data.reInvestCash != 0">
+                                                            {{ data.reInvestCash | number:0 }}
                                                         </a>
                                                     </td>
 

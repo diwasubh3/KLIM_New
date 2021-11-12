@@ -242,7 +242,12 @@ module Application.Controllers {
 			var rest = fieldFundRestrictions[0];
 			if(rest.isDifferenceOverThreshold)
 				vm.dataService.downloadLoanPositions(fundId);
-		}
+        }
+
+        downloadReInvestCash = (Url: string) => {
+            var vm = this;
+            vm.dataService.downloadReInvestCash(Url);
+        }
 
         setParamsTable = () => {
             var vm = this;
