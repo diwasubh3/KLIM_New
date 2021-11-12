@@ -35,7 +35,12 @@
 	    downloadLoanPositions = (fundId: number) => {
 			var hurl = pageOptions.appBasePath + 'data/downloadloanpositionsfile?fundId=' + fundId;
 			window.open(hurl);
-		}
+        }
+
+        downloadReInvestCash = (Url: string) => {
+            var durl = pageOptions.appBasePath + 'data/downloadReInvestCash?filePath=' + Url;
+            window.open(durl);
+        }
 
         loadData = () => {
             return <ng.IPromise<Array<Application.Models.UserModel>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/api/user');

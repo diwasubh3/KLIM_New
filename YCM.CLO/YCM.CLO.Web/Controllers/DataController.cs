@@ -89,8 +89,18 @@ namespace YCM.CLO.Web.Controllers
 		    return result;
 	    }
 
+		public ActionResult DownloadReInvestCash(string filePath)
+		{
+			filePath = filePath.Replace("file:","");
+			var fileName = filePath.Substring(filePath.LastIndexOf("/") + 1);
+			var result = new CustomFileResult(System.IO.File.ReadAllBytes(filePath),
+					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+			{ FileDownloadName = fileName, Inline = true };
+			return result;
+		}
 
-        public JsonNetResult GetReportingData()
+
+		public JsonNetResult GetReportingData()
         {
             return new JsonNetResult()
             { Data = new ReportingData()  {
