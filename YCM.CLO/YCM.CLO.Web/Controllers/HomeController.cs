@@ -278,7 +278,39 @@ namespace YCM.CLO.Web.Controllers
                 return View(ratingChanges);
             }
 
-            [AllowAnonymous]
+
+        [AllowAnonymous]
+        public ViewResult totalParChanges(int? startDateId = null, int? endDateId = null)
+        {
+            if (endDateId == null)
+            {
+                var today = DateTime.Today;
+
+                if (today.DayOfWeek == DayOfWeek.Monday)
+                {
+                    endDateId = Helper.GetDateId(today.AddDays(-4));
+                }
+                else
+                {
+                    endDateId = Helper.GetDateId(today.AddDays(-2));
+                }
+            }
+
+            if (startDateId == null)
+            {
+                var today = DateTime.Today;
+                startDateId = Helper.GetDateId(today.AddDays(-1));
+            }
+
+            var totalParChanges = _repository.GetTotalParChange(
+                startDateId.Value, endDateId.Value)
+                .OrderBy(rc => rc.Fund)
+                .ToList();
+
+            return View(totalParChanges);
+        }
+
+        [AllowAnonymous]
             public ViewResult MisMatchData()
             {
                 MismatchData mismatchData = new MismatchData();

@@ -21,6 +21,10 @@ namespace YCM.CLO.CalculationEngine.Contracts
         bool ProcessTradeSwap(int tradeSwapId);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "SendTotalParChangeEmail?startDateId={startDateId}&endDateId={endDateId}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        bool SendTotalParChangeEmail(int startDateId, int endDateId);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "ProcessTradeFile?fundId={fundId}&fileDateId={fileDateId}&dateId={dateId}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
         bool ProcessTradeFile(int fundId, int fileDateId, int dateId);
 
