@@ -29,6 +29,10 @@ var Application;
                     var hurl = pageOptions.appBasePath + 'data/downloadloanpositionsfile?fundId=' + fundId;
                     window.open(hurl);
                 };
+                this.downloadReInvestCash = function (Url) {
+                    var durl = pageOptions.appBasePath + 'data/downloadReInvestCash?filePath=' + Url;
+                    window.open(durl);
+                };
                 this.loadData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/api/user');
                 };

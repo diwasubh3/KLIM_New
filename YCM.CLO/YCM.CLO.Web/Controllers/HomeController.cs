@@ -58,12 +58,11 @@ namespace YCM.CLO.Web.Controllers
             #region  application permissions
             //var permissions = 1;
             //_logger.Info($"permissions: {permissions}");
-            _logger.Info("DDD:" + System.Web.HttpContext.Current.User.Identity.Name);
-            _logger.Info("DDD1:" + User.Identity.Name);
+            _logger.Info("Logged In User Name:" + System.Web.HttpContext.Current.User.Identity.Name);
             var permissions = GetRolesPermissions(User.Identity.Name);
             _logger.Info($"User {User.Identity.Name} has permissions to {string.Join(",", permissions.ToArray())}");
 
-            ViewBag.HasPermission = false;
+            ViewBag.HasPermission = true;
             ViewBag.HasPositionScreenPermission = false;
             ViewBag.HasTop10Bottom10Permission = false;
             ViewBag.HasTradePermission = false;
@@ -140,10 +139,10 @@ namespace YCM.CLO.Web.Controllers
                     }
                 }
             }
-            else
-            {
-                ViewBag.HasPermission = false;
-            }
+            //else
+            //{
+            //    ViewBag.HasPermission = false;
+            //}
 
             //ViewBag.HasPermission = permissions != 0 && (permissions & (int)CLOEntitlements.ApplicationAccess) == (int)CLOEntitlements.ApplicationAccess;
             //ViewBag.HasPositionScreenPermission = permissions != 0 && (permissions & (int)CLOEntitlements.Position) == (int)CLOEntitlements.Position;
@@ -279,7 +278,39 @@ namespace YCM.CLO.Web.Controllers
                 return View(ratingChanges);
             }
 
-            [AllowAnonymous]
+
+        [AllowAnonymous]
+        public ViewResult totalParChanges(int? startDateId = null, int? endDateId = null)
+        {
+            if (endDateId == null)
+            {
+                var today = DateTime.Today;
+
+                if (today.DayOfWeek == DayOfWeek.Monday)
+                {
+                    endDateId = Helper.GetDateId(today.AddDays(-4));
+                }
+                else
+                {
+                    endDateId = Helper.GetDateId(today.AddDays(-2));
+                }
+            }
+
+            if (startDateId == null)
+            {
+                var today = DateTime.Today;
+                startDateId = Helper.GetDateId(today.AddDays(-1));
+            }
+
+            var totalParChanges = _repository.GetTotalParChange(
+                startDateId.Value, endDateId.Value)
+                .OrderBy(rc => rc.Fund)
+                .ToList();
+
+            return View(totalParChanges);
+        }
+
+        [AllowAnonymous]
             public ViewResult MisMatchData()
             {
                 MismatchData mismatchData = new MismatchData();

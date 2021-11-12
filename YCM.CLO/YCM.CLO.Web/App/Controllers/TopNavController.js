@@ -170,6 +170,10 @@ var Application;
                     if (rest.isDifferenceOverThreshold)
                         vm.dataService.downloadLoanPositions(fundId);
                 };
+                this.downloadReInvestCash = function (Url) {
+                    var vm = _this;
+                    vm.dataService.downloadReInvestCash(Url);
+                };
                 this.setParamsTable = function () {
                     var vm = _this;
                     //if (!vm.summaryTableParams) {

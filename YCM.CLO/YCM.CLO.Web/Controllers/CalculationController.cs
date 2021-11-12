@@ -33,6 +33,11 @@ namespace YCM.CLO.Web.Controllers
             return new JsonNetResult() { Data = new { status } };
         }
 
+        public JsonNetResult SendTotalParChangeEmail()
+        {
+            CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
+            return new JsonNetResult() { Data = new { status = calculationEngineClient.SendTotalParChangeEmail() } };
+        }
 
         public JsonNetResult SendPriceMoverEmail()
         {

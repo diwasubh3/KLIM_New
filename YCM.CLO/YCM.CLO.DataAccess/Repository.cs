@@ -648,6 +648,7 @@ namespace YCM.CLO.DataAccess
 			//return person;
 			userName = userName.Substring(userName.LastIndexOf('\\') + 1).ToLower();
 			var person = _cloContext.Users.FirstOrDefault(x => x.USerNAme == userName);
+			if (person == null) person = new User();
 			return person;
 
         }
@@ -1064,6 +1065,12 @@ namespace YCM.CLO.DataAccess
 			return data;
 		}
 
+		IEnumerable<TotalParChange> IRepository.GetTotalParChange(int startDateId, int endDateId)
+            => _cloContext.Database.SqlQuery<TotalParChange>(
+				"CLO.spGetTotalParDifference @CurrentDate, @PREVIOUSDATE",
+                new SqlParameter("@CurrentDate", startDateId),
+                new SqlParameter("@PREVIOUSDATE", endDateId));
+
 		Fund IRepository.SaveFund(Fund fund)
 		{
 			_cloContext.Funds.Attach(fund);
@@ -1351,6 +1358,14 @@ namespace YCM.CLO.DataAccess
 			var fundParam = new SqlParameter("@fundId", fundId);
 			return _cloContext.Database.SqlQuery<LoanPosition>("CLO.spGetAggregatedLoanPositions @dateId, @priorDateId, @fundId"
 				, param, priorDateParam, fundParam).ToList();
+		}
+
+		IEnumerable<vw_ReinvestDetails> IRepository.GetReinvestDetails()
+		{
+			using (CLOContext context = new CLOContext())
+			{
+				return context.vw_ReinvestDetails.AsNoTracking().ToList();
+			}
 		}
 
 		List<CreditScore> IRepository.GetCreditScores()

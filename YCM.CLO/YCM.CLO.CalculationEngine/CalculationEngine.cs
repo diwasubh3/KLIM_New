@@ -48,16 +48,16 @@ namespace YCM.CLO.CalculationEngine
                 {
                     _logger.Info("Get calculation for dateId:" + dateId);
                     var calculations = cloContext.Calculations.Where(c => c.DateId == dateId).ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("calculations data for dateId:" + calculations.Count());
 
                     _logger.Info("Get MarketData for dateId:" + dateId);
                     var marketDatas = cloContext.vw_MarketData.AsNoTracking().Where(d => d.DateId == dateId).AsNoTracking().ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("marketData data for dateId:" + marketDatas.Count());
 
                     _logger.Info("Get Security & Fund Details");
                     var securities =
                         cloContext.vwSecurityFunds.OrderBy(v => v.SecurityId).ThenBy(v => v.FundCode).ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("securities data for dateId:" + securities.Count());
 
                     _logger.Info("Get Position data for Active Fudn And dateId:"+ dateId);
                     var groupedPositionsDictionary = cloContext.Positions
@@ -66,11 +66,11 @@ namespace YCM.CLO.CalculationEngine
                         .Where(p => p.DateId == dateId && p.Fund.IsActive)
                         .GroupBy(p => p.SecurityId).AsNoTracking()
                         .ToDictionary(p => p.Key, p => p.ToList());
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("Position data for dateId:" + groupedPositionsDictionary.Count());
 
                     _logger.Info("Get Parameter Values");
                     var parameterValues = cloContext.ParameterValues.Include(c => c.ParameterType).AsNoTracking().ToList();
-                    _logger.Info("data for dateId:" + calculations.Count());
+                    _logger.Info("parameterValues for dateId:" + calculations.Count());
 
                     _logger.Info("Loop all Securities details");
                     securities.ForEach(security =>
@@ -86,7 +86,6 @@ namespace YCM.CLO.CalculationEngine
                             var calculation =
                                 calculations.FirstOrDefault(
                                     c => c.SecurityId == security.SecurityId && c.FundId == security.FundId);
-                            _logger.Info("  securityPositions" + calculation.ToString());
 
                             var marketData =
                                 marketDatas.FirstOrDefault(
@@ -122,11 +121,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  Yeild calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  Yeild calculation started");
                                 yieldCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                     security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  Yeild calculation ended for SecurityId" + security.SecurityId);
-
                             }
                             catch (Exception exception)
                             {
@@ -136,10 +133,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 warfRecoveryCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -148,10 +144,9 @@ namespace YCM.CLO.CalculationEngine
                             
                             try
                             {
-                                _logger.Info("  totalParLifeCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  totalParLifeCalculator calculation started");
                                 totalParLifeCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                               security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  totalParLifeCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -160,10 +155,9 @@ namespace YCM.CLO.CalculationEngine
                             
                             try
                             {
-                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation started");
                                 moodyFacilityRatingAdjustedCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -172,10 +166,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation started");
                                 moodyCashFlowRatingAdjustedCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodyCashFlowRatingAdjustedCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -184,10 +177,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  snPAssetRecoveryRatingCalculatorsnPAssetRecoveryRatingCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  snPAssetRecoveryRatingCalculatorsnPAssetRecoveryRatingCalculator calculation started");
                                 snPAssetRecoveryRatingCalculator.Calculate(cloContext, calculation, marketData, securityPositions,
                                security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -196,10 +188,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try 
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 //NOTE: this relies on calculations in snPAssetRecoveryRatingCalculator, so it must come after it
                                 snpWarfCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -208,10 +199,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  moodysLgdCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  moodysLgdCalculator calculation started ");
                                 //Depends on Warf calculator, must come after
                                 moodysLgdCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  moodysLgdCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -220,10 +210,9 @@ namespace YCM.CLO.CalculationEngine
 
                             try
                             {
-                                _logger.Info("  yieldAvgLgdCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  yieldAvgLgdCalculator calculation started");
                                 //NOTE: depends on yieldcalculator, snpWarfCalculator and moodysLgdCalculator. Must come afterwards
                                 yieldAvgLgdCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  yieldAvgLgdCalculator dended  for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -231,10 +220,9 @@ namespace YCM.CLO.CalculationEngine
                             }
                             try
                             {
-                                _logger.Info("  warfRecoveryCalculator calculation started for SecurityId" + security.SecurityId + "date Id:" + dateId);
+                                _logger.Info("  warfRecoveryCalculator calculation started");
                                 //NOTE: depends on snPAssetRecoveryRatingCalculator. Must come afterwards
                                 snpAAARecoveryCalculator.Calculate(cloContext, calculation, marketData, securityPositions, security, parameterValues, null, dateId, allmarketDatas);
-                                _logger.Info("  warfRecoveryCalculator calculation ended for SecurityId" + security.SecurityId + "date Id:" + dateId);
                             }
                             catch (Exception exception)
                             {
@@ -505,7 +493,7 @@ namespace YCM.CLO.CalculationEngine
         {
             try
             {
-                _logger.Info("Started On " + DateTime.Now.ToString());
+                _logger.Info("Started On " + DateTime.Now.ToString() + " for fileDateId:" + fileDateId.ToString() + " and dateid:"+ dateId.ToString());
                 using (CLOContext context = new CLOContext())
                 {
                     IRepository repository = new Repository();
@@ -529,42 +517,54 @@ namespace YCM.CLO.CalculationEngine
 
         private void SendStaleStatusEmail()
         {
+            _logger.Info("Started Stale email at " + DateTime.Now.ToString());
             IRepository repository = new Repository();
-
-            WebClient client = new WebClient();
-            string message = client.DownloadString(ConfigurationManager.AppSettings["FundDailySnapshotURL"]);
-            string subject = ConfigurationManager.AppSettings["FundDailySnapshotSubject"];
-
-            subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
-            Console.WriteLine(message);
-
-            var msg = new MailMessage();
-            msg.Body = message;
-            msg.IsBodyHtml = true;
-            msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
-
-            var emailTos = ConfigurationManager.AppSettings["FundDailySnapshotToEmailIds"].Split(new char[] { ',', ';' });
-
-            emailTos.ToList().ForEach(e =>
+            /* As requested by user (wendy):send email only when any fund has stale data
+             * code addedd to checkisanyfuns has stale data or Pricipal Cash is stale  
+             * 20-Sep-2021
+             */
+            var FUNDS = repository.GetFunds();
+            if (FUNDS.Where(w => (w.IsStale.HasValue && w.IsStale.Value)).Any() || FUNDS.Where(w => (w.IsPrincipalCashStale.HasValue && w.IsPrincipalCashStale.Value)).Any())
             {
-                msg.To.Add(e);
-            });
+                _logger.Info("Stale Fund Or Principal Cash found");
 
-            string ccList = ConfigurationManager.AppSettings["FundDailySnapshotCCEmailIds"];
-            if (!string.IsNullOrEmpty(ccList))
-            {
-                ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                WebClient client = new WebClient();
+                string message = client.DownloadString(ConfigurationManager.AppSettings["FundDailySnapshotURL"]);
+                string subject = ConfigurationManager.AppSettings["FundDailySnapshotSubject"];
+
+                subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                Console.WriteLine(message);
+
+                var msg = new MailMessage();
+                msg.Body = message;
+                msg.IsBodyHtml = true;
+                msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+
+                var emailTos = ConfigurationManager.AppSettings["FundDailySnapshotToEmailIds"].Split(new char[] { ',', ';' });
+
+                emailTos.ToList().ForEach(e =>
                 {
-                    msg.CC.Add(e);
+                    msg.To.Add(e);
                 });
+
+                string ccList = ConfigurationManager.AppSettings["FundDailySnapshotCCEmailIds"];
+                if (!string.IsNullOrEmpty(ccList))
+                {
+                    ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                    {
+                        msg.CC.Add(e);
+                    });
+                }
+
+                msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                msg.Subject = subject;
+                msg.Body = message;
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.Send(msg);
             }
-
-            msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
-            msg.Subject = subject;
-            msg.Body = message;
-            SmtpClient smtpClient = new SmtpClient();
-            smtpClient.Send(msg);
-
+            else
+                _logger.Info("NO - Stale Fund Or Principal Cash found and skipping email send functionality");
+            _logger.Info("Completed sending Stale email at " + DateTime.Now.ToString());
         }
 
         public bool SendPriceMoverEmail()
@@ -623,7 +623,6 @@ namespace YCM.CLO.CalculationEngine
 
         public bool SendRatingChangeEmail()
         {
-
             try
             {
                 _logger.Info("Method SendRatingChangeEmail started");
@@ -676,7 +675,6 @@ namespace YCM.CLO.CalculationEngine
                 _logger.Info("Method SendRatingChangeEmail Ended");
             }
         }
-
 
         public bool SendMismatchEmail()
         {
@@ -752,7 +750,71 @@ namespace YCM.CLO.CalculationEngine
             }
         }
 
+        public bool SendTotalParChangeEmail(int startDateId, int endDateId)
+        {
+            try
+            {
+                _logger.Info("SendTotalParChangeEmail started");
 
+                IRepository repository = new Repository();
+                var totalParChanges = repository.GetTotalParChange(startDateId, endDateId);
+                if (totalParChanges != null && totalParChanges.Any())
+                {
+                    _logger.Info("Total Par Change Found:");
+                    WebClient client = new WebClient();
+                    client.Credentials = CredentialCache.DefaultCredentials;
+                    _logger.Info("Client URL to get Total Par content:" + ConfigurationManager.AppSettings["TotalParChangeURL"]);
+                    string message = client.DownloadString(ConfigurationManager.AppSettings["TotalParChangeURL"]);
+                    string subject = ConfigurationManager.AppSettings["TotalParChangeURLSubject"];
+
+                    subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                    Console.WriteLine(message);
+                    _logger.Info("Email Message to be sent:" + message);
+
+                    var msg = new MailMessage();
+                    msg.IsBodyHtml = true;
+                    msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+                    _logger.Info("Email Message object created");
+
+                    var emailTos = ConfigurationManager.AppSettings["TotalParChangeToEmailIds"].Split(new char[] { ',', ';' });
+                    _logger.Info("Email Message to be sent to:"+ emailTos);
+                    emailTos.ToList().ForEach(e =>
+                    {
+                        msg.To.Add(e);
+                    });
+
+                    string ccList = ConfigurationManager.AppSettings["TotalParChangeCCEmailIds"];
+                    _logger.Info("Email Message to be CC:" + ccList);
+                    if (!string.IsNullOrEmpty(ccList))
+                    {
+                        ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                        {
+                            msg.CC.Add(e);
+                        });
+                    }
+
+                    msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                    msg.Subject = subject;
+                    msg.Body = message;
+
+                    _logger.Info("SendTotalParChangeEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(msg);
+                    _logger.Info("TotalPar Change Email Sent successfully");
+                }
+                else
+                    _logger.Info("No change in Total Par Found and hence no email will be sent today");
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                _logger.Info("Exeption while sending email message on TotalPar Change");
+                _logger.Error(exception);
+                return false;
+            }
+        }
 
         public bool CalculateFrontier(int dateId, int fundId, string user)
         {

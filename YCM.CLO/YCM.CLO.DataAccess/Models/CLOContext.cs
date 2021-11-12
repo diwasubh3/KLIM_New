@@ -98,6 +98,7 @@ namespace YCM.CLO.DataAccess.Models
 
 
         public DbSet<vw_Mismatch> MismatchCfrsAdj { get; set; }
+        public DbSet<vw_ReinvestDetails> vw_ReinvestDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -170,6 +171,7 @@ namespace YCM.CLO.DataAccess.Models
             modelBuilder.Configurations.Add(new MatrixDataMap());
             modelBuilder.Configurations.Add(new vw_MatrixDataMap());
             modelBuilder.Configurations.Add(new MatrixPointMap());
+            modelBuilder.Configurations.Add(new vw_ReinvestDetailsMap());
         }
 	}
 }

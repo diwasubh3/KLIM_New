@@ -16,7 +16,8 @@ module Application.Services.Contracts {
 		getAnalystResearchIssuerIds: () => ng.IPromise<Array<number>>;
 		getAnalystResearchHeader: (issuerId: number) => ng.IPromise<Application.Models.IAnalystResearchHeader>;
 		downloadSummaries: () => void;
-		downloadLoanPositions: (fundId: number) => void;
+        downloadLoanPositions: (fundId: number) => void;
+        downloadReInvestCash: (filePath: string) => void;
         loadData: () => ng.IPromise<Array<Application.Models.UserModel>>;
         updateData: (userModel: Application.Models.UserModel) => ng.IPromise<boolean>;
         loadSummaryData: () => ng.IPromise<Array<Application.Models.ISummary>>;
