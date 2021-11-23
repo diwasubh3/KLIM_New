@@ -80,9 +80,6 @@
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 && stalefundscount > 0 ? ' | ':''}}</span>
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{stalefundscount > 0 ? (stalefundscount + ' stale') :'' }}</span>
                                 </span>
-                                <span style="right:0">
-                                    <input id="btnReinvest" type="button" ng-click="topNav.refreshSummaries();" value="Refresh ReInvest Data" />
-                                </span>
                             </div>
                         </div>
                         @* Commented, user dont need auto refresh feature
