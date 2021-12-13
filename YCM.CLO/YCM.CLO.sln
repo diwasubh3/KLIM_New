@@ -40,6 +40,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSOImport", "..\WSOImport\WSOImport.csproj", "{097853D6-8578-416D-880F-91A7EFB36D9C}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CalculationService", "YCM.CLO.CalculationEngine\CalculationService", "{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		ProjectReferences = "{402b0bf9-a1fb-453e-bdef-b12765abce6b}|YCM.CLO.CalculationEngine.Objects.dll;{91F91003-4F09-4DBC-BB26-1C7201CED110}|YCM.CLO.DataAccess.dll;{0922EAB0-AEDE-434B-A9F6-3D98FD6B2956}|YCM.CLO.DTO.dll;{2CAADE3B-1292-49C8-A5BF-418329BC933B}|YCM.CLO.Web.Objects.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50025"
+		Debug.AspNetCompiler.PhysicalPath = "YCM.CLO.CalculationEngine\CalculationService\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50025\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50025"
+		Release.AspNetCompiler.PhysicalPath = "YCM.CLO.CalculationEngine\CalculationService\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50025\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50025"
+		SlnRelativePath = "YCM.CLO.CalculationEngine\CalculationService\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvProcessor", "CsvProcessor\CsvProcessor.csproj", "{D76A0B8A-99AC-4CF4-832A-18A271E644D1}"
 EndProject
 Global
@@ -231,6 +254,22 @@ Global
 		{097853D6-8578-416D-880F-91A7EFB36D9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{097853D6-8578-416D-880F-91A7EFB36D9C}.UAT|Any CPU.ActiveCfg = Debug|Any CPU
 		{097853D6-8578-416D-880F-91A7EFB36D9C}.UAT|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-Dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-Dev|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-Prod|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-Prod|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-UAT|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Deploy-UAT|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.DEV|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.DEV|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.PROD|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.PROD|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.UAT|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4FDE6F-3F70-4686-A24D-D511EDC329AA}.UAT|Any CPU.Build.0 = Debug|Any CPU
 		{D76A0B8A-99AC-4CF4-832A-18A271E644D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D76A0B8A-99AC-4CF4-832A-18A271E644D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D76A0B8A-99AC-4CF4-832A-18A271E644D1}.Deploy-Dev|Any CPU.ActiveCfg = Debug|Any CPU

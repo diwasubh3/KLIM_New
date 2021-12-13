@@ -3217,7 +3217,7 @@ function ($compile, $timeout, $window, $document, gridUtil, uiGridConstants, i18
 
         },
         controller: ['$scope', function ($scope) {
-            this.rowStyle = function (index) {             
+          this.rowStyle = function (index) {
             var rowContainer = $scope.rowContainer;
             var colContainer = $scope.colContainer;
 
@@ -17339,7 +17339,7 @@ module.filter('px', function() {
                 return false;
               }
 
-                function getEmptyBaseLayerCss(viewportHeight) {
+              function getEmptyBaseLayerCss(viewportHeight) {
                 // Set ui-grid-empty-base-layer height
                 return '.grid' + uiGridCtrl.grid.id +
                   ' .ui-grid-render-container ' +
@@ -25693,7 +25693,7 @@ module.filter('px', function() {
          * @param {bool} multiSelect if false, only one row at time can be selected
          * @param {bool} noUnselect if true then rows cannot be unselected
          */
-          toggleRowSelection: function (grid, row, evt, multiSelect, noUnselect) {
+        toggleRowSelection: function (grid, row, evt, multiSelect, noUnselect) {
           var selected = row.isSelected;
 
           if ( row.enableSelection === false && !selected ){
@@ -25769,7 +25769,7 @@ module.filter('px', function() {
          * @description Returns all the selected rows
          * @param {Grid} grid grid object
          */
-          getSelectedRows: function (grid) {
+        getSelectedRows: function (grid) {
           return grid.rows.filter(function (row) {
             return row.isSelected;
           });
@@ -25946,7 +25946,7 @@ module.filter('px', function() {
           }
 
 
-            function selectButtonClick(row, evt) {
+          function selectButtonClick(row, evt) {
             evt.stopPropagation();
 
             if (evt.shiftKey) {
@@ -25980,7 +25980,7 @@ module.filter('px', function() {
         link: function($scope, $elm, $attrs, uiGridCtrl) {
           var self = $scope.col.grid;
 
-            $scope.headerButtonClick = function(row, evt) {
+          $scope.headerButtonClick = function(row, evt) {
             if ( self.selection.selectAll ){
               uiGridSelectionService.clearSelectedRows(self, evt);
               if ( self.options.noUnselect ){
@@ -27793,7 +27793,7 @@ module.filter('px', function() {
       link: function($scope, $elm, $attrs, uiGridCtrl) {
         var self = $scope.col.grid;
 
-          $scope.headerButtonClick = function(row, evt) {
+        $scope.headerButtonClick = function(row, evt) {
           if ( self.treeBase.expandAll ){
             uiGridTreeBaseService.collapseAllRows(self, evt);
           } else {

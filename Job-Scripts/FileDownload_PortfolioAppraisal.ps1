@@ -20,28 +20,25 @@ LogWrite("----------------- Processing START -----------------")
 
 #File download variables
 $sftpDownlodScriptPath = "C:\KLIM\Scripts\SFTPDownload_WSO.ps1"
-$fileDownloadList = "CLO1PortfolioPositionAppraisal$fileDate.pdf,CLO2PortfolioPositionAppraisal$fileDate.pdf,CLO3PortfolioPositionAppraisal$fileDate.pdf,CLO4PortfolioPositionAppraisal$fileDate.pdf,CLO5PortfolioPositionAppraisal$fileDate.pdf,CLO6PortfolioPositionAppraisal$fileDate.pdf,CLO7PortfolioPositionAppraisal$fileDate.pdf,CLO8PortfolioPositionAppraisal$fileDate.pdf,CLO9PortfolioPositionAppraisal$fileDate.pdf"
-#$fileDownloadPath = "\\KL02WSODB\Backups\WSOFiles\CLO\PortfolioAppraisal\"
-$fileDownloadPath ="\\KL-NY-DC01\Generate\Firm Reporting\Portfolio Appraisal\"
-$ftpRemotePath = "/"
+$fileDownloadList = 'CLO1PortfolioPositionAppraisal$fileDate.pdf,CLO2PortfolioPositionAppraisal$fileDate.pdf,CLO3PortfolioPositionAppraisal$fileDate.pdf,CLO4PortfolioPositionAppraisal$fileDate.pdf,CLO5PortfolioPositionAppraisal$fileDate.pdf,CLO6PortfolioPositionAppraisal$fileDate.pdf,CLO7PortfolioPositionAppraisal$fileDate.pdf,CLO8PortfolioPositionAppraisal$fileDate.pdf,CLO9PortfolioPositionAppraisal$fileDate.pdf'
+$fileDownloadPath = "\\KL02WSODB\Backups\WSOFiles-UAT\CLO\PortfolioAppraisal\"
+$ftpRemotePath = "/mackay/"
 $totalAttempts = 12
 $attemptTimeInterval = 300		# in seconds
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
-$toEmail = @('grtsklimsupport@na.linedata.com')
+$toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
 $ccEmail = ""
 $subject = "ALERT: Job $jobName Failed"
-$body = "Job $jobName Failed."
+$body = ""
 $attachment = ""
 
 LogWrite("Calling ftp download script") 
 LogWrite("$sftpDownlodScriptPath -fileDownloadList $fileDownloadList -fileDownloadPath $fileDownloadPath -ftpRemotePath $ftpRemotePath -totalAttempts $totalAttempts -attemptTimeInterval $attemptTimeInterval -logFile $logFile") 
 $returnMessage = &"$sftpDownlodScriptPath" -fileDownloadList "$fileDownloadList" -fileDownloadPath "$fileDownloadPath" -ftpRemotePath "$ftpRemotePath" -totalAttempts "$totalAttempts" -attemptTimeInterval "$attemptTimeInterval" -logFile "$logFile"
 
-LogWrite("returnMessage = "+$returnMessage) 
-
-if (($returnMessage -eq "") -or ($returnMessage -eq $null))
+if ($returnMessage -eq "")
 {
 	LogWrite("ftp download process completed") 
 }

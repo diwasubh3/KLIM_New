@@ -4,7 +4,6 @@
 #Default variables
 $jobName = "RunCmd_ProcessTradeFiles"
 $fileDate = Get-Date -Format "yyyyMMdd";
-#$fileDate = (Get-Date -Format "yyyyMMdd")-1;
 $currentDateTime = Get-Date -Format "yyyyMMddhhmss";
 $logFile = "C:\KLIM\Logs\$jobName$currentDateTime.txt"
 
@@ -27,13 +26,13 @@ function ThrowOnNativeFailure {
 LogWrite("----------------- Processing START -----------------") 
 
 #Run Command Variables
-$runCommand = "Invoke-WebRequest -Uri http://clo.kl.local/calculation/processtradefiles -Method POST"
+$runCommand = "Invoke-WebRequest -Uri http://clo-uat.kl.local/calculation/processtradefiles -Method POST"
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
-$toEmail = @('GRTSKLIMSupport@na.linedata.com')
+$toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
 $ccEmail = ""
-$subject = "PROD - ALERT: Job $jobName Failed"
+$subject = "ALERT: Job $jobName Failed"
 $body = ""
 $attachment = ""
 
@@ -42,7 +41,8 @@ try
 	LogWrite("")
 	LogWrite("Running command:- $runCommand")
 	
-	$returnMessage = Invoke-WebRequest -Uri http://clo.kl.local/calculation/processtradefiles -Method POST
+	$returnMessage = Invoke-WebRequest -Uri http://clo-uat.kl.local/calculation/processtradefiles -Method POST
+	#$returnMessage = Invoke-WebRequest -Uri https://api.narrativescience.com/v4/qa/5d07f0307dfa39761fb0fd97/story/ -Method POST
 	ThrowOnNativeFailure
 	
 	LogWrite("")
