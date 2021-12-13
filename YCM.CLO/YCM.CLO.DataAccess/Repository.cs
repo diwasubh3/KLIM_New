@@ -70,7 +70,13 @@ namespace YCM.CLO.DataAccess
 		{
 			using (CLOContext cloContext = new CLOContext())
 			{
-				return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				/* 
+				 * As per user request, Summary section need to be available whole day and change for the same managed at database level
+				 * 
+				 --Old Code
+				 return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				 * */
+				return cloContext.vw_CLOSummary.OrderBy(c => c.SortOrder).ToList();
 			}
 		}
 
