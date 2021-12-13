@@ -1,7 +1,7 @@
 
 #input params
 param ($toEmail, $ccEmail, $subject, $body, $attachment, $logFile)
-$subject = "UAT - " + $subject;
+$subject = $subject;
 
 # Use below block for testing
 #$toEmail = "rakesh.patkar@ap.linedata.com"

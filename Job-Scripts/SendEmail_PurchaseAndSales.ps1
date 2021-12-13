@@ -3,6 +3,7 @@
 
 #Default variables
 $jobName = "SendEmail_PurchaseAndSales"
+#$fileDate = (Get-Date -Format "yyyyMMdd")-1;
 $fileDate = Get-Date -Format "yyyyMMdd";
 $currentDateTime = Get-Date -Format "yyyyMMddhhmss";
 $logFile = "C:\KLIM\Logs\$jobName$currentDateTime.txt"
@@ -20,18 +21,19 @@ LogWrite("----------------- Processing START -----------------")
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
-$toEmail = "rakesh.patkar@ap.linedata.com"
+$toEmail = @('CLOGroup@klimllc.com')
 $ccEmail = ""
-$subject = "Purchase And Sales Files - $fileDate"
-$body = "Attached Purchase And Sales Files."
-$attachment = (get-childitem "C:\KLIM\WSOFiles-UAT\CLOPurchaseSalewithComments*$fileDate*").fullname 
-
+$subject = "CLO Purchase & Sale Report - $fileDate"
+$body = "Attached CLO Purchase & Sale Report."
+$attachment = (get-childitem "\\KL-NY-DC01\Generate\Firm Reporting\Purchase & Sale\\CLOPurchaseSalewithComments*$fileDate*").fullname 
 
 LogWrite("Calling send email script") 
 LogWrite("$sendEmailScriptPath -toEmail $toEmail -ccEmail $ccEmail -subject $subject -body $body -attachment $attachment -logFile $logFile") 
 $returnMessage = &"$sendEmailScriptPath" -toEmail $toEmail -ccEmail $ccEmail -subject $subject -body $body -attachment $attachment -logFile $logFile
 	
-if ($returnMessage -eq "")
+LogWrite("returnMessage = "+$returnMessage) 
+
+if (($returnMessage -eq "") -or ($returnMessage -eq $null))
 {
 	LogWrite("Send email process completed.") 
 }

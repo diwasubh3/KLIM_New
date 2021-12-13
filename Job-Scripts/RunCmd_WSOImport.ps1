@@ -31,9 +31,9 @@ $runCommand = "C:\Application\WSOImport\WSOImport.exe"
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
-$toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
+$toEmail = @('GRTSKLIMSupport@na.linedata.com')
 $ccEmail = ""
-$subject = "ALERT: Job $jobName Failed"
+$subject = "PROD - ALERT: Job $jobName Failed"
 $body = ""
 $attachment = ""
 

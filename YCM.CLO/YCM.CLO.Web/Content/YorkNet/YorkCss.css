@@ -231,7 +231,7 @@ textarea {
     height: 60px;
     background-repeat: repeat-x;
     background-image: linear-gradient(top, #414141, #323232);
-    background-color: #225974;
+    /*background-color: #225974;*/
     background-attachment: scroll;
 }
 

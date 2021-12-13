@@ -26989,7 +26989,7 @@ forEach(
           // sandbox was never meant to be a security feature anyway).
           var fn = $parse(attr[directiveName]);
           return function ngEventHandler(scope, element) {
-            element.on(eventName, function(event) {
+              element.on(eventName, function (event) {
               var callback = function() {
                 fn(scope, {$event: event});
               };
