@@ -16,6 +16,7 @@ namespace YCM.CLO.DTO
         private decimal? _clo8NumExposure;
         private decimal? _clo9NumExposure;
         private decimal? _clo10NumExposure;
+        private decimal? _clo11NumExposure;
         private decimal? _clo8UpNumExposure;
 
         #region vw_position 
@@ -195,6 +196,11 @@ namespace YCM.CLO.DTO
             set => _clo10NumExposure = value;
         }
 
+        public decimal? CLO11NumExposure
+        {
+            get => _clo11NumExposure.GetValueOrDefault() > 0 ? _clo11NumExposure.Value : 0;
+            set => _clo11NumExposure = value;
+        }
         public decimal? CLO8UpNumExposure
         {
             get => _clo8UpNumExposure.GetValueOrDefault() > 0 ? _clo8UpNumExposure.Value : 0;
@@ -223,6 +229,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8TargetPar { get; set; }
         public decimal? CLO9TargetPar { get; set; }
         public decimal? CLO10TargetPar { get; set; }
+        public decimal? CLO11TargetPar { get; set; }
         public decimal? CLO8UpTargetPar { get; set; }
         public decimal? TRSTargetPar { get; set; }
 	    public decimal? WH1TargetPar { get; set; }
@@ -237,6 +244,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8NumMatrixImpliedSpread { get; set; }
         public decimal? CLO9NumMatrixImpliedSpread { get; set; }
         public decimal? CLO10NumMatrixImpliedSpread { get; set; }
+        public decimal? CLO11NumMatrixImpliedSpread { get; set; }
         public decimal? CLO8UpNumMatrixImpliedSpread { get; set; }
 
         public decimal? CLO1NumDifferentialImpliedSpread { get; set; }
@@ -249,6 +257,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8NumDifferentialImpliedSpread { get; set; }
         public decimal? CLO9NumDifferentialImpliedSpread { get; set; }
         public decimal? CLO10NumDifferentialImpliedSpread { get; set; }
+        public decimal? CLO11NumDifferentialImpliedSpread { get; set; }
         public decimal? CLO8UpNumDifferentialImpliedSpread { get; set; }
 
         public string CLO1Exposure => $"{CLO1NumExposure:N2}";
@@ -260,7 +269,8 @@ namespace YCM.CLO.DTO
 	    public string CLO7Exposure => $"{CLO7NumExposure:N2}";
         public string CLO8Exposure => $"{CLO8NumExposure:N2}";
         public string CLO9Exposure => $"{CLO9NumExposure:N2}";
-        public string CLO10Exposure => $"{CLO10NumExposure:N2}"; 
+        public string CLO10Exposure => $"{CLO10NumExposure:N2}";
+        public string CLO11Exposure => $"{CLO11NumExposure:N2}";
         public string CLO8UpExposure => $"{CLO8UpNumExposure:N2}";
         public string TRSExposure => $"{TRSNumExposure:N2}";
 	    public string WH1Exposure => $"{WH1NumExposure:N2}";
@@ -276,6 +286,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8MatrixImpliedSpread { get; set; }
         public decimal? CLO9MatrixImpliedSpread { get; set; }
         public decimal? CLO10MatrixImpliedSpread { get; set; }
+        public decimal? CLO11MatrixImpliedSpread { get; set; }
         public decimal? CLO8UpMatrixImpliedSpread { get; set; }
 
         public decimal? CLO1DifferentialImpliedSpread { get; set; }
@@ -288,6 +299,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8DifferentialImpliedSpread { get; set; }
         public decimal? CLO9DifferentialImpliedSpread { get; set; }
         public decimal? CLO10DifferentialImpliedSpread { get; set; }
+        public decimal? CLO11DifferentialImpliedSpread { get; set; }
         public decimal? CLO8UpDifferentialImpliedSpread { get; set; }
 
         public decimal? CLO1MatrixWarfRecovery { get; set; }
@@ -300,6 +312,7 @@ namespace YCM.CLO.DTO
         public decimal? CLO8MatrixWarfRecovery { get; set; }
         public decimal? CLO9MatrixWarfRecovery { get; set; }
         public decimal? CLO10MatrixWarfRecovery { get; set; }
+        public decimal? CLO11MatrixWarfRecovery { get; set; }
         public decimal? CLO8UpMatrixWarfRecovery { get; set; }
 
         public string CLO1PctExposure => $"{CLO1NumExposure.GetValueOrDefault() / CLO1TargetPar.ToDecimalOrOne():P}";
@@ -312,6 +325,7 @@ namespace YCM.CLO.DTO
         public string CLO8PctExposure => $"{CLO8NumExposure.GetValueOrDefault() / CLO8TargetPar.ToDecimalOrOne():P}";
         public string CLO9PctExposure => $"{CLO9NumExposure.GetValueOrDefault() / CLO9TargetPar.ToDecimalOrOne():P}";
         public string CLO10PctExposure => $"{CLO10NumExposure.GetValueOrDefault() / CLO10TargetPar.ToDecimalOrOne():P}";
+        public string CLO11PctExposure => $"{CLO11NumExposure.GetValueOrDefault() / CLO11TargetPar.ToDecimalOrOne():P}";
         public string CLO8UpPctExposure => $"{CLO8UpNumExposure.GetValueOrDefault() / CLO8UpTargetPar.ToDecimalOrOne():P}";
         public string TRSPctExposure => $"{TRSNumExposure.GetValueOrDefault() / TRSTargetPar.ToDecimalOrOne():P}";
 	    public string WH1PctExposure => $"{WH1NumExposure.GetValueOrDefault() / WH1TargetPar.ToDecimalOrOne():P}";
