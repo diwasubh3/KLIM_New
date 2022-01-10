@@ -139,6 +139,18 @@
         moodysLgdPct: string;
         YieldAvgLgdPct: string;
         securityDesc: string;
+
+        clO1TradeHistoryExist: boolean;
+        clO2TradeHistoryExist: boolean;
+        clO3TradeHistoryExist: boolean;
+        clO4TradeHistoryExist: boolean;
+        clO5TradeHistoryExist: boolean;
+        clO6TradeHistoryExist: boolean;
+        clO7TradeHistoryExist: boolean;
+        clO8TradeHistoryExist: boolean;
+        clO9TradeHistoryExist: boolean;
+        clO10TradeHistoryExist: boolean;
+        clO11TradeHistoryExist: boolean;
     }
 
     export interface IAlert {
@@ -903,6 +915,14 @@
         equityOverrides: EquityOverride[];
         defaultSecurities: DefaultSecurity[];
 
+    }
+
+    export interface ITradeHistory {
+        TradeDate: string;
+        TradeType: string;
+        Quantity: string;
+        Price: string;
+        Counterparty: string;
     }
 
 

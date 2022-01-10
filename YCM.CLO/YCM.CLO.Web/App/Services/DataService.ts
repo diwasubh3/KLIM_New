@@ -386,6 +386,11 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getreportingdata');
         }
 
+        getTradeHistory = (securityCode: string, portfolioName: string) => {
+            debugger;
+            var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode + '&portfolioName=' + portfolioName;
+            return this.httpWrapperFactory.getData(url);
+        }
 
 
     }

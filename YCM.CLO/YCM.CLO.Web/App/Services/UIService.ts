@@ -307,7 +307,50 @@ module Application.Services {
 				    codeToExcute(updatedPositions);
 			    }
 		    }, () => { });
-	    }
+        }
+
+        showTradeHistoryPopup = (securitycode: string, portfolioName: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {
+            var modalInstance = modalService.open({
+                templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+                controller: 'application.controllers.tradeHistoryPopupController',
+                controllerAs: 'researchpopup',
+                size: 'x-lg',
+                resolve: {
+                    sourcedata: () => {
+                        var data: any = {};
+                        data.securitycode = securitycode;
+                        data.portfolioName = portfolioName;
+                        return data;
+                    }
+                }
+            });
+
+            modalInstance.result.then((updatedPositions: Array<Models.IPosition>) => {
+                if (updatedPositions && codeToExcute) {
+                    codeToExcute(updatedPositions);
+                }
+            }, () => { });
+            //var modalInstance = modalService.open({
+            //    templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+            //    controller: 'application.controllers.tradeHistoryPopupController',
+            //    controllerAs: 'tradeHistoryPopup',
+            //    size: 'x-lg',
+            //    resolve: {
+            //        sourcedata: () => {
+            //            var data: any = {};
+            //            data.securitycode = securitycode;
+            //            data.portfolioName = portfolioName;
+            //            return data;
+            //        }
+            //    }
+            //}).result.finally(codeToExcute);
+
+   //        modalInstance.result.then(() => {
+			//	if (codeToExcute) {
+			//		codeToExcute();
+			//	}
+			//}, () => { });
+        }
 
 		showViewEditorPopup = (viewId: number
 			, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {

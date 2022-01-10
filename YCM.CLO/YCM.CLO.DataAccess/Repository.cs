@@ -1918,7 +1918,15 @@ namespace YCM.CLO.DataAccess
 			SqlParameter paramFieldGroupName = new SqlParameter("@Username", UserName);
 			return _cloContext.Database.SqlQuery<string>("CLO.GetRolesandPermissions @Username", paramFieldGroupName);
 		}
-    }
+
+		public IEnumerable<TradeHistory> GetTradeHistory(string securityCode, string portfolioName)
+        {
+			SqlParameter paramFieldSecurityCode = new SqlParameter("@securityCode", securityCode);
+			SqlParameter paramFieldPortfolioName = new SqlParameter("@portfolioName", portfolioName);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeHistory>("CLO.spGetTradeHistory @securityCode, @portfolioName", paramFieldSecurityCode, paramFieldPortfolioName);
+		}
+	}
 
 }
 

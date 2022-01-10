@@ -391,5 +391,17 @@ namespace YCM.CLO.DTO
             get { return _clo10wapp.GetValueOrDefault() > 0 ? _clo10wapp.Value : 0; }
             set { _clo10wapp = value; }
         }
+
+        public bool ClO1TradeHistoryExist { get; set; }
+        public bool ClO2TradeHistoryExist { get; set; }
+        public bool ClO3TradeHistoryExist { get; set; }
+        public bool ClO4TradeHistoryExist { get; set; }
+        public bool ClO5TradeHistoryExist { get; set; }
+        public bool ClO6TradeHistoryExist { get; set; }
+        public bool ClO7TradeHistoryExist { get; set; }
+        public bool ClO8TradeHistoryExist { get; set; }
+        public bool ClO9TradeHistoryExist { get; set; }
+        public bool ClO10TradeHistoryExist { get; set; }
+        public bool ClO11TradeHistoryExist { get; set; }
     }
 }

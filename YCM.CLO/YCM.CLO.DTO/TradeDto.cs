@@ -88,4 +88,13 @@ namespace YCM.CLO.DTO
         public string SearchText =>( Security.SecurityCode + "|" + Security.Issuer + "|" + Security.Facility + "|" + TradeAmount + "|" + TradePrice + "|" + FinalAllocation + Comments).ToLower();
 
     }
+
+    public partial class TradeHistoryDto
+    {
+        public string TradeDate { get; set; }
+        public string TradeType { get; set; }
+        public string Quantity { get; set; }
+        public string Price { get; set; }
+        public string Counterparty { get; set; }
+    }
 }

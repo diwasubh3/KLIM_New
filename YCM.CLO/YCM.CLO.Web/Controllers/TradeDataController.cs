@@ -225,5 +225,12 @@ namespace YCM.CLO.Web.Controllers
             return new JsonNetResult() { Data = Mapper.Map<Security, SecurityDto>(security) };
         }
 
+        public JsonNetResult GetTradeHistory(string securityCode, string portfolioName)
+        {
+            var td = _repository.GetTradeHistory(securityCode, portfolioName);
+            var tradeHistory = Mapper.Map<IEnumerable<TradeHistory>, IEnumerable<TradeHistoryDto>>(td).ToArray();
+            return new JsonNetResult() { Data = tradeHistory };
+        }
+
     }
 }

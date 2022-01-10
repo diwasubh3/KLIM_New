@@ -29,4 +29,13 @@ namespace YCM.CLO.DataAccess.Models
         public virtual Security Security { get; set; }
         public virtual ICollection<TradeAllocation> TradeAllocations { get; set; }
     }
+
+    public partial class TradeHistory
+    {
+        public string TradeDate { get; set; }
+        public string TradeType { get; set; }
+        public string Quantity { get; set; }
+        public string Price { get; set; }
+        public string Counterparty { get; set; }
+    }
 }

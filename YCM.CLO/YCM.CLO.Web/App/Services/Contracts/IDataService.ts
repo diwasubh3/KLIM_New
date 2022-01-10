@@ -117,5 +117,7 @@ module Application.Services.Contracts {
         getReportingData: () => ng.IPromise<Models.ReportingData>;
 
         saveReportingData: (data: Models.ReportingData) => ng.IPromise<Models.ReportingData>;
+        getTradeHistory: (securityCode: string, portfolioName: string) => ng.IPromise<Array<Application.Models.ITradeHistory>>;
+
     }
 } 

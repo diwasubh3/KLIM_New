@@ -341,6 +341,7 @@
     <Content Include="App\Views\loanattributeoverriderecon.html" />
     <Content Include="App\Views\loancomparison.html" />
     <Content Include="App\Views\reporting.html" />
+    <Content Include="App\Views\tradeHistorypopup.html" />
     <Content Include="App\Views\testresults.html" />
     <Content Include="App\Views\tradeswapping.html" />
     <Content Include="App\Views\securityoverrides.html" />
@@ -703,6 +704,7 @@
     <TypeScriptCompile Include="App\Controllers\FundTriggersController.ts" />
     <TypeScriptCompile Include="App\Controllers\LoanComparisonController.ts" />
     <TypeScriptCompile Include="App\Controllers\AdminController.ts" />
+    <TypeScriptCompile Include="App\Controllers\TradeHistoryPopupController.ts" />
     <TypeScriptCompile Include="App\Controllers\TestResultsController.ts" />
     <TypeScriptCompile Include="App\Controllers\TradeSwappingController.ts" />
     <TypeScriptCompile Include="App\Controllers\TradesController.ts" />

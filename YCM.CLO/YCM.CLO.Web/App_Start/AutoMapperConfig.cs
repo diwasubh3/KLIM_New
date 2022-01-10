@@ -216,7 +216,8 @@ namespace YCM.CLO.Web.App_Start
                 cfg.CreateMap<LienTypeDto, LienType>();
 
                 cfg.CreateMap<TradeSwap, TradeSwapDto>();
-            });
+				cfg.CreateMap<TradeHistory, TradeHistoryDto>();
+			});
             
 
         }

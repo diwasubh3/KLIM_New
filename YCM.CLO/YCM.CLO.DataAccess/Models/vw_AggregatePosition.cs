@@ -250,5 +250,17 @@ namespace YCM.CLO.DataAccess.Models
         public string LiborTransitionNote { get; set; }
 
         public override string ToString() => $"{SecurityCode}: Sell Candidate: {IsSellCandidate} Id: {SellCandidateId} Watch: {IsOnWatch} Id: {WatchId}";
+
+        public bool ClO1TradeHistoryExist { get; set; }
+        public bool ClO2TradeHistoryExist { get; set; }
+        public bool ClO3TradeHistoryExist { get; set; }
+        public bool ClO4TradeHistoryExist { get; set; }
+        public bool ClO5TradeHistoryExist { get; set; }
+        public bool ClO6TradeHistoryExist { get; set; }
+        public bool ClO7TradeHistoryExist { get; set; }
+        public bool ClO8TradeHistoryExist { get; set; }
+        public bool ClO9TradeHistoryExist { get; set; }
+        public bool ClO10TradeHistoryExist { get; set; }
+        public bool ClO11TradeHistoryExist { get; set; }
     }
 }
