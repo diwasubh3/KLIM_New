@@ -309,7 +309,7 @@ module Application.Services {
 		    }, () => { });
         }
 
-        showTradeHistoryPopup = (securitycode: string, portfolioName: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {
+        showTradeHistoryPopup = (securitycode: string, issuer: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {
             var modalInstance = modalService.open({
                 templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
                 controller: 'application.controllers.tradeHistoryPopupController',
@@ -319,7 +319,7 @@ module Application.Services {
                     sourcedata: () => {
                         var data: any = {};
                         data.securitycode = securitycode;
-                        data.portfolioName = portfolioName;
+                        data.issuer = issuer;
                         return data;
                     }
                 }

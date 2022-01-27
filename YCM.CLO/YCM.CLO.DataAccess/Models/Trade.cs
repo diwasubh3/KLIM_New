@@ -32,6 +32,7 @@ namespace YCM.CLO.DataAccess.Models
 
     public partial class TradeHistory
     {
+        public string PortfolioName { get; set; }
         public string TradeDate { get; set; }
         public string TradeType { get; set; }
         public string Quantity { get; set; }

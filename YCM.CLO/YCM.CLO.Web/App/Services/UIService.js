@@ -245,7 +245,7 @@ var Application;
                         }
                     }, function () { });
                 };
-                this.showTradeHistoryPopup = function (securitycode, portfolioName, modalService, codeToExcute) {
+                this.showTradeHistoryPopup = function (securitycode, issuer, modalService, codeToExcute) {
                     var modalInstance = modalService.open({
                         templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
                         controller: 'application.controllers.tradeHistoryPopupController',
@@ -255,7 +255,7 @@ var Application;
                             sourcedata: function () {
                                 var data = {};
                                 data.securitycode = securitycode;
-                                data.portfolioName = portfolioName;
+                                data.issuer = issuer;
                                 return data;
                             }
                         }

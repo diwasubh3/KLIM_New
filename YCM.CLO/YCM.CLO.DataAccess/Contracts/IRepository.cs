@@ -233,6 +233,6 @@ namespace YCM.CLO.DataAccess.Contracts
 
         IEnumerable<string> GetPermission(string UserName);
 
-        IEnumerable<TradeHistory> GetTradeHistory(string securityCode, string portfolioName);
+        IEnumerable<TradeHistory> GetTradeHistory(string securityCode);
     }
 }

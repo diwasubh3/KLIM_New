@@ -12,10 +12,15 @@ var Application;
                     var vm = _this;
                     vm.statusText = "Loading";
                     vm.isLoading = true;
-                    vm.dataService.getTradeHistory(vm.securitycode, vm.portfolioName).then(function (d) {
+                    vm.dataService.getTradeHistory(vm.securitycode).then(function (d) {
                         vm.tradeHistoryDetails = d;
                         vm.isLoading = false;
                     });
+                };
+                this.cancel = function () {
+                    var vm = _this;
+                    vm.statusText = "Closing";
+                    vm.modalInstance.dismiss('cancel');
                 };
                 var vm = this;
                 vm.modalInstance = $modalInstance;
@@ -24,9 +29,9 @@ var Application;
                 vm.windowService = $window;
                 vm.sourcedata = sourcedata;
                 vm.ngTableParams = ngTableParams;
-                if (sourcedata.securitycode !== undefined && sourcedata.portfolioName !== undefined) {
+                if (sourcedata.securitycode !== undefined) {
                     vm.securitycode = sourcedata.securitycode;
-                    vm.portfolioName = sourcedata.portfolioName;
+                    vm.issuer = sourcedata.issuer;
                     vm.loadTradeHistoryData();
                 }
                 vm.lastUpdatedOn = new Date();

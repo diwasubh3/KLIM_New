@@ -251,6 +251,7 @@ namespace YCM.CLO.DataAccess.Models
 
         public override string ToString() => $"{SecurityCode}: Sell Candidate: {IsSellCandidate} Id: {SellCandidateId} Watch: {IsOnWatch} Id: {WatchId}";
 
+        public bool TradeHistoryExist { get; set; }
         public bool ClO1TradeHistoryExist { get; set; }
         public bool ClO2TradeHistoryExist { get; set; }
         public bool ClO3TradeHistoryExist { get; set; }

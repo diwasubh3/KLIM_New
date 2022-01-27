@@ -291,8 +291,9 @@ var Application;
                 this.getReportingData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getreportingdata');
                 };
-                this.getTradeHistory = function (securityCode, portfolioName) {
-                    var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode + '&portfolioName=' + portfolioName;
+                this.getTradeHistory = function (securityCode) {
+                    debugger;
+                    var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode;
                     return _this.httpWrapperFactory.getData(url);
                 };
                 this.httpWrapperFactory = httpWrapperFactory;

@@ -20,6 +20,6 @@
 		filterPositions: (positions: Array<Models.IPosition>, positionFilter: Models.IPositionFilters) => void;
 		updateFilterStatistics: (positions: Array<Models.IPosition>, positionFilter: Models.IPositionFilters, field: string) => void;
         sortArrayBySortOrderAsc: (arrayToSort: any, sortField: string) => any;
-        showTradeHistoryPopup: (securitycode: string, portfolioName: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => void;
+        showTradeHistoryPopup: (securitycode: string, issuer: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => void;
     }
 } 

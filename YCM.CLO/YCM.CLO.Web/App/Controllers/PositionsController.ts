@@ -432,9 +432,9 @@ module Application.Controllers {
 			return vm.issuerIds.indexOf(issuerId) > -1;
 		}
 
-        showTradeHistory = (securitycode: string, portfolioName: string) => {
+        showTradeHistory = (securitycode: string, issuer: string) => {
             var vm = this;
-            vm.uiService.showTradeHistoryPopup(securitycode, portfolioName, vm.modalService, vm.resetScreen);
+            vm.uiService.showTradeHistoryPopup(securitycode, issuer, vm.modalService, vm.resetScreen);
         }
 
 	    getAnalystResearchIssuerIds = () => {

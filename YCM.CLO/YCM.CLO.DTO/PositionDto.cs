@@ -392,6 +392,7 @@ namespace YCM.CLO.DTO
             set { _clo10wapp = value; }
         }
 
+        public bool TradeHistoryExist { get; set; }
         public bool ClO1TradeHistoryExist { get; set; }
         public bool ClO2TradeHistoryExist { get; set; }
         public bool ClO3TradeHistoryExist { get; set; }

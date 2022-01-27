@@ -14,7 +14,7 @@ module Application.Controllers {
         lastUpdatedOn: Date;
         scope: ng.IScope;
         securitycode: string;
-        portfolioName: string;
+        issuer: string;
         windowService: ng.IWindowService;
 
         static $inject = ["application.services.dataService", "$window", "$scope", "$uibModalInstance", 'NgTableParams', 'sourcedata'];
@@ -27,9 +27,9 @@ module Application.Controllers {
             vm.windowService = $window;
             vm.sourcedata = sourcedata;
             vm.ngTableParams = ngTableParams;
-            if (sourcedata.securitycode !== undefined && sourcedata.portfolioName !== undefined) {
+            if (sourcedata.securitycode !== undefined) {
                 vm.securitycode = sourcedata.securitycode;
-                vm.portfolioName = sourcedata.portfolioName;
+                vm.issuer = sourcedata.issuer;
                 vm.loadTradeHistoryData();
             }
             vm.lastUpdatedOn = new Date();
@@ -39,12 +39,17 @@ module Application.Controllers {
             var vm = this;
             vm.statusText = "Loading";
             vm.isLoading = true;
-            vm.dataService.getTradeHistory(vm.securitycode, vm.portfolioName).then((d) => {
+            vm.dataService.getTradeHistory(vm.securitycode).then((d) => {
                 vm.tradeHistoryDetails = d;
                 vm.isLoading = false;
             });
         }
-        
+
+        cancel = () => {
+            var vm = this;
+            vm.statusText = "Closing";
+            vm.modalInstance.dismiss('cancel');
+        }
     }
 
     angular.module("app").controller("application.controllers.tradeHistoryPopupController", TradeHistoryPopupController);

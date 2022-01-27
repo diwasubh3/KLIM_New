@@ -140,6 +140,7 @@
         YieldAvgLgdPct: string;
         securityDesc: string;
 
+        tradeHistoryExist: boolean;
         clO1TradeHistoryExist: boolean;
         clO2TradeHistoryExist: boolean;
         clO3TradeHistoryExist: boolean;

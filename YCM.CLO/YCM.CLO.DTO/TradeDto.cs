@@ -91,6 +91,7 @@ namespace YCM.CLO.DTO
 
     public partial class TradeHistoryDto
     {
+        public string PortfolioName { get; set; }
         public string TradeDate { get; set; }
         public string TradeType { get; set; }
         public string Quantity { get; set; }
