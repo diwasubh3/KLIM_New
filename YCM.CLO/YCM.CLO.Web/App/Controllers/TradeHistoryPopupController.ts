@@ -15,6 +15,7 @@ module Application.Controllers {
         scope: ng.IScope;
         securitycode: string;
         issuer: string;
+        weightedAveragePrice: number;
         windowService: ng.IWindowService;
 
         static $inject = ["application.services.dataService", "$window", "$scope", "$uibModalInstance", 'NgTableParams', 'sourcedata'];
@@ -42,6 +43,15 @@ module Application.Controllers {
             vm.dataService.getTradeHistory(vm.securitycode).then((d) => {
                 vm.tradeHistoryDetails = d;
                 vm.isLoading = false;
+                vm.weightedAveragePrice = 0.0;
+
+                debugger;
+                var totalPrice = 0;
+                for (var i = 0; i < vm.tradeHistoryDetails.length; i++) {
+                    var trade = vm.tradeHistoryDetails[i];
+                    totalPrice += parseFloat(trade.price);
+                }
+                vm.weightedAveragePrice = (totalPrice / vm.tradeHistoryDetails.length);
             });
         }
 
@@ -50,6 +60,28 @@ module Application.Controllers {
             vm.statusText = "Closing";
             vm.modalInstance.dismiss('cancel');
         }
+
+        exportExcel = (tableId:string,sheetName:string) => {
+            var table = document.getElementById(tableId) as HTMLTableElement;
+            var rows = table.rows;
+            var data = "";
+            for (var row = 0; row < rows.length; row++) {
+                for (var column = 0; column < rows[row].cells.length; column++) {
+                    data += rows[row].cells[column].innerHTML.trim().replace(/,/g,'') + ",";
+                }
+                data += "\n";
+            }
+            if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(new Blob([data], { type: 'text/csv;charset=utf-8;' }), sheetName+".csv");
+            } else {
+                var a = document.createElement("a");
+                a.href = 'data:attachment/csv;charset=utf-8,' + encodeURI(data);
+                a.target = '_blank';
+                a.download = sheetName +'.csv';
+                document.body.appendChild(a);
+                a.click();
+            }
+        };
     }
 
     angular.module("app").controller("application.controllers.tradeHistoryPopupController", TradeHistoryPopupController);

@@ -919,11 +919,11 @@
     }
 
     export interface ITradeHistory {
-        TradeDate: string;
-        TradeType: string;
-        Quantity: string;
-        Price: string;
-        Counterparty: string;
+        tradeDate: string;
+        tradeType: string;
+        quantity: string;
+        price: string;
+        counterparty: string;
     }
 
 

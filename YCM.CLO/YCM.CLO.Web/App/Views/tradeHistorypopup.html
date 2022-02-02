@@ -1,108 +1,73 @@
-﻿<style>
-	.panel-default .panel-body {
-		padding: 0px;
-	}
-	.panel-default .panel-heading {
-		text-align: center;
-		padding: 6px;
-	}
-	.panel-default .panel-title {
-		font-size: 12px;
-	}
+﻿
+<style>
+    .panel-default .panel-body {
+        padding: 0px;
+    }
+
+    .panel-default .panel-heading {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .panel-default .panel-title {
+        font-size: 12px;
+    }
 </style>
 <div ng-show="researchpopup.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
-	<img src="{{researchpopup.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{researchpopup.statusText}}...</b>
+    <img src="{{researchpopup.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{researchpopup.statusText}}...</b>
 </div>
 <div class="modal-body" style="max-height: 777px;overflow-y: auto">
     Trade History for <b>{{researchpopup.issuer}}</b> (<b>{{researchpopup.securitycode}}</b>)
+    &nbsp;&nbsp;<button type="button" data-ng-click="researchpopup.exportExcel('tbl_tradeHistoryDetails', 'TradeHistoryExport')"> Export To CSV </button>
     <button type="button" class="close" data-dismiss="dialog" data-ng-click="researchpopup.cancel()" style="font-size: 18px !important;">
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
     </button>
     <div style="padding: 0px !important;">
-        <!--<div class="table-header" style="padding: 0px; max-height:{{44*researchpopup.tradeHistoryDetails.length}}px;">
-            <table class="table table-bordered table-supercondensed" style="border-radius:0;margin-bottom:0">
+        <div class="table-header" style="padding: 0px; max-height:{{44*researchpopup.tradeHistoryDetails.length}}px;">
+            <table id="tbl_tradeHistoryDetails" class="table table-bordered table-3pxcondensed table-fixedheight" style="border-width: 0;margin-bottom: 0px">
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"></th>
-                        <th style="text-align: center; width: 90px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>Trade Date</div></th>
-                        <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Trade Type</div></th>
-                        <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Quantity</div></th>
-                        <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd "><div>Price</div></th>
-                        <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Counterparty</div></th>
+                        <th style="text-align: center; width: 90px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;">Trade Date</th>
+                        <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">Trade Type</th>
+                        <th style="text-align: left; width: 90px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;">Fund</th>
+                        <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">Quantity</th>
+                        <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd ">Price</th>
+                        <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">Counterparty</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat-start="hist in researchpopup.tradeHistoryDetails">
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
-                            <a style="margin-right:10px">
-                                <i class="icon-plus" style="font-size:12px" ng-show="!hist.showDetails"></i>
-                                <i class="icon-minus" style="font-size:12px" ng-show="hist.showDetails"></i>
-                            </a>
-                            {{hist.portfolioName}}
-                        </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                    <tr class="pointer" ng-repeat="hist in researchpopup.tradeHistoryDetails">
+                        <td style="width: 90px; text-align: center; border-width: 0px 0px 1px 0px; ">
                             {{hist.tradeDate}}
                         </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
-                            {{hist.tradeDate}}
-                        </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                        <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;">
                             {{hist.tradeType}}
                         </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                        <td style="width: 90px; text-align: left; border-width: 0px 0px 1px 0px; ">
+                            {{hist.portfolioName}}
+                        </td>
+                        <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
                             {{hist.quantity| number:2}}
                         </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                        <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
                             {{hist.price| number:3}}
                         </td>
-                        <td ng-click="hist.showDetails=!hist.showDetails" style="border-bottom-width:0;border-left-width:0;border-right-width:0;cursor:pointer">
+                        <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;">
                             {{hist.counterparty}}
                         </td>
                     </tr>
+                    <tr>
+                        <td style="width: 90px;  text-align: center; border-width: 0px 0px 1px 0px;"></td>
+                        <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;"></td>
+                        <td style="width: 90px;  text-align: center; border-width: 0px 0px 1px 0px;"></td>
+                        <td style="width: 120px; text-align: right; font-weight: bold; border-width: 0px 0px 1px 0px; ">Weighted average price</td>
+                        <td style="width: 120px; text-align: right; font-weight:bold; border-width: 0px 0px 1px 0px;">{{researchpopup.weightedAveragePrice | number:3}}</td>
+                        <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;"></td>
+                    </tr>
                 </tbody>
             </table>
-        </div>-->
-        
-        <div class="table-header" style="padding: 0px; max-height:{{44*researchpopup.tradeHistoryDetails.length}}px;">
-        <table class="table table-bordered table-3pxcondensed table-fixedheight" style="border-width: 0;margin-bottom: 0px">
-            <thead>
-                <tr>
-                    <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"></th>
-                    <th style="text-align: center; width: 90px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>Fund</div></th>
-                    <th style="text-align: center; width: 90px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>Trade Date</div></th>
-                    <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Trade Type</div></th>
-                    <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Quantity</div></th>
-                    <th style="text-align: right; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd "><div>Price</div></th>
-                    <th style="text-align: center; width: 120px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Counterparty</div></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="pointer" ng-repeat="hist in researchpopup.tradeHistoryDetails">
-                    <td style="width: 25px; text-align: right; border-width: 0px 0px 1px 0px;">
-                        &nbsp;
-                    </td>
-                    <td style="width: 90px; text-align: center; border-width: 0px 0px 1px 0px; ">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.portfolioName}}</span>
-                    </td>
-                    <td style="width: 90px; text-align: center; border-width: 0px 0px 1px 0px; ">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.tradeDate}}</span>
-                    </td>
-                    <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.tradeType}}</span>
-                    </td>
-                    <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.quantity| number:2}}</span>
-                    </td>
-                    <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.price| number:2}}</span>
-                    </td>
-                    <td style="width: 120px; text-align: center; border-width: 0px 0px 1px 0px;">
-                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{hist.counterparty}}</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+        </div>
     </div>
 </div>
