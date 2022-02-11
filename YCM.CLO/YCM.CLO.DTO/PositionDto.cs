@@ -393,16 +393,7 @@ namespace YCM.CLO.DTO
         }
 
         public bool TradeHistoryExist { get; set; }
-        public bool ClO1TradeHistoryExist { get; set; }
-        public bool ClO2TradeHistoryExist { get; set; }
-        public bool ClO3TradeHistoryExist { get; set; }
-        public bool ClO4TradeHistoryExist { get; set; }
-        public bool ClO5TradeHistoryExist { get; set; }
-        public bool ClO6TradeHistoryExist { get; set; }
-        public bool ClO7TradeHistoryExist { get; set; }
-        public bool ClO8TradeHistoryExist { get; set; }
-        public bool ClO9TradeHistoryExist { get; set; }
-        public bool ClO10TradeHistoryExist { get; set; }
-        public bool ClO11TradeHistoryExist { get; set; }
+        public string PrimarySpreadType { get; set; }
+
     }
 }

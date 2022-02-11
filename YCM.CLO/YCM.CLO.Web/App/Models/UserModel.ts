@@ -37,7 +37,8 @@
         snpRecovery: any;
         diversityCalcBgStyle: any;
 		cleanNavBgStyle: any;
-		sortOrder:number;
+        sortOrder: number;
+        sOFR: number;
         
     }
 
@@ -141,17 +142,7 @@
         securityDesc: string;
 
         tradeHistoryExist: boolean;
-        clO1TradeHistoryExist: boolean;
-        clO2TradeHistoryExist: boolean;
-        clO3TradeHistoryExist: boolean;
-        clO4TradeHistoryExist: boolean;
-        clO5TradeHistoryExist: boolean;
-        clO6TradeHistoryExist: boolean;
-        clO7TradeHistoryExist: boolean;
-        clO8TradeHistoryExist: boolean;
-        clO9TradeHistoryExist: boolean;
-        clO10TradeHistoryExist: boolean;
-        clO11TradeHistoryExist: boolean;
+        primarySpreadType: string;
     }
 
     export interface IAlert {
