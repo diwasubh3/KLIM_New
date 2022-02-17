@@ -70,7 +70,13 @@ namespace YCM.CLO.DataAccess
 		{
 			using (CLOContext cloContext = new CLOContext())
 			{
-				return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				/* 
+				 * As per user request, Summary section need to be available whole day and change for the same managed at database level
+				 * 
+				 --Old Code
+				 return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				 * */
+				return cloContext.vw_CLOSummary.OrderBy(c => c.SortOrder).ToList();
 			}
 		}
 
@@ -1912,7 +1918,15 @@ namespace YCM.CLO.DataAccess
 			SqlParameter paramFieldGroupName = new SqlParameter("@Username", UserName);
 			return _cloContext.Database.SqlQuery<string>("CLO.GetRolesandPermissions @Username", paramFieldGroupName);
 		}
-    }
+
+		public IEnumerable<TradeHistory> GetTradeHistory(string securityCode)
+        {
+			SqlParameter paramFieldSecurityCode = new SqlParameter("@securityCode", securityCode);
+			//SqlParameter paramFieldPortfolioName = new SqlParameter("@portfolioName", portfolioName);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeHistory>("CLO.spGetTradeHistory @securityCode", paramFieldSecurityCode);
+		}
+	}
 
 }
 

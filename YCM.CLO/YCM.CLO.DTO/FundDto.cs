@@ -61,7 +61,7 @@ namespace YCM.CLO.DTO
         public string NonCallEndsDate { get; set; }
 
         public string FinalMaturity { get; set; }
-
+        public string PortfolioName { get; set; }
 
     }
 }

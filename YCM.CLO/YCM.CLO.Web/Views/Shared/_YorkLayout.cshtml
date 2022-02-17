@@ -80,9 +80,6 @@
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 && stalefundscount > 0 ? ' | ':''}}</span>
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{stalefundscount > 0 ? (stalefundscount + ' stale') :'' }}</span>
                                 </span>
-                                <span style="right:0">
-                                    <input id="btnReinvest" type="button" ng-click="topNav.refreshSummaries();" value="Refresh ReInvest Data" />
-                                </span>
                             </div>
                         </div>
                         @* Commented, user dont need auto refresh feature
@@ -145,6 +142,7 @@
                     </thead>
                 </table>
             </div>*@
+                                    
                                     <div style="max-height: {{44*topNav.summaryData.length}}px;">
                                         <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams"
                                                id="tblSummaryBody"
@@ -159,6 +157,7 @@
                                                     <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
                                                     <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>REINVEST CASH</div></th>
                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
+                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>SOFR</div></th>
                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
                                                     <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
                                                     <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
@@ -192,14 +191,16 @@
                                                     <td ng-style="data.assetParBgStyle"
                                                         style="width: 130px; text-align: left; border-width: 0px 0px 1px 0px;">
                                                         <span ng-click="topNav.downloadLoanPositions(data.fundId)" uib-tooltip-html="data.assetParTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.assetPar| number:0}}</span>
+
                                                     </td>
+
                                                     <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.principalCashBgStyle">
                                                         <span uib-tooltip-html="data.principalCashTooltip" tooltip-append-to-body="true">
                                                             {{data.principalCash| number:0}}
                                                         </span>
                                                     </td>
 
-                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle"  >
+                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
                                                         <a ng-href="{{data.reInvestCashFilepath}}" ng-click="topNav.downloadReInvestCash(data.reInvestCashFilepath)" ng-if="data.reInvestCash != 0">
                                                             {{ data.reInvestCash | number:0 }}
                                                         </a>
@@ -210,12 +211,15 @@
                                                             {{data.wsoSpread| number:2}}%
                                                         </span>
                                                     </td>
+                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{data.sofr| number:2}}%</span>
+                                                    </td>
 
                                                     @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-                                <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                    {{data.totalCoupon| number:2}}%
-                                </span>
-                            </td>*@
+            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.totalCoupon| number:2}}%
+            </span>
+        </td>*@
 
                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
                                                         <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
@@ -256,10 +260,10 @@
                                                     </td>
 
                                                     @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-                                <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                    {{data.wsowaLife| number:2}}
-                                </span>
-                            </td>*@
+            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.wsowaLife| number:2}}
+            </span>
+        </td>*@
                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
                                                         <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
                                                             {{data.wsoDiversity| number:0}}

@@ -291,6 +291,10 @@ var Application;
                     var vm = _this;
                     return vm.issuerIds.indexOf(issuerId) > -1;
                 };
+                this.showTradeHistory = function (securitycode, issuer) {
+                    var vm = _this;
+                    vm.uiService.showTradeHistoryPopup(securitycode, issuer, vm.modalService, vm.resetScreen);
+                };
                 this.getAnalystResearchIssuerIds = function () {
                     var vm = _this;
                     vm.dataService.getAnalystResearchIssuerIds().then(function (ids) {

@@ -84,6 +84,8 @@ namespace YCM.CLO.DataAccess.Models
 
 		public override string ToString()
 			=> $"{FundCode}: {Par} {Spread} {PrincipalCash} {AssetPar}";
+
+		public decimal? SOFR { get; set; }
 	}
 
 

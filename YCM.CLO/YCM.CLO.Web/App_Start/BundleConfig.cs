@@ -83,6 +83,7 @@ namespace YCM.CLO.Web
                "~/App/Controllers/ShowMessageController.js",
                "~/App/Controllers/BuySellTradeController.js",
 			   "~/App/Controllers/AnalystResearchPopupController.js",
+               "~/App/Controllers/TradeHistoryPopupController.js",
                "~/App/Controllers/ViewEditorPopupController.js",
 			   "~/App/Controllers/ConfirmCustomViewDeleteController.js",
 			   "~/App/Controllers/BbgPopupController.js",

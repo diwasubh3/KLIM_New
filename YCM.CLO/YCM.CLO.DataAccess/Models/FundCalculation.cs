@@ -47,7 +47,7 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? B3ToAssetParPct { get; set; }
 
         public decimal? BMinusToAssetParPct { get; set; }
-
+        public decimal? SOFR { get; set; }
 
     }
 }

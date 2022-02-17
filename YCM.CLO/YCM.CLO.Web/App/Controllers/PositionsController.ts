@@ -427,10 +427,15 @@ module Application.Controllers {
 			pageOptions.PositionSettings.selectedRows = positionsForComparison;
 		}
 
-		researchExists = (issuerId: number) => {
+        researchExists = (issuerId: number) => {
 			var vm = this;
 			return vm.issuerIds.indexOf(issuerId) > -1;
 		}
+
+        showTradeHistory = (securitycode: string, issuer: string) => {
+            var vm = this;
+            vm.uiService.showTradeHistoryPopup(securitycode, issuer, vm.modalService, vm.resetScreen);
+        }
 
 	    getAnalystResearchIssuerIds = () => {
 		    var vm = this;
@@ -739,7 +744,7 @@ module Application.Controllers {
 		    }, 0);
 		};
 
-		showAnalystResearch = (issuerId: number) => {
+        showAnalystResearch = (issuerId: number) => {
 		        var vm = this;
 				vm.uiService.showAnalystResearchPopup(issuerId, vm.modalService, vm.resetScreen);
 		}

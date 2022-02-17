@@ -89,7 +89,6 @@ var Application;
                             pos.isFilterSuccess = pos.isFilterSuccess && eval(expression);
                         }
                         else if (pos.isFilterSuccess && field.fieldType == 2) {
-                            debugger;
                             var value = pos[field.jsonPropertyName].toString().replace(/,/g, '');
                             var expression = parseFloat(value).toString() + ' ' +
                                 posfilter.operator.operatorVal + ' ' + posfilter.value;
@@ -244,6 +243,46 @@ var Application;
                             codeToExcute(updatedPositions);
                         }
                     }, function () { });
+                };
+                this.showTradeHistoryPopup = function (securitycode, issuer, modalService, codeToExcute) {
+                    var modalInstance = modalService.open({
+                        templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+                        controller: 'application.controllers.tradeHistoryPopupController',
+                        controllerAs: 'researchpopup',
+                        size: 'x-lg',
+                        resolve: {
+                            sourcedata: function () {
+                                var data = {};
+                                data.securitycode = securitycode;
+                                data.issuer = issuer;
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (updatedPositions) {
+                        if (updatedPositions && codeToExcute) {
+                            codeToExcute(updatedPositions);
+                        }
+                    }, function () { });
+                    //var modalInstance = modalService.open({
+                    //    templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+                    //    controller: 'application.controllers.tradeHistoryPopupController',
+                    //    controllerAs: 'tradeHistoryPopup',
+                    //    size: 'x-lg',
+                    //    resolve: {
+                    //        sourcedata: () => {
+                    //            var data: any = {};
+                    //            data.securitycode = securitycode;
+                    //            data.portfolioName = portfolioName;
+                    //            return data;
+                    //        }
+                    //    }
+                    //}).result.finally(codeToExcute);
+                    //        modalInstance.result.then(() => {
+                    //	if (codeToExcute) {
+                    //		codeToExcute();
+                    //	}
+                    //}, () => { });
                 };
                 this.showViewEditorPopup = function (viewId, modalService, codeToExcute) {
                     var modalInstance = modalService.open({

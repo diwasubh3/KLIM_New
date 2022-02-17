@@ -232,5 +232,7 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<vw_Mismatch> GetMismatchData(int fieldId);
 
         IEnumerable<string> GetPermission(string UserName);
+
+        IEnumerable<TradeHistory> GetTradeHistory(string securityCode);
     }
 }

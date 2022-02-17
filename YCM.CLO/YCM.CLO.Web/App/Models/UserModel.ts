@@ -37,7 +37,8 @@
         snpRecovery: any;
         diversityCalcBgStyle: any;
 		cleanNavBgStyle: any;
-		sortOrder:number;
+        sortOrder: number;
+        sOFR: number;
         
     }
 
@@ -139,6 +140,9 @@
         moodysLgdPct: string;
         YieldAvgLgdPct: string;
         securityDesc: string;
+
+        tradeHistoryExist: boolean;
+        primarySpreadType: string;
     }
 
     export interface IAlert {
@@ -903,6 +907,14 @@
         equityOverrides: EquityOverride[];
         defaultSecurities: DefaultSecurity[];
 
+    }
+
+    export interface ITradeHistory {
+        tradeDate: string;
+        tradeType: string;
+        quantity: string;
+        price: string;
+        counterparty: string;
     }
 
 

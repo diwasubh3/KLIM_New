@@ -113,7 +113,6 @@ module Application.Services {
                     pos.isFilterSuccess = pos.isFilterSuccess && eval(expression);
                 }
                 else if (pos.isFilterSuccess && field.fieldType == 2) {
-                    debugger;
 					var value = pos[field.jsonPropertyName].toString().replace(/,/g, '');
 					var expression: string = parseFloat(value).toString() + ' ' +
 						posfilter.operator.operatorVal + ' ' + posfilter.value;
@@ -307,7 +306,50 @@ module Application.Services {
 				    codeToExcute(updatedPositions);
 			    }
 		    }, () => { });
-	    }
+        }
+
+        showTradeHistoryPopup = (securitycode: string, issuer: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {
+            var modalInstance = modalService.open({
+                templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+                controller: 'application.controllers.tradeHistoryPopupController',
+                controllerAs: 'researchpopup',
+                size: 'x-lg',
+                resolve: {
+                    sourcedata: () => {
+                        var data: any = {};
+                        data.securitycode = securitycode;
+                        data.issuer = issuer;
+                        return data;
+                    }
+                }
+            });
+
+            modalInstance.result.then((updatedPositions: Array<Models.IPosition>) => {
+                if (updatedPositions && codeToExcute) {
+                    codeToExcute(updatedPositions);
+                }
+            }, () => { });
+            //var modalInstance = modalService.open({
+            //    templateUrl: pageOptions.appBasePath + 'app/views/tradeHistorypopup.html?v=' + pageOptions.appVersion,
+            //    controller: 'application.controllers.tradeHistoryPopupController',
+            //    controllerAs: 'tradeHistoryPopup',
+            //    size: 'x-lg',
+            //    resolve: {
+            //        sourcedata: () => {
+            //            var data: any = {};
+            //            data.securitycode = securitycode;
+            //            data.portfolioName = portfolioName;
+            //            return data;
+            //        }
+            //    }
+            //}).result.finally(codeToExcute);
+
+   //        modalInstance.result.then(() => {
+			//	if (codeToExcute) {
+			//		codeToExcute();
+			//	}
+			//}, () => { });
+        }
 
 		showViewEditorPopup = (viewId: number
 			, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => {
