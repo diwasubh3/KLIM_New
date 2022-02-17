@@ -387,7 +387,6 @@
         }
 
         getTradeHistory = (securityCode: string) => {
-            debugger;
             var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode;
             return this.httpWrapperFactory.getData(url);
         }

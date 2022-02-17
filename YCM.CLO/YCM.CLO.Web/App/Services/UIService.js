@@ -89,7 +89,6 @@ var Application;
                             pos.isFilterSuccess = pos.isFilterSuccess && eval(expression);
                         }
                         else if (pos.isFilterSuccess && field.fieldType == 2) {
-                            debugger;
                             var value = pos[field.jsonPropertyName].toString().replace(/,/g, '');
                             var expression = parseFloat(value).toString() + ' ' +
                                 posfilter.operator.operatorVal + ' ' + posfilter.value;

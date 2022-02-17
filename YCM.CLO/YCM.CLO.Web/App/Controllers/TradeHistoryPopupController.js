@@ -16,13 +16,13 @@ var Application;
                         vm.tradeHistoryDetails = d;
                         vm.isLoading = false;
                         vm.weightedAveragePrice = 0.0;
-                        debugger;
-                        var totalPrice = 0;
+                        var totalPrice = 0.0, totalQuantity = 0.0;
                         for (var i = 0; i < vm.tradeHistoryDetails.length; i++) {
                             var trade = vm.tradeHistoryDetails[i];
-                            totalPrice += parseFloat(trade.price);
+                            totalPrice += (parseFloat(trade.quantity) * parseFloat(trade.price));
+                            totalQuantity += parseFloat(trade.quantity);
                         }
-                        vm.weightedAveragePrice = (totalPrice / vm.tradeHistoryDetails.length);
+                        vm.weightedAveragePrice = (totalPrice / totalQuantity);
                     });
                 };
                 this.cancel = function () {

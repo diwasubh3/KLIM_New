@@ -292,7 +292,6 @@ var Application;
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getreportingdata');
                 };
                 this.getTradeHistory = function (securityCode) {
-                    debugger;
                     var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode;
                     return _this.httpWrapperFactory.getData(url);
                 };
