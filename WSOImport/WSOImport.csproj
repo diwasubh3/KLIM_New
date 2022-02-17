@@ -98,7 +98,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="YCM.Common.Utilities.Data">
-      <HintPath>..\YCM.CLO\packages\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
+      <HintPath>..\..\Project References\WSOIMport\YCM.Common.Utilities.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

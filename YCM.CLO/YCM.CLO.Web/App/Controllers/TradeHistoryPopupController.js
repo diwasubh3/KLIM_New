@@ -15,14 +15,27 @@ var Application;
                     vm.dataService.getTradeHistory(vm.securitycode).then(function (d) {
                         vm.tradeHistoryDetails = d;
                         vm.isLoading = false;
-                        vm.weightedAveragePrice = 0.0;
+                        //vm.weightedAveragePrice = 0.0;
+                        debugger;
+                        vm.weightedAveragePurchasePrice = 0.0, vm.weightedAverageSellPrice = 0.0;
                         var totalPrice = 0.0, totalQuantity = 0.0;
-                        for (var i = 0; i < vm.tradeHistoryDetails.length; i++) {
-                            var trade = vm.tradeHistoryDetails[i];
-                            totalPrice += (parseFloat(trade.quantity) * parseFloat(trade.price));
-                            totalQuantity += parseFloat(trade.quantity);
+                        var totalBuy = 0.0, totalSell = 0.0, totalBuyPrice = 0.0, totalSellPrice = 0.0;
+                        if (vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "buy"; }).length > 0) {
+                            totalBuy = vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "buy"; }).map(function (item) { return parseFloat(item.quantity); }).reduce(function (prev, curr) { return prev + curr; }, 0);
+                            totalBuyPrice = vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "buy"; }).reduce(function (prev, curr) { return prev + (parseFloat(curr.quantity) * parseFloat(curr.price)); }, 0);
+                            vm.weightedAveragePurchasePrice = totalBuyPrice / totalBuy;
                         }
-                        vm.weightedAveragePrice = (totalPrice / totalQuantity);
+                        if (vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "sell"; }).length > 0) {
+                            totalSell = vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "sell"; }).map(function (item) { return parseFloat(item.quantity); }).reduce(function (prev, curr) { return prev + curr; }, 0);
+                            totalSellPrice = vm.tradeHistoryDetails.filter(function (f) { return f.tradeType.toLowerCase() == "sell"; }).reduce(function (prev, curr) { return prev + (parseFloat(curr.quantity) * parseFloat(curr.price)); }, 0);
+                            vm.weightedAverageSellPrice = totalSellPrice / totalSell;
+                        }
+                        //for (var i = 0; i < vm.tradeHistoryDetails.length; i++) {
+                        //    var trade = vm.tradeHistoryDetails[i];
+                        //    totalPrice += (parseFloat(trade.quantity) * parseFloat(trade.price));
+                        //    totalQuantity += parseFloat(trade.quantity);
+                        //}
+                        //vm.weightedAveragePrice = (totalPrice / totalQuantity);
                     });
                 };
                 this.cancel = function () {
