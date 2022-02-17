@@ -3,7 +3,6 @@
 
 #Default variables
 $jobName = "FileDownload_PurchaseAndSales"
-#$fileDate = (Get-Date -Format "yyyyMMdd")-1;
 $fileDate = Get-Date -Format "yyyyMMdd";
 $currentDateTime = Get-Date -Format "yyyyMMddhhmss";
 $logFile = "C:\KLIM\Logs\$jobName$currentDateTime.txt"
@@ -21,27 +20,25 @@ LogWrite("----------------- Processing START -----------------")
 
 #File download variables
 $sftpDownlodScriptPath = "C:\KLIM\Scripts\SFTPDownload_WSO.ps1"
-$fileDownloadList = "CLOPurchaseSalewithComments$fileDate.pdf"
-$fileDownloadPath = "\\KL-NY-DC01\Generate\Firm Reporting\Purchase & Sale\"
-$ftpRemotePath = "/"
+$fileDownloadList = 'CLOPurchaseSalewithComments$fileDate.pdf'
+$fileDownloadPath = "\\KL02WSODB\Backups\WSOFiles-UAT\CLO\PurchaseAndSales\"
+$ftpRemotePath = "/mackay/"
 $totalAttempts = 12
 $attemptTimeInterval = 300		# in seconds
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
-$toEmail = @('grtsklimsupport@na.linedata.com')
+$toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
 $ccEmail = ""
 $subject = "ALERT: Job $jobName Failed"
-$body = "Job $jobName Failed."
+$body = ""
 $attachment = ""
 
 LogWrite("Calling ftp download script") 
 LogWrite("$sftpDownlodScriptPath -fileDownloadList $fileDownloadList -fileDownloadPath $fileDownloadPath -ftpRemotePath $ftpRemotePath -totalAttempts $totalAttempts -attemptTimeInterval $attemptTimeInterval -logFile $logFile") 
 $returnMessage = &"$sftpDownlodScriptPath" -fileDownloadList "$fileDownloadList" -fileDownloadPath "$fileDownloadPath" -ftpRemotePath "$ftpRemotePath" -totalAttempts "$totalAttempts" -attemptTimeInterval "$attemptTimeInterval" -logFile "$logFile"
 
-LogWrite("returnMessage = "+$returnMessage) 
-
-if (($returnMessage -eq "") -or ($returnMessage -eq $null))
+if ($returnMessage -eq "")
 {
 	LogWrite("ftp download process completed") 
 }

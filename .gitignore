@@ -360,4 +360,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/YCM.CLO/YCM.CLO.Web/Controllers/CalculationEngineClientController.cs
