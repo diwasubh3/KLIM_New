@@ -56,6 +56,7 @@ module Application.Controllers {
             vm.selectedGridRow = position;
             var menus = [];
 
+            /*
             if (position.hasBuyTrade) {
                 menus.push(this.buyMenuOption);
             } else if (position.hasSellTrade) {
@@ -82,6 +83,7 @@ module Application.Controllers {
 	        } else {
 		        menus.push(this.onSellCandidateMenuOption);
 	        }
+            */
 
             return menus;
         }

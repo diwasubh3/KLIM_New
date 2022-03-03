@@ -15,32 +15,34 @@ var Application;
                     var vm = _this;
                     vm.selectedGridRow = position;
                     var menus = [];
+                    /*
                     if (position.hasBuyTrade) {
-                        menus.push(_this.buyMenuOption);
+                        menus.push(this.buyMenuOption);
+                    } else if (position.hasSellTrade) {
+                        menus.push(this.sellMenuOption);
+                    } else {
+                        menus.push(this.buyMenuOption);
+                        menus.push(this.sellMenuOption);
                     }
-                    else if (position.hasSellTrade) {
-                        menus.push(_this.sellMenuOption);
-                    }
-                    else {
-                        menus.push(_this.buyMenuOption);
-                        menus.push(_this.sellMenuOption);
-                    }
+        
                     menus.push(null);
+        
                     if (hasWatch) {
-                        menus.push(_this.editWatchListMenuOption);
-                        menus.push(_this.offWatchListMenuOption);
+                        menus.push(this.editWatchListMenuOption);
+                        menus.push(this.offWatchListMenuOption);
+                    } else {
+                        menus.push(this.onWatchListMenuOption);
                     }
-                    else {
-                        menus.push(_this.onWatchListMenuOption);
-                    }
+        
                     menus.push(null);
+        
                     if (isSellCandidate) {
-                        menus.push(_this.editSellCandidateMenuOption);
-                        menus.push(_this.unMarkSellCandidateMenuOption);
+                        menus.push(this.editSellCandidateMenuOption);
+                        menus.push(this.unMarkSellCandidateMenuOption);
+                    } else {
+                        menus.push(this.onSellCandidateMenuOption);
                     }
-                    else {
-                        menus.push(_this.onSellCandidateMenuOption);
-                    }
+                    */
                     return menus;
                 };
                 this.showBbgMenu = function (position) {
