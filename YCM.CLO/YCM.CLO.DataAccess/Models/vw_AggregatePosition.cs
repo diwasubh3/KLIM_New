@@ -253,7 +253,8 @@ namespace YCM.CLO.DataAccess.Models
 
         public bool TradeHistoryExist { get; set; }
         public string PrimarySpreadType { get; set; }
-
+        public decimal? CLO10WAPP { get; set; }
+        public decimal? CLO11WAPP { get; set; }
 
     }
 }

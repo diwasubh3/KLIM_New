@@ -379,12 +379,12 @@ namespace YCM.CLO.DTO
         public override string ToString()
 		    => $"{SecurityCode} {SecurityDesc} Sell Candidate: {IsSellCandidate} Id: {SellCandidateId} Watch: {IsOnWatch} Id: {WatchId} {SecurityDesc} {Issuer} {BBGId} {SecurityId} {FundCode} - {TRSNumExposure} {TRSExposure} {TRSPctExposure}";
 
-        private decimal? _clo9wapp;
+        private decimal? _clo11wapp;
         private decimal? _clo10wapp;
-        public decimal? CLO9WAPP
+        public decimal? CLO11WAPP
         {
-            get { return _clo9wapp.GetValueOrDefault() > 0 ? _clo9wapp.Value : 0; }
-            set { _clo9wapp = value; }
+            get { return _clo11wapp.GetValueOrDefault() > 0 ? _clo11wapp.Value : 0; }
+            set { _clo11wapp = value; }
         }
         public decimal? CLO10WAPP
         {
