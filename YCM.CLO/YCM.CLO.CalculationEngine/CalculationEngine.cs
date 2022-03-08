@@ -403,28 +403,47 @@ namespace YCM.CLO.CalculationEngine
         {
             try
             {
-                _logger.Info("Started On " + DateTime.Now.ToString() + "fod FundId :" + fund.FundId);
+                _logger.Info("Started On " + DateTime.Now.ToString() + "for FundId :" + fund.FundId);
 
+                _logger.Info("  Check (fund.IsStale.HasValue: " + fund.IsStale.HasValue.ToString() + " && fund.IsStale.Value: " + fund.IsStale.Value + ") (fund.IsPrincipalCashStale.HasValue: " + fund.IsPrincipalCashStale.HasValue.ToString() + " && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
                 if (!(fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value || fund.IsStale.HasValue && fund.IsStale.Value))
                 {
+                    _logger.Info("  Started Processing CaptureDailySnapshot function for FundId :" + fund.FundId);
                     repository.CaptureDailySnapshot(fund.FundId, dateId);
+                    _logger.Info("  Completed Processing CaptureDailySnapshot function for FundId :" + fund.FundId);
                 }
 
+                _logger.Info("  Started Processing CreateStalePositions function for FundId :" + fund.FundId);
                 repository.CreateStalePositions(fund.FundId);
+                _logger.Info("  Completed Processing CreateStalePositions function for FundId :" + fund.FundId);
+                
                 context.Entry(fund).Reload();
+                _logger.Info("  Processing for file :" + fund.CLOFileName); 
                 if (!string.IsNullOrEmpty(fund.CLOFileName))
                 {
+                    _logger.Info("      Started Processing ReadTradeFile function for FundId :" + fund.FundId);
                     ReadTradeFile(repository, fund, context, fileDateId, dateId);
+                    _logger.Info("      Extra Check for FundId :" + fund.FundId+    "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                    _logger.Info("      Completed Processing ReadTradeFile function for FundId :" + fund.FundId);
                     context.SaveChanges();
                     if (fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value)
                     {
+                        _logger.Info("      Started Processing CleanPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:"+ dateId.ToString());
                         repository.CleanPositionsBasedOnPrincipalCash(fund.FundId, dateId);
+                        _logger.Info("      Extra Check for FundId :" + fund.FundId + "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                        _logger.Info("      Completed Processing CleanPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:" + dateId.ToString());
                     }
                     else
                     {
+                        _logger.Info("      Started Processing RefillPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:" + dateId.ToString());
                         repository.RefillPositionsBasedOnPrincipalCash(fund.FundId, dateId);
+                        _logger.Info("      Extra Check for FundId :" + fund.FundId + "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                        _logger.Info("      Completed Processing RefillPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:" + dateId.ToString());
                     }
+                    _logger.Info("      Started Processing CreateStalePositions (2) function for FundId :" + fund.FundId);
                     repository.CreateStalePositions(fund.FundId);
+                    _logger.Info("  Extra Check for FundId :" + fund.FundId + "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                    _logger.Info("      Completed Processing CreateStalePositions (2) function for FundId :" + fund.FundId);
                 }
 
                 _logger.Info("Completed On " + DateTime.Now.ToString());
@@ -437,48 +456,94 @@ namespace YCM.CLO.CalculationEngine
             }
         }
 
+        //private void ReadTradeFile(IRepository repository, Fund fund, CLOContext context, int fileDateId, int dateId)
+        //{
+        //    if (!(fund.IsStale.HasValue && fund.IsStale.Value) || fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value)
+        //    {
+        //        var clofile =
+        //            Path.Combine(ConfigurationManager.AppSettings["SourceDirectory"], fund.CLOFileName)
+        //                .Replace("{dateid}", fileDateId.ToString());
+
+        //        var archiveFile =
+        //            Path.Combine(ConfigurationManager.AppSettings["ArchiveDirectory"], fund.CLOFileName)
+        //                .Replace("{dateid}", fileDateId.ToString());
+
+        //        _logger.Info("Processing Fund : " + fund.FundCode);
+        //        if (File.Exists(clofile))
+        //        {
+        //            using (TextReader fileReader = File.OpenText(clofile))
+        //            {
+        //                var csv = new CsvReader(fileReader);
+        //                var allValues = csv.GetRecords<dynamic>();
+        //                decimal balance = 0;
+        //                _logger.Info($"Existing Cash Balance : {fund.PrincipalCash.GetValueOrDefault()}");
+
+        //                allValues.ToList().ForEach(a =>
+        //                {
+        //                    balance += decimal.Parse(a.CostAmount.ToString());
+        //                });
+
+        //                fund.PrincipalCash = balance;
+        //                fund.IsPrincipalCashStale = false;
+        //                _logger.Info($"New Cash Balance : {fund.PrincipalCash.GetValueOrDefault()}");
+
+        //                context.Entry(fund).State = EntityState.Modified;
+        //            }
+        //            //commented  By Gravitas(Rakesh)
+        //            //MoveFile(clofile, archiveFile);
+        //        }
+        //        else
+        //        {
+        //            fund.IsPrincipalCashStale = true;
+        //        }
+        //    }
+        //}
+
         private void ReadTradeFile(IRepository repository, Fund fund, CLOContext context, int fileDateId, int dateId)
         {
-            if (!(fund.IsStale.HasValue && fund.IsStale.Value) || fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value)
+            try
             {
-                var clofile =
-                    Path.Combine(ConfigurationManager.AppSettings["SourceDirectory"], fund.CLOFileName)
-                        .Replace("{dateid}", fileDateId.ToString());
-
-                var archiveFile =
-                    Path.Combine(ConfigurationManager.AppSettings["ArchiveDirectory"], fund.CLOFileName)
-                        .Replace("{dateid}", fileDateId.ToString());
-
-                _logger.Info("Processing Fund : " + fund.FundCode);
-                if (File.Exists(clofile))
+                _logger.Info("          Check (fund.IsStale.HasValue: " + fund.IsStale.HasValue.ToString() + " && fund.IsStale.Value: "+ fund.IsStale.Value + ") (fund.IsPrincipalCashStale.HasValue: " + fund.IsPrincipalCashStale.HasValue.ToString() + " && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                if (!(fund.IsStale.HasValue && fund.IsStale.Value || fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value))
                 {
-                    using (TextReader fileReader = File.OpenText(clofile))
+                    var clofile = Convert.ToString(ConfigurationManager.AppSettings["SourceDirectory"]).Replace("{dateid}", fileDateId.ToString()); ;
+                    _logger.Info("          Processing File : " + clofile + "( fund:" + fund.FundCode + ")");
+
+                    if (File.Exists(clofile))
                     {
-                        var csv = new CsvReader(fileReader);
-                        var allValues = csv.GetRecords<dynamic>();
-                        decimal balance = 0;
-                        _logger.Info($"Existing Cash Balance : {fund.PrincipalCash.GetValueOrDefault()}");
-
-                        allValues.ToList().ForEach(a =>
+                        _logger.Info("          File exists");
+                        using (TextReader fileReader = File.OpenText(clofile))
                         {
-                            balance += decimal.Parse(a.CostAmount.ToString());
-                        });
+                            var csv = new CsvReader(fileReader);
+                            var allValues = csv.GetRecords<dynamic>().ToList();
+                            _logger.Info($"Existing Cash Balance : {fund.PrincipalCash.GetValueOrDefault()} for fund:" + fund.FundCode);
 
-                        fund.PrincipalCash = balance;
-                        fund.IsPrincipalCashStale = false;
-                        _logger.Info($"New Cash Balance : {fund.PrincipalCash.GetValueOrDefault()}");
+                            var filter = allValues.Where(w => w.Fund == fund.FundCode).FirstOrDefault();
+                            if (filter != null && allValues.Any())
+                                fund.PrincipalCash = Convert.ToDecimal(filter.TradeCashValue);
 
-                        context.Entry(fund).State = EntityState.Modified;
+                            fund.IsPrincipalCashStale = false;
+                            _logger.Info($"New Cash Balance : {fund.PrincipalCash.GetValueOrDefault()} for fund:" + fund.FundCode);
+
+                            context.Entry(fund).State = EntityState.Modified;
+                        }
+
+                        //MoveFile(clofile, archiveFile);
                     }
-                    //commented  By Gravitas(Rakesh)
-                    //MoveFile(clofile, archiveFile);
-                }
-                else
-                {
-                    fund.IsPrincipalCashStale = true;
+                    else
+                    {
+                        _logger.Info("          File not exists, update fund: "+ fund.FundCode  + " as stale");
+                        fund.IsPrincipalCashStale = true;
+                    }
                 }
             }
+            catch (Exception exception)
+            {
+                _logger.Error(exception);
+                throw;
+            }
         }
+
 
         static void MoveFile(string source, string dest)
         {
