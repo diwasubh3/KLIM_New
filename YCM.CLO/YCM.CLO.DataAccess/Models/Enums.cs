@@ -6,6 +6,12 @@
         Issuer = 2
     }
 
+    public enum PaydownObjectTypeEnum
+    {
+        Security = 1,
+        Issuer = 2
+    }
+
     public enum LoadTypeEnum
     {
         Active = 0,

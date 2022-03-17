@@ -1926,6 +1926,85 @@ namespace YCM.CLO.DataAccess
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<TradeHistory>("CLO.spGetTradeHistory @securityCode", paramFieldSecurityCode);
 		}
+
+		IEnumerable<vw_Position> IRepository.AddOrUpdatePaydown(Paydown paydown, int dateId)
+		{
+			try
+			{
+				var queryPaydownObjectType =
+					(PaydownObjectTypeEnum)Enum.Parse(typeof(PaydownObjectTypeEnum), paydown.PaydownObjectTypeId.ToString());
+				var queryObjectId = paydown.PaydownObjectId;
+
+				if (paydown.PaydownId > 0)
+				{
+					var paydownToUpdate = _cloContext.Paydowns.Single(w => w.PaydownId == paydown.PaydownId);
+
+					if (paydownToUpdate.PaydownObjectTypeId == (int)PaydownObjectTypeEnum.Issuer)
+					{
+						queryPaydownObjectType = PaydownObjectTypeEnum.Issuer;
+						queryObjectId = paydownToUpdate.PaydownObjectId;
+					}
+					paydownToUpdate.PaydownObjectTypeId = paydown.PaydownObjectTypeId;
+					paydownToUpdate.PaydownObjectId = paydown.PaydownObjectId;
+					paydownToUpdate.PaydownComments = paydown.PaydownComments;
+				}
+				else
+				{
+					_cloContext.Paydowns.Add(paydown);
+				}
+
+				_cloContext.SaveChanges();
+
+				if (queryPaydownObjectType == PaydownObjectTypeEnum.Issuer)
+				{
+					return _cloContext.vw_Position.Where(p => p.IssuerId == queryObjectId).ToList();
+				}
+				else
+				{
+					return _cloContext.vw_Position.Where(p => p.SecurityId == queryObjectId).ToList();
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		IEnumerable<vw_Position> IRepository.DeletePaydown(int paydownId, int dateId)
+		{
+			var paydownToDelete = _cloContext.Paydowns.SingleOrDefault(w => w.PaydownId == paydownId);
+			if (paydownToDelete != null)
+			{
+				var queryPaydownObjectType =
+					(PaydownObjectTypeEnum)
+						Enum.Parse(typeof(PaydownObjectTypeEnum), paydownToDelete.PaydownObjectTypeId.ToString());
+				var queryObjectId = paydownToDelete.PaydownObjectId;
+
+				_cloContext.Paydowns.Remove(paydownToDelete);
+				_cloContext.SaveChanges();
+
+				if (queryPaydownObjectType == PaydownObjectTypeEnum.Issuer)
+				{
+					return _cloContext.vw_Position.Where(p => p.IssuerId == queryObjectId).ToList();
+				}
+				else
+				{
+					return _cloContext.vw_Position.Where(p => p.SecurityId == queryObjectId).ToList();
+				}
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		IEnumerable<vw_Security_Paydown> IRepository.GetSecurityPaydown(int[] securityIds)
+		{
+
+			SqlParameter paramSecurityIds = GetSecurityListParam(securityIds);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<vw_Security_Paydown>("CLO.spGetSecurityPaydown @paramSecurityIds", paramSecurityIds);
+		}
 	}
 
 }

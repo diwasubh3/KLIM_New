@@ -59,8 +59,8 @@
 		securityId: number;
 	    bbgId: string;
 
-		watchId: number;
-		sellCandidateId: number;
+        watchId: number;
+        sellCandidateId: number;
 
 		sellCandidateObjectTypeId: number;
 	    sellCandidateObjectId: number;
@@ -77,7 +77,17 @@
 		watchTypeId: number;
         toolTipText: string;
         watchLastUpdatedOn: string;
-        watchUser:string;
+        watchUser: string;
+
+        paydownId: number;
+        paydownObjectTypeId: number;
+        paydownObjectId: number;
+        isOnPaydown: boolean;
+        paydownComments: string;
+        paydownTypeId: number;
+        paydownLastUpdatedOn: string;
+        paydownUser: string;
+
         searchText: string;
         isOnAlert: boolean;
         alerts: Array<IAlert>;
@@ -264,6 +274,21 @@
 		issuerId: number;
 	    issuer: string;
 	    securityCode: string;
+    }
+
+    export interface IPaydown {
+        paydownId: number;
+        paydownObjectTypeId: number;
+        paydownObjectId: number;
+        isOnPaydown: boolean;
+        inDeleteMode: boolean;
+        paydownTypeId: number;
+        paydownComments: string;
+        paydownHtmlText: string;
+        securityId: number;
+        issuerId: number;
+        issuer: string;
+        securityCode: string;
     }
 
 
@@ -527,7 +552,7 @@
         origMoodyIndustry: string;
         origIsFloating: string;
         origLienType: string;
-        hasPositions:boolean;
+        hasPositions: boolean;
 }
 
     export interface IMessage {

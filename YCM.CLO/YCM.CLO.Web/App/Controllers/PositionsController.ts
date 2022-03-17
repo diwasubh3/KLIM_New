@@ -51,7 +51,8 @@ module Application.Controllers {
         originalFunds: any;
 		pinnedSecurities: any;
 		gridHeight: number = 690;
-		showMenu = (position: Models.IPosition, hasWatch: boolean, isSellCandidate: boolean, isPrivate: boolean) => {
+    /*showMenu = (position: Models.IPosition, hasWatch: boolean, isSellCandidate: boolean, isPrivate: boolean) => { */
+        showMenu = (position: Models.IPosition, hasWatch: boolean, hasPaydown: boolean) => {
             var vm = this;
             vm.selectedGridRow = position;
             var menus = [];
@@ -67,6 +68,7 @@ module Application.Controllers {
             }
 
             menus.push(null);
+            */
 
             if (hasWatch) {
                 menus.push(this.editWatchListMenuOption);
@@ -75,8 +77,18 @@ module Application.Controllers {
                 menus.push(this.onWatchListMenuOption);
             }
 
-	        menus.push(null);
+            //menus.push(null);
 
+            if (position.isOnPaydown) {
+                menus.push(this.editPaydownMenuOption);
+                menus.push(this.offPaydownMenuOption);
+            } else {
+                menus.push(this.onPaydownMenuOption);
+            }
+
+            //menus.push(null);
+
+            /*
 			if (isSellCandidate) {
 		        menus.push(this.editSellCandidateMenuOption);
 		        menus.push(this.unMarkSellCandidateMenuOption);
@@ -195,6 +207,13 @@ module Application.Controllers {
 	                changedPositions[0].clO6Exposure = up.clO6Exposure;
                     changedPositions[0].clO7Exposure = up.clO7Exposure;
                     changedPositions[0].clO8Exposure = up.clO8Exposure;
+                    changedPositions[0].paydownId = up.paydownId;
+                    changedPositions[0].paydownObjectTypeId = up.paydownObjectTypeId;
+                    changedPositions[0].paydownObjectId = up.paydownObjectId;
+                    changedPositions[0].isOnPaydown = up.isOnPaydown;
+                    changedPositions[0].paydownComments = up.paydownComments;
+                    changedPositions[0].paydownUser = up.paydownUser;
+                    changedPositions[0].paydownLastUpdatedOn = up.paydownLastUpdatedOn;
                     vm.uiService.processTooltip(changedPositions[0]);
                 }
             });
@@ -346,6 +365,8 @@ module Application.Controllers {
             }
         }, () => this.isSuperUser];
 
+        
+
         static $inject = ["application.services.uiService", "application.services.dataService", "$scope", "$rootScope", '$uibModal', '$filter', '$timeout', '$window', 'uiGridConstants','exportUiGridService'];
 		constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $scope: ng.IScope
             , $rootScope: ng.IRootScopeService, modalService: angular.ui.bootstrap.IModalService, $filter: ng.IFilterService, timeOutService: ng.ITimeoutService, $window: ng.IWindowService, uiGridConstants: any, exportUiGridService:any) {
@@ -403,7 +424,6 @@ module Application.Controllers {
             vm.isLoading = true;
 	        vm.getAnalystResearchIssuerIds();
             vm.dataService.getFunds().then(funds => {
-                
                 funds = funds.filter(f => f.canFilter);
                 vm.funds = funds;
                 vm.originalFunds = JSON.parse(JSON.stringify(funds));
@@ -459,17 +479,13 @@ module Application.Controllers {
             vm.statusText = "Loading";
 			vm.isLoading = true;
             vm.dataService.getCustomViews().then(views => {
-                
 		        vm.populateViewList(views, null);
             }).then(() => {
-                
 		        vm.dataService.userIsASuperUser().then(isSuperUser => {
 					vm.isSuperUser = isSuperUser;
                 }).then(() => {
-                    
                     vm.dataService.getFieldsForCustomView(vm.selectedCustomView.viewId).then((d) => {
                         
-                        console.log(d);
 				        vm.fields = _.sortBy(d, 'sortOrder');
 				        if (vm.rootScope['selectedFund']) {
 					        vm.selectedFund = vm.rootScope['selectedFund'];
@@ -477,6 +493,7 @@ module Application.Controllers {
 
                         for (var i = 0; i < vm.funds.length; i++) {
                             vm.funds[i].isImsSelected = false;
+
                         }
 
 				        vm.onFieldGroupChanged(false);
@@ -568,7 +585,7 @@ module Application.Controllers {
 			} 
 		}
 
-		filterByName = (columnName: string) => {
+        filterByName = (columnName: string) => {
 			var vm = this;
 			var column = vm.gridApi.grid.getColumn(columnName);
 			if (!column.filters[0].term) {
@@ -579,7 +596,7 @@ module Application.Controllers {
 			vm.gridApi.grid.refresh();
 		}
 
-        filterBy = (columnIndex:number) => {
+        filterBy = (columnIndex: number) => {
             var vm = this;
 	        var crap = vm.gridApi.grid.columns;
 			var crappier = crap[5];
@@ -807,8 +824,6 @@ module Application.Controllers {
 				} else {
                     vm.dataService.loadPositions(vm.selectedFund, !vm.onlyWithExposures).then((positions) => {
 
-                        console.log(positions);
-
 						vm.constructGrid(positions);
                         var crap = positions.filter(x => x.isSellCandidate);
                         window.setTimeout(() => {
@@ -834,8 +849,6 @@ module Application.Controllers {
         }
 
         constructGrid = (positions: Array<Models.IPosition>) => {
-
-            console.log(positions);
             var vm = this;                     
 			if (vm.positions) {
 				vm.pinnedSecurities = _.map(vm.gridApi.selection.getSelectedRows(), "securityId");
@@ -855,7 +868,6 @@ module Application.Controllers {
 			var fields = vm.fields;
 			vm.uiService.createCollectionFilters(vm.positions, vm, 'filterObj', 'filterCollections', fields);
 			vm.uiService.processSearchText(vm.positions, vm.fields);
-            console.log(vm.fields);
             vm.uiService.createColumnDefs(vm, 'gridOptions', 'filterCollections', 'highlightFilteredHeader', vm.fields);
 
 			var sortByIssuer = vm.gridOptions.columnDefs.filter(x => x.field == 'issuer');
@@ -1079,7 +1091,28 @@ module Application.Controllers {
                 .filter(r => selectedSecurities.lastIndexOf(r.entity.securityId) != -1)
                 .forEach(r => r.isSelected = r.isSelected != undefined ? r.isSelected : true);
         }
-        
+
+        onPaydownMenuOption = [
+            'On Paydown List', () => {
+                var vm = this;
+                if (vm.selectedGridRow) {
+                    vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, false, 1, vm.updatePositions);
+                }
+            }, () => this.isSuperUser];
+
+        offPaydownMenuOption = ['Off Paydown List', () => {
+            var vm = this;
+            if (vm.selectedGridRow) {
+                vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, true, 1, vm.updatePositions);
+            }
+        }, () => this.isSuperUser];
+
+        editPaydownMenuOption = ['Edit Paydown List', () => {
+            var vm = this;
+            if (vm.selectedGridRow) {
+                vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, false, 1, vm.updatePositions);
+            }
+        }, () => this.isSuperUser];
 
     }
 

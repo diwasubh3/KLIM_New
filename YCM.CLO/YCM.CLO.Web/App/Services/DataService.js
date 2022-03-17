@@ -295,6 +295,12 @@ var Application;
                     var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode;
                     return _this.httpWrapperFactory.getData(url);
                 };
+                this.updatePaydown = function (paydown, fundCode) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/paydowndata/savepaydown', { paydown: paydown, fundCode: fundCode });
+                };
+                this.deletePaydown = function (paydown) {
+                    return _this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
             }
             return DataService;
