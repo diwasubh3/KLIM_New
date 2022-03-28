@@ -240,5 +240,12 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<vw_Position> DeletePaydown(int paydownId, int dateId);
 
         IEnumerable<vw_Security_Paydown> GetSecurityPaydown(int[] securityIds);
+
+        IEnumerable<Trader> GetTraders();
+        IEnumerable<TradeType> GetTradeType();
+        IEnumerable<CounterParty> GetCounterParty();
+        IEnumerable<SettleMethods> GetSettleMethods();
+        IEnumerable<InterestTreatment> GetInterestTreatment();
+        IEnumerable<AllocationRule> GetAllocationRule();
     }
 }

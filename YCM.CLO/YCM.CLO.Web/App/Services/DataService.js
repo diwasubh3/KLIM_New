@@ -231,6 +231,9 @@ var Application;
                 this.getTradeSourceData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
                 };
+                this.getTradeBookingSourceData = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
+                };
                 this.getBloombergData = function (securityCode) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);
                 };

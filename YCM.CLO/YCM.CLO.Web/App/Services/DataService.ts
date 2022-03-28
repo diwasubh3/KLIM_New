@@ -302,6 +302,10 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
         }
 
+        getTradeBookingSourceData = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
+        }
+
         getBloombergData = (securityCode: string) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode='+securityCode);
         }

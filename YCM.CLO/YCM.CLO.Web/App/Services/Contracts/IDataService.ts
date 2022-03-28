@@ -87,6 +87,7 @@ module Application.Services.Contracts {
         getTradesHeaderFields: () => ng.IPromise<Array<Models.IField>>;
         getTrades: (includeCancelled: boolean, fundCode: string) => ng.IPromise<Array<Models.ITrade>>;
         getTradeSourceData: () => ng.IPromise<Models.ITradeSourceData>;
+        getTradeBookingSourceData: () => ng.IPromise<Models.ITradeBooking>;
         getBloombergData: (securityCode: string) => ng.IPromise<Models.ITempSecurity>;
         saveTempSecurity: (tempsecurity: Models.ITempSecurity) => ng.IPromise<Models.ISecurity>;
 

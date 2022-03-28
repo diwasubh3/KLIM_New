@@ -2005,6 +2005,31 @@ namespace YCM.CLO.DataAccess
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<vw_Security_Paydown>("CLO.spGetSecurityPaydown @paramSecurityIds", paramSecurityIds);
 		}
+
+		IEnumerable<Trader> IRepository.GetTraders()
+		{
+			return _cloContext.Trader.Where(i => i.TraderId > 0);
+		}
+		IEnumerable<TradeType> IRepository.GetTradeType()
+		{
+			return _cloContext.TradeType.Where(i => i.TradeTypeId > 0);
+		}
+		IEnumerable<CounterParty> IRepository.GetCounterParty()
+		{
+			return _cloContext.CounterParty.Where(i => i.PartyId > 0);
+		}
+		IEnumerable<SettleMethods> IRepository.GetSettleMethods()
+		{
+			return _cloContext.SettleMethods.Where(i => i.MethodId > 0);
+		}
+		IEnumerable<InterestTreatment> IRepository.GetInterestTreatment()
+		{
+			return _cloContext.InterestTreatment.Where(i => i.Id > 0);
+		}
+		IEnumerable<AllocationRule> IRepository.GetAllocationRule()
+		{
+			return _cloContext.AllocationRule.Where(i => i.Id > 0);
+		}
 	}
 
 }

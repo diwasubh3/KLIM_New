@@ -301,9 +301,9 @@
                                 <div class="collapse navbar-collapse  p-0" style="height:24px!important;position:static !important">
                                     <ul class="nav navbar-nav" style="height:24px">
                                         @*@if (ViewBag.HasPositionScreenPermission)
-                                            {
-                                                <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
-                                            }*@
+        {
+            <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
+        }*@
                                         @if (ViewBag.HasPositionScreenPermission)
                                         {
                                             <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
@@ -334,9 +334,9 @@
                                             <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
                                         }
                                         @*@if (ViewBag.HasAnalystResearchPermission)
-                                            {
-                                                <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
-                                            }*@
+        {
+            <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
+        }*@
                                         @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
                                         {
 
@@ -399,6 +399,7 @@
                                         {
                                             <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
                                         }
+                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
                                     </ul>
                                 </div>
                             </div>

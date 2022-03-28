@@ -1,0 +1,277 @@
+﻿<div class="">
+    <div class="" style="display:inline-block;">
+        <div class="col-md-12" style="padding: 0px !important;width:800px;">
+            <div style="padding:0px !important" id="data">
+                <uib-accordion close-others="oneAtATime">
+                    <div class="panel-group" style="margin-bottom:5px">
+                        <div class="panel-default panel panel-default panel-open">
+                            <div class="panel-heading" style="cursor: pointer;">
+                                <h4 class="panel-title">
+                                    <div>
+                                        <div style="float:left"><i id="iconShowHide" class="fa fa-plus-circle" aria-hidden="true"></i></div>
+                                        <div style="align:center">
+                                            View Booking
+                                        </div>
+                                    </div>
+                                </h4>
+                            </div>
+                            <div class="panel-collapse in collapse" aria-hidden="false" style="height: auto;" id="divViewBookingSection">
+                                <div class="panel-body">
+                                    <uib-accordion-heading></uib-accordion-heading>
+                                    <div style="max-height: 300px;overflow-y:auto;">
+                                        <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblBookings" name="tblBookings"
+                                               style="border-width: 0;margin-bottom: 0px;border-top-width: 0px"></table>
+                                    </div>
+                                    <div style="height:30px;">
+                                        <div style="text-align:center;background-color: #EFF0F0;padding: 3px;">
+                                            <a href="#" title="Click to Download list in CSV" style="margin-right:2px;"><i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i></a>
+                                            <a href="#" title="Click to Download list in PDF" style="margin-left:3px;"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+            </div>
+        </div>
+        <div class="panel">
+            <button name="btnTradeBook" id="btnTradeBook" class="btn btn-info" ng-click="tradebooking.ShowHide('divTradeBookingPanel')">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Start Trade Booking
+            </button>
+        </div>
+        
+    </div>
+</div>
+<div class="" id="divTradeBookingPanel">
+    <!--style="display:none;"-->
+    <hr style="width:100%;text-align:left;margin-left:0">
+    <div class="" style="">
+        <div class="col-md-12" style="padding: 0px !important;">
+            <div style="padding:0px !important" id="data">
+                <div class="panel-group">
+                    <div class="panel-default panel panel-default">
+                        <div class="panel-heading" style="cursor: pointer;">
+                            <h4 class="panel-title">
+                                <div style="align:center">
+                                    Trade Bookng
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse in collapse" aria-hidden="false" style="height: auto;">
+                            <div class="panel-body" style="margin-bottom:5px">
+                                <uib-accordion-heading></uib-accordion-heading>
+                                <div>
+                                    <hr style="width:100%;text-align:left;margin-left:0">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="txtTradeDate" class="col-form-label">Trade Date</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <input id="txtTradeDate" name="txtTradeDate" type="date" placeholder="mm/dd/yyyy" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectTradeType" class="col-form-label">Trade Type</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <select class="form-control"
+                                                        ng-model="buyselltrade.tempSecurity.lienType"
+                                                        ng-options="tt as tt.TradeTypeDesc for tt in tradebooking.sourceData.TradeType track by tt.TradeTypeId"
+                                                        ng-required="true" id="selectTradeType">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectTrader" class="col-form-label">Trader</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <select id="SelectTrader" name="SelectTrader" class="form-control">
+                                                    <option value="1" selected="true">Eugene Koltunov</option>
+                                                    <option value="0">No Trader</option>
+                                                    <option value="2">Main Trader</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="KeywordSearch" class="col-form-label">Search by Issuer Name/ Security ID / Asset / Facility / <a>Book New LoanXID</a></label>
+                                                <input id="project" style="width:100%;" class="form-control">
+                                                <input type="hidden" id="project-id">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="txtIssuer" class="col-form-label">Issuer</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <input id="txtIssuer" name="txtIssuer" type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="txtLoanXId" class="col-form-label">LoanX Id</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <input id="txtLoanXId" name="txtLoanXId" type="text" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectAsset" class="col-form-label">Asset</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <select id="SelectAsset" name="SelectAsset" class="form-control">
+                                                    <option value="1">--Select--</option>
+                                                    <option value="2">Term Loan (2019)</option>
+                                                    <option value="3">Term Loan</option>
+                                                    <option value="4">2020 Term Loan</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectCounterparty" class="col-form-label">Counter Party</label>
+                                                <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                <select id="SelectCounterparty" name="SelectCounterparty" class="form-control">
+                                                    <option value="11" selected="true">Morgan Stanley</option>
+                                                    <option value="12">J P Morgan</option>
+                                                    <option value="13"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectSettlementMethod" class="col-form-label">Settlement Method</label>
+                                                <select id="SelectSettlementMethod" name="SelectSettlementMethod" class="form-control">
+                                                    <option value="Assignment" selected="true">Assignment</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="SelectInterestTreatment" class="col-form-label">Interest Treatment</label>
+                                                <select id="SelectInterestTreatment" name="SelectInterestTreatment" class="form-control">
+                                                    <option value="SettlesWithoutAccrued" selected="true">Settles Without Accrued</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtPrice" class="col-form-label">Price</label>
+                                                    <input class="form-control" type="number" id="txtPrice" name="txtPrice" style="text-align:right">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="txtQuantity" class="col-form-label">Total Quantiy</label>
+                                                    <label for="txtTradeDate" class="col-form-label mandatory">*</label>
+                                                    <input class="form-control" type="number" id="txtQuantity" name="txtQuantity" style="text-align:right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="SelectAllocationby" class="col-form-label">Allocation Rule</label>
+                                                    <label for="txtTradeDate" class="col-form-label mandatory">*</label>   
+                                                    <select id="SelectAllocationby" name="SelectAllocationby" class="form-control">
+                                                        <option value="01" selected="true">Manual allocation</option>
+                                                        <option value="02">Position</option>
+                                                        <option value="03">TargetPar</option>
+                                                        <option value="04">Position Ex-Post Re-invested funds</option>
+                                                        <option value="05">TargetPar Ex-Post Re-invested funds</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for="SelectAllocationby" class="col-form-label">UDF - Trade Comment</label>
+                                                    <textarea type="text" rows="4" class="form-control" id="txtTradeComment" name="txtTradeComment" maxlength="1000000" style="width:595px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%;text-align:left;margin-left:0">
+                                    <div class="DivRow">
+                                       
+                                        </div>
+                                        <!-- <div class="DivSearchInput"> -->
+                                        <!-- <div class=""> -->
+                                        <!-- <label for="chkReadyforSettlement" class="col-form-label"><br></label> -->
+                                        <!-- </div> -->
+                                        <!-- <div class=""> -->
+                                        <!-- <div class="form-check"> -->
+                                        <!-- <input class="form-check-input" type="checkbox" value="" id="chkReadyforSettlement" checked> -->
+                                        <!-- <label class="form-check-label" for="chkReadyforSettlement"> -->
+                                        <!-- Ready for Settlement -->
+                                        <!-- </label> -->
+                                        <!-- </div> -->
+                                        <!-- </div> -->
+                                        <!-- </div> -->
+                                        <div class="DivSearchOther_full" style="max-width:650px">
+                                            <div class="">
+                                                
+                                            </div>
+                                            <div class="">
+                                                <div style="">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%;text-align:left;margin-left:0">
+                                    <div class="DivNewRow" style="display:block" id="divAllocateLevel">
+                                        <div class="">
+                                            <div class="panel panel-primary" style="border:0;" id="divAllocate">
+                                                <div class="panel-body">
+                                                    <button type="submit" name="btnAllocation" id="btnAllocation" class="btn btn-info">
+                                                        <i class="fa fa-magic" aria-hidden="true"></i>&nbsp;&nbsp;  Allocate
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%;text-align:left;margin-left:0">
+                                    <Section id="gridSection">
+                                        <div class="DivRow">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">Fund Allocation</div>
+                                                <div class="panel-body">
+                                                    <div class="DivRow">
+                                                        <table class="common" style="border-collapse: collapse; width: 100%;" id="tblAllocation" name="tblAllocation" border="1">
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="panel panel-primary" style="border:0;">
+                                                <div class="panel-body">
+                                                    <button type="submit" name="btnWSOSubmit" id="btnWSOSubmit" class="btn btn-info">
+                                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;  Submit to WSO
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Trade Booking -->
