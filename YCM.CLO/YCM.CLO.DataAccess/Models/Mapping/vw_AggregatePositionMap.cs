@@ -309,7 +309,14 @@ namespace YCM.CLO.DataAccess.Models.Mapping
             this.Property(t => t.SecurityMaturityDate).HasColumnName("SecurityMaturityDate");
             this.Property(t => t.IsOnAlert).HasColumnName("IsOnAlert");
             this.Property(t => t.SearchText).HasColumnName("SearchText");
-	        Property(t => t.EnterpriseValue).HasColumnName(nameof(vw_AggregatePosition.EnterpriseValue));
+            this.Property(t => t.IsOnPaydown).HasColumnName("IsOnPaydown");
+            this.Property(t => t.PaydownObjectTypeId).HasColumnName("PaydownObjectTypeId");
+            this.Property(t => t.PaydownObjectId).HasColumnName("PaydownObjectId");
+            this.Property(t => t.PaydownId).HasColumnName("PaydownId");
+            this.Property(t => t.PaydownComments).HasColumnName("PaydownComments");
+            this.Property(t => t.PaydownLastUpdatedOn).HasColumnName("PaydownLastUpdatedOn");
+            this.Property(t => t.PaydownUser).HasColumnName("PaydownUser");
+            Property(t => t.EnterpriseValue).HasColumnName(nameof(vw_AggregatePosition.EnterpriseValue));
 	        Property(t => t.LTMFCF).HasColumnName(nameof(vw_AggregatePosition.LTMFCF));
 	        Property(t => t.SeniorLeverage).HasColumnName(nameof(vw_AggregatePosition.SeniorLeverage));
 	        Property(t => t.LienTypeId).HasColumnName(nameof(vw_AggregatePosition.LienTypeId));

@@ -161,7 +161,7 @@
         deleteWatch = (watch: Models.IWatch) => {
             return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/watchdata/deletewatch?watchId=' +  watch.watchId);
         }
-
+        
         getSecurityOverrides = (loadType: number, securityId: number) => {
             var url = pageOptions.appBasePath + '/securitydata/getsecurityoverrides?';
             if (loadType != null) {
@@ -386,6 +386,18 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getreportingdata');
         }
 
+        getTradeHistory = (securityCode: string) => {
+            var url = pageOptions.appBasePath + '/tradedata/GetTradeHistory?' + 'securityCode=' + securityCode;
+            return this.httpWrapperFactory.getData(url);
+        }
+
+        updatePaydown = (paydown: Models.IPaydown, fundCode: string) => {
+            return <ng.IPromise<Models.IPaydown>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/paydowndata/savepaydown', { paydown: paydown, fundCode: fundCode });
+        }
+
+        deletePaydown = (paydown: Models.IPaydown) => {
+            return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
+        }
 
 
     }

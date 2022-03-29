@@ -83,6 +83,7 @@ namespace YCM.CLO.Web
                "~/App/Controllers/ShowMessageController.js",
                "~/App/Controllers/BuySellTradeController.js",
 			   "~/App/Controllers/AnalystResearchPopupController.js",
+               "~/App/Controllers/TradeHistoryPopupController.js",
                "~/App/Controllers/ViewEditorPopupController.js",
 			   "~/App/Controllers/ConfirmCustomViewDeleteController.js",
 			   "~/App/Controllers/BbgPopupController.js",
@@ -94,7 +95,8 @@ namespace YCM.CLO.Web
                "~/App/Controllers/FilterPositionsController.js",
                "~/App/Controllers/CollateralQualityMatrixController.js",
                "~/App/Controllers/ConfirmMatrixPointController.js",
-               "~/App/Controllers/ReportingController.js"
+               "~/App/Controllers/ReportingController.js",
+               "~/App/Controllers/PaydownController.js"
                ));
 
             bundles.Add(new ScriptBundle("~/bundles/YorkScriptsFinal").Include(

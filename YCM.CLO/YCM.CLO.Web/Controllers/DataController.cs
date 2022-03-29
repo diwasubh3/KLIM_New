@@ -93,7 +93,7 @@ namespace YCM.CLO.Web.Controllers
 		{
 			filePath = filePath.Replace("file:","");
 			var fileName = filePath.Substring(filePath.LastIndexOf("/") + 1);
-			var result = new CustomFileResult(System.IO.File.ReadAllBytes(filePath),
+			var result = new CustomFileResult(ReadAllBytes(filePath),
 					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 			{ FileDownloadName = fileName, Inline = true };
 			return result;
@@ -113,6 +113,40 @@ namespace YCM.CLO.Web.Controllers
             } 
             };
         }
+
+		private byte[] ReadAllBytes(string pathSource)
+		{
+			byte[] bytes = new byte[0];
+			try
+			{
+				using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				{
+
+					// Read the source file into a byte array.
+					bytes = new byte[fsSource.Length];
+					int numBytesToRead = (int)fsSource.Length;
+					int numBytesRead = 0;
+					while (numBytesToRead > 0)
+					{
+						// Read may return anything from 0 to numBytesToRead.
+						int n = fsSource.Read(bytes, numBytesRead, numBytesToRead);
+
+						// Break when the end of the file is reached.
+						if (n == 0)
+							break;
+
+						numBytesRead += n;
+						numBytesToRead -= n;
+					}
+				}
+			}
+			catch (FileNotFoundException ioEx)
+			{
+				Console.WriteLine(ioEx.Message);
+			}
+			return bytes;
+		}
+
 
         [System.Web.Http.HttpPost]
         public JsonNetResult SaveReportingData([System.Web.Http.FromBody]ReportingData reportingData)

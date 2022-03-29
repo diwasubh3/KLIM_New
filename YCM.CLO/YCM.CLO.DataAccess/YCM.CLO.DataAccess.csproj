@@ -137,6 +137,7 @@
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\vw_ReinvestDetailsMap.cs" />
+    <Compile Include="Models\Mapping\PaydownMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
     <Compile Include="Models\TotalParChange.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Models\vw_PriceMove.cs" />
     <Compile Include="Models\RatingChange.cs" />
     <Compile Include="Models\vw_ReinvestDetails.cs" />
+    <Compile Include="Models\vw_Security_Paydown.cs" />
     <Compile Include="Models\vw_Security_Watch.cs" />
     <Compile Include="Models\vw_SecurityFund.cs" />
     <Compile Include="Models\vw_AggregatePosition.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Models\vw_TradeSwap.cs" />
     <Compile Include="Models\vw_YorkCoreGenevaAnalyst.cs" />
     <Compile Include="Models\v_PhoneList.cs" />
+    <Compile Include="Models\Paydown.cs" />
     <Compile Include="Models\WSOExtractAsset.cs" />
     <Compile Include="Models\AlertProcessor.cs" />
     <Compile Include="Models\Calculation.cs" />

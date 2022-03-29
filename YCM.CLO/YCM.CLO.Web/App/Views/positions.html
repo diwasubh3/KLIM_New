@@ -46,16 +46,19 @@
 					style="color: black" ng-disabled="positions.isLoading">
 				<i class="fa  fa-binoculars"></i>
 			</button>
-			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnAlert').filters[0].term}"
-					ng-click="positions.filterByName('IsOnAlert')"
-					style="color: red" ng-disabled="positions.isLoading">
-				<i class="fa  fa-exclamation-triangle"></i>
+
+			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnPaydown').filters[0].term}"
+					ng-click="positions.filterByName('IsOnPaydown')"
+					style="width: 20px; color: red " ng-disabled="positions.isLoading">
+				<span class="isp">EP</span>
+				
 			</button>
-			<button class="btn sell btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsSellCandidate').filters[0].term}"
-					ng-click="positions.filterByName('IsSellCandidate')"
-					style="width: 20px;color: red;" ng-disabled="positions.isLoading">
-				<span class="isp">S</span>
-			</button>
+			<!--Commeneted on 25-Feb-2022 asper user request
+	<button class="btn sell btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsSellCandidate').filters[0].term}"
+			ng-click="positions.filterByName('IsSellCandidate')"
+			style="width: 20px;color: red;" ng-disabled="positions.isLoading">
+		<span class="isp">S</span>
+	</button>-->
 			<button class="btn btn-icon"
 					ng-click="positions.export()"
 					style="color: black" ng-disabled="positions.isLoading">

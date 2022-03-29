@@ -19,6 +19,9 @@
 		getDistinctStrings: (field: string, data: Array<Models.IPosition>) => Array<string>;
 		filterPositions: (positions: Array<Models.IPosition>, positionFilter: Models.IPositionFilters) => void;
 		updateFilterStatistics: (positions: Array<Models.IPosition>, positionFilter: Models.IPositionFilters, field: string) => void;
-	    sortArrayBySortOrderAsc: (arrayToSort: any, sortField: string) => any;
+        sortArrayBySortOrderAsc: (arrayToSort: any, sortField: string) => any;
+        showTradeHistoryPopup: (securitycode: string, issuer: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => void;
+        showPaydownModal: (watch: Models.IPaydown, modalService: angular.ui.bootstrap.IModalService, inDeleteMode: boolean, paydownTypeId: number, codeToExcute: any) => void;
+        createPaydown: (position: Models.IPosition) => Models.IPaydown;
     }
 } 

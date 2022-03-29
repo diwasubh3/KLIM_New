@@ -159,6 +159,13 @@ namespace YCM.CLO.DataAccess.Models
 
         public string LiborTransitionNote { get; set; }
 
+        public bool? IsOnPaydown { get; set; }
+        public short? PaydownObjectTypeId { get; set; }
+        public int? PaydownObjectId { get; set; }
+        public int? PaydownId { get; set; }
+        public string PaydownComments { get; set; }
+        public string PaydownLastUpdatedOn { get; set; }
+        public string PaydownUser { get; set; }
 
     }
 }

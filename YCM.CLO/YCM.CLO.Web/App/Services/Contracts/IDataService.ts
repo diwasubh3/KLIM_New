@@ -45,6 +45,7 @@ module Application.Services.Contracts {
 		updateWatch: (watch: Application.Models.IWatch, fundCode: string) => ng.IPromise<Models.IWatch>;
         deleteWatch: (watch: Application.Models.IWatch) => ng.IPromise<boolean>;
 
+        
         updateParameterValue: (parametrWatch: Application.Models.IParameterValue) => ng.IPromise<Models.IParameterValue>;
 
         getSecurityOverrides: (securityOverrideType: number, securityId: number) => ng.IPromise<Array<Models.ISecurityOverride>>;
@@ -117,5 +118,10 @@ module Application.Services.Contracts {
         getReportingData: () => ng.IPromise<Models.ReportingData>;
 
         saveReportingData: (data: Models.ReportingData) => ng.IPromise<Models.ReportingData>;
+        getTradeHistory: (securityCode: string) => ng.IPromise<Array<Application.Models.ITradeHistory>>;
+
+        updatePaydown: (watch: Application.Models.IPaydown, fundCode: string) => ng.IPromise<Models.IPaydown>;
+        deletePaydown: (watch: Application.Models.IPaydown) => ng.IPromise<boolean>;
+
     }
 } 
