@@ -16,6 +16,7 @@ namespace YCM.CLO.Web.Controllers
 {
 	public class PaydownDataController : Controller
     {
+
 	    private readonly IRepository _repository;
         private readonly IAlertEngine _alertEngine;
         private readonly IRuleEngine _ruleEngine;
@@ -41,14 +42,14 @@ namespace YCM.CLO.Web.Controllers
 				_logger.Info(paydown);
 
 		        var positions = _repository.AddOrUpdatePaydown(paydown, Helper.GetPrevDayDateId()).ToArray();
-                _repository.GenerateAggregatedPositions();
+                //_repository.GenerateAggregatedPositions();
 		        var allpositions = (_repository as IRepository).GetAllPositions(positions.Select(p => p.SecurityId.Value).ToArray()).ToList();
 		        _cacheManager.Update(allpositions);
 		        var allpositionsDtos = Mapper.Map<IEnumerable<vw_AggregatePosition>, IEnumerable<PositionDto>>(allpositions);
-		        var crap = allpositionsDtos.Where(x => x.IsSellCandidate).ToList();
-		        _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), fundCode);
-		        TradesProcessor tradesProcessor = new TradesProcessor();
-		        tradesProcessor.Process(_repository, allpositionsDtos, fundCode);
+		        //var crap = allpositionsDtos.Where(x => x.IsSellCandidate).ToList();
+		        //_alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), fundCode);
+		        //TradesProcessor tradesProcessor = new TradesProcessor();
+		        //tradesProcessor.Process(_repository, allpositionsDtos, fundCode);
 
 
 		        return new JsonNetResult() { Data = allpositionsDtos };
@@ -67,18 +68,18 @@ namespace YCM.CLO.Web.Controllers
                 Mapper.Map<IEnumerable<vw_Position>, IEnumerable<PositionDto>>(_repository.DeletePaydown(paydownId,
                     Helper.GetPrevDayDateId())).ToArray();
 
-            _repository.GenerateAggregatedPositions();
+            //_repository.GenerateAggregatedPositions();
             var allpositions = (_repository as IRepository).GetAllPositions(positions.Select(p => p.SecurityId).ToArray()).ToList();
             _cacheManager.Update(allpositions);
 
             var allpositionsDtos = Mapper.Map<IEnumerable<vw_AggregatePosition>, IEnumerable<PositionDto>>(allpositions);
 
-            if (positions != null)
-            {
-                _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), positions.First().FundCode);
-                TradesProcessor tradesProcessor = new TradesProcessor();
-                tradesProcessor.Process(_repository, allpositionsDtos, positions.First().FundCode);
-            }
+            //if (positions != null)
+            //{
+            //    _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), positions.First().FundCode);
+            //    TradesProcessor tradesProcessor = new TradesProcessor();
+            //    tradesProcessor.Process(_repository, allpositionsDtos, positions.First().FundCode);
+            //}
             return new JsonNetResult() { Data = allpositionsDtos };
         }
 

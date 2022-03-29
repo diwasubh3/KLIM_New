@@ -22,11 +22,7 @@ namespace YCM.CLO.Web.Controllers
         private readonly IPositionCacheManager _cacheManager;
 	    private static readonly ILog _logger = LogManager.GetLogger(typeof(WatchDataController));
 
-        //public WatchDataController() : this(new Repository(),new AlertEngine(),new RuleEngine(),new PositionCacheManager())
-        //{
-
-        //}
-
+      
 		public WatchDataController(IRepository repository, IAlertEngine alertEngine, IRuleEngine ruleEngine,IPositionCacheManager cacheManager)
         {
             _repository = repository;
@@ -46,14 +42,14 @@ namespace YCM.CLO.Web.Controllers
 				_logger.Info(watch);
 
 		        var positions = _repository.AddOrUpdateWatch(watch, Helper.GetPrevDayDateId()).ToArray();
-                _repository.GenerateAggregatedPositions();
+                //_repository.GenerateAggregatedPositions();
 		        var allpositions = (_repository as IRepository).GetAllPositions(positions.Select(p => p.SecurityId.Value).ToArray()).ToList();
 		        _cacheManager.Update(allpositions);
 		        var allpositionsDtos = Mapper.Map<IEnumerable<vw_AggregatePosition>, IEnumerable<PositionDto>>(allpositions);
-		        var crap = allpositionsDtos.Where(x => x.IsSellCandidate).ToList();
-		        _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), fundCode);
-		        TradesProcessor tradesProcessor = new TradesProcessor();
-		        tradesProcessor.Process(_repository, allpositionsDtos, fundCode);
+		        //var crap = allpositionsDtos.Where(x => x.IsSellCandidate).ToList();
+		        //_alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), fundCode);
+		        //TradesProcessor tradesProcessor = new TradesProcessor();
+		        //tradesProcessor.Process(_repository, allpositionsDtos, fundCode);
 
 
 		        return new JsonNetResult() { Data = allpositionsDtos };
