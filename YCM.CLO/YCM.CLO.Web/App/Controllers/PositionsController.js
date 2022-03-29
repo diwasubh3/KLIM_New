@@ -11,7 +11,8 @@ var Application;
                 this.isFirstTimeLoading = true;
                 this.needsRefresh = false;
                 this.gridHeight = 690;
-                this.showMenu = function (position, hasWatch, isSellCandidate, isPrivate) {
+                /*showMenu = (position: Models.IPosition, hasWatch: boolean, isSellCandidate: boolean, isPrivate: boolean) => { */
+                this.showMenu = function (position, hasWatch, hasPaydown) {
                     var vm = _this;
                     vm.selectedGridRow = position;
                     var menus = [];
@@ -26,16 +27,24 @@ var Application;
                     }
         
                     menus.push(null);
-        
+                    */
                     if (hasWatch) {
-                        menus.push(this.editWatchListMenuOption);
-                        menus.push(this.offWatchListMenuOption);
-                    } else {
-                        menus.push(this.onWatchListMenuOption);
+                        menus.push(_this.editWatchListMenuOption);
+                        menus.push(_this.offWatchListMenuOption);
                     }
-        
-                    menus.push(null);
-        
+                    else {
+                        menus.push(_this.onWatchListMenuOption);
+                    }
+                    //menus.push(null);
+                    if (position.isOnPaydown) {
+                        menus.push(_this.editPaydownMenuOption);
+                        menus.push(_this.offPaydownMenuOption);
+                    }
+                    else {
+                        menus.push(_this.onPaydownMenuOption);
+                    }
+                    //menus.push(null);
+                    /*
                     if (isSellCandidate) {
                         menus.push(this.editSellCandidateMenuOption);
                         menus.push(this.unMarkSellCandidateMenuOption);
@@ -141,6 +150,13 @@ var Application;
                             changedPositions[0].clO6Exposure = up.clO6Exposure;
                             changedPositions[0].clO7Exposure = up.clO7Exposure;
                             changedPositions[0].clO8Exposure = up.clO8Exposure;
+                            changedPositions[0].paydownId = up.paydownId;
+                            changedPositions[0].paydownObjectTypeId = up.paydownObjectTypeId;
+                            changedPositions[0].paydownObjectId = up.paydownObjectId;
+                            changedPositions[0].isOnPaydown = up.isOnPaydown;
+                            changedPositions[0].paydownComments = up.paydownComments;
+                            changedPositions[0].paydownUser = up.paydownUser;
+                            changedPositions[0].paydownLastUpdatedOn = up.paydownLastUpdatedOn;
                             vm.uiService.processTooltip(changedPositions[0]);
                         }
                     });
@@ -320,7 +336,6 @@ var Application;
                             vm.isSuperUser = isSuperUser;
                         }).then(function () {
                             vm.dataService.getFieldsForCustomView(vm.selectedCustomView.viewId).then(function (d) {
-                                console.log(d);
                                 vm.fields = _.sortBy(d, 'sortOrder');
                                 if (vm.rootScope['selectedFund']) {
                                     vm.selectedFund = vm.rootScope['selectedFund'];
@@ -622,7 +637,6 @@ var Application;
                         }
                         else {
                             vm.dataService.loadPositions(vm.selectedFund, !vm.onlyWithExposures).then(function (positions) {
-                                console.log(positions);
                                 vm.constructGrid(positions);
                                 var crap = positions.filter(function (x) { return x.isSellCandidate; });
                                 window.setTimeout(function () {
@@ -644,7 +658,6 @@ var Application;
                     }
                 };
                 this.constructGrid = function (positions) {
-                    console.log(positions);
                     var vm = _this;
                     if (vm.positions) {
                         vm.pinnedSecurities = _.map(vm.gridApi.selection.getSelectedRows(), "securityId");
@@ -662,7 +675,6 @@ var Application;
                     var fields = vm.fields;
                     vm.uiService.createCollectionFilters(vm.positions, vm, 'filterObj', 'filterCollections', fields);
                     vm.uiService.processSearchText(vm.positions, vm.fields);
-                    console.log(vm.fields);
                     vm.uiService.createColumnDefs(vm, 'gridOptions', 'filterCollections', 'highlightFilteredHeader', vm.fields);
                     var sortByIssuer = vm.gridOptions.columnDefs.filter(function (x) { return x.field == 'issuer'; });
                     var sortBySecurityCode = vm.gridOptions.columnDefs.filter(function (x) { return x.field == 'securityCode'; });
@@ -796,6 +808,26 @@ var Application;
                     vm.selectedFund = data;
                     vm.onFieldGroupChanged(true);
                 };
+                this.onPaydownMenuOption = [
+                    'On Paydown List', function () {
+                        var vm = _this;
+                        if (vm.selectedGridRow) {
+                            vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, false, 1, vm.updatePositions);
+                        }
+                    }, function () { return _this.isSuperUser; }
+                ];
+                this.offPaydownMenuOption = ['Off Paydown List', function () {
+                        var vm = _this;
+                        if (vm.selectedGridRow) {
+                            vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, true, 1, vm.updatePositions);
+                        }
+                    }, function () { return _this.isSuperUser; }];
+                this.editPaydownMenuOption = ['Edit Paydown List', function () {
+                        var vm = _this;
+                        if (vm.selectedGridRow) {
+                            vm.uiService.showPaydownModal(vm.uiService.createPaydown(vm.selectedGridRow), vm.modalService, false, 1, vm.updatePositions);
+                        }
+                    }, function () { return _this.isSuperUser; }];
                 var vm = this;
                 $scope.$on("$destroy", function () { return vm.persistState(); });
                 this.searchText = null;

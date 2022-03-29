@@ -14,16 +14,16 @@ using log4net;
 
 namespace YCM.CLO.Web.Controllers
 {
-	public class WatchDataController : Controller
+	public class PaydownDataController : Controller
     {
+
 	    private readonly IRepository _repository;
         private readonly IAlertEngine _alertEngine;
         private readonly IRuleEngine _ruleEngine;
         private readonly IPositionCacheManager _cacheManager;
-	    private static readonly ILog _logger = LogManager.GetLogger(typeof(WatchDataController));
+	    private static readonly ILog _logger = LogManager.GetLogger(typeof(PaydownDataController));
 
-      
-		public WatchDataController(IRepository repository, IAlertEngine alertEngine, IRuleEngine ruleEngine,IPositionCacheManager cacheManager)
+        public PaydownDataController(IRepository repository, IAlertEngine alertEngine, IRuleEngine ruleEngine,IPositionCacheManager cacheManager)
         {
             _repository = repository;
             _alertEngine = alertEngine;
@@ -32,16 +32,16 @@ namespace YCM.CLO.Web.Controllers
         }
 
         [HttpPost]
-        public JsonNetResult SaveWatch(Watch watch, string fundCode)
+        public JsonNetResult SavePaydown(Paydown paydown, string fundCode)
         {
 	        try
 	        {
-		        watch.WatchLastUpdatedOn = DateTime.Now;
-		        watch.WatchUser = User?.Identity?.Name;
+                paydown.PaydownLastUpdatedOn = DateTime.Now;
+                paydown.PaydownUser = User?.Identity?.Name;
 
-				_logger.Info(watch);
+				_logger.Info(paydown);
 
-		        var positions = _repository.AddOrUpdateWatch(watch, Helper.GetPrevDayDateId()).ToArray();
+		        var positions = _repository.AddOrUpdatePaydown(paydown, Helper.GetPrevDayDateId()).ToArray();
                 //_repository.GenerateAggregatedPositions();
 		        var allpositions = (_repository as IRepository).GetAllPositions(positions.Select(p => p.SecurityId.Value).ToArray()).ToList();
 		        _cacheManager.Update(allpositions);
@@ -62,24 +62,24 @@ namespace YCM.CLO.Web.Controllers
         }
 
         [HttpDelete]
-        public JsonNetResult DeleteWatch(int watchId)
+        public JsonNetResult DeletePaydown(int paydownId)
         {
             var positions =
-                Mapper.Map<IEnumerable<vw_Position>, IEnumerable<PositionDto>>(_repository.DeleteWatch(watchId,
+                Mapper.Map<IEnumerable<vw_Position>, IEnumerable<PositionDto>>(_repository.DeletePaydown(paydownId,
                     Helper.GetPrevDayDateId())).ToArray();
 
-            _repository.GenerateAggregatedPositions();
+            //_repository.GenerateAggregatedPositions();
             var allpositions = (_repository as IRepository).GetAllPositions(positions.Select(p => p.SecurityId).ToArray()).ToList();
             _cacheManager.Update(allpositions);
 
             var allpositionsDtos = Mapper.Map<IEnumerable<vw_AggregatePosition>, IEnumerable<PositionDto>>(allpositions);
 
-            if (positions != null)
-            {
-                _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), positions.First().FundCode);
-                TradesProcessor tradesProcessor = new TradesProcessor();
-                tradesProcessor.Process(_repository, allpositionsDtos, positions.First().FundCode);
-            }
+            //if (positions != null)
+            //{
+            //    _alertEngine.ProcessAlerts(allpositionsDtos, Helper.GetPrevDayDateId(), positions.First().FundCode);
+            //    TradesProcessor tradesProcessor = new TradesProcessor();
+            //    tradesProcessor.Process(_repository, allpositionsDtos, positions.First().FundCode);
+            //}
             return new JsonNetResult() { Data = allpositionsDtos };
         }
 

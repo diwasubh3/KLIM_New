@@ -501,6 +501,35 @@ var Application;
                         p.toolTipText += tInfo;
                     }
                 };
+                this.showPaydownModal = function (paydown, modalService, inDeleteMode, paydownTypeId, codeToExcute) {
+                    var modalInstance = modalService.open({
+                        templateUrl: pageOptions.appBasePath + 'app/views/paydown.html?v=' + pageOptions.appVersion,
+                        controller: 'application.controllers.paydownController',
+                        controllerAs: 'paydown',
+                        size: 'md',
+                        resolve: {
+                            sourcedata: function () {
+                                var modelSourceData = paydown;
+                                modelSourceData.inDeleteMode = inDeleteMode;
+                                return modelSourceData;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (updatedPositions) {
+                        if (updatedPositions && codeToExcute) {
+                            codeToExcute(updatedPositions);
+                        }
+                    }, function () { });
+                };
+                this.createPaydown = function (position) {
+                    var paydown = {
+                        paydownId: position.paydownId, paydownTypeId: 1, paydownObjectTypeId: position.paydownObjectTypeId,
+                        paydownObjectId: position.paydownObjectId, paydownComments: position.paydownComments,
+                        paydownHtmlText: null, isOnPaydown: position.isOnPaydown, securityId: position.securityId, issuerId: position.issuerId,
+                        issuer: position.issuer, securityCode: position.securityCode
+                    };
+                    return paydown;
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
                 this.uiGridConstants = uiGridConstants;
                 this.sce = $sce;

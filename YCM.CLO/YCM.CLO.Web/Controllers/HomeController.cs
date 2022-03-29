@@ -23,11 +23,7 @@ namespace YCM.CLO.Web.Controllers
         readonly IRepository _repository;
         private readonly IRuleEngine _ruleEngine;
 
-        //public HomeController() : this(new Repository(), new RuleEngine())
-        //{
-
-        //}
-
+        
         public HomeController(IRepository repository, IRuleEngine ruleEngine)
         {
             _repository = repository;
@@ -77,13 +73,12 @@ namespace YCM.CLO.Web.Controllers
             ViewBag.HasLoanAttributeOverridesReconPermission = false;
             ViewBag.HasAdminPermission = false;
             ViewBag.HasReportEditPermission = false;
-
+            //ViewBag.HasTradeBookingPermission = false;
             if (permissions.Count > 0)
             {
                 ViewBag.HasPermission = true;
                 foreach (var item in permissions.OrderBy(i => i))
                 {
-
                     switch (item)
                     {
                         case "Admin":

@@ -234,5 +234,11 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<string> GetPermission(string UserName);
 
         IEnumerable<TradeHistory> GetTradeHistory(string securityCode);
+
+        IEnumerable<vw_Position> AddOrUpdatePaydown(Paydown watch, int dateId);
+
+        IEnumerable<vw_Position> DeletePaydown(int paydownId, int dateId);
+
+        IEnumerable<vw_Security_Paydown> GetSecurityPaydown(int[] securityIds);
     }
 }

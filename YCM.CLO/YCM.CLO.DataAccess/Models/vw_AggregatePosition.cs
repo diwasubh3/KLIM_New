@@ -253,8 +253,16 @@ namespace YCM.CLO.DataAccess.Models
 
         public bool TradeHistoryExist { get; set; }
         public string PrimarySpreadType { get; set; }
+        public decimal? PrimarySpread { get; set; }
         public decimal? CLO10WAPP { get; set; }
         public decimal? CLO11WAPP { get; set; }
 
+        public bool? IsOnPaydown { get; set; }
+        public short? PaydownObjectTypeId { get; set; }
+        public int? PaydownObjectId { get; set; }
+        public int? PaydownId { get; set; }
+        public string PaydownComments { get; set; }
+        public string PaydownLastUpdatedOn { get; set; }
+        public string PaydownUser { get; set; }
     }
 }

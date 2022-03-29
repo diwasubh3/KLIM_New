@@ -202,8 +202,9 @@ module Application.Services {
 				, issuer: position.issuer, securityCode: position.securityCode
 			};
 			return watch;
-		}
+        }
 
+        
 		createSellCandidate = (position: Models.IPosition) => {
 			var watch = <Models.IWatch>{
 				watchId: position.sellCandidateId, watchTypeId: 2, watchObjectTypeId: position.sellCandidateObjectTypeId
@@ -485,7 +486,8 @@ module Application.Services {
                 var field = fields[i];
 				var checkIfColumnDefExist = columnDefs.filter(c => c.name === field.fieldName);
 	            try {
-					if (!checkIfColumnDefExist.length) {
+                    if (!checkIfColumnDefExist.length) {
+                        
 						var columnDef = {
 							field: field.jsonPropertyName,
 							width: field.displayWidth,
@@ -554,6 +556,7 @@ module Application.Services {
         }
 
         processTooltip = (p: any) => {
+            
             var vm = this;
             var watchHtmlText = p.isOnWatch ? ('ON WATCH LIST: ' + p.watchLastUpdatedOn + ' by ' + p.watchUser + (p.watchComments ? '<br/>COMMENT:&nbsp;&nbsp;' + p.watchComments : '')) : '';
 
@@ -592,6 +595,38 @@ module Application.Services {
                 tInfo += (t.comments ? "COMMENT: " + t.comments + "<br/>" : '');
                 p.toolTipText += tInfo;
             }
+        }
+
+        showPaydownModal = (paydown: Models.IPaydown, modalService: angular.ui.bootstrap.IModalService, inDeleteMode: boolean, paydownTypeId: number, codeToExcute: any) => {
+            var modalInstance = modalService.open({
+                templateUrl: pageOptions.appBasePath + 'app/views/paydown.html?v=' + pageOptions.appVersion,
+                controller: 'application.controllers.paydownController',
+                controllerAs: 'paydown',
+                size: 'md',
+                resolve: {
+                    sourcedata: () => {
+                        var modelSourceData = paydown;
+                        modelSourceData.inDeleteMode = inDeleteMode;
+                        return modelSourceData;
+                    }
+                }
+            });
+
+            modalInstance.result.then((updatedPositions: Array<Models.IPosition>) => {
+                if (updatedPositions && codeToExcute) {
+                    codeToExcute(updatedPositions);
+                }
+            }, () => { });
+        }
+
+        createPaydown = (position: Models.IPosition) => {
+            var paydown = <Models.IPaydown>{
+                paydownId: position.paydownId, paydownTypeId: 1, paydownObjectTypeId: position.paydownObjectTypeId
+                , paydownObjectId: position.paydownObjectId, paydownComments: position.paydownComments
+                , paydownHtmlText: null, isOnPaydown: position.isOnPaydown, securityId: position.securityId, issuerId: position.issuerId
+                , issuer: position.issuer, securityCode: position.securityCode
+            };
+            return paydown;
         }
 
     }
