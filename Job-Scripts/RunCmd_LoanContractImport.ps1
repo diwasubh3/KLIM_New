@@ -30,7 +30,11 @@ $runCommand = "C:\Application\CSVProcessor\CsvProcessor.exe 1 $fileDate"
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
+<<<<<<< HEAD
+$toEmail = @('rakesh.patkar@ap.linedata.com','Diwakar.Singh@ap.linedata.com')
+=======
 $toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
+>>>>>>> origin/Dev
 $ccEmail = ""
 $subject = "ALERT: Job $jobName Failed"
 $body = ""

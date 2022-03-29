@@ -26,11 +26,19 @@ function ThrowOnNativeFailure {
 LogWrite("----------------- Processing START -----------------") 
 
 #Run Command Variables
+<<<<<<< HEAD
+$runCommand = "Invoke-WebRequest -Uri http://clo.kl.local/calculation/process -Method POST"
+
+#Send Email variables
+$sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
+$toEmail = @('rakesh.patkar@ap.linedata.com','Diwakar.Singh@ap.linedata.com')
+=======
 $runCommand = "Invoke-WebRequest -Uri http://clo-uat.kl.local/calculation/process -Method POST"
 
 #Send Email variables
 $sendEmailScriptPath = "C:\KLIM\Scripts\Send_Email.ps1"
 $toEmail = "rakesh.patkar@ap.linedata.com,diwakar.singh@ap.linedata.com"
+>>>>>>> origin/Dev
 $ccEmail = ""
 $subject = "ALERT: Job $jobName Failed"
 $body = ""
@@ -41,7 +49,11 @@ try
 	LogWrite("")
 	LogWrite("Running command:- $runCommand")
 	
+<<<<<<< HEAD
+	$returnMessage = Invoke-WebRequest -Uri http://clo.kl.local/calculation/process -Method POST  
+=======
 	$returnMessage = Invoke-WebRequest -Uri http://clo-uat.kl.local/calculation/process -Method POST  
+>>>>>>> origin/Dev
 	ThrowOnNativeFailure
 	
 	LogWrite("")
