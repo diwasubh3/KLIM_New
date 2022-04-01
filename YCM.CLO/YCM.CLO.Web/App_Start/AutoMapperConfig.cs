@@ -152,7 +152,14 @@ namespace YCM.CLO.Web.App_Start
                 cfg.CreateMap<vw_AnalystResearch, AnalystResearchDto>().ForMember(a => a.Issuer, f => f.MapFrom(fa => fa.IssuerCode)).ForMember(a => a.AsOfDate, f => f.MapFrom(fa => fa.AsOfDate.HasValue ? fa.AsOfDate.Value.ToString("MM/dd/yyyy") : ""));
                 
                 cfg.CreateMap<Facility, FacilityDto>();
-                cfg.CreateMap<Issuer, IssuerDto>();
+				cfg.CreateMap<TradeType, TradeTypeDto>();
+				cfg.CreateMap<AllocationRule, AllocationRuleDto>();
+				cfg.CreateMap<SettleMethods, SettleMethodsDto>();
+				cfg.CreateMap<InterestTreatment, InterestTreatmentDto>();
+				cfg.CreateMap<Trader, TraderDto>();
+				cfg.CreateMap<CounterParty, CounterPartyDto>();
+
+				cfg.CreateMap<Issuer, IssuerDto>();
                 cfg.CreateMap<Security, SecurityDto>()
                 .ForMember(s=>s.Issuer,f=>f.MapFrom(s=>s.Issuer.IssuerDesc))
                 .ForMember(s => s.Facility, f => f.MapFrom(s => s.Facility.FacilityDesc))

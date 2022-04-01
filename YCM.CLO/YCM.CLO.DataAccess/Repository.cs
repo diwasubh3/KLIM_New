@@ -2030,7 +2030,27 @@ namespace YCM.CLO.DataAccess
 		{
 			return _cloContext.AllocationRule.Where(i => i.Id > 0);
 		}
-	}
 
+		public IEnumerable<TradeBooking> GetTradeBookingXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking_XML @TradeId", paramFieldTradeId);
+		}
+
+		public IEnumerable<TradeGroup> GetTradeGroupXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeGroup>("CLO.dbsp_GetTradeGroup_XML @TradeId", paramFieldTradeId);
+		}
+
+		public IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingDetail_XML @TradeId", paramFieldTradeId);
+		}
+	}
 }
 

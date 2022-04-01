@@ -12,13 +12,16 @@ namespace YCM.CLO.DataAccess.Models
         {
         }
 
-        public long TradeBookingDtId { get; set; }
-        public long TradeId { get; set; }
-        public short PortFolioId { get; set; }
+        public int TradeBookingDtId { get; set; }
+        public int TradeId { get; set; }
+        public int PortFolioId { get; set; }
+        public string PortfolioName { get; set; }
         public decimal Existing { get; set; }
         public decimal Allocated { get; set; }
         public decimal Override { get; set; }
         public decimal FinalQty { get; set; }
+        public decimal TradeAmount { get; set; }
+        public string TradeDetailId { get; set; }
         public bool IsActive { get; set; }
     }
 }

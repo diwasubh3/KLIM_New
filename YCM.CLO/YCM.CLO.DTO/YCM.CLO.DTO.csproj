@@ -64,10 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlertDto.cs" />
+    <Compile Include="AllocationRuleDto.cs" />
     <Compile Include="AnalystResearchDetailDto.cs" />
     <Compile Include="AnalystResearchDto.cs" />
     <Compile Include="AnalystResearchHeaderDto.cs" />
     <Compile Include="AnalystResearchUIDto.cs" />
+    <Compile Include="CounterPartyDto.cs" />
     <Compile Include="CustomViewFieldDto.cs" />
     <Compile Include="FacilityDto.cs" />
     <Compile Include="FieldDto.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="FundRestrictionResult.cs" />
     <Compile Include="FundRestrictionTypeDto.cs" />
     <Compile Include="IndustryDto.cs" />
+    <Compile Include="InterestTreatmentDto.cs" />
     <Compile Include="IProcessortDto.cs" />
     <Compile Include="IssuerDto.cs" />
     <Compile Include="ITradeProcessorDto.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="PositionDto.cs" />
     <Compile Include="PricingDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettleMethodsDto.cs" />
     <Compile Include="TotalParDto.cs" />
     <Compile Include="RatingDto.cs" />
     <Compile Include="RuleDto.cs" />
@@ -102,7 +106,9 @@
     <Compile Include="TradeDto.cs" />
     <Compile Include="TradeAllocationDto.cs" />
     <Compile Include="TradeInfoDto.cs" />
+    <Compile Include="TraderDto.cs" />
     <Compile Include="TradeSwapDto.cs" />
+    <Compile Include="TradeTypeDto.cs" />
     <Compile Include="UserDto.cs" />
     <Compile Include="VwSecurityDto.cs" />
     <Compile Include="IWatchProcessedDto.cs" />

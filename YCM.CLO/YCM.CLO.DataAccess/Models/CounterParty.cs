@@ -12,7 +12,7 @@ namespace YCM.CLO.DataAccess.Models
         {
         }
 
-        public short PartyId { get; set; }
+        public int PartyId { get; set; }
         public string PartyName { get; set; }
         public int WSOId { get; set; }
         public string MEI { get; set; }

@@ -231,8 +231,14 @@ var Application;
                 this.getTradeSourceData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
                 };
-                this.getTradeBookingSourceData = function () {
-                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
+                this.getTradeBookingData = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getsourcedata');
+                };
+                this.generateTradeXML = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
+                };
+                this.getIssuerSecData = function (name) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getIssuerSecData?name=' + name);
                 };
                 this.getBloombergData = function (securityCode) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);

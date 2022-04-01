@@ -12,7 +12,7 @@ namespace YCM.CLO.DataAccess.Models
         {
         }
 
-        public short TradeTypeId { get; set; }
+        public int TradeTypeId { get; set; }
         public string TradeTypeDesc { get; set; }
 
         public bool IsActive { get; set; }

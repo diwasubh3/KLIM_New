@@ -5,44 +5,65 @@
         rootScope: ng.IRootScopeService;
 
         isLoading: boolean;
-        data: Array<Application.Models.ITradeBooking>;
+        
         appBasePath: string = pageOptions.appBasePath;
         ngTableParams: any;
         statusText: string = "Loading";
-        selectedFund: Models.ISummary;
         tableParams: any;
         customViews: Array<Models.ICustomView>;
-        modalService: angular.ui.bootstrap.IModalService;
+        
         filter: ng.IFilterService;
         timeOutService: ng.ITimeoutService;
         headerFields: Array<Models.IField>;
         includeCancelled: boolean = false;
-        sourceData: Models.ITradeBooking;
+        sourceData: Models.ITradeBookingData;
         tempSecurity: Models.ITradeBooking;
-        static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", '$uibModal', 'NgTableParams', '$filter', '$timeout'];
+        issuerSec: Models.ISecurity;
+        static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter'];
 
-        constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, modalService: angular.ui.bootstrap.IModalService, ngTableParams: NgTableParams, $filter: ng.IFilterService, timeOutService: ng.ITimeoutService) {
+        constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService,
+            ngTableParams: NgTableParams, $filter: ng.IFilterService) {
             var vm = this;
             vm.dataService = dataService;
             vm.uiService = uiService;
             vm.rootScope = $rootScope;
             vm.rootScope.$emit('onActivated', 'tradebooking');
-            vm.modalService = modalService;
             vm.ngTableParams = ngTableParams;
             vm.filter = $filter;
 
             vm.isLoading = true;
             vm.loadDropdownData();
+            vm.tempSecurity = <Models.ITradeBooking>{};
+            vm.issuerSec = <Models.ISecurity>{};
         }
 
         loadDropdownData = () => {
             var vm = this;
             vm.statusText = "Loading";
             vm.isLoading = true;
-            vm.dataService.getTradeBookingSourceData().then((d) => {
-                vm.sourceData = d;
+            vm.dataService.getTradeBookingData().then((tradedata) => {
+                vm.sourceData = tradedata;
                 vm.isLoading = false;
             })
+        }
+
+        GenerateTradeXML = () => {
+            var vm = this;
+            vm.statusText = "Saving";
+            vm.isLoading = true;
+            vm.dataService.generateTradeXML(vm.sourceData).then(data => {
+                vm.isLoading = false;
+            });
+        }
+
+        searchIssuerSec = (name: string) => {
+            console.log('called');
+            var vm = this;
+            vm.isLoading = true;
+            vm.dataService.getIssuerSecData(name).then((data) => {
+                vm.issuerSec = data;
+                vm.isLoading = false;
+            })            
         }
 
         getPositionFromTrade = (trade: Models.ITradeBooking) => {
@@ -85,5 +106,5 @@
         }        
     }
 
-    angular.module("app").controller("application.controllers.TradeBookingController", TradeBookingController);
+    angular.module("app").controller("application.controllers.tradebookingController", TradeBookingController);
 }

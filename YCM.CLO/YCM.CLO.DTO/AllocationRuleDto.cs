@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YCM.CLO.DataAccess.Models
+namespace YCM.CLO.DTO
 {
-    public partial class TradeGroup
+    public class AllocationRuleDto
     {
-        public TradeGroup()
-        {
-
-        }
-        public int TradeGroupId { get; set; }
-        public string ReferenceTicketId { get; set; }
+        public int Id { get; set; }
+        public string RuleName { get; set; }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

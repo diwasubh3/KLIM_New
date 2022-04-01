@@ -302,8 +302,16 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
         }
 
-        getTradeBookingSourceData = () => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
+        getTradeBookingData = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getsourcedata');
+        }
+
+        generateTradeXML = (data: Models.ITradeBookingData) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
+        }
+
+        getIssuerSecData = (name: string) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getIssuerSecData?name=' + name);
         }
 
         getBloombergData = (securityCode: string) => {

@@ -247,5 +247,10 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<SettleMethods> GetSettleMethods();
         IEnumerable<InterestTreatment> GetInterestTreatment();
         IEnumerable<AllocationRule> GetAllocationRule();
+
+        IEnumerable<TradeBooking> GetTradeBookingXML(int Id);
+        IEnumerable<TradeGroup> GetTradeGroupXML(int Id);
+        IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id);
+
     }
 }

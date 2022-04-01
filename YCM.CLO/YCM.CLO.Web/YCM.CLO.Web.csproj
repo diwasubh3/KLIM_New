@@ -15,7 +15,7 @@
     <RootNamespace>YCM.CLO.Web</RootNamespace>
     <AssemblyName>YCM.CLO.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44357</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -260,18 +260,6 @@
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="YCM.CLO.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\YCM.CLO.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="YCM.CLO.DTO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\YCM.CLO.DTO.dll</HintPath>
-    </Reference>
-    <Reference Include="YCM.CLO.Web.Objects, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\YCM.CLO.Web.Objects.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
@@ -315,6 +303,7 @@
     <Compile Include="Models\MismatchData.cs" />
     <Compile Include="Models\NoCacheAttribute.cs" />
     <Compile Include="Models\ReportingData.cs" />
+    <Compile Include="Models\TradeXML.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -749,6 +738,20 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YCM.CLO.DataAccess\YCM.CLO.DataAccess.csproj">
+      <Project>{91f91003-4f09-4dbc-bb26-1c7201ced110}</Project>
+      <Name>YCM.CLO.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YCM.CLO.DTO\YCM.CLO.DTO.csproj">
+      <Project>{0922eab0-aede-434b-a9f6-3d98fd6b2956}</Project>
+      <Name>YCM.CLO.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YCM.CLO.Web.Objects\YCM.CLO.Web.Objects.csproj">
+      <Project>{2caade3b-1292-49c8-a5bf-418329bc933b}</Project>
+      <Name>YCM.CLO.Web.Objects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -765,7 +768,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44357/</IISUrl>
+          <IISUrl>http://localhost/YCM.CLO.Web</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -23,7 +23,7 @@ namespace YCM.CLO.DataAccess.Models.Mapping
             // Table & Column Mappings
             this.ToTable("TradeType", "CLO");
             this.Property(t => t.TradeTypeId).HasColumnName("TradeTypeId");
-            this.Property(t => t.TradeTypeDesc).HasColumnName("TradeType");
+            this.Property(t => t.TradeTypeDesc).HasColumnName("TradeTypeDesc");
             this.Property(t => t.IsActive).HasColumnName("IsActive");
             this.Property(t => t.CreatedOn).HasColumnName("CreatedOn");
             this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");

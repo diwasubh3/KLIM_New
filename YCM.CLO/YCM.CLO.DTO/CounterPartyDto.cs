@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YCM.CLO.DataAccess.Models
+namespace YCM.CLO.DTO
 {
-    public partial class TradeGroup
+    public class CounterPartyDto
     {
-        public TradeGroup()
-        {
-
-        }
-        public int TradeGroupId { get; set; }
-        public string ReferenceTicketId { get; set; }
+        public int PartyId { get; set; }
+        public string PartyName { get; set; }
+        public int WSOId { get; set; }
+        public string MEI { get; set; }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

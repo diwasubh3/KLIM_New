@@ -12,7 +12,7 @@ namespace YCM.CLO.DataAccess.Models
         {
         }
 
-        public short MethodId { get; set; }
+        public int MethodId { get; set; }
         public string MethodName { get; set; }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }

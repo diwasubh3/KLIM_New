@@ -3,7 +3,7 @@ var Application;
     var Controllers;
     (function (Controllers) {
         var TradeBookingController = (function () {
-            function TradeBookingController(uiService, dataService, $rootScope, modalService, ngTableParams, $filter, timeOutService) {
+            function TradeBookingController(uiService, dataService, $rootScope, ngTableParams, $filter) {
                 var _this = this;
                 this.appBasePath = pageOptions.appBasePath;
                 this.statusText = "Loading";
@@ -12,8 +12,25 @@ var Application;
                     var vm = _this;
                     vm.statusText = "Loading";
                     vm.isLoading = true;
-                    vm.dataService.getTradeBookingSourceData().then(function (d) {
-                        vm.sourceData = d;
+                    vm.dataService.getTradeBookingData().then(function (tradedata) {
+                        vm.sourceData = tradedata;
+                        vm.isLoading = false;
+                    });
+                };
+                this.GenerateTradeXML = function () {
+                    var vm = _this;
+                    vm.statusText = "Saving";
+                    vm.isLoading = true;
+                    vm.dataService.generateTradeXML(vm.sourceData).then(function (data) {
+                        vm.isLoading = false;
+                    });
+                };
+                this.searchIssuerSec = function (name) {
+                    console.log('called');
+                    var vm = _this;
+                    vm.isLoading = true;
+                    vm.dataService.getIssuerSecData(name).then(function (data) {
+                        vm.issuerSec = data;
                         vm.isLoading = false;
                     });
                 };
@@ -53,17 +70,18 @@ var Application;
                 vm.uiService = uiService;
                 vm.rootScope = $rootScope;
                 vm.rootScope.$emit('onActivated', 'tradebooking');
-                vm.modalService = modalService;
                 vm.ngTableParams = ngTableParams;
                 vm.filter = $filter;
                 vm.isLoading = true;
                 vm.loadDropdownData();
+                vm.tempSecurity = {};
+                vm.issuerSec = {};
             }
             return TradeBookingController;
         }());
-        TradeBookingController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", '$uibModal', 'NgTableParams', '$filter', '$timeout'];
+        TradeBookingController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter'];
         Controllers.TradeBookingController = TradeBookingController;
-        angular.module("app").controller("application.controllers.TradeBookingController", TradeBookingController);
+        angular.module("app").controller("application.controllers.tradebookingController", TradeBookingController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));
 })(Application || (Application = {}));
 //# sourceMappingURL=TradeBookingController.js.map

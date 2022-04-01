@@ -934,26 +934,9 @@
         counterparty: string;
     }
 
-    export interface ITradeBooking {
-        //tradeId: number;
-        //TradeGroupId: number;
-        //TradeDate: string;
-        //TradeTypeId: number;
-        //TraderId: number;
-        //LoanXId: number;
-        //IssuerId: number;
-        //FacilityId: number;
-        //CounterPartyId: number;
-        //SettleMethodId: number;
-        //InterestTreatmentId: number;
-        //Price: number;
-        //TotalQty: number;
-        //RuleId: number;        
-        //TradeComment: number;
-        //Cancel: boolean;
-        //UpdateFlag: boolean;
-        TradeType: Array<ITradeType>;
-        Traders: Array<ITrader>;
+    export interface ITradeBookingData {        
+        tradeType: Array<ITradeType>;
+        traders: Array<ITrader>;
         Facilities: Array<IFacility>;
         CounterParty: Array<ICounterParty>;
         SettleMethods: Array<ISettleMethods>;
@@ -961,12 +944,32 @@
         AllocationRule: Array<IAllocationRule>;
     }
 
-    export interface ITradeType {
+    export interface ITradeBooking {
+        tradeId: number;
+        TradeGroupId: number;
+        TradeDate: Date;
+        tradeType: ITradeType;
+        traders: ITrader;
+        LoanXId: string;
+        issuer: IIssuer;
+        facility: IFacility;
+        counterparty: ICounterParty;
+        settlemethods: ISettleMethods;
+        interesttreatment: IInterestTreatment;
+        Price: number;
+        TotalQty: number;
+        AllocationRule: IAllocationRule;
+        TradeComment: string;
+        Cancel: boolean;
+        UpdateFlag: boolean;
+    }
+
+    export interface ITrader {
         TraderId: number;
         TraderName: string;
     }
 
-    export interface ITrader {
+    export interface ITradeType {
         TradeTypeId: number;
         TradeTypeDesc: string;
     }
