@@ -51,13 +51,17 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
-        public JsonNetResult GetTradeTypeData()
+        public JsonNetResult GetIssuerSecurities()
         {
-            var data = new
+            return new JsonNetResult()
             {
-                TradeType = Mapper.Map<IEnumerable<TradeType>, IEnumerable<TradeType>>(_repository.GetTradeType()),
+                Data = Mapper.Map<IEnumerable<vw_IssuerSecurity>, IEnumerable<vw_IssuerSecurity>>(_repository.SearchIssuerSecurities())
             };
-            return new JsonNetResult() { Data = data };
+        }
+
+        public JsonNetResult GetFundAllocations()
+        {
+            return new JsonNetResult() { Data = Mapper.Map<IEnumerable<Fund>, IEnumerable<FundDto>>(_repository.GetFunds()) };
         }
 
         [HttpPost]

@@ -156,6 +156,7 @@
     <Compile Include="Models\TradeGroup.cs" />
     <Compile Include="Models\Trader.cs" />
     <Compile Include="Models\TradeType.cs" />
+    <Compile Include="Models\vw_IssuerSecurity.cs" />
     <Compile Include="Models\vw_Mismatch.cs" />
     <Compile Include="Models\vw_MatrixData.cs" />
     <Compile Include="Models\MatrixData.cs" />

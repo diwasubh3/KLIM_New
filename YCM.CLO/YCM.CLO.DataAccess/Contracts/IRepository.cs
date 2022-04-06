@@ -250,7 +250,8 @@ namespace YCM.CLO.DataAccess.Contracts
 
         IEnumerable<TradeBooking> GetTradeBookingXML(int Id);
         IEnumerable<TradeGroup> GetTradeGroupXML(int Id);
-        IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id);
-
+        IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id); 
+        IEnumerable<vw_IssuerSecurity> SearchIssuerSecurities();
+        IEnumerable<Fund> GetFundAllocation();
     }
 }

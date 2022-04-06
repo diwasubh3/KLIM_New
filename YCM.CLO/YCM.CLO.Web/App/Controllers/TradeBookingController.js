@@ -15,24 +15,34 @@ var Application;
                     vm.dataService.getTradeBookingData().then(function (tradedata) {
                         vm.sourceData = tradedata;
                         vm.isLoading = false;
+                        vm.dataService.getIssuerSecurities().then(function (securities) {
+                            vm.securities = securities;
+                        });
                     });
+                };
+                this.SetVal = function () {
+                    alert("ssss");
                 };
                 this.GenerateTradeXML = function () {
                     var vm = _this;
+                    console.log(vm.tempSecurity);
                     vm.statusText = "Saving";
                     vm.isLoading = true;
                     vm.dataService.generateTradeXML(vm.sourceData).then(function (data) {
                         vm.isLoading = false;
                     });
                 };
-                this.searchIssuerSec = function (name) {
-                    console.log('called');
+                this.GetFundAllocation = function () {
                     var vm = _this;
                     vm.isLoading = true;
-                    vm.dataService.getIssuerSecData(name).then(function (data) {
-                        vm.issuerSec = data;
+                    vm.dataService.getFunds().then(function (funds) {
+                        funds = funds.filter(function (f) { return f.canFilter; });
+                        vm.funds = funds;
                         vm.isLoading = false;
                     });
+                };
+                this.setSelectedField = function (sec) {
+                    return "Vikarma";
                 };
                 this.getPositionFromTrade = function (trade) {
                     var security = trade['security'];
@@ -41,8 +51,6 @@ var Application;
                 this.ShowHide = function (prop) {
                     var vm = _this;
                     vm[prop].toggle();
-                };
-                this.select = function (trade) {
                 };
                 this.getSortedCustomViews = function (views) {
                     var vm = _this;

@@ -942,24 +942,27 @@
         SettleMethods: Array<ISettleMethods>;
         InterestTreatment: Array<IInterestTreatment>;
         AllocationRule: Array<IAllocationRule>;
+        issuer: string;
+        loanXId: string;
+        facilityId: string;
     }
 
     export interface ITradeBooking {
         tradeId: number;
         TradeGroupId: number;
-        TradeDate: Date;
+        tradeDate: Date;
         tradeType: ITradeType;
         traders: ITrader;
-        LoanXId: string;
-        issuer: IIssuer;
+        loanXId: string;
+        issuer: string;
         facility: IFacility;
         counterparty: ICounterParty;
         settlemethods: ISettleMethods;
         interesttreatment: IInterestTreatment;
-        Price: number;
-        TotalQty: number;
-        AllocationRule: IAllocationRule;
-        TradeComment: string;
+        price: number;
+        totalQty: number;
+        allocationRule: IAllocationRule;
+        tradeComment: string;
         Cancel: boolean;
         UpdateFlag: boolean;
     }
@@ -992,6 +995,19 @@
     export interface IAllocationRule {
         Id: number;
         RuleName: string;
+    }
+
+    export interface IIssuerSecurity {
+        SecurityCode: string;
+        SecurityDesc: string;
+        IssuerId: string;
+        Issuer: string;
+        Facility: string;
+        Exposure: string;
+        MaturityDate: string;
+        PrimarySpreadType: string;
+        LiborBaseRate: string;
+        SecurityFilter: string;
     }
 }
     

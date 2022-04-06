@@ -1,4 +1,80 @@
-﻿<div class="panel-group" style="margin-bottom:5px">
+﻿<script type="text/ng-template" id="SearchTemplate.html">
+    <style>
+        .leftAlignCol {
+            padding-left: 10px;
+        }
+
+        .rightAlignCol {
+            padding-right: 10px;
+        }
+
+        .wrapword {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .autocompleteSpace {
+            padding: 0 5px;
+        }
+
+        .pTitle {
+            font: 11px;
+            font-Weight: 600;
+            color: #000;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .pContent {
+            font: 13px;
+            color: #5e5a5c;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ul ul,
+        ul ol,
+        ol ol,
+        ol ul {
+            padding: 0;
+            margin: 0 0 10px 0 !important;
+        }
+
+        li {
+            line-height: 20px;
+            list-style: none !important;
+        }
+    </style>
+    
+    <ul style="margin: 0 0 10px 0">
+        <li class="header-auto" ng-if="match.model.First()">
+            <div style="display:inline-flex;font-weight:bold;">
+                <div class="leftAlignCol wrapword autocompleteSpace" style="width: 220px;">Issuer</div>
+                <div class="leftAlignCol wrapword autocompleteSpace" style="width: 220px; ">Asset</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="text-align:right;width:110px;">Exposure</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="width:100px;">MaturityDate</div>
+                <div class="leftAlignCol wrapword autocompleteSpace" style="width:90px;">Rate Type</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="text-align:right;width:80px;">Rate</div>
+            </div>
+            <hr style="width:100%;text-align:left;margin-left:0;height:3px;">
+        </li>
+        <li ng-click="tradebooking.SetVal()">
+            <div style="display:inline-flex;">
+                <div class="leftAlignCol wrapword autocompleteSpace" style="width: 220px;"><p class="pTitle">{{ match.model.securityCode }}</p><p class="pContent" title="{{ match.model.issuer }}">{{ match.model.issuer }}</p></div>
+                <div class="leftAlignCol wrapword autocompleteSpace" style="width: 220px" title="{{ match.model.facility }}">{{ match.model.facility }}</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="text-align:right;width:110px;">{{ match.model.exposure }}</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="text-align:center;width:90px;" title="{{ match.model.maturityDate | date :'yyyy-MM-dd' }}">{{ match.model.maturityDate | date :'yyyy-MM-dd' }}</div>
+                <div class="leftAlignCol wrapword autocompleteSpace" style="text-align: right; width: 90px;" title="{{ match.model.PrimarySpreadType }}">{{ match.model.primarySpreadType }}</div>
+                <div class="rightAlignCol wrapword autocompleteSpace" style="text-align:right;width:50px;" title="{{ match.model.LiborBaseRate }}">{{ match.model.liborBaseRate }}</div>
+            </div>
+        </li>
+    </ul>
+</script>
+
+<div class="panel-group" style="margin-bottom:5px">
     <div class="panel-default panel panel-default panel-open">
         <div class="panel-heading" style="cursor: pointer;">
             <h4 class="panel-title">
@@ -6,30 +82,38 @@
                     <div style="float:left"><i id="iconShowHide" class="fa fa-plus-circle" aria-hidden="true"></i></div>
                     <div style="align:center">
                         View Booking
+                        <div style="float:right">
+                            <a href="#" title="Click to Download list in CSV" style="margin-right:2px;"><i class="fa fa-file-excel-o fa-1x" aria-hidden="true"></i></a>
+                            <a href="#" title="Click to Download list in PDF" style="margin-left:3px;"><i class="fa fa-file-pdf-o fa-1x" aria-hidden="true"></i></a>
+                        </div>
                     </div>
+                    
                 </div>
             </h4>
         </div>
         <div class="panel-collapse in collapse" aria-hidden="false" style="height: auto;" id="divViewBookingSection">
-            <div class="panel-body">
-
+            <div class="panel-body">               
                 <div style="max-height: 300px;overflow-y:auto;">
                     <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblBookings" name="tblBookings"
-                           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px"></table>
+                           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                    </table>
                 </div>
                 <div style="height:30px;">
-                    <div style="text-align:center;background-color: #EFF0F0;padding: 3px;">
-                        <a href="#" title="Click to Download list in CSV" style="margin-right:2px;"><i class="fa fa-file-excel-o fa-2x" aria-hidden="true"></i></a>
-                        <a href="#" title="Click to Download list in PDF" style="margin-left:3px;"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel-default">
-        <button name="btnTradeBook" id="btnTradeBook" class="btn btn-info">
-            <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Start Trade Booking
-        </button>
+    <div class="DivNewRow" style="display:block" >
+        <div class="">
+            <div class="panel panel-primary" style="border:0;" >
+                <div class="panel-body">
+                    <button name="btnTradeBook" id="btnTradeBook" class="btn btn-info">
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Start Trade Booking
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="panel-default panel panel-default">
         <div class="panel-heading" style="cursor: pointer;">
@@ -45,7 +129,8 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="txtTradeDate" class="col-form-label">Trade Date *</label>
-                            <input id="txtTradeDate" name="txtTradeDate" type="date" placeholder="mm/dd/yyyy" class="form-control">
+                            <input id="txtTradeDate" name="txtTradeDate" type="date" placeholder="mm/dd/yyyy" class="form-control"
+                                   ng-model="tradebooking.tempSecurity.tradeDate">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -71,39 +156,32 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="KeywordSearch" class="control-label">Search by Issuer Name/ Security ID / Asset / Facility / <a>Book New LoanXID</a></label>
-                            <input id="project" style="width:100%;" class="form-control" *ngIf="flag" type="text"
-                                   (keyup)="searchIssuerSec(this)" ng-disabled="tradebooking.isLoading" />
+                            <input type="text" ng-disabled="tradebooking.securityCode" ng-model="tradebooking.selectedSecurity" typeahead-editable="false"
+                                   typeahead-template-url="SearchTemplate.html" class="form-control" id="TxtSearch"
+                                   uib-typeahead="sec as tradebooking.setSelectedField(sec)  for sec in tradebooking.securities | filter:{securityFilter:$viewValue} | limitTo:20" />                            
+                                   <!--uib-typeahead="sec as sec.securityFilter  for sec in tradebooking.securities | filter:{securityFilter:$viewValue} | limitTo:20" />-->                            
                         </div>
-                        <!--<div class="search-result" *ngIf="flag">
-            <ul>
-                <li *ngFor="let client of clients | async">
-                    <a>Vikram</a>
-                </li>
-            </ul>
-        </div>-->
                     </div>
                 </div>
-                <div class="row">
-                    
-                </div>
+
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="txtIssuer" class="col-form-label">Issuer *</label>
-                            <input id="txtIssuer" name="txtIssuer" type="text" class="form-control" readonly>
+                            <input id="txtIssuer" name="txtIssuer" type="text" class="form-control" ng-model="tradebooking.selectedSecurity.issuer" ng- readonly>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="txtLoanXId" class="col-form-label">LoanX Id *</label>
-                            <input id="txtLoanXId" name="txtLoanXId" type="text" class="form-control" readonly>
+                            <input id="txtLoanXId" name="txtLoanXId" type="text" class="form-control" ng-model="tradebooking.selectedSecurity.securityCode" readonly>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="SelectAsset" class="col-form-label">Asset *</label>
                             <select class="form-control"
-                                    ng-model="tradebooking.tempSecurity.facility"
+                                    ng-model="tradebooking.selectedSecurity.facility"
                                     ng-options="tt as tt.facilityDesc for tt in tradebooking.sourceData.facilities"
                                     id="SelectTrader">
                             </select>
@@ -145,13 +223,13 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="txtPrice" class="col-form-label">Price</label>
-                            <input class="form-control" type="number" id="txtPrice" name="txtPrice" style="text-align:right">
+                            <input class="form-control" type="number" id="txtPrice" name="txtPrice" style="text-align:right" ng-model="tradebooking.tempSecurity.price">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="txtQuantity" class="col-form-label">Total Quantiy *</label>
-                            <input class="form-control" type="number" id="txtQuantity" name="txtQuantity" style="text-align:right">
+                            <input class="form-control" type="number" id="txtQuantity" name="txtQuantity" style="text-align:right" ng-model="tradebooking.tempSecurity.totalQty">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -167,50 +245,22 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="SelectAllocationby" class="col-form-label">UDF - Trade Comment</label>
-                            <textarea type="text" rows="4" class="form-control" id="txtTradeComment" name="txtTradeComment" maxlength="1000000" style="width:595px;"></textarea>
+                            <textarea type="text" rows="4" class="form-control" id="txtTradeComment" name="txtTradeComment" maxlength="1000000" style="width:595px;"
+                                       ng-model="tradebooking.tempSecurity.tradeComment"></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    
-                </div>
+
                 <hr style="width:100%;text-align:left;margin-left:0">
-                <div class="DivRow">
-
-                </div>
-                <!-- <div class="DivSearchInput"> -->
-                <!-- <div class=""> -->
-                <!-- <label for="chkReadyforSettlement" class="col-form-label"><br></label> -->
-                <!-- </div> -->
-                <!-- <div class=""> -->
-                <!-- <div class="form-check"> -->
-                <!-- <input class="form-check-input" type="checkbox" value="" id="chkReadyforSettlement" checked> -->
-                <!-- <label class="form-check-label" for="chkReadyforSettlement"> -->
-                <!-- Ready for Settlement -->
-                <!-- </label> -->
-                <!-- </div> -->
-                <!-- </div> -->
-                <!-- </div> -->
-                <div class="DivSearchOther_full" style="max-width:650px">
-                    <div class="">
-
-                    </div>
-                    <div class="">
-                        <div style="">
-
-                        </div>
-                    </div>
-                </div>
             </div>
             <hr style="width:100%;text-align:left;margin-left:0">
             <div class="DivNewRow" style="display:block" id="divAllocateLevel">
                 <div class="">
                     <div class="panel panel-primary" style="border:0;" id="divAllocate">
                         <div class="panel-body">
-                            <button type="submit" name="btnAllocation" id="btnAllocation" class="btn btn-info">
+                            <button type="submit" name="btnAllocation" id="btnAllocation" class="btn btn-info" ng-click="tradebooking.GetFundAllocation()">
                                 <i class="fa fa-magic" aria-hidden="true"></i>&nbsp;&nbsp;  Allocate
                             </button>
-
                         </div>
                     </div>
                 </div>
@@ -222,14 +272,27 @@
                         <div class="panel-heading">Fund Allocation</div>
                         <div class="panel-body">
                             <div class="DivRow">
-                                <table class="common" style="border-collapse: collapse; width: 100%;" id="tblAllocation" name="tblAllocation" border="1">
-                                </table>
+                                <!--<table class="common" style="border-collapse: collapse; width: 100%;" id="tblAllocation" name="tblAllocation" border="1">
+    </table>-->
+                                <ul class="dropdown-menu status-select" style="width:130px" ng-if="$index == selectedFilterIndex" uib-dropdown-menu>
+                                    <li ng-repeat="fund in positions.funds" ng-click="positions.onShowImpliedMatrixSpreadChanged(fund)">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" style="margin-top:3px !important" ng-model="fund.isImsSelected" />
+                                                {{fund.fundCode}}
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+            </Section>
+            <hr style="width:100%;text-align:left;margin-left:0">
+            <div class="DivNewRow" style="display:block" id="divAllocateLevel">
                 <div class="">
-                    <div class="panel panel-primary" style="border:0;">
+                    <div class="panel panel-primary" style="border:0;" id="divAllocate">
                         <div class="panel-body">
                             <button type="submit" name="btnWSOSubmit" id="btnWSOSubmit" class="btn btn-info" ng-click="tradebooking.GenerateTradeXML()">
                                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;&nbsp;  Submit to WSO
@@ -237,7 +300,8 @@
                         </div>
                     </div>
                 </div>
-            </Section>
+            </div>
+            <hr style="width:100%;text-align:left;margin-left:0">
         </div>
     </div>
 </div>

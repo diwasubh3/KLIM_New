@@ -310,8 +310,12 @@
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
         }
 
-        getIssuerSecData = (name: string) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getIssuerSecData?name=' + name);
+        getFundAllocations = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFundAllocations');
+        }
+
+        getIssuerSecurities = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
         }
 
         getBloombergData = (securityCode: string) => {

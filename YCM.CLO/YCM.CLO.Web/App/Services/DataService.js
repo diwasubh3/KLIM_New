@@ -237,8 +237,11 @@ var Application;
                 this.generateTradeXML = function (data) {
                     return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
                 };
-                this.getIssuerSecData = function (name) {
-                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getIssuerSecData?name=' + name);
+                this.getFundAllocations = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFundAllocations');
+                };
+                this.getIssuerSecurities = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
                 };
                 this.getBloombergData = function (securityCode) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);

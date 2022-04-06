@@ -3,9 +3,10 @@
         dataService: Application.Services.Contracts.IDataService;
         uiService: Application.Services.Contracts.IUIService;
         rootScope: ng.IRootScopeService;
-
+        /* securities: Array<Models.IVwSecurityDto>;*/
+        securities: Array<Models.IIssuerSecurity>;
         isLoading: boolean;
-        
+        funds: Array<Models.IFund>;
         appBasePath: string = pageOptions.appBasePath;
         ngTableParams: any;
         statusText: string = "Loading";
@@ -20,7 +21,7 @@
         tempSecurity: Models.ITradeBooking;
         issuerSec: Models.ISecurity;
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter'];
-
+        
         constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService,
             ngTableParams: NgTableParams, $filter: ng.IFilterService) {
             var vm = this;
@@ -34,7 +35,7 @@
             vm.isLoading = true;
             vm.loadDropdownData();
             vm.tempSecurity = <Models.ITradeBooking>{};
-            vm.issuerSec = <Models.ISecurity>{};
+            vm.issuerSec = <Models.ISecurity>{};            
         }
 
         loadDropdownData = () => {
@@ -44,11 +45,19 @@
             vm.dataService.getTradeBookingData().then((tradedata) => {
                 vm.sourceData = tradedata;
                 vm.isLoading = false;
-            })
+                vm.dataService.getIssuerSecurities().then((securities) => {
+                    vm.securities = securities;
+                });
+            });
+        }
+
+        SetVal = () => {
+            alert("ssss");
         }
 
         GenerateTradeXML = () => {
             var vm = this;
+            console.log(vm.tempSecurity);            
             vm.statusText = "Saving";
             vm.isLoading = true;
             vm.dataService.generateTradeXML(vm.sourceData).then(data => {
@@ -56,14 +65,18 @@
             });
         }
 
-        searchIssuerSec = (name: string) => {
-            console.log('called');
+        GetFundAllocation = () => {
             var vm = this;
             vm.isLoading = true;
-            vm.dataService.getIssuerSecData(name).then((data) => {
-                vm.issuerSec = data;
+            vm.dataService.getFunds().then(funds => {
+                funds = funds.filter(f => f.canFilter);
+                vm.funds = funds;
                 vm.isLoading = false;
-            })            
+            });
+        }
+
+        setSelectedField = function(sec) {
+            return "Vikarma";
         }
 
         getPositionFromTrade = (trade: Models.ITradeBooking) => {
@@ -75,10 +88,6 @@
         ShowHide = (prop: string) => {
             var vm = this;
             vm[prop].toggle();
-        }
-
-        
-        select = (trade: Models.ITradeBooking) => {
         }
 
 

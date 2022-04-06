@@ -1008,10 +1008,9 @@ namespace YCM.CLO.DataAccess
 				&& (t.KeepOnBlotter.HasValue && t.KeepOnBlotter.Value || t.DateId == dateId));
 		}
 
-
 		IEnumerable<Facility> IRepository.GetFacilities()
 		{
-			return _cloContext.Facilities.Where(f => f.FacilityId >= 0).ToList();
+			return _cloContext.Facilities.Where(f => f.FacilityId >= 0).ToList().OrderBy(f => f.FacilityDesc) ;
 		}
 
 		IEnumerable<LienType> IRepository.GetLienTypes()
@@ -1068,6 +1067,12 @@ namespace YCM.CLO.DataAccess
 		IEnumerable<Fund> IRepository.GetFunds()
 		{
 			var data = _cloContext.Funds.SqlQuery($"clo.spGetFunds").ToList();
+			return data;
+		}
+
+		IEnumerable<Fund> IRepository.GetFundAllocation()
+		{
+			var data = _cloContext.Funds.SqlQuery($"clo.dbsp_GetFundAllocation").ToList();
 			return data;
 		}
 
@@ -2050,6 +2055,11 @@ namespace YCM.CLO.DataAccess
 			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingDetail_XML @TradeId", paramFieldTradeId);
+		}
+
+		IEnumerable<vw_IssuerSecurity> IRepository.SearchIssuerSecurities()
+		{
+			return _cloContext.vw_IssuerSecurity.SqlQuery("CLO.dbsp_SearchIssuerSecurity").ToList();
 		}
 	}
 }
