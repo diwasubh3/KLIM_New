@@ -168,6 +168,7 @@
                                                     </th>
                                                     <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAPP</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
 
@@ -274,6 +275,11 @@
                                                             {{data.bid| number:2}}
                                                         </span>
                                                     </td>
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wappBgStyle">
+                                                        <span uib-tooltip-html="data.wappTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.wapp| number:2}}
+                                                        </span>
+                                                    </td>
                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bbmvocBgStyle">
                                                         <span uib-tooltip-html="data.bbmvocfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
                                                             {{data.bbmvoc| number:2}}{{data.bbmvoc != null && data.bbmvoc.toString().length? '%':''}}
@@ -337,42 +343,43 @@
                                             {
                                                 <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
                                             }*@
-                                        @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
-                                        {
+                                        @*@if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
+                                        {*@
 
                                             <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
                                                 <a class="dropdown-toggle" style="cursor: pointer !important"
                                                    data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
                                                 <ul class="dropdown-menu">
-                                                    @if (ViewBag.HasBidOfferUploadPermission)
-                                                    {
+                                                    @*@if (ViewBag.HasBidOfferUploadPermission)
+                                                    {*@
                                                         <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
                                                         <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
-                                                    }
+                                                    @*}
                                                     @if (ViewBag.HasFundTriggersPermission)
-                                                    {
+                                                    {*@
                                                         <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
-                                                    }
-                                                    @if (ViewBag.HasFundOverridesPermission)
-                                                    {
+                                                    @*}*@
+                                                    @*@if (ViewBag.HasFundOverridesPermission)
+                                                    {*@
                                                         <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
-                                                    }
+                                                    @*}*@
                                                     @*<li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>*@
-                                                    @if (ViewBag.HasParametersPermission)
-                                                    {
+                                                    @*@if (ViewBag.HasParametersPermission)
+                                                    {*@
                                                         <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
-                                                    }
-                                                    @if (ViewBag.HasLoanAttributeOverridePermission)
-                                                    {
+                                                    @*}*@
+                                                    @*@if (ViewBag.HasLoanAttributeOverridePermission)
+                                                    {*@
                                                         <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
-                                                    }
+                                                    @*}*@
                                                 </ul>
                                             </li>
-                                        }
+                                        @*}
                                         else
                                         {
                                             <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
-                                        }
+                                        }*@
+
                                         @if (ViewBag.HasNewLoanReconPermission || ViewBag.HasLoanAttributeOverridesReconPermission || ViewBag.HasAdminPermission)
                                         {
                                             <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
