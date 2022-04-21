@@ -2013,7 +2013,7 @@ namespace YCM.CLO.DataAccess
 
 		IEnumerable<Trader> IRepository.GetTraders()
 		{
-			return _cloContext.Trader.Where(i => i.TraderId > 0);
+			return _cloContext.Traders.Where(i => i.TraderId > 0);
 		}
 		IEnumerable<TradeType> IRepository.GetTradeType()
 		{
@@ -2060,6 +2060,82 @@ namespace YCM.CLO.DataAccess
 		IEnumerable<vw_IssuerSecurity> IRepository.SearchIssuerSecurities()
 		{
 			return _cloContext.vw_IssuerSecurity.SqlQuery("CLO.dbsp_SearchIssuerSecurity").ToList();
+		}
+
+		IEnumerable<TradeBooking> IRepository.GetTradeBookings()
+		{
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking");
+		}
+
+		int IRepository.SaveTradeBooking(TradeBooking tradebook, string user)
+		{
+			int intTradeBookingId = 0;
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_InsertTradeBooking", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeDate", tradebook.TradeDate));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeTypeId", tradebook.TradeTypeId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TraderId", tradebook.TraderId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@LoanXId", tradebook.LoanXId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@IssuerId", tradebook.IssuerId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@FacilityId", tradebook.FacilityId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@CounterPartyId", tradebook.CounterPartyId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@SettleMethodId", tradebook.SettleMethodId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@InterestTreatmentId", tradebook.InterestTreatmentId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Price", tradebook.Price));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TotalQty", tradebook.TotalQty));
+						commandtradebooking.Parameters.Add(new SqlParameter("@RuleId", tradebook.RuleId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeComment", tradebook.TradeComment));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Cancel", false));
+						commandtradebooking.Parameters.Add(new SqlParameter("@UpdateFlag", false));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Id", DbType.Int64) { Direction = ParameterDirection.Output });
+						commandtradebooking.ExecuteNonQuery();
+						intTradeBookingId = (int)commandtradebooking.Parameters["@Id"].Value;
+					}
+					connection.Close();
+				}
+			}
+			return intTradeBookingId;
+		}
+
+		bool IRepository.SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					foreach(var traderow in tradebookdetail)
+                    {
+						using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_InsertTradeBookingDetail", connection))
+						{
+							commandtradebooking.CommandType = CommandType.StoredProcedure;
+							commandtradebooking.Parameters.Add(new SqlParameter("@TradeId", TradeId));
+							commandtradebooking.Parameters.Add(new SqlParameter("@PortFolioId", traderow.PortFolioId));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Existing", traderow.Existing));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Allocated", traderow.Allocated));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Override", traderow.Override));
+							commandtradebooking.Parameters.Add(new SqlParameter("@FinalQty", traderow.FinalQty));
+							commandtradebooking.Parameters.Add(new SqlParameter("@TradeAmount", traderow.TradeAmount));
+							commandtradebooking.ExecuteNonQuery();
+						}
+					}					
+					connection.Close();
+				}
+			}
+			return true;
+		}
+
+		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@ruleName", ruleName);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName", paramFieldTradeId);
 		}
 	}
 }

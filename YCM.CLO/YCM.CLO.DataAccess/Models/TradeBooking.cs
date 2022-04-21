@@ -10,7 +10,14 @@ namespace YCM.CLO.DataAccess.Models
     {
         public TradeBooking()
         {
-            TradeBookingDetail = new List<TradeBookingDetail>();
+            this.tradeType = new TradeType();
+            this.traders = new Trader();
+            this.facility = new Facility();
+            this.counterparty = new CounterParty();
+            this.settlemethods = new SettleMethods();
+            this.interesttreatments = new InterestTreatment();
+            this.allocationRule = new AllocationRule();
+            this.TradeBookingDetail = new List<TradeBookingDetail>();
         }
         public int Id { get; set; }
         public string TradeId { get; set; }
@@ -21,6 +28,7 @@ namespace YCM.CLO.DataAccess.Models
         public int TraderId { get; set; }
         public string LoanXId { get; set; }
         public int IssuerId { get; set; }
+        public string IssuerDesc { get; set; }
         public int FacilityId { get; set; }
         public int CounterPartyId { get; set; }
         public int SettleMethodId { get; set; }
@@ -31,17 +39,14 @@ namespace YCM.CLO.DataAccess.Models
         public decimal TotalQty { get; set; }
         public int RuleId { get; set; }
         public string TradeComment { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime? CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? LastUpdatedOn { get; set; }
-        public string LastUpdatedBy { get; set; }
-
-        public bool Cancel { get; set; }
-        public int CancelId { get; set; }
-        public bool UpdateFlag { get; set; }
-        public int UpdateId { get; set; }
-
+        //public string ResponseStatus { get; set; }
+        public TradeType tradeType { get; set; }
+        public Trader traders { get; set; }
+        public Facility facility { get; set; }
+        public CounterParty counterparty { get; set; }
+        public SettleMethods settlemethods { get; set; }
+        public InterestTreatment interesttreatments { get; set; }
+        public AllocationRule allocationRule { get; set; }
         public virtual ICollection<TradeBookingDetail> TradeBookingDetail { get; set; }
     }
 }

@@ -237,11 +237,18 @@ var Application;
                 this.generateTradeXML = function (data) {
                     return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
                 };
-                this.getFundAllocations = function () {
-                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFundAllocations');
-                };
                 this.getIssuerSecurities = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
+                };
+                this.getTradeBooking = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+                };
+                this.getTradeFundAllocation = function (totalQty, ruleName) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation?totalQty=' + totalQty + '&ruleName=' + ruleName);
+                };
+                this.getCalculatedData = function (data) {
+                    /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData', data);
                 };
                 this.getBloombergData = function (securityCode) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);

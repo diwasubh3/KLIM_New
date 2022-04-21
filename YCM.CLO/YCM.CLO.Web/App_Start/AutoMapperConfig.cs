@@ -158,7 +158,8 @@ namespace YCM.CLO.Web.App_Start
 				cfg.CreateMap<InterestTreatment, InterestTreatmentDto>();
 				cfg.CreateMap<Trader, TraderDto>();
 				cfg.CreateMap<CounterParty, CounterPartyDto>();
-
+				cfg.CreateMap<TradeBooking, TradeBookingDto>();
+				cfg.CreateMap<TradeBookingDetail, TradeBookingDetailDto>();
 				cfg.CreateMap<Issuer, IssuerDto>();
                 cfg.CreateMap<Security, SecurityDto>()
                 .ForMember(s=>s.Issuer,f=>f.MapFrom(s=>s.Issuer.IssuerDesc))

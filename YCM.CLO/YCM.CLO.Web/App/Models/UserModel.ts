@@ -566,6 +566,13 @@
         isImsSelected: boolean;
         isWareHouse: boolean;
         canFilter: boolean;
+        PortfolioName: string,
+        PortFolioId: number,
+        Existing: number,
+        Allocated: number,
+        Override: number,
+        FinalQty: number,
+        TradeAmount: number
     }
 
     export interface ITradeAllocation {
@@ -941,7 +948,7 @@
         CounterParty: Array<ICounterParty>;
         SettleMethods: Array<ISettleMethods>;
         InterestTreatment: Array<IInterestTreatment>;
-        AllocationRule: Array<IAllocationRule>;
+        allocationRule: Array<IAllocationRule>;
         issuer: string;
         loanXId: string;
         facilityId: string;
@@ -954,27 +961,49 @@
         tradeType: ITradeType;
         traders: ITrader;
         loanXId: string;
+        issuerId: string;
         issuer: string;
         facility: IFacility;
         counterparty: ICounterParty;
         settlemethods: ISettleMethods;
-        interesttreatment: IInterestTreatment;
+        interesttreatments: IInterestTreatment;
         price: number;
         totalQty: number;
         allocationRule: IAllocationRule;
         tradeComment: string;
         Cancel: boolean;
         UpdateFlag: boolean;
+        tradeTypeDesc: string;
+        tradeBookingDetail: Array<ITradeBookingDetail>;
+        selectedSecurity: string;
+    }
+
+    export interface ITradeBookingDetail {
+        tradeId: number;
+        PortFolioId: number;
+        PortfolioName: string;
+        Existing: number;
+        Allocated: number;
+        Override: number;
+        finalQty: number;
+        TradeAmount: number;
+        IsOverride: boolean;
+        TotalQuantity: number;
+        GrandTotal: number;
+        IsSkipped: boolean;
+        TotalOverride: number;
+        TotalRemaining: number;
+        ruleName: string;
     }
 
     export interface ITrader {
-        TraderId: number;
-        TraderName: string;
+        traderId: number;
+        traderName: string;
     }
 
     export interface ITradeType {
-        TradeTypeId: number;
-        TradeTypeDesc: string;
+        tradeTypeId: number;
+        tradeTypeDesc: string;
     }
 
     export interface ICounterParty {
@@ -988,13 +1017,13 @@
     }
 
     export interface IInterestTreatment {
-        Id: number;
-        Description: string;
+        id: number;
+        description: string;
     }
 
     export interface IAllocationRule {
         Id: number;
-        RuleName: string;
+        ruleName: string;
     }
 
     export interface IIssuerSecurity {
@@ -1003,6 +1032,7 @@
         IssuerId: string;
         Issuer: string;
         Facility: string;
+        FacilityId: string;
         Exposure: string;
         MaturityDate: string;
         PrimarySpreadType: string;

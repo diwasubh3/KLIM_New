@@ -140,6 +140,7 @@
     <Compile Include="Models\Mapping\InterestTreatmentMap.cs" />
     <Compile Include="Models\Mapping\MatrixPointMap.cs" />
     <Compile Include="Models\Mapping\SettleMethodsMap.cs" />
+    <Compile Include="Models\Mapping\TradeBookingMap.cs" />
     <Compile Include="Models\Mapping\TraderMap.cs" />
     <Compile Include="Models\Mapping\TradeTypeMap.cs" />
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />

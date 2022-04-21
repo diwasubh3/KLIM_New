@@ -253,5 +253,9 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id); 
         IEnumerable<vw_IssuerSecurity> SearchIssuerSecurities();
         IEnumerable<Fund> GetFundAllocation();
+        IEnumerable<TradeBooking> GetTradeBookings();
+        IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName);
+        int SaveTradeBooking(TradeBooking tradebook, string user);
+        bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);
     }
 }

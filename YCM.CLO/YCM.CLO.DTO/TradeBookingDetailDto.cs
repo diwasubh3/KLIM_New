@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YCM.CLO.DataAccess.Models
+namespace YCM.CLO.DTO
 {
-    public partial class TradeBookingDetail
+    public class TradeBookingDetailDto
     {
-        public TradeBookingDetail()
-        {
-        }        
-        public int? TradeBookingDtId { get; set; }
-        public int? TradeId { get; set; }
-        [Key]
+        public int TradeBookingDtId { get; set; }
+        public int TradeId { get; set; }
         public int PortFolioId { get; set; }
         public string PortfolioName { get; set; }
         public decimal Existing { get; set; }
@@ -23,11 +18,12 @@ namespace YCM.CLO.DataAccess.Models
         public decimal FinalQty { get; set; }
         public decimal TradeAmount { get; set; }
         public string TradeDetailId { get; set; }
-        public bool IsOverride {
-            get { return Override > 0; }
-             }
+        public bool IsOverride { get; set; }
         public decimal? TotalQuantity { get; set; }
         public decimal? GrandTotal { get; set; }
         public bool IsSkipped { get; set; }
-    }    
+        public decimal? TotalOverride { get; set; }
+        public decimal? TotalRemaining { get; set; }
+        public string RuleName { get; set; }
+    }
 }

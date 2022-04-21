@@ -103,6 +103,8 @@
     <Compile Include="SecurityOverrideDto.cs" />
     <Compile Include="SecurityReconDto.cs" />
     <Compile Include="TempSecurityDto.cs" />
+    <Compile Include="TradeBookingDetailDto.cs" />
+    <Compile Include="TradeBookingDto.cs" />
     <Compile Include="TradeDto.cs" />
     <Compile Include="TradeAllocationDto.cs" />
     <Compile Include="TradeInfoDto.cs" />

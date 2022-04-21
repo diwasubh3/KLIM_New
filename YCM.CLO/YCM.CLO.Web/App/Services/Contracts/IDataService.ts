@@ -88,9 +88,12 @@ module Application.Services.Contracts {
         getTrades: (includeCancelled: boolean, fundCode: string) => ng.IPromise<Array<Models.ITrade>>;
         getTradeSourceData: () => ng.IPromise<Models.ITradeSourceData>;
         getTradeBookingData: () => ng.IPromise<Models.ITradeBookingData>;
-        generateTradeXML: (data: Models.ITradeBookingData) => ng.IPromise<Models.ITradeBookingData>;
-        getFundAllocations: () => ng.IPromise<Array<Models.IFund>>;
+        generateTradeXML: (data: Models.ITradeBooking) => ng.IPromise<Models.ITradeBooking>;
+        getTradeFundAllocation: (totalQty: number, ruleName: string) => ng.IPromise<Array<Models.ITradeBookingDetail>>;
+        getCalculatedData: (data: Array<Models.ITradeBookingDetail>) => ng.IPromise<Array<Models.ITradeBookingDetail>>;//, totalQty: number, ruleName: string
+        
         getIssuerSecurities: () => ng.IPromise<Array<Models.IIssuerSecurity>>;
+        getTradeBooking: () => ng.IPromise<Array<Models.ITradeBooking>>;
         getBloombergData: (securityCode: string) => ng.IPromise<Models.ITempSecurity>;
         saveTempSecurity: (tempsecurity: Models.ITempSecurity) => ng.IPromise<Models.ISecurity>;
 
