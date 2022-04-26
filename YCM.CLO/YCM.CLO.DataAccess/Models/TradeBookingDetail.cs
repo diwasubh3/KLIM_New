@@ -18,9 +18,11 @@ namespace YCM.CLO.DataAccess.Models
         public int PortFolioId { get; set; }
         public string PortfolioName { get; set; }
         public decimal Existing { get; set; }
+        public decimal Exposure { get; set; }
         public decimal Allocated { get; set; }
         public decimal Override { get; set; }
         public decimal FinalQty { get; set; }
+        public decimal NetQty { get; set; }
         public decimal TradeAmount { get; set; }
         public string TradeDetailId { get; set; }
         public bool IsOverride {
@@ -28,6 +30,8 @@ namespace YCM.CLO.DataAccess.Models
              }
         public decimal? TotalQuantity { get; set; }
         public decimal? GrandTotal { get; set; }
-        public bool IsSkipped { get; set; }
+        public decimal? Price { get; set; }
+        public bool IsIncluded { get; set; }
+        //public bool IsSkipped { get { return !IsIncluded; } }
     }    
 }

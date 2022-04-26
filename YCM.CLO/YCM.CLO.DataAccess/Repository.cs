@@ -2031,9 +2031,9 @@ namespace YCM.CLO.DataAccess
 		{
 			return _cloContext.InterestTreatment.Where(i => i.Id > 0);
 		}
-		IEnumerable<AllocationRule> IRepository.GetAllocationRule()
+		IEnumerable<AllocationRule> IRepository.GetAllocationRule(int tradeTypeId)
 		{
-			return _cloContext.AllocationRule.Where(i => i.Id > 0);
+			return _cloContext.AllocationRule.Where(i => (i.TradeTypeId == tradeTypeId) && (i.IsActive == true));
 		}
 
 		public IEnumerable<TradeBooking> GetTradeBookingXML(int TradeId)
@@ -2065,6 +2065,20 @@ namespace YCM.CLO.DataAccess
 		IEnumerable<TradeBooking> IRepository.GetTradeBookings()
 		{
 			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking");
+		}
+
+		TradeBooking IRepository.RefreshTradeBooking(long TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.TradeBooking.SqlQuery("CLO.dbsp_RefreshTradeBooking @TradeId", paramFieldTradeId).FirstOrDefault();
+		}
+
+		IEnumerable<TradeBookingDetail> IRepository.RefreshTradeBookingDetail(long TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_RefreshTradeBookingDetail  @TradeId", paramFieldTradeId);
 		}
 
 		int IRepository.SaveTradeBooking(TradeBooking tradebook, string user)
@@ -2122,6 +2136,7 @@ namespace YCM.CLO.DataAccess
 							commandtradebooking.Parameters.Add(new SqlParameter("@Override", traderow.Override));
 							commandtradebooking.Parameters.Add(new SqlParameter("@FinalQty", traderow.FinalQty));
 							commandtradebooking.Parameters.Add(new SqlParameter("@TradeAmount", traderow.TradeAmount));
+							commandtradebooking.Parameters.Add(new SqlParameter("@IsIncluded", traderow.IsIncluded));
 							commandtradebooking.ExecuteNonQuery();
 						}
 					}					
@@ -2131,11 +2146,12 @@ namespace YCM.CLO.DataAccess
 			return true;
 		}
 
-		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName)
+		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, string issuerId)
 		{
-			SqlParameter paramFieldTradeId = new SqlParameter("@ruleName", ruleName);
+			SqlParameter paramruleName = new SqlParameter("@ruleName", ruleName);
+			SqlParameter paramissuerId = new SqlParameter("@issuerId", issuerId);
 			_cloContext.Database.CommandTimeout = timeout_short;
-			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName", paramFieldTradeId);
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId", paramruleName, paramissuerId);
 		}
 	}
 }

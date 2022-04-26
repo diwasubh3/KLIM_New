@@ -140,6 +140,10 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="Recon.RuleEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\RuleEngine\RuleEngine\bin\Release\Recon.RuleEngine.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\StructureMap.dll</HintPath>
@@ -718,10 +722,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\RuleEngine\RuleEngine\RuleEngine.csproj">
-      <Project>{a17aa921-c698-4013-8fea-017293701730}</Project>
-      <Name>RuleEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YCM.CLO.DataAccess\YCM.CLO.DataAccess.csproj">
       <Project>{91f91003-4f09-4dbc-bb26-1c7201ced110}</Project>
       <Name>YCM.CLO.DataAccess</Name>

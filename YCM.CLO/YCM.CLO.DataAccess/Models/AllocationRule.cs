@@ -14,6 +14,7 @@ namespace YCM.CLO.DataAccess.Models
 
         public int Id { get; set; }
         public string RuleName { get; set; }
+        public int TradeTypeId { get; set; }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string CreatedBy { get; set; }

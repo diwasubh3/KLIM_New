@@ -955,6 +955,7 @@
     }
 
     export interface ITradeBooking {
+        id: number;
         tradeId: number;
         TradeGroupId: number;
         tradeDate: Date;
@@ -962,7 +963,7 @@
         traders: ITrader;
         loanXId: string;
         issuerId: string;
-        issuer: string;
+        issuerDesc: string;
         facility: IFacility;
         counterparty: ICounterParty;
         settlemethods: ISettleMethods;
@@ -976,6 +977,8 @@
         tradeTypeDesc: string;
         tradeBookingDetail: Array<ITradeBookingDetail>;
         selectedSecurity: string;
+        responseStatus: string;
+        errorMessage: string;
     }
 
     export interface ITradeBookingDetail {
@@ -983,17 +986,20 @@
         PortFolioId: number;
         PortfolioName: string;
         Existing: number;
+        Exposure: number;
         Allocated: number;
         Override: number;
         finalQty: number;
         TradeAmount: number;
         IsOverride: boolean;
-        TotalQuantity: number;
+        totalQuantity: number;
         GrandTotal: number;
-        IsSkipped: boolean;
+        IsIncluded: boolean;
+        /*IsSkipped: boolean;*/
         TotalOverride: number;
         TotalRemaining: number;
         ruleName: string;
+        price: number;
     }
 
     export interface ITrader {
@@ -1007,13 +1013,14 @@
     }
 
     export interface ICounterParty {
-        PartyId: number;
-        PartyName: string;
+        partyId: number;
+        partyName: string;
+        wsoId: string;
     }
 
     export interface ISettleMethods {
-        MethodId: number;
-        MethodName: string;
+        methodId: number;
+        methodName: string;
     }
 
     export interface IInterestTreatment {
@@ -1022,7 +1029,7 @@
     }
 
     export interface IAllocationRule {
-        Id: number;
+        id: number;
         ruleName: string;
     }
 
@@ -1037,6 +1044,7 @@
         MaturityDate: string;
         PrimarySpreadType: string;
         LiborBaseRate: string;
+        spread: string;
         SecurityFilter: string;
     }
 }

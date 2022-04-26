@@ -318,13 +318,21 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
         }
 
-        getTradeFundAllocation = (totalQty: number, ruleName: string) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation?totalQty=' + totalQty + '&ruleName=' + ruleName);
+        getAllocationRule = (tradeTypeId:number) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
+        }
+
+        getTradeFundAllocation = (totalQty: number, ruleName: string, issuerId: string, price: number) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation?totalQty=' + totalQty + '&ruleName=' + ruleName + '&issuerId=' + issuerId + '&price=' + price);
         }
 
         getCalculatedData = (data: Array<Models.ITradeBookingDetail>) => { //, totalQty: number, ruleName: string
             /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData',data);
+        }
+
+        refreshTradeBooking = (tradeId: number) => { 
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/refreshTradeBooking?TradeId=' + tradeId);
         }
 
         getBloombergData = (securityCode: string) => {

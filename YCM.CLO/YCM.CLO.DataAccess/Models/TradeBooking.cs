@@ -26,11 +26,14 @@ namespace YCM.CLO.DataAccess.Models
         public int TradeTypeId { get; set; }
         public string TradeTypeDesc { get; set; }
         public int TraderId { get; set; }
+        public string TraderName { get; set; }
         public string LoanXId { get; set; }
         public int IssuerId { get; set; }
         public string IssuerDesc { get; set; }
         public int FacilityId { get; set; }
+        public string FacilityDesc { get; set; }
         public int CounterPartyId { get; set; }
+        public string PartyName { get; set; }
         public int SettleMethodId { get; set; }
         public string SettleMethod { get; set; }
         public int InterestTreatmentId { get; set; }
@@ -38,8 +41,10 @@ namespace YCM.CLO.DataAccess.Models
         public decimal Price { get; set; }
         public decimal TotalQty { get; set; }
         public int RuleId { get; set; }
+        public string RuleName { get; set; }
         public string TradeComment { get; set; }
-        //public string ResponseStatus { get; set; }
+        public string ResponseStatus { get; set; }
+        public string ErrorMessage { get; set; }
         public TradeType tradeType { get; set; }
         public Trader traders { get; set; }
         public Facility facility { get; set; }
@@ -47,6 +52,6 @@ namespace YCM.CLO.DataAccess.Models
         public SettleMethods settlemethods { get; set; }
         public InterestTreatment interesttreatments { get; set; }
         public AllocationRule allocationRule { get; set; }
-        public virtual ICollection<TradeBookingDetail> TradeBookingDetail { get; set; }
+        public virtual IEnumerable<TradeBookingDetail> TradeBookingDetail { get; set; }
     }
 }

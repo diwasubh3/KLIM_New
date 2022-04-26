@@ -16,8 +16,9 @@ namespace YCM.CLO.DataAccess.Models
         public string FacilityDesc { get; set; }
         public decimal? Exposure { get; set; }
         public string MaturityDate { get; set; }
-        public string PrimarySpreadType { get; set; }
-        public string LiborBaseRate { get; set; }
+        //public string PrimarySpreadType { get; set; }
+        //public string LiborBaseRate { get; set; }
+        public decimal Spread { get; set; }
         public string SecurityFilter { get; set; }        
     }
 }
