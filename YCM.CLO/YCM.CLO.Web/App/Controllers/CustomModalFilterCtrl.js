@@ -77,7 +77,7 @@ var Application;
                     var varcharHTML = '<select id="customFilterType"  ng-change=onSelectFilterType() ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1" type = "number" ng-model="cusFilterInput1" ng-blur="check(this)" style="display:none" /><br/>';
                     var numericHTML = '<select id="customFilterType"  ng-change=onSelectFilterType() ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1" type = "number" ng-model="cusFilterInput1" ng-blur="check(this)" style="display:none" /><input id="cusFilterInput2" type = "number" ng-model="cusFilterInput2" ng-blur="check(this)" style = "display:none" /><br/>';
                     if (filterColumnNumericResultCount == noOfResults) {
-                        vm.rootScope.cusFilterTypeArray = [{ "id": 1, "type": 'Equals' }, { "id": 2, "type": 'NotEquals' }, { "id": 3, "type": 'Range' }];
+                        vm.rootScope.cusFilterTypeArray = [{ "id": 1, "type": 'Equals' }, { "id": 2, "type": 'NotEquals' }, { "id": 3, "type": 'Range' }, { "id": 4, "type": 'GreaterAndEqual' }, { "id": 5, "type": 'LessAndEqual' }];
                         innerHTML = numericHTML;
                     }
                     else if (filterColumnVarcharResultCount > 0 && filterColumnVarcharResultCount <= noOfResults) {
@@ -85,9 +85,11 @@ var Application;
                             innerHTML = varcharHTML;
                     }
                     //Hide greater and less tha from dropdown
-                    if (!(vm.rootScope.col.displayName.toString().toLowerCase().includes("moody facility") ||
+                    //check columns for moody and type should be string only
+                    if (!((vm.rootScope.col.displayName.toString().toLowerCase().includes("moody facility") ||
                         vm.rootScope.col.displayName.toString().toLowerCase().includes("moody\'s cfr") ||
-                        vm.rootScope.col.displayName.toString().toLowerCase().includes('moody\'s crf adj'))) {
+                        vm.rootScope.col.displayName.toString().toLowerCase().includes('moody\'s crf adj')))
+                        && (filterColumnVarcharResultCount > 0 && filterColumnVarcharResultCount <= noOfResults)) {
                         vm.rootScope.cusFilterTypeArray.splice(2, 1);
                         vm.rootScope.cusFilterTypeArray.splice(2, 1);
                     }
@@ -148,7 +150,25 @@ var Application;
                     }
                     var finalrank;
                     var filterColumnName = vm.rootScope.col.displayName;
+                    //for geting the column type for filters
                     e.gridOptions.data.forEach(function (row) {
+                        var filterColumnNumericResultCount = 0, filterColumnVarcharResultCount = 0, filterColumnBooleanResultCount = 0;
+                        var noOfResults = vm.rootScope.gridOptions.data.length;
+                        vm.rootScope.gridOptions.data.forEach(function (row) {
+                            if (typeof row[vm.rootScope.col.displayName] == 'string') {
+                                var isColumnValueNumeric = /^\d*\.?\d*$/.test(row[vm.rootScope.col.displayName].replace(/[^a-zA-Z0-9.-/]+/g, ''));
+                                if (isColumnValueNumeric)
+                                    filterColumnNumericResultCount += 1;
+                                else
+                                    filterColumnVarcharResultCount += 1;
+                            }
+                            else if (typeof row[vm.rootScope.col.displayName] == 'number') {
+                                filterColumnNumericResultCount += 1;
+                            }
+                            else if (typeof row[vm.rootScope.col.displayName] == 'boolean') {
+                                filterColumnBooleanResultCount += 1;
+                            }
+                        });
                         var typeOfColumnValue = typeof row[filterColumnName];
                         var columnValue = null;
                         if (typeOfColumnValue == 'string')
@@ -181,30 +201,51 @@ var Application;
                             }
                         }
                         else if (customFilterType === "GreaterAndEqual") {
-                            finalrank = [];
-                            var cusFilter1 = $('#cusFilterInput1').val();
-                            finalrank = vm.moodyRatings.filter(function (s) { return s.ratingDesc.toLowerCase() == cusFilter1.toLowerCase(); }).map(function (t) { return t.rank; });
-                            //console.log("Test1 Value : " + finalrank);
-                            if (finalrank.length != 0) {
-                                var RatingDesc = vm.moodyRatings.filter(function (x) { return x.rank >= finalrank; }).map(function (t) { return t.ratingDesc; }).sort(function (a, b) { return (b > a) ? -1 : 1; });
-                                //   console.log("Test2  Value : " + RatingDesc);
-                                for (var i = 0; i < RatingDesc.length; i++) {
-                                    if (row[filterColumnName].toString().toLowerCase() === RatingDesc[i].toLowerCase()) {
+                            //check column is numeric or string type for filters
+                            //Numbers
+                            if (filterColumnNumericResultCount == noOfResults) {
+                                if (cusFilterInput1 != 0) {
+                                    if (columnValue >= cusFilterInput1) {
                                         vm.rootScope.gridApi.selection.toggleRowSelection(row);
+                                    }
+                                }
+                            }
+                            else if (filterColumnVarcharResultCount > 0 && filterColumnVarcharResultCount <= noOfResults) {
+                                finalrank = [];
+                                var cusFilter1 = $('#cusFilterInput1').val();
+                                finalrank = vm.moodyRatings.filter(function (s) { return s.ratingDesc.toLowerCase() == cusFilter1.toLowerCase(); }).map(function (t) { return t.rank; });
+                                //AS per the Rank get the list of data from service
+                                if (finalrank.length != 0) {
+                                    var RatingDesc = vm.moodyRatings.filter(function (x) { return x.rank >= finalrank; }).map(function (t) { return t.ratingDesc; }).sort(function (a, b) { return (b > a) ? -1 : 1; });
+                                    for (var i = 0; i < RatingDesc.length; i++) {
+                                        if (row[filterColumnName].toString().toLowerCase() === RatingDesc[i].toLowerCase()) {
+                                            vm.rootScope.gridApi.selection.toggleRowSelection(row);
+                                        }
                                     }
                                 }
                             }
                         }
                         else if (customFilterType === "LessAndEqual") {
-                            finalrank = [];
-                            var cusFilter2 = $('#cusFilterInput1').val();
-                            finalrank = vm.moodyRatings.filter(function (s) { return s.ratingDesc.toLowerCase() == cusFilter2.toLowerCase(); }).map(function (t) { return t.rank; });
-                            if (finalrank.length != 0) {
-                                var RatingDescless = vm.moodyRatings.filter(function (x) { return x.rank <= finalrank; }).map(function (t) { return t.ratingDesc; }).sort(function (a, b) { return (b > a) ? -1 : 1; });
-                                // console.log("Test2  Value : " + RatingDesc);
-                                for (var j = 0; j < RatingDescless.length; j++) {
-                                    if (row[filterColumnName].toString().toLowerCase() === RatingDescless[j].toLowerCase()) {
+                            //check column is numeric or string type for filters
+                            //Numbers
+                            if (filterColumnNumericResultCount == noOfResults) {
+                                if (cusFilterInput1 != 0) {
+                                    if (columnValue <= cusFilterInput1) {
                                         vm.rootScope.gridApi.selection.toggleRowSelection(row);
+                                    }
+                                }
+                            }
+                            else {
+                                finalrank = [];
+                                var cusFilter2 = $('#cusFilterInput1').val();
+                                finalrank = vm.moodyRatings.filter(function (s) { return s.ratingDesc.toLowerCase() == cusFilter2.toLowerCase(); }).map(function (t) { return t.rank; });
+                                if (finalrank.length != 0) {
+                                    var RatingDescless = vm.moodyRatings.filter(function (x) { return x.rank <= finalrank; }).map(function (t) { return t.ratingDesc; }).sort(function (a, b) { return (b > a) ? -1 : 1; });
+                                    // console.log("Test2  Value : " + RatingDesc);
+                                    for (var j = 0; j < RatingDescless.length; j++) {
+                                        if (row[filterColumnName].toString().toLowerCase() === RatingDescless[j].toLowerCase()) {
+                                            vm.rootScope.gridApi.selection.toggleRowSelection(row);
+                                        }
                                     }
                                 }
                             }
@@ -213,6 +254,25 @@ var Application;
                 };
                 // Event for selecting Filter Types from Dropdown
                 vm.rootScope.onSelectFilterType = function () {
+                    //start .. checked for the columns type Numeric or string 
+                    var filterColumnNumericResultCount = 0, filterColumnVarcharResultCount = 0, filterColumnBooleanResultCount = 0;
+                    var noOfResults = vm.rootScope.gridOptions.data.length;
+                    vm.rootScope.gridOptions.data.forEach(function (row) {
+                        if (typeof row[vm.rootScope.col.displayName] == 'string') {
+                            var isColumnValueNumeric = /^\d*\.?\d*$/.test(row[vm.rootScope.col.displayName].replace(/[^a-zA-Z0-9.-/]+/g, ''));
+                            if (isColumnValueNumeric)
+                                filterColumnNumericResultCount += 1;
+                            else
+                                filterColumnVarcharResultCount += 1;
+                        }
+                        else if (typeof row[vm.rootScope.col.displayName] == 'number') {
+                            filterColumnNumericResultCount += 1;
+                        }
+                        else if (typeof row[vm.rootScope.col.displayName] == 'boolean') {
+                            filterColumnBooleanResultCount += 1;
+                        }
+                    });
+                    //End..
                     if (this.customFilterType.type == 'Equals') {
                         this.cusFilterInput1 = '';
                         this.cusFilterInput2 = '';
@@ -248,20 +308,39 @@ var Application;
                         $('#cusFilterInput2').show();
                     }
                     else if (this.customFilterType.type == 'GreaterAndEqual') {
-                        this.cusFilterInput1 = '';
-                        this.cusFilterInput2 = '';
-                        $('#cusFilterInput1').attr('placeholder', 'GreaterAndEqual');
-                        $('#cusFilterInput1').attr('type', 'text');
-                        $('#cusFilterInput1').show();
-                        $('#cusFilterInput2').hide();
+                        //checked for the Number Columns for Numeric textbox
+                        if (filterColumnNumericResultCount == noOfResults) {
+                            this.cusFilterInput1 = '';
+                            this.cusFilterInput2 = '';
+                            $('#cusFilterInput1').attr('placeholder', 'GreaterAndEqual');
+                            $('#cusFilterInput1').show();
+                            $('#cusFilterInput2').hide();
+                        }
+                        else {
+                            this.cusFilterInput1 = '';
+                            this.cusFilterInput2 = '';
+                            $('#cusFilterInput1').attr('placeholder', 'GreaterAndEqual');
+                            $('#cusFilterInput1').attr('type', 'text');
+                            $('#cusFilterInput1').show();
+                            $('#cusFilterInput2').hide();
+                        }
                     }
                     else if (this.customFilterType.type == 'LessAndEqual') {
-                        this.cusFilterInput1 = '';
-                        this.cusFilterInput2 = '';
-                        $('#cusFilterInput1').attr('placeholder', 'LessAndEqual');
-                        $('#cusFilterInput1').attr('type', 'text');
-                        $('#cusFilterInput1').show();
-                        $('#cusFilterInput2').hide();
+                        if (filterColumnNumericResultCount == noOfResults) {
+                            this.cusFilterInput1 = '';
+                            this.cusFilterInput2 = '';
+                            $('#cusFilterInput1').attr('placeholder', 'LessAndEqual');
+                            $('#cusFilterInput1').show();
+                            $('#cusFilterInput2').hide();
+                        }
+                        else {
+                            this.cusFilterInput1 = '';
+                            this.cusFilterInput2 = '';
+                            $('#cusFilterInput1').attr('placeholder', 'LessAndEqual');
+                            $('#cusFilterInput1').attr('type', 'text');
+                            $('#cusFilterInput1').show();
+                            $('#cusFilterInput2').hide();
+                        }
                     }
                 };
             }
