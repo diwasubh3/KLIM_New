@@ -563,3 +563,8 @@ textarea {
 }
 
 
+
+.disablegrid {
+    pointer-events: none !important;
+    opacity: 0.4;
+}

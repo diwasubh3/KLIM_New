@@ -113,9 +113,9 @@ module Application.Controllers {
                 })
 
                 var innerHTML = '';
-
-                var varcharHTML = '<select id="customFilterType"  ng-change=onSelectFilterType() ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1" type = "number" ng-model="cusFilterInput1" ng-blur="check(this)" style="display:none" /><br/>'
-                var numericHTML = '<select id="customFilterType"  ng-change=onSelectFilterType() ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1" type = "number" ng-model="cusFilterInput1" ng-blur="check(this)" style="display:none" /><input id="cusFilterInput2" type = "number" ng-model="cusFilterInput2" ng-blur="check(this)" style = "display:none" /><br/>'
+                // onKeyPress="edValueKeyPress()" 
+                var varcharHTML = '<select id="customFilterType"   ng-change=onSelectFilterType()  ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1" type = "number" ng-model="cusFilterInput1" ng-blur="check(this)"   style="display:none"  /><br/>'
+                var numericHTML = '<select id="customFilterType" ng-change=onSelectFilterType() ng-model="customFilterType" ng-options="filter.type for filter in cusFilterTypeArray"></select><br><br/><input id="cusFilterInput1"  type = "number" ng-model="cusFilterInput1" ng-blur="check(this)"   style="display:none" /><input id="cusFilterInput2" type = "number" ng-model="cusFilterInput2" ng-blur="check(this)" style = "display:none" /><br/>'
 
 
                 if (filterColumnNumericResultCount == noOfResults) {
@@ -337,6 +337,8 @@ module Application.Controllers {
                 )
 
 
+
+
             };
 
             // Event for selecting Filter Types from Dropdown
@@ -372,6 +374,10 @@ module Application.Controllers {
                     $('#cusFilterInput1').attr('placeholder', 'Equals');
                     $('#cusFilterInput1').show();
                     $('#cusFilterInput2').hide();
+
+
+
+
                 }
                 else if (this.customFilterType.type == 'NotEquals') {
                     this.cusFilterInput1 = '';
@@ -446,13 +452,19 @@ module Application.Controllers {
 
                 }
 
-
+               $("[class*='ui-grid-icon-ok']").addClass('disablegrid');
+                
+               
             }
+
+
+
         }
 
     }
+
     angular.module("app").controller("application.controllers.customModalFilterCtrl", customModalFilterCtrl);
 
-
+   
 
 }

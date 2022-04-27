@@ -2004,3 +2004,8 @@ select[multiple].ui-grid-pager-row-count-picker select {
 div.ui-grid-cell-contents.invalid {
   border: 1px solid #fc8f8f;
 }
+
+.disablegrid {
+    pointer-events: none !important;
+    opacity: 0.4;
+}
