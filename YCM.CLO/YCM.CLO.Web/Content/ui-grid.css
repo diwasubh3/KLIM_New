@@ -1898,7 +1898,8 @@ select[multiple].ui-grid-pager-row-count-picker select {
 */
 /*-- END VARIABLES (DO NOT REMOVE THESE COMMENTS) --*/
 .ui-grid-row.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell {
-  background-color: #c9dde1;
+    background-color: #6ccbde !important;
+    font-weight: bold !important;
 }
 .ui-grid-disable-selection {
   -webkit-touch-callout: none;

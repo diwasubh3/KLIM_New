@@ -94,7 +94,7 @@ var Application;
                         vm.rootScope.cusFilterTypeArray.splice(2, 1);
                         vm.rootScope.cusFilterTypeArray.splice(2, 1);
                     }
-                    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog modal-dialog-sm"><div class="modal-content"><div class="modal-header">Filter ' + vm.rootScope.title + ': </div><div class="modal-body">' + innerHTML + '<div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-warning" ng-click="clear()">Clear <i class="fa fa-times" aria-hidden="true"></i></button><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter <i class="fa fa-filter" aria-hidden="true"></i></button></div></div></div></div>';
+                    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog modal-dialog-sm"><div class="modal-content"><div class="modal-header">Filter ' + vm.rootScope.title + ': </div><div class="modal-body">' + innerHTML + '<div id="grid1" ui-grid="gridOptions" ui-grid-selection  class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-warning" ng-click="clear()">Clear <i class="fa fa-times" aria-hidden="true"></i></button><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter <i class="fa fa-filter" aria-hidden="true"></i></button></div></div></div></div>';
                     // Finding FilterTypes of Numeric Columns-End
                     $elm = angular.element(html);
                     angular.element(document.body).prepend($elm);
@@ -344,6 +344,7 @@ var Application;
                         }
                     }
                     $("[class*='ui-grid-icon-ok']").addClass('disablegrid');
+                    $("[class*='modalGrid']").addClass('FilterGridcolor');
                 };
             }
             return customModalFilterCtrl;
