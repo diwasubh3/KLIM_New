@@ -240,14 +240,17 @@ var Application;
                 this.getIssuerSecurities = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
                 };
+                this.getIssuerList = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerList');
+                };
                 this.getTradeBooking = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
                 };
                 this.getAllocationRule = function (tradeTypeId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
                 };
-                this.getTradeFundAllocation = function (totalQty, ruleName, issuerId, price) {
-                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation?totalQty=' + totalQty + '&ruleName=' + ruleName + '&issuerId=' + issuerId + '&price=' + price);
+                this.getTradeFundAllocation = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation', data);
                 };
                 this.getCalculatedData = function (data) {
                     /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/

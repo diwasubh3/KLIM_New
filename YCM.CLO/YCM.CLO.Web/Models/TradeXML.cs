@@ -356,6 +356,8 @@ namespace YCM.CLO.Web.Models
 
         private string priceField;
 
+        private string reasonfortradeField;
+
         private string settlementmethodField;
 
         private string tradedateField;
@@ -477,6 +479,19 @@ namespace YCM.CLO.Web.Models
             set
             {
                 this.priceField = value;
+            }
+        }
+
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string reasonfortrade
+        {
+            get
+            {
+                return this.reasonfortradeField;
+            }
+            set
+            {
+                this.reasonfortradeField = value;
             }
         }
 

@@ -18,6 +18,9 @@ namespace YCM.CLO.DataAccess.Models
             this.interesttreatments = new InterestTreatment();
             this.allocationRule = new AllocationRule();
             this.TradeBookingDetail = new List<TradeBookingDetail>();
+            this.tradeComments1 = new TradeComment();
+            this.tradeComments2 = new TradeComment();
+            this.tradeReasons = new TradeReason();
         }
         public int Id { get; set; }
         public string TradeId { get; set; }
@@ -42,7 +45,10 @@ namespace YCM.CLO.DataAccess.Models
         public decimal TotalQty { get; set; }
         public int RuleId { get; set; }
         public string RuleName { get; set; }
+        public int? TradeCommentId1 { get; set; }
+        public int? TradeCommentId2 { get; set; }
         public string TradeComment { get; set; }
+        public int? TradeReasonId { get; set; }
         public string ResponseStatus { get; set; }
         public string ErrorMessage { get; set; }
         public TradeType tradeType { get; set; }
@@ -52,6 +58,9 @@ namespace YCM.CLO.DataAccess.Models
         public SettleMethods settlemethods { get; set; }
         public InterestTreatment interesttreatments { get; set; }
         public AllocationRule allocationRule { get; set; }
+        public TradeComment tradeComments1 { get; set; }
+        public TradeComment tradeComments2 { get; set; }
+        public TradeReason tradeReasons { get; set; }
         public virtual IEnumerable<TradeBookingDetail> TradeBookingDetail { get; set; }
     }
 }

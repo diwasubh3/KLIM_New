@@ -141,6 +141,8 @@
     <Compile Include="Models\Mapping\MatrixPointMap.cs" />
     <Compile Include="Models\Mapping\SettleMethodsMap.cs" />
     <Compile Include="Models\Mapping\TradeBookingMap.cs" />
+    <Compile Include="Models\Mapping\TradeCommentMap.cs" />
+    <Compile Include="Models\Mapping\TradeReasonMap.cs" />
     <Compile Include="Models\Mapping\TraderMap.cs" />
     <Compile Include="Models\Mapping\TradeTypeMap.cs" />
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
@@ -149,6 +151,9 @@
     <Compile Include="Models\Mapping\PaydownMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\TradeComment.cs" />
+    <Compile Include="Models\TradeReason.cs" />
+    <Compile Include="Models\vw_PositionIssuers.cs" />
     <Compile Include="Models\SettleMethods.cs" />
     <Compile Include="Models\TotalParChange.cs" />
     <Compile Include="Models\TradeBooking.cs" />

@@ -314,6 +314,10 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
         }
 
+        getIssuerList = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerList');
+        }
+
         getTradeBooking = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
         }
@@ -322,8 +326,8 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
         }
 
-        getTradeFundAllocation = (totalQty: number, ruleName: string, issuerId: string, price: number) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation?totalQty=' + totalQty + '&ruleName=' + ruleName + '&issuerId=' + issuerId + '&price=' + price);
+        getTradeFundAllocation = (data: Models.ITradeBooking) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation', data);
         }
 
         getCalculatedData = (data: Array<Models.ITradeBookingDetail>) => { //, totalQty: number, ruleName: string

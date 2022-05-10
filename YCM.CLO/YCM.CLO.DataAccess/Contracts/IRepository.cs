@@ -246,15 +246,18 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<CounterParty> GetCounterParty();
         IEnumerable<SettleMethods> GetSettleMethods();
         IEnumerable<InterestTreatment> GetInterestTreatment();
+        IEnumerable<TradeComment> GetTradeComment();
+        IEnumerable<TradeReason> GetTradeReasons();
         IEnumerable<AllocationRule> GetAllocationRule(int tradeTypeId);
 
         IEnumerable<TradeBooking> GetTradeBookingXML(int Id);
         IEnumerable<TradeGroup> GetTradeGroupXML(int Id);
         IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id); 
         IEnumerable<vw_IssuerSecurity> SearchIssuerSecurities();
+        IEnumerable<vw_PositionIssuers> GetIssuerList();
         IEnumerable<Fund> GetFundAllocation();
         IEnumerable<TradeBooking> GetTradeBookings();
-        IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, string issuerId);
+        IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId);
         int SaveTradeBooking(TradeBooking tradebook, string user);
         bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);
         TradeBooking RefreshTradeBooking(long TradeId);

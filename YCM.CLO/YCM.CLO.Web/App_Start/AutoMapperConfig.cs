@@ -154,6 +154,7 @@ namespace YCM.CLO.Web.App_Start
                 cfg.CreateMap<Facility, FacilityDto>();
 				cfg.CreateMap<TradeType, TradeTypeDto>();
 				cfg.CreateMap<AllocationRule, AllocationRuleDto>();
+				cfg.CreateMap<TradeComment, TradeCommentDto>();
 				cfg.CreateMap<SettleMethods, SettleMethodsDto>();
 				cfg.CreateMap<InterestTreatment, InterestTreatmentDto>();
 				cfg.CreateMap<Trader, TraderDto>();
@@ -161,7 +162,8 @@ namespace YCM.CLO.Web.App_Start
 				cfg.CreateMap<TradeBooking, TradeBookingDto>();
 				cfg.CreateMap<TradeBookingDetail, TradeBookingDetailDto>();
 				cfg.CreateMap<Issuer, IssuerDto>();
-                cfg.CreateMap<Security, SecurityDto>()
+				cfg.CreateMap<TradeReason, TradeReasonDto>();
+				cfg.CreateMap<Security, SecurityDto>()
                 .ForMember(s=>s.Issuer,f=>f.MapFrom(s=>s.Issuer.IssuerDesc))
                 .ForMember(s => s.Facility, f => f.MapFrom(s => s.Facility.FacilityDesc))
                 .ForMember(s => s.CallDate, f => f.MapFrom(s => s.CallDate.HasValue? s.CallDate.Value.ToString("MM/dd/yyyy"):""))

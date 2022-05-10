@@ -107,8 +107,11 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<SettleMethods> SettleMethods { get; set; }
         public DbSet<InterestTreatment> InterestTreatment { get; set; }
         public DbSet<AllocationRule> AllocationRule { get; set; }
+        public DbSet<TradeComment> TradeComment { get; set; }
         public DbSet<vw_IssuerSecurity> vw_IssuerSecurity { get; set; }
+        public DbSet<vw_PositionIssuers> vw_PositionIssuers { get; set; }
         public DbSet<TradeBooking> TradeBooking { get; set; }
+        public DbSet<TradeReason> TradeReason { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -190,6 +193,8 @@ namespace YCM.CLO.DataAccess.Models
             modelBuilder.Configurations.Add(new InterestTreatmentMap());
             modelBuilder.Configurations.Add(new AllocationRuleMap());
             modelBuilder.Configurations.Add(new TradeBookingMap());
+            modelBuilder.Configurations.Add(new TradeCommentMap());
+            modelBuilder.Configurations.Add(new TradeReasonMap());
         }
 	}
 }

@@ -17,7 +17,6 @@ namespace YCM.CLO.DTO
         public decimal Allocated { get; set; }
         public decimal Override { get; set; }
         public decimal FinalQty { get; set; }
-        public decimal? NetQty { get; set; }
         public decimal TradeAmount { get; set; }
         public string TradeDetailId { get; set; }
         public bool IsOverride { get; set; }
@@ -29,6 +28,8 @@ namespace YCM.CLO.DTO
         public decimal? TotalOverride { get; set; }
         public decimal? TotalRemaining { get; set; }
         public string RuleName { get; set; }
+        public string TradeType { get; set; }
         public string ResponseStatus { get; set; }
+        public decimal? NetPosition { get; set; }
     }
 }

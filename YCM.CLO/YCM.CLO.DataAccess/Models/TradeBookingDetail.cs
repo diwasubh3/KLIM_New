@@ -22,7 +22,6 @@ namespace YCM.CLO.DataAccess.Models
         public decimal Allocated { get; set; }
         public decimal Override { get; set; }
         public decimal FinalQty { get; set; }
-        public decimal NetQty { get; set; }
         public decimal TradeAmount { get; set; }
         public string TradeDetailId { get; set; }
         public bool IsOverride {
@@ -32,6 +31,8 @@ namespace YCM.CLO.DataAccess.Models
         public decimal? GrandTotal { get; set; }
         public decimal? Price { get; set; }
         public bool IsIncluded { get; set; }
+
+        public decimal? NetPosition { get; set; }
         //public bool IsSkipped { get { return !IsIncluded; } }
     }    
 }

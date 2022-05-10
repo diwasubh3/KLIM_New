@@ -105,10 +105,12 @@
     <Compile Include="TempSecurityDto.cs" />
     <Compile Include="TradeBookingDetailDto.cs" />
     <Compile Include="TradeBookingDto.cs" />
+    <Compile Include="TradeCommentDto.cs" />
     <Compile Include="TradeDto.cs" />
     <Compile Include="TradeAllocationDto.cs" />
     <Compile Include="TradeInfoDto.cs" />
     <Compile Include="TraderDto.cs" />
+    <Compile Include="TradeReasonDto.cs" />
     <Compile Include="TradeSwapDto.cs" />
     <Compile Include="TradeTypeDto.cs" />
     <Compile Include="UserDto.cs" />

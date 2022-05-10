@@ -44,6 +44,8 @@ namespace YCM.CLO.Web.Controllers
                     CounterParty = Mapper.Map<IEnumerable<CounterParty>, IEnumerable<CounterPartyDto>>(_repository.GetCounterParty()),
                     SettleMethods = Mapper.Map<IEnumerable<SettleMethods>, IEnumerable<SettleMethodsDto>>(_repository.GetSettleMethods()),
                     InterestTreatment = Mapper.Map<IEnumerable<InterestTreatment>, IEnumerable<InterestTreatmentDto>>(_repository.GetInterestTreatment()),
+                    TradeComment = Mapper.Map<IEnumerable<TradeComment>, IEnumerable<TradeCommentDto>>(_repository.GetTradeComment()),
+                    TradeReasons = Mapper.Map<IEnumerable<TradeReason>, IEnumerable<TradeReasonDto>>(_repository.GetTradeReasons()),
                 };
                 return new JsonNetResult() { Data = data };
             }
@@ -69,16 +71,25 @@ namespace YCM.CLO.Web.Controllers
             };
         }
 
-        public JsonNetResult GetTradeFundAllocation(decimal totalQty, string ruleName,string issuerId, decimal price)
+        public JsonNetResult GetIssuerList()
+        {
+            return new JsonNetResult()
+            {
+                Data = Mapper.Map<IEnumerable<vw_PositionIssuers>, IEnumerable<vw_PositionIssuers>>(_repository.GetIssuerList())
+            };
+        }
+
+        public JsonNetResult GetTradeFundAllocation(TradeBooking tradeBooking)
         {
             try
             {
-                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(ruleName, issuerId));
-                data.First().TotalQuantity = totalQty;
-                data.First().RuleName = ruleName;
+                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(tradeBooking.allocationRule.RuleName, tradeBooking.IssuerId, tradeBooking.LoanXId));                
                 data.ForEach(x =>
                 {
-                    x.Price = price;
+                    x.TotalQuantity = tradeBooking.TotalQty;
+                    x.RuleName = tradeBooking.allocationRule.RuleName;
+                    x.Price = tradeBooking.Price;
+                    x.TradeType = tradeBooking.tradeType.TradeTypeDesc;
                 });
                 return getCalculatedData(data); 
             }
@@ -107,29 +118,37 @@ namespace YCM.CLO.Web.Controllers
         public JsonNetResult getCalculatedData(IEnumerable<TradeBookingDetailDto> data) //, decimal totalQty, string ruleName
         {
             string Jsonfilecontent = "";
-            string ruleName = data.First().RuleName;
             decimal totalQty = data.First().TotalQuantity.Value;
+            
             var jsonfilepath = ConfigurationManager.AppSettings["RuleJasonfile"];
-
-            //Jsonfile = "{ 	'type': 'TotalPar', 	'rules': [ 		{ 			'rulename': 'TotalParEvaluateForSkippedRecords', 			'conditions': { 				'all': [ 					{ 						'fact': 'Existing', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'TotalQuantity', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'IsIncluded', 						'operator': 'equal', 						'value': 'False' 					} 				] 			}, 			'evaluate': [ 				{ 					'type': 'EvaluateOutput', 					'value': 0 				} 			], 			'result': [ 				{ 					'type': 'Allocated', 					'value': '[EvaluateOutput]' 				}, 				{ 					'type': 'FinalQty', 					'value': '[EvaluateOutput]' 				} 			] 		}, 		{ 			'rulename': 'TotalParEvaluateForOverride', 			'conditions': { 				'all': [ 					{ 						'fact': 'Existing', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'TotalQuantity', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'IsIncluded', 						'operator': 'equal', 						'value': 'True' 					}, 					{ 						'fact': 'IsOverride', 						'operator': 'equal', 						'value': 'True' 					} 				] 			}, 			'evaluate': [ 				{ 					'type': 'EvaluateOutput', 					'value': 0 				}, 				{ 					'type': 'EvaluateOutput1', 					'value': '[Override]' 				} 				 			], 			'result': [ 				{ 					'type': 'Allocated', 					'value': '[EvaluateOutput]' 				}, 				{ 					'type': 'FinalQty', 					'value': '[EvaluateOutput1]' 				} 			] 		}, 		{ 			'rulename': 'TotalParEvaluateForOther', 			'conditions': { 				'all': [ 					{ 						'fact': 'Existing', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'TotalQuantity', 						'operator': 'greaterThan', 						'value': 0 					}, 					{ 						'fact': 'IsIncluded', 						'operator': 'equal', 						'value': 'True' 					}, 					{ 						'fact': 'IsOverride', 						'operator': 'equal', 						'value': 'False' 					} 				] 			}, 			'evaluate': [ 				{ 					'type': 'EvaluateOutput', 					'value': 0 				}, 				{ 					'type': 'EvaluateOutput1', 					'value': '[Override]' 				} 			], 			'result': [ 				{ 					'type': 'Allocated', 					'value': '[EvaluateOutput]' 				}, 				{ 					'type': 'FinalQty', 					'value': '[EvaluateOutput1]' 				} 			] 		} 	] }";
-            //Jsonfile = "{ 	'type': 'TotalPar', 	'rules': [{ 		'rulename': 'TotalParEvaluateForSkippedRecords', 		'conditions': { 			'all': [{ 				'fact': 'Existing', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'TotalQuantity', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'IsIncluded', 				'operator': 'equal', 				'value': 'False' 			}] 		}, 		'evaluate': [{ 			'type': 'EvaluateOutput', 			'value': 0 		}], 		'result': [ 		{ 			'type': 'Allocated', 			'value': '[EvaluateOutput]' 		}, 		{ 			'type': 'FinalQty', 			'value': '[EvaluateOutput]' 		}] 	}, 	{ 		'rulename': 'TotalParEvaluateForOverride', 		'conditions': { 			'all': [{ 				'fact': 'Existing', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'TotalQuantity', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'IsIncluded', 				'operator': 'equal', 				'value': 'True' 			}, 			{ 				'fact': 'IsOverride', 				'operator': 'equal', 				'value': 'True' 			}] 		}, 		'evaluate': [{ 			'type': 'EvaluateOutput', 			'value': '[Override]' 		}], 		'result': [ 		{ 			'type': 'FinalQty', 			'value': '[EvaluateOutput]' 		}] 	}, 	{ 		'rulename': 'TotalParEvaluateForOther', 		'conditions': { 			'all': [{ 				'fact': 'Existing', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'TotalQuantity', 				'operator': 'greaterThan', 				'value': 0 			}, 			{ 				'fact': 'IsIncluded', 				'operator': 'equal', 				'value': 'True' 			}, 			{ 				'fact': 'IsOverride', 				'operator': 'equal', 				'value': 'False' 			}] 		}, 		'evaluate': [{ 			'type': 'AllocatedQtyOutput', 			'value': '[TotalQuantity] * [Existing] / [GrandTotal]' 		}, 		{ 			'type': 'AdditionalAllocationQty', 			'value': '[Existing] / [TotalOverride] * [TotalRemaining]' 		}], 		'result': [{ 			'type': 'Allocated', 			'value': '[AllocatedQtyOutput]' 		}, 		{ 			'type': 'FinalQty', 			'value': '[AllocatedQtyOutput] + [AdditionalAllocationQty]' 		}] 	}] }";
 
             using (StreamReader r = new StreamReader(jsonfilepath))
             {
                 Jsonfilecontent = r.ReadToEnd();
             }
-            //JObject.Parse(Jsonfilecontent);
-            var ruleDetailsToken = JToken.Parse(Jsonfilecontent);
-            string ruleTypeName = (string)ruleDetailsToken["type"];
-            var ruleJson = Convert.ToString((JObject.Parse(Jsonfilecontent)["Methods"]).Children<JObject>().FirstOrDefault(m => m.Property("type").Value.ToString() == ruleName));
+            var jsonClass = JObject.Parse(Jsonfilecontent);
+           
+            var ruleJson = Convert.ToString((JObject.Parse(Jsonfilecontent)["Methods"]).Children<JObject>().FirstOrDefault(m => m.Property("type").Value.ToString() == data.First().RuleName && m.Property("tradetype").Value.ToString() == data.First().TradeType));
 
-            decimal GrandTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
-            data.ForEach(x =>
+            decimal GrandExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
+            decimal GrandExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
+
+            if (data.First().TradeType == "Sell" && data.First().RuleName == "Sell All")
             {
-                x.GrandTotal = x.IsIncluded == true ? x.Existing : 0;
-                x.Override = x.IsIncluded == true ? x.Override : 0;
-                x.Allocated = x.IsIncluded == true ? (x.Existing * totalQty / GrandTotal) : 0;
-            });
+                data.ForEach(x =>
+                {
+                    x.Override = x.IsIncluded == true ? x.Override : 0;
+                    x.Allocated = x.IsIncluded == true ? x.Exposure : 0;
+                });
+            }
+            else
+            {
+                data.ForEach(x =>
+                {
+                    x.Override = x.IsIncluded == true ? x.Override : 0;
+                    x.Allocated = x.IsIncluded == true && GrandExistingTotal > 0 ? (x.Existing * totalQty / GrandExistingTotal) : 0;
+                });
+            }            
             
             decimal TotalExisting_Override = data.Select(p => p.Override > 0 ? p.Existing : 0).Sum();
             decimal TotalOverride = data.Select(p => p.Override > 0 ? p.Override : 0).Sum();
@@ -137,9 +156,9 @@ namespace YCM.CLO.Web.Controllers
             data.ForEach(x =>
             {
                 x.TotalQuantity = totalQty;
-                x.GrandTotal = GrandTotal;                
+                x.GrandTotal = GrandExistingTotal;                
                 x.IsOverride = (x.Override > 0);
-                x.TotalOverride = (TotalOverride > 0 ? GrandTotal - TotalExisting_Override :  0);
+                x.TotalOverride = (TotalOverride > 0 ? GrandExistingTotal - TotalExisting_Override :  0);
                 x.TotalRemaining = (TotalOverride > 0 ? TotalAutoAllocationOverride - TotalOverride : 0);                
             });
             Recon.RuleEngine.Engine ruleEngine = new Recon.RuleEngine.Engine();
@@ -179,6 +198,14 @@ namespace YCM.CLO.Web.Controllers
                 tradeBooking.interesttreatments.Description = tradeBooking.InterestTreatment;
                 tradeBooking.allocationRule.Id = tradeBooking.RuleId;
                 tradeBooking.allocationRule.RuleName = tradeBooking.RuleName;
+                tradeBooking.tradeComments1.CommentId = tradeBooking.TradeCommentId1?? 0;
+                tradeBooking.tradeComments1.Comment = tradeBooking.TradeComment1;
+
+                tradeBooking.tradeComments2.CommentId = tradeBooking.TradeCommentId2?? 0;
+                tradeBooking.tradeComments2.Comment = tradeBooking.TradeComment2;
+
+                tradeBooking.tradeReasons.TradeReasonId = tradeBooking.TradeReasonId ?? 0;
+                tradeBooking.tradeReasons.TradeReasonDesc = tradeBooking.TradeReason;
 
                 var tradeBookingdetail = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.RefreshTradeBookingDetail(TradeId));
                 tradeBooking.TradeBookingDetail = tradeBookingdetail;
@@ -202,7 +229,12 @@ namespace YCM.CLO.Web.Controllers
                 data.SettleMethodId = data.settlemethods.MethodId;
                 data.InterestTreatmentId = data.interesttreatments.Id;
                 data.RuleId = data.allocationRule.Id;
-                data.TradeComment = data.TradeComment == null ? "" : data.TradeComment;
+                data.TradeCommentId1 = data.tradeComments1.CommentId;
+                data.TradeCommentId2 = data.tradeComments2.CommentId;
+
+                data.TradeReasonId = data.tradeReasons.TradeReasonId;
+                string TradeComment = data.tradeComments1.Comment == null ? "" : data.tradeComments1.Comment + " " + (data.tradeComments2.Comment == null ? "" : data.tradeComments2.Comment);
+                string TradeReason = data.tradeReasons.TradeReasonDesc == null ? "" : data.tradeReasons.TradeReasonDesc;
                 var tradebookingId = _repository.SaveTradeBooking(data, User.Identity.Name);
                 if (tradebookingId > 0)
                 {                    
@@ -220,7 +252,7 @@ namespace YCM.CLO.Web.Controllers
                     portfolios.Add(new PORTFOLIOALLOCATION()
                     {
                         portfolioid = tradebookingdt.PortFolioId.ToString(),
-                        amountallocation = tradebookingdt.NetQty.ToString(),
+                        amountallocation = tradebookingdt.NetPosition.ToString(),
                         name = tradebookingdt.PortfolioName.ToString(),
                         tradeid = tradebookingdt.TradeDetailId.ToString(),
                     });
@@ -230,12 +262,12 @@ namespace YCM.CLO.Web.Controllers
                 var tUDF = new UDF
                 {
                     fieldname = "u_sTradeCommentsYork",
-                    value = allTradeBooking.TradeComment.ToString(),
+                    value = TradeComment.ToString(),
                 };
                 var tNOTE = new NOTE
                 {
                     notetype = "Other",
-                    note = allTradeBooking.TradeComment.ToString(),
+                    note = TradeComment.ToString(),
                 };
                 var tTRADE = new TRADE
                 {
@@ -244,6 +276,7 @@ namespace YCM.CLO.Web.Controllers
                     counterpartyid = allTradeBooking.CounterPartyId.ToString(),
                     quantity = allTradeBooking.TotalQty.ToString(),
                     price = allTradeBooking.Price.ToString(),
+                    reasonfortrade = TradeReason.ToString(),
                     settlementmethod = allTradeBooking.SettleMethod.ToString(),
                     tradedate = allTradeBooking.TradeDate.ToString("yyyy-MM-dd"),
                     tradeid = allTradeBooking.TradeId.ToString(),
@@ -261,7 +294,7 @@ namespace YCM.CLO.Web.Controllers
                     cancel = "false",
                     cancelreferenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
                     interesttreatment = allTradeBooking.InterestTreatment.ToString(),
-                    readyforsettlement = "true",
+                    readyforsettlement = allTradeBooking.CounterPartyId.ToString() == "2438" ? "false" : "true",
                     referenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
                     settlementplatform = "Automatic"
                 };

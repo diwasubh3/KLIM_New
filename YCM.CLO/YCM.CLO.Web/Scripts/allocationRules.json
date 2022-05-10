@@ -2,6 +2,7 @@
 	"Methods": [
 		{
 			"type": "Manual Allocation",
+			"tradetype": "Sell",
 			"rules": [
 				{
 					"rulename": "EvaluateForSkippedRecords",
@@ -33,6 +34,14 @@
 					"result": [
 						{
 							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
 							"value": "[EvaluateOutput]"
 						}
 					]
@@ -66,13 +75,25 @@
 					"evaluate": [
 						{
 							"type": "EvaluateOutput",
-							"value": "[Override]"
+							"value": "[Existing] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
 						}
 					],
 					"result": [
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
 						}
 					]
 				},
@@ -112,6 +133,14 @@
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
 						}
 					]
 				},
@@ -126,7 +155,7 @@
 							},
 							{
 								"fact": "Override",
-								"operator": "greaterThan",
+								"operator": "greaterThanInclusive",
 								"value": "[Existing]"
 							},
 							{
@@ -144,17 +173,25 @@
 					"evaluate": [
 						{
 							"type": "EvaluateOutput",
-							"value": 0
+							"value": "[Existing] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
 						}
 					],
-					"result": [	
-						{
-							"type": "Override",
-							"value": "[EvaluateOutput]"
-						},				
+					"result": [											
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
 						}
 					]
 				}
@@ -162,6 +199,7 @@
 		},
 		{
 			"type": "TargetPar",
+			"tradetype": "Sell",
 			"rules": [
 				{
 					"rulename": "EvaluateForSkippedRecords",
@@ -189,6 +227,14 @@
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[FinalQty]"
 						}
 					]
 				},
@@ -221,13 +267,25 @@
 					"evaluate": [
 						{
 							"type": "EvaluateOutput",
-							"value": "[Override]"
+							"value": "[Exposure] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
 						}
 					],
 					"result": [
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
 						}
 					]
 				},
@@ -259,25 +317,85 @@
 					},
 					"evaluate": [
 						{
-							"type": "AllocatedQtyOutput",
-							"value": "[TotalQuantity] * [Existing] / [GrandTotal]"
-						},
-						{
 							"type": "AdditionalAllocationQty",
 							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						},
+						{
+							"type": "EvaluateNetTradeQty",
+							"value": "[Allocated] + [AdditionalAllocationQty]"
 						}
 					],
 					"result": [						
 						{
 							"type": "FinalQty",
-							"value": "[AllocatedQtyOutput] + [AdditionalAllocationQty]"
+							"value": "[Exposure] - [Allocated] + [AdditionalAllocationQty]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateNetTradeQty] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateNetTradeQty]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForGreaterExisting",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "Override",
+								"operator": "greaterThanInclusive",
+								"value": "[Exposure]"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Exposure] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [											
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
 						}
 					]
 				}
 			]
 		},
 		{
-			"type": "Sell All",
+			"type": "Position",
+			"tradetype": "Sell",
 			"rules": [
 				{
 					"rulename": "EvaluateForSkippedRecords",
@@ -285,7 +403,203 @@
 						"all": [							
 							{
 								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
 								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [						
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[FinalQty]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "Override",
+								"operator": "lessThan",
+								"value": "[Existing]"
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Exposure] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "Override",
+								"operator": "lessThan",
+								"value": "[Existing]"
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},							
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "AdditionalAllocationQty",
+							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						},
+						{
+							"type": "EvaluateNetTradeQty",
+							"value": "[Allocated] + [AdditionalAllocationQty]"
+						}
+					],
+					"result": [						
+						{
+							"type": "FinalQty",
+							"value": "[Exposure] - [Allocated] + [AdditionalAllocationQty]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateNetTradeQty] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateNetTradeQty]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForGreaterExisting",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "Override",
+								"operator": "greaterThanInclusive",
+								"value": "[Exposure]"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Exposure] - [Override]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [											
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "Sell All",
+			"tradetype": "Sell",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
 								"value": 0
 							},
 							{
@@ -310,6 +624,14 @@
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
 						}
 					]
 				},
@@ -319,7 +641,7 @@
 						"all": [							
 							{
 								"fact": "TotalQuantity",
-								"operator": "equal",
+								"operator": "greaterThan",
 								"value": 0
 							},
 							{
@@ -342,14 +664,22 @@
 					"evaluate": [
 						{
 							"type": "EvaluateOutput",
-							"value": "[Override]"
+							"value": "[Exposure] - [Override]"
 						}
 					],
 					"result": [
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
-						}
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[Override] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}						
 					]
 				},
 				{
@@ -358,7 +688,7 @@
 						"all": [							
 							{
 								"fact": "TotalQuantity",
-								"operator": "equal",
+								"operator": "greaterThan",
 								"value": 0
 							},
 							{
@@ -381,13 +711,428 @@
 					"evaluate": [						
 						{
 							"type": "EvaluateOutput",
-							"value": "[Existing]"
+							"value": 0
 						}
 					],
 					"result": [						
 						{
 							"type": "FinalQty",
 							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[Exposure] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Exposure]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "Manual Allocation",
+			"tradetype": "Buy",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Existing]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Existing]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "TargetPar",
+			"tradetype": "Buy",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Exposure]"
+						}
+					],
+					"result": [
+						{
+							"type": "Allocated",
+							"value": 0
+						},
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[Override] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [						
+						{
+							"type": "AdditionalAllocationQty",
+							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						}
+						,
+						{
+							"type": "EvaluateNetTradeQty",
+							"value": "[Allocated] + [AdditionalAllocationQty]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[Allocated] + [AdditionalAllocationQty] + [Exposure]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateNetTradeQty] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[FinalQty] - [Exposure]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "Position",
+			"tradetype": "Buy",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Exposure]"
+						}
+					],
+					"result": [
+						{
+							"type": "Allocated",
+							"value": 0
+						},
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[Override] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [						
+						{
+							"type": "AdditionalAllocationQty",
+							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						}
+						,
+						{
+							"type": "EvaluateNetTradeQty",
+							"value": "[Allocated] + [AdditionalAllocationQty]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[Allocated] + [AdditionalAllocationQty] + [Exposure]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateNetTradeQty] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[FinalQty] - [Exposure]"
 						}
 					]
 				}

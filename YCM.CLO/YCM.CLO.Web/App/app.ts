@@ -1,5 +1,5 @@
 ﻿((): void => {
-	var mainApp = angular.module("app", ['ngAnimate', 'ngRoute', 'ngUpload', 'ui.bootstrap', 'ngTable', 'ui.bootstrap.contextMenu', 'ui.grid', 'ui.grid.pinning', 'ngSanitize', 'ui.grid.exporter', 'ui.grid.treeView', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.edit']);
+	var mainApp = angular.module("app", ['ngAnimate', 'ngRoute', 'ngUpload', 'ui.bootstrap', 'ngTable', 'ui.bootstrap.contextMenu', 'ui.grid', 'ui.grid.pinning', 'ngSanitize', 'ui.grid.exporter', 'ui.grid.treeView', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.grid.edit', 'ui.grid.cellNav']);
 	mainApp.config(['$locationProvider', '$routeProvider', Application.Routes.configureRoutes]);
 
 	mainApp.run(['$rootScope', '$location', "application.services.dataService", function ($rootScope, $location, dataSvc) {

@@ -18,6 +18,9 @@ namespace YCM.CLO.DTO
             this.interesttreatments = new InterestTreatmentDto();
             this.allocationRule = new AllocationRuleDto();
             this.TradeBookingDetail = new List<TradeBookingDetailDto>();
+            this.tradeComments1 = new TradeCommentDto();
+            this.tradeComments2 = new TradeCommentDto();
+            this.tradeReasons = new TradeReasonDto();
         }
         public int Id { get; set; }
         public string TradeId { get; set; }
@@ -42,7 +45,13 @@ namespace YCM.CLO.DTO
         public decimal TotalQty { get; set; }
         public int RuleId { get; set; }
         public string RuleName { get; set; }
+        public int? TradeCommentId1 { get; set; }
+        public int? TradeCommentId2 { get; set; }
+        public string TradeComment1 { get; set; }
+        public string TradeComment2 { get; set; }
         public string TradeComment { get; set; }
+        public int? TradeReasonId { get; set; }
+        public string TradeReason { get; set; }
         public string ResponseStatus { get; set; }
         public string ErrorMessage { get; set; }
         public TradeTypeDto tradeType { get; set; }
@@ -52,6 +61,9 @@ namespace YCM.CLO.DTO
         public SettleMethodsDto settlemethods { get; set; }
         public InterestTreatmentDto interesttreatments { get; set; }
         public AllocationRuleDto allocationRule { get; set; }
+        public TradeCommentDto tradeComments1 { get; set; }
+        public TradeCommentDto tradeComments2 { get; set; }
+        public TradeReasonDto tradeReasons { get; set; }
         public virtual IEnumerable<TradeBookingDetailDto> TradeBookingDetail { get; set; }
     }
 }

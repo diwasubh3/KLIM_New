@@ -962,7 +962,8 @@
         tradeType: ITradeType;
         traders: ITrader;
         loanXId: string;
-        issuerId: string;
+        issuer: IIssuer;
+        issuerId: number;
         issuerDesc: string;
         facility: IFacility;
         counterparty: ICounterParty;
@@ -971,7 +972,9 @@
         price: number;
         totalQty: number;
         allocationRule: IAllocationRule;
-        tradeComment: string;
+        tradeComments1: ITradeComment;
+        tradeComments2: ITradeComment;
+        tradeReasons: ITradeReason;
         Cancel: boolean;
         UpdateFlag: boolean;
         tradeTypeDesc: string;
@@ -979,6 +982,11 @@
         selectedSecurity: string;
         responseStatus: string;
         errorMessage: string;
+    }
+
+    export interface ITradeReason {
+        tradeReasonId: number;
+        tradeReasonDesc: string;
     }
 
     export interface ITradeBookingDetail {
@@ -1000,6 +1008,13 @@
         TotalRemaining: number;
         ruleName: string;
         price: number;
+        tradeType: string;
+        netPosition: number;
+    }
+
+    export interface ITradeComment {
+        commentId: number;
+        comment: string;
     }
 
     export interface ITrader {
