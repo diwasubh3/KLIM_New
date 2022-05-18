@@ -380,6 +380,11 @@ var Application;
                             }
                         }
                     }
+                    if (vm.tempSecurity.tradeType.tradeTypeDesc == "Sell") {
+                        if (vm.tempSecurity.tradeReasons == undefined) {
+                            bodyMesg = bodyMesg + "<br>" + 'Please Select Trade Reason';
+                        }
+                    }
                     if (bodyMesg != '') {
                         var message = {
                             header: "Warning",
