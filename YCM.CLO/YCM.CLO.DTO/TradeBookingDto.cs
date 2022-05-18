@@ -13,6 +13,7 @@ namespace YCM.CLO.DTO
             this.tradeType = new TradeTypeDto();
             this.traders = new TraderDto();
             this.facility = new FacilityDto();
+            this.assetTypes = new AssetTypeDto();
             this.counterparty = new CounterPartyDto();
             this.settlemethods = new SettleMethodsDto();
             this.interesttreatments = new InterestTreatmentDto();
@@ -35,6 +36,8 @@ namespace YCM.CLO.DTO
         public string IssuerDesc { get; set; }
         public short FacilityId { get; set; }
         public string FacilityDesc { get; set; }
+        public int? AssetId { get; set; }
+        public string AssetName { get; set; }
         public int CounterPartyId { get; set; }
         public string PartyName { get; set; }
         public int SettleMethodId { get; set; }
@@ -43,6 +46,7 @@ namespace YCM.CLO.DTO
         public string InterestTreatment { get; set; }
         public decimal Price { get; set; }
         public decimal TotalQty { get; set; }
+        public decimal? PendingSubmitQty { get; set; }
         public int RuleId { get; set; }
         public string RuleName { get; set; }
         public int? TradeCommentId1 { get; set; }
@@ -57,6 +61,7 @@ namespace YCM.CLO.DTO
         public TradeTypeDto tradeType { get; set; }
         public TraderDto traders { get; set; }
         public FacilityDto facility { get; set; }
+        public AssetTypeDto assetTypes { get; set; }
         public CounterPartyDto counterparty { get; set; }
         public SettleMethodsDto settlemethods { get; set; }
         public InterestTreatmentDto interesttreatments { get; set; }

@@ -1013,6 +1013,11 @@ namespace YCM.CLO.DataAccess
 			return _cloContext.Facilities.Where(f => f.FacilityId >= 0).ToList().OrderBy(f => f.FacilityDesc) ;
 		}
 
+		IEnumerable<AssetType> IRepository.GetAssetTypes()
+		{
+			return _cloContext.AssetType.Where(f => f.AssetId >= 0).ToList().OrderBy(f => f.AssetName);
+		}
+
 		IEnumerable<LienType> IRepository.GetLienTypes()
 		{
 			return _cloContext.LienTypes.ToList();
@@ -2123,6 +2128,7 @@ namespace YCM.CLO.DataAccess
 						commandtradebooking.Parameters.Add(new SqlParameter("@TradeCommentId2", tradebook.TradeCommentId2));
 						commandtradebooking.Parameters.Add(new SqlParameter("@TradeComment", tradebook.TradeComment));
 						commandtradebooking.Parameters.Add(new SqlParameter("@TradeReasonId", tradebook.TradeReasonId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@AssetTypeId", tradebook.AssetId));
 						commandtradebooking.Parameters.Add(new SqlParameter("@Cancel", false));
 						commandtradebooking.Parameters.Add(new SqlParameter("@UpdateFlag", false));
 						commandtradebooking.Parameters.Add(new SqlParameter("@Id", DbType.Int64) { Direction = ParameterDirection.Output });
@@ -2166,13 +2172,33 @@ namespace YCM.CLO.DataAccess
 			return true;
 		}
 
-		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId)
+		bool IRepository.UpdateSubmitDetails(long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdateSubmitDetails", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeId", TradeId));
+						commandtradebooking.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+			}
+			return true;
+		}
+
+		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId,string tradeType)
 		{
 			SqlParameter paramruleName = new SqlParameter("@ruleName", ruleName);
 			SqlParameter paramissuerId = new SqlParameter("@issuerId", issuerId);
 			SqlParameter paramLoanXId = new SqlParameter("@LoanXId", LoanXId);
+			SqlParameter paramTradeType = new SqlParameter("@TradeType", tradeType);
 			_cloContext.Database.CommandTimeout = timeout_short;
-			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId", paramruleName, paramissuerId, paramLoanXId);
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
 		}
 	}
 }

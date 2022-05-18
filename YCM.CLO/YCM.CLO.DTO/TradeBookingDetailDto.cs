@@ -16,12 +16,13 @@ namespace YCM.CLO.DTO
         public decimal Exposure { get; set; }
         public decimal Allocated { get; set; }
         public decimal Override { get; set; }
-        public decimal FinalQty { get; set; }
+        public decimal? FinalQty { get; set; }
         public decimal TradeAmount { get; set; }
         public string TradeDetailId { get; set; }
         public bool IsOverride { get; set; }
         public decimal? TotalQuantity { get; set; }
-        public decimal? GrandTotal { get; set; }
+        public decimal? TotalExisting { get; set; }
+        public decimal? TotalExposure { get; set; }
         public decimal? Price { get; set; }
         public bool IsIncluded { get; set; }
         //public bool IsSkipped { get; set; }

@@ -155,6 +155,7 @@ namespace YCM.CLO.Web.App_Start
 				cfg.CreateMap<TradeType, TradeTypeDto>();
 				cfg.CreateMap<AllocationRule, AllocationRuleDto>();
 				cfg.CreateMap<TradeComment, TradeCommentDto>();
+				cfg.CreateMap<AssetType, AssetTypeDto>();
 				cfg.CreateMap<SettleMethods, SettleMethodsDto>();
 				cfg.CreateMap<InterestTreatment, InterestTreatmentDto>();
 				cfg.CreateMap<Trader, TraderDto>();

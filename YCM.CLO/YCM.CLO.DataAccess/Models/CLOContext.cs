@@ -112,6 +112,7 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<vw_PositionIssuers> vw_PositionIssuers { get; set; }
         public DbSet<TradeBooking> TradeBooking { get; set; }
         public DbSet<TradeReason> TradeReason { get; set; }
+        public DbSet<AssetType> AssetType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -195,6 +196,7 @@ namespace YCM.CLO.DataAccess.Models
             modelBuilder.Configurations.Add(new TradeBookingMap());
             modelBuilder.Configurations.Add(new TradeCommentMap());
             modelBuilder.Configurations.Add(new TradeReasonMap());
+            modelBuilder.Configurations.Add(new AssetTypeMap());
         }
 	}
 }

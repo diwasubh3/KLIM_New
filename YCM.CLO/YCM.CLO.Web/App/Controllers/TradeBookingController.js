@@ -43,8 +43,10 @@ var Application;
                 };
                 this.clearAll = function (newBooking) {
                     var vm = _this;
+                    vm.isRowSelected = undefined;
                     vm.tempSecurity.tradeDate = new Date();
                     vm.tempSecurity.tradeType = { tradeTypeDesc: 'Buy', tradeTypeId: 1 };
+                    vm.loadAllocationRule(vm.tempSecurity.tradeType);
                     vm.tempSecurity.issuerDesc = '';
                     vm.tempSecurity.issuerId = undefined;
                     vm.tempSecurity.loanXId = '';
@@ -68,6 +70,7 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
+                    vm.isRowDisabled = false;
                 };
                 this.getNewLoanXId = function () {
                     var vm = _this;
@@ -98,15 +101,21 @@ var Application;
                 };
                 this.setTradeBooking = function (tradeId) {
                     var vm = _this;
+                    vm.isRowhightlight = true;
                     vm.dataService.refreshTradeBooking(tradeId).then(function (data) {
                         data.tradeDate = new Date(data.tradeDate);
                         vm.tradeTypeChangeEvent(data.tradeType);
-                        console.log(data);
                         vm.tempSecurity = data;
                         vm.tradebookingdetail = data.tradeBookingDetail;
                         vm.gridOptions.data = data.tradeBookingDetail;
                         vm.tempSecurity.selectedSecurity = data.loanXId + ' ' + data.issuerDesc;
                         vm.setColumnVisibility(vm.tempSecurity);
+                        //for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                        //    if (vm.gridOptions.data[_i].isIncluded == true && vm.gridOptions.data[_i].portfolioName == "York CLO-1 Ltd.") {
+                        //        vm.gridApi.selection.selectRow(vm.gridOptions.data[_i]);
+                        //        console.log('Called');
+                        //    }
+                        //}
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
@@ -115,44 +124,44 @@ var Application;
                 this.checkSaveButton = function () {
                     var vm = _this;
                     var TotalQty = vm.tempSecurity.totalQty;
-                    var TotalAllocatedQty = 0, tempOverride = 0;
+                    var TotalAllocatedQty = 0;
                     var isfinalNegative = false;
                     var isOverrideNegative = false;
                     vm.errorMessage = '';
                     for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                        var tempOverride = 0;
                         if (vm.tempSecurity.tradeType.tradeTypeDesc == "Buy") {
                             if (vm.tempSecurity.allocationRule.ruleName.indexOf("Manual") > -1)
                                 tempOverride = parseFloat(vm.gridOptions.data[_i].override.toString());
                             else if (vm.gridOptions.data[_i].isIncluded == true)
                                 tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                            else
-                                tempOverride = parseFloat(vm.gridOptions.data[_i].finalQty.toString());
+                            //else
+                            //    tempOverride = parseFloat(vm.gridOptions.data[_i].finalQty.toString());
+                            if (parseFloat(vm.gridOptions.data[_i].override.toString()) < 0)
+                                isOverrideNegative = true;
                         }
                         else {
-                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) >= 0)
-                                tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                            else
-                                tempOverride = 0;
+                            tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
+                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
+                                isfinalNegative = true;
                         }
                         TotalAllocatedQty = TotalAllocatedQty + tempOverride;
-                        if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
-                            isfinalNegative = true;
-                        if (parseFloat(vm.gridOptions.data[_i].override.toString()) < 0)
-                            isOverrideNegative = true;
                     }
                     if (vm.tempSecurity.allocationRule.ruleName.indexOf("Sell All") > -1) {
-                        vm.tempSecurity.totalQty = parseFloat(TotalAllocatedQty.toFixed(2));
-                        TotalQty = TotalAllocatedQty;
+                        vm.tempSecurity.totalQty = parseFloat(Math.abs(TotalAllocatedQty).toFixed(2));
+                        TotalQty = Math.abs(TotalAllocatedQty);
                     }
                     var message = "";
                     if (isfinalNegative)
                         message = 'User Can Not Sell More Than Existing Position';
-                    if (isOverrideNegative)
-                        message = message + ';   User Can Not Enter Negative Values';
+                    if (isOverrideNegative) {
+                        if (message.trim() != '')
+                            message = message + ';   User Can Not Enter Negative Values';
+                        else
+                            message = 'User Can Not Enter Negative Values';
+                    }
                     vm.errorMessage = message;
-                    console.log(Math.round(TotalAllocatedQty));
-                    console.log(Math.round(TotalQty));
-                    if (Math.round(TotalAllocatedQty).toFixed(2) != Math.round(TotalQty).toFixed(2) || isOverrideNegative == true)
+                    if (Math.round(Math.abs(TotalAllocatedQty)).toFixed(2) != Math.round(TotalQty).toFixed(2) || isOverrideNegative == true || isfinalNegative)
                         vm.isSaveDisabled = true;
                     else {
                         vm.isSaveDisabled = false;
@@ -183,8 +192,8 @@ var Application;
                 };
                 this.GetFundAllocation = function (allocation) {
                     var vm = _this;
-                    console.log(vm.tempSecurity.issuerDesc);
                     vm.isLoading = true;
+                    vm.isRowhightlight = false;
                     var bodyMesg = "";
                     if (vm.tempSecurity.traders == undefined) {
                         bodyMesg = 'Please Select Trader From List';
@@ -206,9 +215,9 @@ var Application;
                         //    vm.tempSecurity.issuerDesc = vm.tempSecurity.issuer.issuerDesc;
                         //}
                     }
-                    if (vm.tempSecurity.facility == undefined) {
-                        bodyMesg = bodyMesg + "<br>" + 'Please Select Asset From List';
-                    }
+                    //if (vm.tempSecurity.facility == undefined) {
+                    //    bodyMesg = bodyMesg + "<br>" + 'Please Select Asset From List';
+                    //}
                     if (vm.tempSecurity.counterparty == undefined) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
                     }
@@ -244,6 +253,8 @@ var Application;
                     vm.dataService.getTradeFundAllocation(allocation).then(function (allocationdata) {
                         vm.tradebookingdetail = allocationdata;
                         vm.gridOptions.data = vm.tradebookingdetail;
+                        vm.isRowDisabled = true;
+                        vm.isDisabledSettlement = true;
                         vm.setColumnVisibility(allocation);
                         vm.isHide = false;
                         vm.isSaveDisabled = true;
@@ -302,7 +313,6 @@ var Application;
                     else {
                         vm.tempSecurity.issuerDesc = sec.issuer;
                     }
-                    console.log(vm.tempSecurity.issuerDesc);
                 };
                 this.loadDropdownData = function () {
                     var vm = _this;
@@ -324,6 +334,7 @@ var Application;
                 };
                 this.GenerateTradeXML = function () {
                     var vm = _this;
+                    vm.isSaveDisabled = true;
                     var bodyMesg = "";
                     if (vm.tempSecurity.traders == undefined) {
                         bodyMesg = 'Please Select Trader From List';
@@ -347,9 +358,9 @@ var Application;
                         //    vm.tempSecurity.issuerDesc = vm.tempSecurity.issuer.issuerDesc;
                         //}
                     }
-                    if (vm.tempSecurity.facility == undefined) {
-                        bodyMesg = bodyMesg + "<br>" + 'Please Select Asset From List';
-                    }
+                    //if (vm.tempSecurity.facility == undefined) {
+                    //    bodyMesg = bodyMesg + "<br>" + 'Please Select Asset From List';
+                    //}
                     if (vm.tempSecurity.counterparty == undefined) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
                     }
@@ -375,30 +386,33 @@ var Application;
                             body: "<p><b>" + bodyMesg + "</b></p>"
                         };
                         vm.uiService.showMessage(message);
+                        vm.isSaveDisabled = false;
                         return;
                     }
                     var TotalQty = vm.tempSecurity.totalQty;
-                    var TotalAllocatedQty = 0, tempOverride = 0;
+                    var TotalAllocatedQty = 0;
                     for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                        var tempOverride = 0;
                         if (vm.tempSecurity.allocationRule.ruleName.indexOf("Manual") > -1)
                             tempOverride = parseFloat(vm.gridOptions.data[_i].override.toString());
                         else if (vm.gridOptions.data[_i].isIncluded == true)
                             tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                        else
-                            tempOverride = parseFloat(vm.gridOptions.data[_i].finalQty.toString());
+                        //else
+                        //    tempOverride = parseFloat(vm.gridOptions.data[_i].finalQty.toString());
                         TotalAllocatedQty = TotalAllocatedQty + tempOverride;
                     }
                     if (vm.tempSecurity.allocationRule.ruleName.indexOf("Sell All") > -1) {
-                        vm.tempSecurity.totalQty = TotalAllocatedQty;
+                        vm.tempSecurity.totalQty = parseFloat(Math.abs(TotalAllocatedQty).toFixed(2));
                         TotalQty = TotalAllocatedQty;
                     }
-                    if (Math.round(TotalAllocatedQty).toFixed(2) != Math.round(TotalQty).toFixed(2)) {
-                        bodyMesg = 'Total Quantity (' + Number(TotalQty).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ') and Final Quantity  (' + Math.round(TotalAllocatedQty).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ') Should Match. ';
+                    if (Math.round(Math.abs(TotalAllocatedQty)).toFixed(2) != Math.round(Math.abs(TotalQty)).toFixed(2)) {
+                        bodyMesg = 'Total Quantity (' + Number(TotalQty).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ') and Final Allocated Quantity  (' + Math.round(TotalAllocatedQty).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + ') Should Match. ';
                         var message = {
                             header: "Warning",
                             body: "<p><b>" + bodyMesg + "</b></p>"
                         };
                         vm.uiService.showMessage(message);
+                        vm.isSaveDisabled = false;
                         return;
                     }
                     vm.tempSecurity.tradeBookingDetail = vm.gridOptions.data;
@@ -435,8 +449,75 @@ var Application;
                 };
                 this.ExportToCSV = function () {
                     var vm = _this;
-                    var myElement = angular.element($(".custom-csv-link-location")[0]);
-                    vm.gridApi.exporter.csvExport('visible', 'visible', myElement);
+                    if (vm.trades.length > 0) {
+                        var CsvData = [];
+                        vm.trades.forEach(function (line) {
+                            var reportDate = new Date(line.tradeDate);
+                            var csvLine = {
+                                tradeDate: reportDate.getDate() + "/" + (reportDate.getMonth() + 1) + "/" + reportDate.getFullYear(),
+                                tradeTypeDesc: line.tradeTypeDesc,
+                                issuerDesc: line.issuerDesc,
+                                totalQty: line.totalQty,
+                                responseStatus: line.responseStatus
+                            };
+                            CsvData.push(csvLine);
+                        });
+                        vm.exportToCsv('tradebooking.csv', CsvData);
+                    }
+                };
+                //ExportToPDF = () => {
+                //    var vm = this;
+                //    var docDefinition = {
+                //        pageOrientation: "Potrait",
+                //        pageSize: "A4",
+                //        content: [{
+                //            style: 'tableStyle',
+                //            table: {
+                //                headerRows: 1,                        
+                //                body: vm.trades
+                //            }
+                //        }]
+                //    };
+                //    console.log(vm.exportUiGridService);
+                //    vm.exportUiGridService.downloadPDF("tradebooking.pdf", docDefinition);
+                //}
+                this.exportToCsv = function (filename, rows) {
+                    if (!rows || !rows.length) {
+                        return;
+                    }
+                    var separator = ',';
+                    var keys = Object.keys(rows[0]);
+                    var csvContent = keys.join(separator) +
+                        '\n' +
+                        rows.map(function (row) {
+                            return keys.map(function (k) {
+                                var cell = row[k] === null || row[k] === undefined ? '' : row[k];
+                                cell = cell instanceof Date
+                                    ? cell.toLocaleString()
+                                    : cell.toString().replace(/"/g, '""');
+                                if (cell.search(/("|,|\n)/g) >= 0) {
+                                    cell = "\"" + cell + "\"";
+                                }
+                                return cell;
+                            }).join(separator);
+                        }).join('\n');
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    if (navigator.msSaveBlob) {
+                        navigator.msSaveBlob(blob, filename);
+                    }
+                    else {
+                        var link = document.createElement('a');
+                        if (link.download !== undefined) {
+                            // Browsers that support HTML5 download attribute
+                            var url = URL.createObjectURL(blob);
+                            link.setAttribute('href', url);
+                            link.setAttribute('download', filename);
+                            link.style.visibility = 'hidden';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
                 };
                 var vm = this;
                 vm.dataService = dataService;
@@ -454,6 +535,8 @@ var Application;
                 vm.isColumnHide = true;
                 vm.isTradeReasonHide = true;
                 vm.isSaveDisabled = true;
+                vm.isRowDisabled = false;
+                vm.isRowhightlight = false;
                 vm.loadDropdownData();
                 vm.tempSecurity = {};
                 vm.issuerSec = {};
@@ -478,6 +561,12 @@ var Application;
                         cellEditableCondition: false,
                         cellTemplate: '<div class="ui-grid-cell-contents" ><input type="checkbox" ng-model="row.entity.isIncluded" ng-change="grid.appScope.onRowCheckChanged(row)"/></div>',
                         width: "5%",
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowleft';
+                            }
+                            return '';
+                        },
                     },
                     {
                         name: 'portfolioName',
@@ -488,7 +577,13 @@ var Application;
                         enableCellEdit: false,
                         enableSorting: false,
                         type: "string",
-                        footerCellTemplate: '<div class="ui-grid-cell-contents" style="padding-top:5px;">Total</div>'
+                        footerCellTemplate: '<div class="ui-grid-cell-contents" style="padding-top:5px;">Total</div>',
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowleft';
+                            }
+                            return 'text-left';
+                        },
                     },
                     {
                         name: 'existing',
@@ -498,12 +593,17 @@ var Application;
                         visible: true,
                         enableCellEdit: false,
                         enableSorting: false,
-                        cellClass: 'text-right',
                         headerCellClass: 'text-right',
                         type: "number",
                         cellFilter: 'number: 2',
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                         footerCellTemplate: tempFooter,
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
+                            return 'text-right';
+                        },
                     },
                     {
                         name: 'exposure',
@@ -513,18 +613,22 @@ var Application;
                         visible: true,
                         enableCellEdit: false,
                         enableSorting: false,
-                        cellClass: 'text-right',
                         headerCellClass: 'text-right',
                         type: "number",
                         cellFilter: 'number: 2',
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
-                        footerCellTemplate: tempFooter
+                        footerCellTemplate: tempFooter,
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
+                            return 'text-right';
+                        },
                     },
                     {
                         name: 'allocated',
                         field: "allocated",
                         displayName: 'Auto Allocated',
-                        cellClass: 'text-right',
                         width: "10%",
                         visible: true,
                         enableCellEdit: false,
@@ -533,7 +637,13 @@ var Application;
                         cellFilter: 'number: 2',
                         headerCellClass: 'text-right',
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
-                        footerCellTemplate: tempFooter
+                        footerCellTemplate: tempFooter,
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
+                            return 'text-right';
+                        },
                     },
                     {
                         name: 'override',
@@ -556,6 +666,9 @@ var Application;
                             if (parseFloat(row.entity.finalQty) < 0) {
                                 return 'red';
                             }
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
                             return 'text-right';
                         },
                     },
@@ -567,12 +680,17 @@ var Application;
                         visible: true,
                         enableCellEdit: false,
                         enableSorting: false,
-                        cellClass: 'text-right',
                         headerCellClass: 'text-right',
                         type: "string",
                         cellFilter: 'number: 2',
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
-                        footerCellTemplate: tempFooter
+                        footerCellTemplate: tempFooter,
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
+                            return 'text-right';
+                        },
                     },
                     {
                         name: 'finalQty',
@@ -590,6 +708,9 @@ var Application;
                             if (parseFloat(row.entity.finalQty) < 0) {
                                 return 'red';
                             }
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
                             return 'text-right';
                         },
                         cellFilter: 'number: 2',
@@ -603,12 +724,17 @@ var Application;
                         visible: true,
                         enableCellEdit: false,
                         enableSorting: false,
-                        cellClass: 'text-right',
                         headerCellClass: 'text-right',
                         type: "string",
                         cellFilter: 'number: 2',
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
-                        footerCellTemplate: tempFooter
+                        footerCellTemplate: tempFooter,
+                        cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
+                            if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
+                                return 'highlightrowright';
+                            }
+                            return 'text-right';
+                        },
                     }
                 ];
                 vm.gridOptions = {
@@ -627,6 +753,8 @@ var Application;
                                 vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
                                 vm.tradebookingdetail[_i].price = vm.tempSecurity.price;
                                 vm.tradebookingdetail[_i].tradeType = vm.tempSecurity.tradeType.tradeTypeDesc;
+                                if (vm.tradebookingdetail[_i].override > 0)
+                                    vm.tradebookingdetail[_i].isIncluded = true;
                             }
                             vm.dataService.getCalculatedData(vm.tradebookingdetail).then(function (data) {
                                 vm.gridOptions.data = data;
@@ -644,7 +772,7 @@ var Application;
             };
             return TradeBookingController;
         }());
-        TradeBookingController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'exportUiGridService'];
+        TradeBookingController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
         Controllers.TradeBookingController = TradeBookingController;
         angular.module('app').controller("application.controllers.tradebookingController", TradeBookingController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));

@@ -13,6 +13,7 @@ namespace YCM.CLO.DataAccess.Models
             this.tradeType = new TradeType();
             this.traders = new Trader();
             this.facility = new Facility();
+            this.assetTypes = new AssetType();
             this.counterparty = new CounterParty();
             this.settlemethods = new SettleMethods();
             this.interesttreatments = new InterestTreatment();
@@ -35,6 +36,8 @@ namespace YCM.CLO.DataAccess.Models
         public string IssuerDesc { get; set; }
         public int FacilityId { get; set; }
         public string FacilityDesc { get; set; }
+        public int? AssetId { get; set; }
+        public string AssetName { get; set; }
         public int CounterPartyId { get; set; }
         public string PartyName { get; set; }
         public int SettleMethodId { get; set; }
@@ -43,6 +46,7 @@ namespace YCM.CLO.DataAccess.Models
         public string InterestTreatment { get; set; }
         public decimal Price { get; set; }
         public decimal TotalQty { get; set; }
+        public decimal? PendingSubmitQty { get; set; }
         public int RuleId { get; set; }
         public string RuleName { get; set; }
         public int? TradeCommentId1 { get; set; }
@@ -54,6 +58,7 @@ namespace YCM.CLO.DataAccess.Models
         public TradeType tradeType { get; set; }
         public Trader traders { get; set; }
         public Facility facility { get; set; }
+        public AssetType assetTypes { get; set; }
         public CounterParty counterparty { get; set; }
         public SettleMethods settlemethods { get; set; }
         public InterestTreatment interesttreatments { get; set; }

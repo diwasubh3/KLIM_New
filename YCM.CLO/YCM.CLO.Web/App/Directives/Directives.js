@@ -230,6 +230,55 @@ var Application;
             return FormatTextAsCurrency;
         }());
         Directives.FormatTextAsCurrency = FormatTextAsCurrency;
+        var CsvDataService = (function () {
+            function CsvDataService() {
+            }
+            CsvDataService.prototype.exportToCsv = function (filename, rows) {
+                if (!rows || !rows.length) {
+                    return;
+                }
+                var separator = ',';
+                var keys = Object.keys(rows[0]);
+                var csvContent = keys.join(separator) +
+                    '\n' +
+                    rows.map(function (row) {
+                        return keys.map(function (k) {
+                            var cell = row[k] === null || row[k] === undefined ? '' : row[k];
+                            cell = cell instanceof Date
+                                ? cell.toLocaleString()
+                                : cell.toString().replace(/"/g, '""');
+                            if (cell.search(/("|,|\n)/g) >= 0) {
+                                cell = "\"" + cell + "\"";
+                            }
+                            return cell;
+                        }).join(separator);
+                    }).join('\n');
+                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                if (navigator.msSaveBlob) {
+                    navigator.msSaveBlob(blob, filename);
+                }
+                else {
+                    var link = document.createElement('a');
+                    if (link.download !== undefined) {
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute('href', url);
+                        link.setAttribute('download', filename);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
+                return true;
+            };
+            CsvDataService.factory = function () {
+                var directive = function () { return new CsvDataService(); };
+                directive.$inject = [];
+                return directive;
+            };
+            return CsvDataService;
+        }());
+        Directives.CsvDataService = CsvDataService;
         var FormatTextAsCurrency4 = (function () {
             function FormatTextAsCurrency4() {
                 this.link = function (scope, element, attrs, ctrl) {
@@ -371,6 +420,7 @@ var Application;
         angular.module("app").directive("toggleButton", ToggleButton.factory());
         angular.module("app").directive("customModalFilter", CustomModalFilterDirective);
         angular.module("app").directive("optionsClass", OptionsClass.factory());
+        angular.module("app").directive("csvDataService", CsvDataService.factory());
         //angular.module("app", []).directive('fcsaNumber', addCommasToInteger);
     })(Directives = Application.Directives || (Application.Directives = {}));
 })(Application || (Application = {}));

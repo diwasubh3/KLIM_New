@@ -46,6 +46,7 @@ namespace YCM.CLO.Web.Controllers
                     InterestTreatment = Mapper.Map<IEnumerable<InterestTreatment>, IEnumerable<InterestTreatmentDto>>(_repository.GetInterestTreatment()),
                     TradeComment = Mapper.Map<IEnumerable<TradeComment>, IEnumerable<TradeCommentDto>>(_repository.GetTradeComment()),
                     TradeReasons = Mapper.Map<IEnumerable<TradeReason>, IEnumerable<TradeReasonDto>>(_repository.GetTradeReasons()),
+                    AssetTypes = Mapper.Map<IEnumerable<AssetType>, IEnumerable<AssetTypeDto>>(_repository.GetAssetTypes()),
                 };
                 return new JsonNetResult() { Data = data };
             }
@@ -83,7 +84,7 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
-                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(tradeBooking.allocationRule.RuleName, tradeBooking.IssuerId, tradeBooking.LoanXId));                
+                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(tradeBooking.allocationRule.RuleName, tradeBooking.IssuerId, tradeBooking.LoanXId, tradeBooking.tradeType.TradeTypeDesc));                
                 data.ForEach(x =>
                 {
                     x.TotalQuantity = tradeBooking.TotalQty;
@@ -115,11 +116,65 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
-        public JsonNetResult getCalculatedData(IEnumerable<TradeBookingDetailDto> data) //, decimal totalQty, string ruleName
+        //public JsonNetResult getCalculatedData_OldLogic(IEnumerable<TradeBookingDetailDto> data) //, decimal totalQty, string ruleName
+        //{
+        //    string Jsonfilecontent = "";
+        //    decimal totalQty = data.First().TotalQuantity.Value;
+
+        //    var jsonfilepath = ConfigurationManager.AppSettings["RuleJasonfile"];
+
+        //    using (StreamReader r = new StreamReader(jsonfilepath))
+        //    {
+        //        Jsonfilecontent = r.ReadToEnd();
+        //    }
+        //    var jsonClass = JObject.Parse(Jsonfilecontent);
+
+        //    var ruleJson = Convert.ToString((JObject.Parse(Jsonfilecontent)["Methods"]).Children<JObject>().FirstOrDefault(m => m.Property("type").Value.ToString() == data.First().RuleName && m.Property("tradetype").Value.ToString() == data.First().TradeType));
+
+        //    decimal GrandExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
+        //    decimal GrandExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
+
+        //    if (data.First().TradeType == "Sell" && data.First().RuleName == "Sell All")
+        //    {
+        //        data.ForEach(x =>
+        //        {
+        //            x.Override = x.IsIncluded == true ? x.Override : 0;
+        //            x.Allocated = x.IsIncluded == true ? x.Exposure : 0;
+        //        });
+        //    }
+        //    else
+        //    {
+        //        data.ForEach(x =>
+        //        {
+        //            x.Override = x.IsIncluded == true ? x.Override : 0;
+        //            x.Allocated = x.IsIncluded == true && GrandExistingTotal > 0 ? (x.Existing * totalQty / GrandExistingTotal) : 0;
+        //        });
+        //    }            
+
+        //    decimal TotalExisting_Override = data.Select(p => p.Override > 0 ? p.Existing : 0).Sum();
+        //    decimal TotalOverride = data.Select(p => p.Override > 0 ? p.Override : 0).Sum();
+        //    decimal TotalAutoAllocationOverride = data.Select(p => p.Override > 0 ? p.Allocated : 0).Sum();
+        //    data.ForEach(x =>
+        //    {
+        //        x.TotalQuantity = totalQty;
+        //        x.GrandTotal = GrandExistingTotal;                
+        //        x.IsOverride = (x.Override > 0);
+        //        x.TotalOverride = (TotalOverride > 0 ? GrandExistingTotal - TotalExisting_Override :  0);
+        //        x.TotalRemaining = (TotalOverride > 0 ? TotalAutoAllocationOverride - TotalOverride : 0);                
+        //    });
+        //    Recon.RuleEngine.Engine ruleEngine = new Recon.RuleEngine.Engine();
+        //    var stroutPut = ruleEngine.RunRuleEngine(ruleJson, JsonConvert.SerializeObject(data));
+        //    return new JsonNetResult() { Data = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut) };
+        //}
+
+        public JsonNetResult getCalculatedData(IEnumerable<TradeBookingDetailDto> data, decimal totalQty = 0) //, decimal totalQty, string ruleName
         {
             string Jsonfilecontent = "";
-            decimal totalQty = data.First().TotalQuantity.Value;
-            
+            bool isBuyTrade = data.First().TradeType == "Buy";
+            bool isSellTrade = data.First().TradeType == "Sell";
+            if (totalQty == 0)
+                totalQty = data.First().TotalQuantity.Value;
+
             var jsonfilepath = ConfigurationManager.AppSettings["RuleJasonfile"];
 
             using (StreamReader r = new StreamReader(jsonfilepath))
@@ -127,43 +182,83 @@ namespace YCM.CLO.Web.Controllers
                 Jsonfilecontent = r.ReadToEnd();
             }
             var jsonClass = JObject.Parse(Jsonfilecontent);
-           
+
             var ruleJson = Convert.ToString((JObject.Parse(Jsonfilecontent)["Methods"]).Children<JObject>().FirstOrDefault(m => m.Property("type").Value.ToString() == data.First().RuleName && m.Property("tradetype").Value.ToString() == data.First().TradeType));
 
-            decimal GrandExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
-            decimal GrandExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
+            decimal ExistingTotal = 0;
+            decimal ExposureTotal = 0;
 
-            if (data.First().TradeType == "Sell" && data.First().RuleName == "Sell All")
-            {
-                data.ForEach(x =>
-                {
-                    x.Override = x.IsIncluded == true ? x.Override : 0;
-                    x.Allocated = x.IsIncluded == true ? x.Exposure : 0;
-                });
-            }
-            else
-            {
-                data.ForEach(x =>
-                {
-                    x.Override = x.IsIncluded == true ? x.Override : 0;
-                    x.Allocated = x.IsIncluded == true && GrandExistingTotal > 0 ? (x.Existing * totalQty / GrandExistingTotal) : 0;
-                });
-            }            
-            
-            decimal TotalExisting_Override = data.Select(p => p.Override > 0 ? p.Existing : 0).Sum();
-            decimal TotalOverride = data.Select(p => p.Override > 0 ? p.Override : 0).Sum();
-            decimal TotalAutoAllocationOverride = data.Select(p => p.Override > 0 ? p.Allocated : 0).Sum();
+            decimal TotalExisting_Override = 0;
+            decimal TotalExposure_Override = 0;
+            decimal TotalOverride = 0;
+
+            ExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
+            ExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
+
+            TotalExisting_Override = data.Select(x => x.Override > 0 && x.IsIncluded == true ? x.Existing : 0).Sum();
+            TotalExposure_Override = data.Select(x => x.Override > 0 && x.IsIncluded == true ? x.Exposure : 0).Sum();
+            TotalOverride = data.Select(p => p.Override > 0 && p.IsIncluded == true ? p.Override : 0).Sum();
+
             data.ForEach(x =>
             {
-                x.TotalQuantity = totalQty;
-                x.GrandTotal = GrandExistingTotal;                
+                x.TotalQuantity = totalQty - TotalOverride;
+                x.TotalExisting = ExistingTotal - TotalExisting_Override;
+                x.TotalExposure = ExposureTotal - TotalExposure_Override;
                 x.IsOverride = (x.Override > 0);
-                x.TotalOverride = (TotalOverride > 0 ? GrandExistingTotal - TotalExisting_Override :  0);
-                x.TotalRemaining = (TotalOverride > 0 ? TotalAutoAllocationOverride - TotalOverride : 0);                
             });
+            //if (isBuyTrade)
+            //{
+
+            //}
+            //else if (isSellTrade)
+            //{
+            //    ExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
+            //    ExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
+
+            //    TotalExisting_Override = data.Select(x => x.Override != 0 && x.IsIncluded == true ? x.Existing : 0).Sum();
+            //    TotalExposure_Override = data.Select(x => x.Override != 0 && x.IsIncluded == true ? x.Exposure : 0).Sum();
+            //    TotalOverride = data.Select(p => p.Override != 0 && p.IsIncluded == true ? p.Override : 0).Sum();
+
+            //    data.ForEach(x =>
+            //    {
+            //        x.TotalQuantity = totalQty + TotalOverride;
+            //        x.TotalExisting = ExistingTotal - TotalExisting_Override;
+            //        x.TotalExposure = ExposureTotal - TotalExposure_Override;
+            //        x.IsOverride = (x.Override != 0);
+            //    });
+            //}
             Recon.RuleEngine.Engine ruleEngine = new Recon.RuleEngine.Engine();
             var stroutPut = ruleEngine.RunRuleEngine(ruleJson, JsonConvert.SerializeObject(data));
-            return new JsonNetResult() { Data = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut) };
+            var outPutData = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut);
+            if (outPutData.Where(w => w.Allocated < 0).Any())
+            {
+                outPutData.Where(w => w.Allocated < 0).ForEach(x =>
+                {
+                    x.IsIncluded = false;
+                });
+                return getCalculatedData(outPutData, totalQty);
+            }
+            else
+                return new JsonNetResult() { Data = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut) };
+            //if (isBuyTrade)
+            //{
+
+            //}
+            //else if (isSellTrade)
+            //{
+            //    var outPutData = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut);
+            //    if (outPutData.Where(w => w.Allocated > 0).Any())
+            //    {
+            //        outPutData.Where(w => w.Allocated > 0).ForEach(x =>
+            //        {
+            //            x.IsIncluded = false;
+            //        });
+            //        return getCalculatedData(outPutData, totalQty);
+            //    }
+            //    else
+            //        return new JsonNetResult() { Data = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut) };
+            //}
+            //return new JsonNetResult() { Data = JsonConvert.DeserializeObject<List<TradeBookingDetailDto>>(stroutPut) };
         }
 
         public JsonNetResult GetTradeBooking()
@@ -207,6 +302,9 @@ namespace YCM.CLO.Web.Controllers
                 tradeBooking.tradeReasons.TradeReasonId = tradeBooking.TradeReasonId ?? 0;
                 tradeBooking.tradeReasons.TradeReasonDesc = tradeBooking.TradeReason;
 
+                tradeBooking.assetTypes.AssetId = tradeBooking.AssetId ?? 0;
+                tradeBooking.assetTypes.AssetName = tradeBooking.AssetName;
+
                 var tradeBookingdetail = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.RefreshTradeBookingDetail(TradeId));
                 tradeBooking.TradeBookingDetail = tradeBookingdetail;
                 return new JsonNetResult() { Data = tradeBooking };
@@ -233,12 +331,14 @@ namespace YCM.CLO.Web.Controllers
                 data.TradeCommentId2 = data.tradeComments2.CommentId;
 
                 data.TradeReasonId = data.tradeReasons.TradeReasonId;
-                string TradeComment = data.tradeComments1.Comment == null ? "" : data.tradeComments1.Comment + " " + (data.tradeComments2.Comment == null ? "" : data.tradeComments2.Comment);
+                data.AssetId = data.assetTypes.AssetId;
+                string TradeComment = data.tradeComments1.Comment == null ? "" : data.tradeComments1.Comment + "; " + (data.tradeComments2.Comment == null ? "" : data.tradeComments2.Comment);
                 string TradeReason = data.tradeReasons.TradeReasonDesc == null ? "" : data.tradeReasons.TradeReasonDesc;
                 var tradebookingId = _repository.SaveTradeBooking(data, User.Identity.Name);
                 if (tradebookingId > 0)
                 {                    
                     _repository.SaveTradeBookingDetails(data.TradeBookingDetail, tradebookingId);
+                    _repository.UpdateSubmitDetails(tradebookingId);
                 }
                 
                 data.Id = tradebookingId;

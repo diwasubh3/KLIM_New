@@ -100,6 +100,7 @@
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\AssetClass.cs" />
     <Compile Include="Models\AssetExposure.cs" />
+    <Compile Include="Models\AssetType.cs" />
     <Compile Include="Models\CacheSetting.cs" />
     <Compile Include="Models\CounterParty.cs" />
     <Compile Include="Models\DefaultSecurity.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Models\Mapping\AnalystResearchMap.cs" />
     <Compile Include="Models\Mapping\AnalystResearchRowLocationMap.cs" />
     <Compile Include="Models\Mapping\ApplicationRoleMap.cs" />
+    <Compile Include="Models\Mapping\AssetTypeMap.cs" />
     <Compile Include="Models\Mapping\CounterPartyMap.cs" />
     <Compile Include="Models\Mapping\FundAssetClassMap.cs" />
     <Compile Include="Models\Mapping\FundCalculationMap.cs" />

@@ -69,6 +69,7 @@
     <Compile Include="AnalystResearchDto.cs" />
     <Compile Include="AnalystResearchHeaderDto.cs" />
     <Compile Include="AnalystResearchUIDto.cs" />
+    <Compile Include="AssetTypeDto.cs" />
     <Compile Include="CounterPartyDto.cs" />
     <Compile Include="CustomViewFieldDto.cs" />
     <Compile Include="FacilityDto.cs" />

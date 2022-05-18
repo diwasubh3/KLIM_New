@@ -966,11 +966,13 @@
         issuerId: number;
         issuerDesc: string;
         facility: IFacility;
+        assetTypes: IAssetType;
         counterparty: ICounterParty;
         settlemethods: ISettleMethods;
         interesttreatments: IInterestTreatment;
         price: number;
         totalQty: number;
+        pendingSubmitQty: number;
         allocationRule: IAllocationRule;
         tradeComments1: ITradeComment;
         tradeComments2: ITradeComment;
@@ -989,6 +991,11 @@
         tradeReasonDesc: string;
     }
 
+    export interface IAssetType {
+        assetId: number;
+        assetName: string;
+    }
+
     export interface ITradeBookingDetail {
         tradeId: number;
         PortFolioId: number;
@@ -996,13 +1003,13 @@
         Existing: number;
         Exposure: number;
         Allocated: number;
-        Override: number;
+        override: number;
         finalQty: number;
         TradeAmount: number;
         IsOverride: boolean;
         totalQuantity: number;
         GrandTotal: number;
-        IsIncluded: boolean;
+        isIncluded: boolean;
         /*IsSkipped: boolean;*/
         TotalOverride: number;
         TotalRemaining: number;
