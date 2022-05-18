@@ -316,24 +316,21 @@
                                         </select>
                                     </td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">
-                                        <select class="form-control" required
+                                        <select class="form-control" required ng-disabled="tradebooking.isCommentsDisabled"
                                                 ng-model="tradebooking.tempSecurity.tradeComments1"
                                                 ng-options="tc as tc.comment for tc in tradebooking.sourceData.tradeComment track by tc.commentId"
                                                 id="SelectComment">
                                         </select>
-                                        <!--<textarea type="text" rows="4" class="form-control" id="txtTradeComment" name="txtTradeComment" maxlength="1000000" style="width:400px;"
-                  ng-model="tradebooking.tempSecurity.tradeComment">
-        </textarea>-->
                                     </td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">
-                                        <select class="form-control"
+                                        <select class="form-control" ng-disabled="tradebooking.isCommentsDisabled"
                                                 ng-model="tradebooking.tempSecurity.tradeComments2" 
                                                 ng-options="tc as tc.comment for tc in tradebooking.sourceData.tradeComment track by tc.commentId"
                                                 id="SelectComment">
                                         </select>
                                     </td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;" ng-hide="tradebooking.isTradeReasonHide">
-                                        <select class="form-control" 
+                                        <select class="form-control"  ng-disabled="tradebooking.isCommentsDisabled"
                                                 ng-model="tradebooking.tempSecurity.tradeReasons" 
                                                 ng-options="tt as tt.tradeReasonDesc for tt in tradebooking.sourceData.tradeReasons track by tt.tradeReasonId"
                                                 id="SelectTrader">

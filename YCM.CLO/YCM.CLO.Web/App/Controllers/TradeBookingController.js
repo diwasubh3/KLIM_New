@@ -71,6 +71,7 @@ var Application;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
                     vm.isRowDisabled = false;
+                    vm.isCommentsDisabled = false;
                 };
                 this.getNewLoanXId = function () {
                     var vm = _this;
@@ -98,6 +99,8 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = false;
                     vm.isTradeReasonHide = true;
+                    vm.isRowDisabled = false;
+                    vm.isCommentsDisabled = false;
                 };
                 this.setTradeBooking = function (tradeId) {
                     var vm = _this;
@@ -110,12 +113,9 @@ var Application;
                         vm.gridOptions.data = data.tradeBookingDetail;
                         vm.tempSecurity.selectedSecurity = data.loanXId + ' ' + data.issuerDesc;
                         vm.setColumnVisibility(vm.tempSecurity);
-                        //for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
-                        //    if (vm.gridOptions.data[_i].isIncluded == true && vm.gridOptions.data[_i].portfolioName == "York CLO-1 Ltd.") {
-                        //        vm.gridApi.selection.selectRow(vm.gridOptions.data[_i]);
-                        //        console.log('Called');
-                        //    }
-                        //}
+                        vm.isRowDisabled = true;
+                        vm.isCommentsDisabled = true;
+                        vm.isDisabledSettlement = true;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
@@ -195,9 +195,12 @@ var Application;
                     vm.isLoading = true;
                     vm.isRowhightlight = false;
                     var bodyMesg = "";
-                    if (vm.tempSecurity.traders == undefined) {
-                        bodyMesg = 'Please Select Trader From List';
+                    if (vm.tempSecurity.tradeDate == undefined) {
+                        bodyMesg = 'Please Select Trade Date';
                     }
+                    //if (vm.tempSecurity.traders == undefined) {
+                    //    bodyMesg = 'Please Select Trader From List';
+                    //}
                     if (vm.tempSecurity.tradeType == undefined) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Select Trade Type From List';
                     }
@@ -234,6 +237,9 @@ var Application;
                             }
                         }
                     }
+                    if (vm.tempSecurity.price == undefined || angular.isNumber(vm.tempSecurity.price) == false) {
+                        bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
+                    }
                     if (allocation.allocationRule.ruleName.indexOf("TargetPar") > -1) {
                         vm.gridApi.grid.columns[2].displayName = "Target Par";
                         vm.gridApi.grid.columns[3].displayName = "Existing Position";
@@ -254,6 +260,7 @@ var Application;
                         vm.tradebookingdetail = allocationdata;
                         vm.gridOptions.data = vm.tradebookingdetail;
                         vm.isRowDisabled = true;
+                        vm.isCommentsDisabled = false;
                         vm.isDisabledSettlement = true;
                         vm.setColumnVisibility(allocation);
                         vm.isHide = false;
@@ -336,9 +343,12 @@ var Application;
                     var vm = _this;
                     vm.isSaveDisabled = true;
                     var bodyMesg = "";
-                    if (vm.tempSecurity.traders == undefined) {
-                        bodyMesg = 'Please Select Trader From List';
+                    if (vm.tempSecurity.tradeDate == undefined) {
+                        bodyMesg = 'Please Select Trade Date';
                     }
+                    //if (vm.tempSecurity.traders == undefined) {
+                    //    bodyMesg = 'Please Select Trader From List';
+                    //}
                     if (vm.tempSecurity.tradeType == undefined) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Select Trade Type From List';
                     }
@@ -384,6 +394,9 @@ var Application;
                         if (vm.tempSecurity.tradeReasons == undefined) {
                             bodyMesg = bodyMesg + "<br>" + 'Please Select Trade Reason';
                         }
+                    }
+                    if (vm.tempSecurity.tradeComments1.comment == undefined) {
+                        bodyMesg = bodyMesg + "<br>" + 'Please Select Trade Comment';
                     }
                     if (bodyMesg != '') {
                         var message = {
@@ -541,6 +554,7 @@ var Application;
                 vm.isTradeReasonHide = true;
                 vm.isSaveDisabled = true;
                 vm.isRowDisabled = false;
+                vm.isCommentsDisabled = false;
                 vm.isRowhightlight = false;
                 vm.loadDropdownData();
                 vm.tempSecurity = {};
