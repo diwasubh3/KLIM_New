@@ -191,13 +191,14 @@ namespace YCM.CLO.Web.Controllers
             decimal TotalExisting_Override = 0;
             decimal TotalExposure_Override = 0;
             decimal TotalOverride = 0;
-
+            int TotalFundCount = 0;
             ExistingTotal = data.Select(x => x.IsIncluded == true ? x.Existing : 0).Sum();
             ExposureTotal = data.Select(x => x.IsIncluded == true ? x.Exposure : 0).Sum();
 
             TotalExisting_Override = data.Select(x => x.Override > 0 && x.IsIncluded == true ? x.Existing : 0).Sum();
             TotalExposure_Override = data.Select(x => x.Override > 0 && x.IsIncluded == true ? x.Exposure : 0).Sum();
             TotalOverride = data.Select(p => p.Override > 0 && p.IsIncluded == true ? p.Override : 0).Sum();
+            TotalFundCount = data.Select(t => t.IsIncluded == true && t.Override == 0 ? 1 : 0).Sum();
 
             data.ForEach(x =>
             {
@@ -205,6 +206,7 @@ namespace YCM.CLO.Web.Controllers
                 x.TotalExisting = ExistingTotal - TotalExisting_Override;
                 x.TotalExposure = ExposureTotal - TotalExposure_Override;
                 x.IsOverride = (x.Override > 0);
+                x.FundCount = TotalFundCount;
             });
             //if (isBuyTrade)
             //{

@@ -237,7 +237,7 @@ var Application;
                             }
                         }
                     }
-                    if (vm.tempSecurity.price == undefined || angular.isNumber(vm.tempSecurity.price) == false) {
+                    if (vm.tempSecurity.price == undefined) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
                     }
                     if (allocation.allocationRule.ruleName.indexOf("TargetPar") > -1) {

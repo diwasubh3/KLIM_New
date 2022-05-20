@@ -1099,6 +1099,144 @@
 					]
 				}
 			]
+		},
+		{
+			"type": "Split Evenly",
+			"tradetype": "Buy",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "Override",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "Allocated",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "FinalQty",
+							"value": "[Exposure]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Exposure]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price] / 100"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "Allocated",
+							"value": 0
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Override]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [							
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [						
+						{
+							"sequence": 1,
+							"type": "TempFinalQty_1",
+							"value": "[TotalQuantity] / [FundCount]"
+						},
+						{
+							"sequence": 2,
+							"type": "TempFinalQty_2",
+							"value": "[TempFinalQty_1] + [Exposure]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[TempFinalQty_2]"
+						},
+						{
+							"type": "Allocated",
+							"value": "[TempFinalQty_1]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[Allocated] * [Price] / 100"
+						},
+						{
+							"type": "NetPosition",
+							"value": "[Allocated]"
+						}
+					]
+				}
+			]
 		}
 	]
 }
