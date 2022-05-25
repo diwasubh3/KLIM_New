@@ -238,7 +238,7 @@ var Application;
                             }
                         }
                     }
-                    console.log(isNaN(Number(vm.tempSecurity.price.toString())));
+                    
                     if (vm.tempSecurity.price == undefined || isNaN(Number(vm.tempSecurity.price.toString())) == true) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
                     }
@@ -334,7 +334,7 @@ var Application;
                             vm.securities = securities;
                         });
                         vm.dataService.getTradeBooking().then(function (trades) {
-                            console.log(trades);
+                            
                             vm.trades = trades;
                         });
                         vm.dataService.getIssuerList().then(function (issuers) {

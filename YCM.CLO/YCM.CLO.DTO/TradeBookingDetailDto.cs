@@ -32,5 +32,6 @@ namespace YCM.CLO.DTO
         public string TradeType { get; set; }
         public string ResponseStatus { get; set; }
         public decimal? NetPosition { get; set; }
+        public int? FundCount { get; set; }
     }
 }
