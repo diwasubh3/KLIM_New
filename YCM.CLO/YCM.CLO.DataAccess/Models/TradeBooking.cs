@@ -52,6 +52,9 @@ namespace YCM.CLO.DataAccess.Models
         public int? TradeCommentId1 { get; set; }
         public int? TradeCommentId2 { get; set; }
         public string TradeComment { get; set; }
+        public string TradeComment1 { get; set; }
+        public string TradeComment2 { get; set; }
+        public string TradeReason { get; set; }
         public int? TradeReasonId { get; set; }
         public string ResponseStatus { get; set; }
         public string ErrorMessage { get; set; }

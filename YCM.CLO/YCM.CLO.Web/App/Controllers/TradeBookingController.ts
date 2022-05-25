@@ -407,6 +407,7 @@
             var vm = this;
             vm.isRowhightlight = true;
             vm.dataService.refreshTradeBooking(tradeId).then(data => {
+                console.log(data);
                 data.tradeDate = new Date(data.tradeDate);
                 vm.tradeTypeChangeEvent(data.tradeType);
                 vm.tempSecurity = data;
@@ -543,8 +544,9 @@
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Total Quantity';
                     }
                 }
-            }            
-            if (vm.tempSecurity.price == undefined || angular.isNumber(vm.tempSecurity.price) == false) {
+            }
+            console.log(isNaN(Number(vm.tempSecurity.price.toString())))
+            if (vm.tempSecurity.price == undefined ||   isNaN(Number(vm.tempSecurity.price.toString())) == true ) {
                 bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
             }
             if (allocation.allocationRule.ruleName.indexOf("TargetPar") > -1) {
@@ -647,6 +649,7 @@
                     vm.securities = securities;
                 });
                 vm.dataService.getTradeBooking().then((trades) => {
+                    console.log(trades);
                     vm.trades = trades;
                 });
                 vm.dataService.getIssuerList().then(issuers => {
@@ -656,6 +659,8 @@
         }
 
         GenerateTradeXML = () => {
+           
+
             var vm = this;
             vm.isSaveDisabled = true;
             var bodyMesg = "";
@@ -769,7 +774,6 @@
                 vm.uiService.showMessage(message);
                 vm.isLoading = false;
             });
-
         }
 
         ShowResponse = (trade, row) => {
@@ -799,8 +803,17 @@
                         tradeDate: `${reportDate.getDate()}/${reportDate.getMonth() + 1}/${reportDate.getFullYear()}`,
                         tradeTypeDesc: line.tradeTypeDesc,
                         issuerDesc: line.issuerDesc,
+                        loanXId: line.loanXId,
+                        counterparty: line.partyName,
+                        settlementMethod: line.settleMethod,
+                        allocationMethod: line.ruleName,
+                        price: line.price,
+                        cLO1Allocation: line.pendingSubmitQty.toFixed(2),
                         totalQty: line.totalQty,
-                        responseStatus: line.responseStatus
+                        responseStatus: line.responseStatus,
+                        tradeComment1: line.tradeComment1,
+                        tradeComment2: line.tradeComment2,
+                        tradeReason: line.tradeReason
                     }
                     CsvData.push(csvLine);
                 });
@@ -808,9 +821,12 @@
             }
         }
 
+    
+
         //ExportToPDF = () => {
         //    var vm = this;
-            
+        //    alert();
+        //    debugger;
         //    var docDefinition = {
         //        pageOrientation: "Potrait",
         //        pageSize: "A4",
@@ -823,6 +839,7 @@
         //        }]
         //    };
         //    console.log(vm.exportUiGridService);
+            
         //    vm.exportUiGridService.downloadPDF("tradebooking.pdf", docDefinition);
         //}
 
@@ -865,6 +882,9 @@
                 }
             }
         }
+
+
+
     }
 
     angular.module('app').controller("application.controllers.tradebookingController", TradeBookingController);

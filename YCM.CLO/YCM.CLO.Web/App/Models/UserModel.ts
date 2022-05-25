@@ -984,6 +984,12 @@
         selectedSecurity: string;
         responseStatus: string;
         errorMessage: string;
+        partyName: string;
+        settleMethod: string;
+        ruleName: string;
+        tradeComment1: string;
+        tradeComment2: string;
+        tradeReason: string;       
     }
 
     export interface ITradeReason {

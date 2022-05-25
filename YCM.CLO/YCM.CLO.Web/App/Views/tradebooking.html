@@ -331,7 +331,7 @@
                                     </td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;" ng-hide="tradebooking.isTradeReasonHide">
                                         <select class="form-control"  ng-disabled="tradebooking.isCommentsDisabled"
-                                                ng-model="tradebooking.tempSecurity.tradeReasons" 
+                                                ng-model="tradebooking.tempSecurity.tradeReasons" required
                                                 ng-options="tt as tt.tradeReasonDesc for tt in tradebooking.sourceData.tradeReasons track by tt.tradeReasonId"
                                                 id="SelectTrader">
                                         </select>
