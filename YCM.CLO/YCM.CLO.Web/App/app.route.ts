@@ -29,6 +29,7 @@
                 .when("/analystresearch", { controller: "application.controllers.analystResearchController", templateUrl: pageOptions.appBasePath + "/App/Views/analystresearch.html?v=" + pageOptions.version, controllerAs: "analystresearch" })
                 .when("/admin", { controller: "application.controllers.adminController", templateUrl: pageOptions.appBasePath + "/App/Views/admin.html?v=" + pageOptions.version, controllerAs: "admin" })
                 .when("/reporting", { controller: "application.controllers.reportingController", templateUrl: pageOptions.appBasePath + "/App/Views/reporting.html?v=" + pageOptions.version, controllerAs: "reporting" })
+                .when("/tradebooking", { controller: "application.controllers.tradebookingController", templateUrl: pageOptions.appBasePath + "/App/Views/tradebooking.html", controllerAs: "tradebooking" });
                 ;
 
             $routeProvider.otherwise({ redirectTo: "/positions" });

@@ -191,14 +191,97 @@ module Application.Directives {
 	}
 
 	export class FormatTextAsCurrency implements ng.IDirective {
+		
 		link = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ctrl: any) => {
-
 			function commaSeparateNumber(val) {
 				if (val != null && val.length > 0) {
 					return parseFloat(val.replace(/,/g, ""))
 						.toFixed(2)
 						.toString()
 						.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				} else {
+					return "";
+				}
+			}
+
+			$(element[0]).focusout(function () {
+				$(this).val(commaSeparateNumber($(this).val()));
+			});
+			//$(element[0]).load(function () {
+			//	console.log("bind");
+			//	$(this).val(commaSeparateNumber($(this).val()));
+			//});
+			$(element[0]).focusin(function () {
+				if ($(this).val().length > 0) {
+					$(this).val($(this).val().replaceAll(",", ""));
+				}
+			});
+		}
+		static factory(): ng.IDirectiveFactory {
+			var directive = () => new FormatTextAsCurrency();
+			directive.$inject = [];
+			return directive;
+		}
+	}
+
+	export class CsvDataService implements ng.IDirective {
+		exportToCsv(filename, rows) {
+			if (!rows || !rows.length) {
+				return;
+			}
+			const separator = ',';
+			const keys = Object.keys(rows[0]);
+			const csvContent =
+				keys.join(separator) +
+				'\n' +
+				rows.map(row => {
+					return keys.map(k => {
+						let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+						cell = cell instanceof Date
+							? cell.toLocaleString()
+							: cell.toString().replace(/"/g, '""');
+						if (cell.search(/("|,|\n)/g) >= 0) {
+							cell = `"${cell}"`;
+						}
+						return cell;
+					}).join(separator);
+				}).join('\n');
+
+			const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+			if (navigator.msSaveBlob) { // IE 10+
+				navigator.msSaveBlob(blob, filename);
+			} else {
+				const link = document.createElement('a');
+				if (link.download !== undefined) {
+					const url = URL.createObjectURL(blob);
+					link.setAttribute('href', url);
+					link.setAttribute('download', filename);
+					link.style.visibility = 'hidden';
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				}
+			}
+			return true;
+		}
+		static factory(): ng.IDirectiveFactory {
+			var directive = () => new CsvDataService();
+			directive.$inject = [];
+			return directive;
+		}
+	}
+
+	export class FormatTextAsCurrency4 implements ng.IDirective {
+
+		link = (scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ctrl: any) => {
+			function commaSeparateNumber(val) {
+				if (val != null && val.length > 0) {
+					var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
+					return (new Intl.NumberFormat('en-US', options).format(val)).replace("$","");
+					//return parseFloat(val.replace(/,/g, ""))
+					//	.toFixed(4)
+					//	.toString()
+					//	.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				} else {
 					return "";
 				}
@@ -214,7 +297,7 @@ module Application.Directives {
 			});
 		}
 		static factory(): ng.IDirectiveFactory {
-			var directive = () => new FormatTextAsCurrency();
+			var directive = () => new FormatTextAsCurrency4();
 			directive.$inject = [];
 			return directive;
 		}
@@ -242,8 +325,6 @@ module Application.Directives {
 			return directive;
 		}
     }
-
-
 
 	export function sumOfValue() {
 		return (data: Array<any>, key: string): number => {
@@ -308,10 +389,19 @@ module Application.Directives {
 		};
 	}
 
+	//export function addCommasToInteger(val): ng.IDirective {
+	//	var commas, decimals, wholeNumbers;
+	//	decimals = val.indexOf('.') == -1 ? '' : val.replace(/^\d+(?=\.)/, '');
+	//	wholeNumbers = val.replace(/(\.\d+)$/, '');
+	//	commas = wholeNumbers.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+	//	return "" + commas + decimals;
+ //   }
+
 	angular.module("app").directive("fileProcessor", FileProcessor.factory());
 	angular.module("app").directive("onlyNumericKeys", OnlyNumricKeys.factory());
 	angular.module("app").directive("datePicker", DatePicker.factory());
-	angular.module("app").directive("formatTextAsCurrency", FormatTextAsCurrency.factory());
+	angular.module("app").directive("formatTextAsCurrency", FormatTextAsCurrency.factory());	
+	angular.module("app").directive("formatTextAsCurrency4", FormatTextAsCurrency4.factory());
 	angular.module("app").directive("scrollGroup", ScrollGroup.factory());
 	angular.module("app").directive("validateWeekendDate", ValidateWeekendDate.factory());
     angular.module("app").filter("dynamicFilter", dynamicFilter);
@@ -322,5 +412,6 @@ module Application.Directives {
 	angular.module("app").directive("toggleButton", ToggleButton.factory());
 	angular.module("app").directive("customModalFilter", CustomModalFilterDirective);
 	angular.module("app").directive("optionsClass", OptionsClass.factory());
-
+	angular.module("app").directive("csvDataService", CsvDataService.factory());
+	//angular.module("app", []).directive('fcsaNumber', addCommasToInteger);
 }

@@ -231,6 +231,34 @@ var Application;
                 this.getTradeSourceData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
                 };
+                this.getTradeBookingData = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getsourcedata');
+                };
+                this.generateTradeXML = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
+                };
+                this.getIssuerSecurities = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
+                };
+                this.getIssuerList = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerList');
+                };
+                this.getTradeBooking = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+                };
+                this.getAllocationRule = function (tradeTypeId) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
+                };
+                this.getTradeFundAllocation = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation', data);
+                };
+                this.getCalculatedData = function (data) {
+                    /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData', data);
+                };
+                this.refreshTradeBooking = function (tradeId) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/refreshTradeBooking?TradeId=' + tradeId);
+                };
                 this.getBloombergData = function (securityCode) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);
                 };

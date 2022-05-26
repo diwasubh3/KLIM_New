@@ -62,6 +62,7 @@ namespace YCM.CLO.DTO
 
         public string FinalMaturity { get; set; }
         public string PortfolioName { get; set; }
+        public Int32 PortFolioId { get; set; }
 
     }
 }

@@ -72,7 +72,8 @@ namespace YCM.CLO.DataAccess.Models
 
         public DateTime? FinalMaturity { get; set; }
 
-
+        public string PortfolioName { get; set; }
+        public Int32 PortFolioId { get; set; }
 
 
         public virtual ICollection<Calculation> Calculations { get; set; }

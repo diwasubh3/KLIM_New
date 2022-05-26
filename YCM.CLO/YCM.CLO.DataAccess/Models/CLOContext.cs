@@ -101,6 +101,19 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<vw_ReinvestDetails> vw_ReinvestDetails { get; set; }
         public DbSet<Paydown> Paydowns { get; set; }
 
+        public DbSet<Trader> Traders { get; set; }
+        public DbSet<TradeType> TradeType { get; set; }
+        public DbSet<CounterParty> CounterParty { get; set; }
+        public DbSet<SettleMethods> SettleMethods { get; set; }
+        public DbSet<InterestTreatment> InterestTreatment { get; set; }
+        public DbSet<AllocationRule> AllocationRule { get; set; }
+        public DbSet<TradeComment> TradeComment { get; set; }
+        public DbSet<vw_IssuerSecurity> vw_IssuerSecurity { get; set; }
+        public DbSet<vw_PositionIssuers> vw_PositionIssuers { get; set; }
+        public DbSet<TradeBooking> TradeBooking { get; set; }
+        public DbSet<TradeReason> TradeReason { get; set; }
+        public DbSet<AssetType> AssetType { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -174,6 +187,16 @@ namespace YCM.CLO.DataAccess.Models
             modelBuilder.Configurations.Add(new MatrixPointMap());
             modelBuilder.Configurations.Add(new vw_ReinvestDetailsMap());
             modelBuilder.Configurations.Add(new PaydownMap());
+            modelBuilder.Configurations.Add(new TraderMap());
+            modelBuilder.Configurations.Add(new TradeTypeMap());
+            modelBuilder.Configurations.Add(new CounterPartyMap());
+            modelBuilder.Configurations.Add(new SettleMethodsMap());
+            modelBuilder.Configurations.Add(new InterestTreatmentMap());
+            modelBuilder.Configurations.Add(new AllocationRuleMap());
+            modelBuilder.Configurations.Add(new TradeBookingMap());
+            modelBuilder.Configurations.Add(new TradeCommentMap());
+            modelBuilder.Configurations.Add(new TradeReasonMap());
+            modelBuilder.Configurations.Add(new AssetTypeMap());
         }
 	}
 }
