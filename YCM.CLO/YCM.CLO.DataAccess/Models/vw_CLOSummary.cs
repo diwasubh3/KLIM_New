@@ -86,6 +86,7 @@ namespace YCM.CLO.DataAccess.Models
 			=> $"{FundCode}: {Par} {Spread} {PrincipalCash} {AssetPar}";
 
 		public decimal? SOFR { get; set; }
+		public decimal? WAPP { get; set; }
 	}
 
 
