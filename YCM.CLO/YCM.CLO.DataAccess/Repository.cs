@@ -1008,10 +1008,14 @@ namespace YCM.CLO.DataAccess
 				&& (t.KeepOnBlotter.HasValue && t.KeepOnBlotter.Value || t.DateId == dateId));
 		}
 
-
 		IEnumerable<Facility> IRepository.GetFacilities()
 		{
-			return _cloContext.Facilities.Where(f => f.FacilityId >= 0).ToList();
+			return _cloContext.Facilities.Where(f => f.FacilityId >= 0).ToList().OrderBy(f => f.FacilityDesc) ;
+		}
+
+		IEnumerable<AssetType> IRepository.GetAssetTypes()
+		{
+			return _cloContext.AssetType.Where(f => f.AssetId >= 0).ToList().OrderBy(f => f.AssetName);
 		}
 
 		IEnumerable<LienType> IRepository.GetLienTypes()
@@ -1068,6 +1072,12 @@ namespace YCM.CLO.DataAccess
 		IEnumerable<Fund> IRepository.GetFunds()
 		{
 			var data = _cloContext.Funds.SqlQuery($"clo.spGetFunds").ToList();
+			return data;
+		}
+
+		IEnumerable<Fund> IRepository.GetFundAllocation()
+		{
+			var data = _cloContext.Funds.SqlQuery($"clo.dbsp_GetFundAllocation").ToList();
 			return data;
 		}
 
@@ -2005,7 +2015,191 @@ namespace YCM.CLO.DataAccess
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<vw_Security_Paydown>("CLO.spGetSecurityPaydown @paramSecurityIds", paramSecurityIds);
 		}
-	}
 
+		IEnumerable<Trader> IRepository.GetTraders()
+		{
+			return _cloContext.Traders.Where(i => i.TraderId > 0);
+		}
+		IEnumerable<TradeType> IRepository.GetTradeType()
+		{
+			return _cloContext.TradeType.Where(i => i.TradeTypeId > 0);
+		}
+		IEnumerable<CounterParty> IRepository.GetCounterParty()
+		{
+			return _cloContext.CounterParty.Where(i => i.PartyId > 0);
+		}
+		IEnumerable<SettleMethods> IRepository.GetSettleMethods()
+		{
+			return _cloContext.SettleMethods.Where(i => i.MethodId > 0);
+		}
+		IEnumerable<InterestTreatment> IRepository.GetInterestTreatment()
+		{
+			return _cloContext.InterestTreatment.Where(i => i.Id > 0);
+		}
+		IEnumerable<TradeComment> IRepository.GetTradeComment()
+		{
+			return _cloContext.TradeComment.Where(c => c.CommentId > 0 && c.IsActive == true);
+		}
+
+		public IEnumerable<TradeReason> GetTradeReasons()
+        {
+			return _cloContext.TradeReason.Where(c => c.TradeReasonId > 0 && c.IsActive == true);
+		}
+		IEnumerable<AllocationRule> IRepository.GetAllocationRule(int tradeTypeId)
+		{
+			return _cloContext.AllocationRule.Where(i => (i.TradeTypeId == tradeTypeId) && (i.IsActive == true));
+		}
+
+		public IEnumerable<TradeBooking> GetTradeBookingXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking_XML @TradeId", paramFieldTradeId);
+		}
+
+		public IEnumerable<TradeGroup> GetTradeGroupXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeGroup>("CLO.dbsp_GetTradeGroup_XML @TradeId", paramFieldTradeId);
+		}
+
+		public IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingDetail_XML @TradeId", paramFieldTradeId);
+		}
+
+		IEnumerable<vw_IssuerSecurity> IRepository.SearchIssuerSecurities()
+		{
+			return _cloContext.vw_IssuerSecurity.SqlQuery("CLO.dbsp_SearchIssuerSecurity").ToList();
+		}
+
+		IEnumerable<vw_PositionIssuers> IRepository.GetIssuerList()
+		{
+			return _cloContext.vw_PositionIssuers.SqlQuery("CLO.dbsp_GetIssuerList").ToList();
+		}
+
+		IEnumerable<TradeBooking> IRepository.GetTradeBookings()
+		{
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking");
+		}
+
+		TradeBooking IRepository.RefreshTradeBooking(long TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.TradeBooking.SqlQuery("CLO.dbsp_RefreshTradeBooking @TradeId", paramFieldTradeId).FirstOrDefault();
+		}
+
+		IEnumerable<TradeBookingDetail> IRepository.RefreshTradeBookingDetail(long TradeId)
+		{
+			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_RefreshTradeBookingDetail  @TradeId", paramFieldTradeId);
+		}
+
+		int IRepository.SaveTradeBooking(TradeBooking tradebook, string user)
+		{
+			int intTradeBookingId = 0;
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_InsertTradeBooking", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeDate", tradebook.TradeDate));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeTypeId", tradebook.TradeTypeId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TraderId", tradebook.TraderId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@LoanXId", tradebook.LoanXId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@IssuerId", tradebook.IssuerId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@IssuerDesc", tradebook.IssuerDesc));
+						commandtradebooking.Parameters.Add(new SqlParameter("@FacilityId", tradebook.FacilityId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@CounterPartyId", tradebook.CounterPartyId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@SettleMethodId", tradebook.SettleMethodId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@InterestTreatmentId", tradebook.InterestTreatmentId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Price", tradebook.Price));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TotalQty", tradebook.TotalQty));
+						commandtradebooking.Parameters.Add(new SqlParameter("@RuleId", tradebook.RuleId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeCommentId1", tradebook.TradeCommentId1));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeCommentId2", tradebook.TradeCommentId2));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeComment", tradebook.TradeComment));
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeReasonId", tradebook.TradeReasonId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@AssetTypeId", tradebook.AssetId));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Cancel", false));
+						commandtradebooking.Parameters.Add(new SqlParameter("@UpdateFlag", false));
+						commandtradebooking.Parameters.Add(new SqlParameter("@Id", DbType.Int64) { Direction = ParameterDirection.Output });
+						commandtradebooking.ExecuteNonQuery();
+						intTradeBookingId = (int)commandtradebooking.Parameters["@Id"].Value;
+					}
+					connection.Close();
+				}
+			}
+			return intTradeBookingId;
+		}
+
+		bool IRepository.SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					foreach(var traderow in tradebookdetail)
+                    {
+						using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_InsertTradeBookingDetail", connection))
+						{
+							commandtradebooking.CommandType = CommandType.StoredProcedure;
+							commandtradebooking.Parameters.Add(new SqlParameter("@TradeId", TradeId));
+							commandtradebooking.Parameters.Add(new SqlParameter("@PortFolioId", traderow.PortFolioId));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Existing", traderow.Existing));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Allocated", traderow.Allocated));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Override", traderow.Override));
+							commandtradebooking.Parameters.Add(new SqlParameter("@FinalQty", traderow.FinalQty));
+							commandtradebooking.Parameters.Add(new SqlParameter("@TradeAmount", traderow.TradeAmount));
+							commandtradebooking.Parameters.Add(new SqlParameter("@IsIncluded", traderow.IsIncluded));
+							commandtradebooking.Parameters.Add(new SqlParameter("@Exposure", traderow.Exposure));
+							commandtradebooking.Parameters.Add(new SqlParameter("@NetPosition", traderow.NetPosition));
+							commandtradebooking.ExecuteNonQuery();
+						}
+					}					
+					connection.Close();
+				}
+			}
+			return true;
+		}
+
+		bool IRepository.UpdateSubmitDetails(long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdateSubmitDetails", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@TradeId", TradeId));
+						commandtradebooking.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+			}
+			return true;
+		}
+
+		public IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId,string tradeType)
+		{
+			SqlParameter paramruleName = new SqlParameter("@ruleName", ruleName);
+			SqlParameter paramissuerId = new SqlParameter("@issuerId", issuerId);
+			SqlParameter paramLoanXId = new SqlParameter("@LoanXId", LoanXId);
+			SqlParameter paramTradeType = new SqlParameter("@TradeType", tradeType);
+			_cloContext.Database.CommandTimeout = timeout_short;
+			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
+		}
+	}
 }
 

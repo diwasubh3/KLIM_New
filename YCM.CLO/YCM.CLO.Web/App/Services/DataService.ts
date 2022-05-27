@@ -302,6 +302,43 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getsourcedata');
         }
 
+        getTradeBookingData = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getsourcedata');
+        }
+
+        generateTradeXML = (data: Models.ITradeBooking) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
+        }
+
+        getIssuerSecurities = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
+        }
+
+        getIssuerList = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerList');
+        }
+
+        getTradeBooking = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+        }
+
+        getAllocationRule = (tradeTypeId:number) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
+        }
+
+        getTradeFundAllocation = (data: Models.ITradeBooking) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GetTradeFundAllocation', data);
+        }
+
+        getCalculatedData = (data: Array<Models.ITradeBookingDetail>) => { //, totalQty: number, ruleName: string
+            /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData',data);
+        }
+
+        refreshTradeBooking = (tradeId: number) => { 
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/refreshTradeBooking?TradeId=' + tradeId);
+        }
+
         getBloombergData = (securityCode: string) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode='+securityCode);
         }

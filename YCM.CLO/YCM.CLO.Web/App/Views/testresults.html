@@ -49,7 +49,8 @@
                             </th>
                             <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA LIFE</div></th>
                             <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
-                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
+                            <th style="text-align: right;width:40px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAPP</div></th>
+                            <th style="text-align: right;width:40px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
                             <th style="text-align: right; width: 80px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
                                 <div>Diversity</div>
                             </th>
@@ -114,11 +115,17 @@
                                     {{data.wsowaLife| number:2}}
                                 </span>
                             </td>
-                            <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
+                            <!--<td style="width: 40px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
                                 <span uib-tooltip-html="data.bidTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
                                     {{data.bid| number:2}}
                                 </span>
+                            </td>-->
+                            <td style="width: 40px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.WAPPBgStyle">
+                                <span uib-tooltip-html="data.WAPPTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wapp| number:2}} test
+                                </span>
                             </td>
+
                             <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.cleanNavBgStyle">
                                 <span uib-tooltip-html="data.cleanNavTooltip" tooltip-append-to-body="true">
                                     {{data.cleanNav| number:2}}%

@@ -138,6 +138,7 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<Trade> GetTrades(bool includeCancelled, int dateId);
 
         IEnumerable<Facility> GetFacilities();
+        IEnumerable<AssetType> GetAssetTypes();
 
         IEnumerable<LienType> GetLienTypes();
 
@@ -240,5 +241,28 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<vw_Position> DeletePaydown(int paydownId, int dateId);
 
         IEnumerable<vw_Security_Paydown> GetSecurityPaydown(int[] securityIds);
+
+        IEnumerable<Trader> GetTraders();
+        IEnumerable<TradeType> GetTradeType();
+        IEnumerable<CounterParty> GetCounterParty();
+        IEnumerable<SettleMethods> GetSettleMethods();
+        IEnumerable<InterestTreatment> GetInterestTreatment();
+        IEnumerable<TradeComment> GetTradeComment();
+        IEnumerable<TradeReason> GetTradeReasons();
+        IEnumerable<AllocationRule> GetAllocationRule(int tradeTypeId);
+
+        IEnumerable<TradeBooking> GetTradeBookingXML(int Id);
+        IEnumerable<TradeGroup> GetTradeGroupXML(int Id);
+        IEnumerable<TradeBookingDetail> GetTradeBookingDetailXML(int Id); 
+        IEnumerable<vw_IssuerSecurity> SearchIssuerSecurities();
+        IEnumerable<vw_PositionIssuers> GetIssuerList();
+        IEnumerable<Fund> GetFundAllocation();
+        IEnumerable<TradeBooking> GetTradeBookings();
+        IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId, string tradeType);
+        int SaveTradeBooking(TradeBooking tradebook, string user);
+        bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);
+        bool UpdateSubmitDetails(long TradeId);
+        TradeBooking RefreshTradeBooking(long TradeId);
+        IEnumerable<TradeBookingDetail> RefreshTradeBookingDetail(long TradeId);
     }
 }

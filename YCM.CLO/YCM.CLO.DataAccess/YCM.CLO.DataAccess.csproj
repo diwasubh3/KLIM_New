@@ -53,9 +53,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsvHelper, Version=4.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+    <Reference Include="CsvHelper">
       <HintPath>..\packages\CsvHelper.4.0.3\lib\net45\CsvHelper.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -83,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Models\AllocationRule.cs" />
     <Compile Include="Models\AnalystResearchFile.cs" />
     <Compile Include="Models\AnalystResearchDetailHistory.cs" />
     <Compile Include="Models\AnalystResearchHeaderHistory.cs" />
@@ -100,7 +100,9 @@
     <Compile Include="Models\ApplicationRole.cs" />
     <Compile Include="Models\AssetClass.cs" />
     <Compile Include="Models\AssetExposure.cs" />
+    <Compile Include="Models\AssetType.cs" />
     <Compile Include="Models\CacheSetting.cs" />
+    <Compile Include="Models\CounterParty.cs" />
     <Compile Include="Models\DefaultSecurity.cs" />
     <Compile Include="Models\FundAssetClass.cs" />
     <Compile Include="Models\FundCalculation.cs" />
@@ -115,7 +117,9 @@
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\GicsToSnpMoodyIndustryMap.cs" />
     <Compile Include="Models\Industry.cs" />
+    <Compile Include="Models\InterestTreatment.cs" />
     <Compile Include="Models\LoanPosition.cs" />
+    <Compile Include="Models\Mapping\AllocationRuleMap.cs" />
     <Compile Include="Models\Mapping\AnalystResearchDetailHistoryMap.cs" />
     <Compile Include="Models\Mapping\AnalystResearchDetailMap.cs" />
     <Compile Include="Models\Mapping\AnalystResearchFileMap.cs" />
@@ -125,6 +129,8 @@
     <Compile Include="Models\Mapping\AnalystResearchMap.cs" />
     <Compile Include="Models\Mapping\AnalystResearchRowLocationMap.cs" />
     <Compile Include="Models\Mapping\ApplicationRoleMap.cs" />
+    <Compile Include="Models\Mapping\AssetTypeMap.cs" />
+    <Compile Include="Models\Mapping\CounterPartyMap.cs" />
     <Compile Include="Models\Mapping\FundAssetClassMap.cs" />
     <Compile Include="Models\Mapping\FundCalculationMap.cs" />
     <Compile Include="Models\Mapping\CreditScoreMap.cs" />
@@ -133,14 +139,32 @@
     <Compile Include="Models\Mapping\C__RefactorLogMap.cs" />
     <Compile Include="Models\Mapping\GicsToSnpMoodyIndustryMapMap.cs" />
     <Compile Include="Models\Mapping\IndustryMap.cs" />
+    <Compile Include="Models\Mapping\InterestTreatmentMap.cs" />
     <Compile Include="Models\Mapping\MatrixPointMap.cs" />
+    <Compile Include="Models\Mapping\SettleMethodsMap.cs" />
+    <Compile Include="Models\Mapping\TradeBookingMap.cs" />
+    <Compile Include="Models\Mapping\TradeCommentMap.cs" />
+    <Compile Include="Models\Mapping\TradeReasonMap.cs" />
+    <Compile Include="Models\Mapping\TraderMap.cs" />
+    <Compile Include="Models\Mapping\TradeTypeMap.cs" />
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\vw_ReinvestDetailsMap.cs" />
     <Compile Include="Models\Mapping\PaydownMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\TradeComment.cs" />
+    <Compile Include="Models\TradeReason.cs" />
+    <Compile Include="Models\vw_PositionIssuers.cs" />
+    <Compile Include="Models\SettleMethods.cs" />
     <Compile Include="Models\TotalParChange.cs" />
+    <Compile Include="Models\TradeBooking.cs" />
+    <Compile Include="Models\TradeBookingDetail.cs" />
+    <Compile Include="Models\TradeBookingResponse.cs" />
+    <Compile Include="Models\TradeGroup.cs" />
+    <Compile Include="Models\Trader.cs" />
+    <Compile Include="Models\TradeType.cs" />
+    <Compile Include="Models\vw_IssuerSecurity.cs" />
     <Compile Include="Models\vw_Mismatch.cs" />
     <Compile Include="Models\vw_MatrixData.cs" />
     <Compile Include="Models\MatrixData.cs" />

@@ -75,7 +75,7 @@
                                     {{currentfundscount = (topNav.summaryData.length - stalefundscount) }}
                                 </span>
                                 <span>
-                                    WSO Data Upload:&nbsp;
+                                    WSO Data Upload {{topNav.summaryData.length > 0 ? '( ' + topNav.summaryData[0].dateId.toString().substr(4,2) + '/'+topNav.summaryData[0].dateId.toString().substr(6,2) + '/'+topNav.summaryData[0].dateId.toString().substr(0,4) + ' )' :''}}:&nbsp;
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 ? (currentfundscount + ' current') : ''}}</span>
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{currentfundscount > 0 && stalefundscount > 0 ? ' | ':''}}</span>
                                     <span ng-class="{'inactive-securities':stalefundscount}">{{stalefundscount > 0 ? (stalefundscount + ' stale') :'' }}</span>
@@ -97,11 +97,9 @@
                             <uib-accordion close-others="oneAtATime">
                                 
                                 <div uib-accordion-group class="panel-default" ng-click="topNav.onTestResultsVisibilityChanged(topNav.testResultIsOpen)" is-open="topNav.testResultIsOpen">
-                                    <uib-accordion-heading>
-                                        
+                                    <uib-accordion-heading>                                        
                                         <div>
-                                            TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>
-                                            
+                                            TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>                                            
                                         </div>
                                     </uib-accordion-heading>
                                     @*<div style="padding: 4px !important">
@@ -168,6 +166,7 @@
                                                     </th>
                                                     <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAPP</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
                                                     <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
 
@@ -274,6 +273,11 @@
                                                             {{data.bid| number:2}}
                                                         </span>
                                                     </td>
+                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wappBgStyle">
+                                                        <span uib-tooltip-html="data.wappTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                            {{data.wapp| number:2}}
+                                                        </span>
+                                                    </td>
                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bbmvocBgStyle">
                                                         <span uib-tooltip-html="data.bbmvocfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
                                                             {{data.bbmvoc| number:2}}{{data.bbmvoc != null && data.bbmvoc.toString().length? '%':''}}
@@ -301,9 +305,9 @@
                                 <div class="collapse navbar-collapse  p-0" style="height:24px!important;position:static !important">
                                     <ul class="nav navbar-nav" style="height:24px">
                                         @*@if (ViewBag.HasPositionScreenPermission)
-                                            {
-                                                <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
-                                            }*@
+        {
+            <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
+        }*@
                                         @if (ViewBag.HasPositionScreenPermission)
                                         {
                                             <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
@@ -334,9 +338,9 @@
                                             <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
                                         }
                                         @*@if (ViewBag.HasAnalystResearchPermission)
-                                            {
-                                                <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
-                                            }*@
+        {
+            <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
+        }*@
                                         @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
                                         {
 
@@ -357,7 +361,7 @@
                                                     {
                                                         <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
                                                     }
-                                                    @*<li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>*@
+                                                    <li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>
                                                     @if (ViewBag.HasParametersPermission)
                                                     {
                                                         <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
@@ -373,6 +377,7 @@
                                         {
                                             <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
                                         }
+
                                         @if (ViewBag.HasNewLoanReconPermission || ViewBag.HasLoanAttributeOverridesReconPermission || ViewBag.HasAdminPermission)
                                         {
                                             <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
@@ -399,6 +404,7 @@
                                         {
                                             <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
                                         }
+                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
 ﻿module Application.Models {
-    export interface  UserModel {
+    export interface UserModel {
         firstName: string;
-        lastName:string;
+        lastName: string;
     }
 
     export interface ISummary {
@@ -12,13 +12,13 @@
         warf: Number;
         moodyRecovery: Number;
         bid: Number;
-		principalCash: Number;
-		assetPar: Number;
-	    wsoSpread: Number;
-	    wsowarf: Number;
-	    wsoMoodyRecovery: Number;
-	    wsowaLife: Number;
-	    wsoDiversity: Number;
+        principalCash: Number;
+        assetPar: Number;
+        wsoSpread: Number;
+        wsowarf: Number;
+        wsoMoodyRecovery: Number;
+        wsowaLife: Number;
+        wsoDiversity: Number;
 
         cleanNav: any;
         bodCleanNav: any;
@@ -32,49 +32,48 @@
         warfBgStyle: any;
         moodyRecoveryBgStyle: any;
         waBidBgStyle: any;
-        bidBgStyle:any;
+        bidBgStyle: any;
         principalCashBgStyle: any;
         snpRecovery: any;
         diversityCalcBgStyle: any;
-		cleanNavBgStyle: any;
+        cleanNavBgStyle: any;
         sortOrder: number;
         sOFR: number;
-        
+
     }
 
     export interface IRule {
         ruleId: number;
         ruleName: string;
-        ruleFields:Array<IRuleField>;
+        ruleFields: Array<IRuleField>;
     }
 
-    export interface IPosition
-    {
-        positionId:number;
+    export interface IPosition {
+        positionId: number;
         fundCode: string;
         issuerId: number;
         issuerDesc: string;
-	    issuer: string;
-	    securityCode: string;
-		securityId: number;
-	    bbgId: string;
+        issuer: string;
+        securityCode: string;
+        securityId: number;
+        bbgId: string;
 
         watchId: number;
         sellCandidateId: number;
 
-		sellCandidateObjectTypeId: number;
-	    sellCandidateObjectId: number;
-	    isSellCandidate: boolean;
-	    sellCandidateComments: string;
-	    sellCandidateLastUpdatedOn: string;
-	    sellCandidateUser: string;
+        sellCandidateObjectTypeId: number;
+        sellCandidateObjectId: number;
+        isSellCandidate: boolean;
+        sellCandidateComments: string;
+        sellCandidateLastUpdatedOn: string;
+        sellCandidateUser: string;
 
-		watchObjectTypeId: number;
+        watchObjectTypeId: number;
         watchObjectId: number;
         isOnWatch: boolean;
         watchComments: string;
-		inDeleteMode: boolean;
-		watchTypeId: number;
+        inDeleteMode: boolean;
+        watchTypeId: number;
         toolTipText: string;
         watchLastUpdatedOn: string;
         watchUser: string;
@@ -94,53 +93,53 @@
         offer: number;
         bid: number;
         exposure: number;
-        totalPar:number;
-        pctExposure:string;
+        totalPar: number;
+        pctExposure: string;
         hasBuyTrade: boolean;
         hasSellTrade: boolean;
-	    isPrivate: boolean;
+        isPrivate: boolean;
 
         clO1Exposure: string;
         clO2Exposure: string;
         clO3Exposure: string;
         clO4Exposure: string;
-	    clO5Exposure: string;
-	    clO6Exposure: string;
+        clO5Exposure: string;
+        clO6Exposure: string;
         clO7Exposure: string;
         clO8Exposure: string;
-	    trsExposure: string;
-	    wH1Exposure: string;
+        trsExposure: string;
+        wH1Exposure: string;
         clO1PctExposure: string;
         clO2PctExposure: string;
         clO3PctExposure: string;
         clO4PctExposure: string;
-	    clO5PctExposure: string;
-	    clO6PctExposure: string;
+        clO5PctExposure: string;
+        clO6PctExposure: string;
         clO7PctExposure: string;
         clO8PctExposure: string;
-	    trsPctExposure: string;
-	    wH1PctExposure: string;
+        trsPctExposure: string;
+        wH1PctExposure: string;
         clO1NumExposure: number;
         clO2NumExposure: number;
         clO3NumExposure: number;
         clO4NumExposure: number;
-	    clO5NumExposure: number;
-	    clO6NumExposure: number;
+        clO5NumExposure: number;
+        clO6NumExposure: number;
         clO7NumExposure: number;
         clO8NumExposure: number;
-	    trsNumExposure: number;
-	    wH1NumExposure: number;
+        trsNumExposure: number;
+        wH1NumExposure: number;
 
         forCompare: boolean;
         trades: Array<ITradeInfo>;
-        isFilterSuccess:boolean;
-	    enterpriseValue: string;
-		ltmfcf: string;
-		seniorLeverage: string;
-		scoreDescription: string;
-		globalAmount: number;
-		globalAmountString: string;
-		sponsor: string;
+        isFilterSuccess: boolean;
+        enterpriseValue: string;
+        ltmfcf: string;
+        seniorLeverage: string;
+        scoreDescription: string;
+        globalAmount: number;
+        globalAmountString: string;
+        sponsor: string;
         snpWarf: string;
         snpLgd: string;
         moodysLgd: string;
@@ -156,67 +155,65 @@
     }
 
     export interface IAlert {
-        description:string;
+        description: string;
     }
 
-	export interface ICustomView {
-		viewId: number;
-		viewName: string;
-		displayName: string;
-		isPublic: boolean;
-		isDefault: boolean;
-		isDisabled: boolean;
-		customViewFields: Array<ICustomViewField>;
-	}
+    export interface ICustomView {
+        viewId: number;
+        viewName: string;
+        displayName: string;
+        isPublic: boolean;
+        isDefault: boolean;
+        isDisabled: boolean;
+        customViewFields: Array<ICustomViewField>;
+    }
 
-	export interface ICustomViewField {
-		customViewFieldId: number;
-		viewId: number;
-		fieldGroupId: number;
-		fieldId: number;
-		fieldTitle: string;
-		field: IField;
-		sortOrder: number;
-		isHidden: boolean;
-	}
+    export interface ICustomViewField {
+        customViewFieldId: number;
+        viewId: number;
+        fieldGroupId: number;
+        fieldId: number;
+        fieldTitle: string;
+        field: IField;
+        sortOrder: number;
+        isHidden: boolean;
+    }
 
-    export interface IField
-    {
+    export interface IField {
         fieldId: Number;
         fieldGroupId: number;
         fieldName: string;
         jsonPropertyName: string;
-        displayWidth:number;
+        displayWidth: number;
         fieldTitle: string;
         fieldType: number;
         cellTemplate: string;
         pinnedLeft: boolean;
-        hidden:boolean;
+        hidden: boolean;
         headerTemplate: string;
         filter: any;
         headerCellClass: string;
         cellClass: string;
         fieldGroupName: string;
-		isSecurityOverride: boolean;
-		jsonFormatString: string;
-		sortOrder: number;
-		filterOrder: number;
+        isSecurityOverride: boolean;
+        jsonFormatString: string;
+        sortOrder: number;
+        filterOrder: number;
     }
 
-    export interface IRuleField  {
+    export interface IRuleField {
         ruleFieldId: number,
         fieldId: number,
         field: IField;
-        ruleSectionType:IRuleSectionType;
+        ruleSectionType: IRuleSectionType;
     }
 
     export interface IRuleSectionType {
         ruleSectionTypeId: number;
-        ruleSectionName:string;
+        ruleSectionName: string;
     }
 
-    export interface IFieldGroup
-    {
+    export interface IFieldGroup {
         fields: Array<IField>;
         fieldGroupId: number;
         fieldGroupName: string;
@@ -224,13 +221,12 @@
         cancelled: boolean;
     }
 
-    export interface IFundRestrictionsTypes
-    {
+    export interface IFundRestrictionsTypes {
         displayColor: string;
         fundRestrictionTypeId: number;
         displayColorStyle: any;
-		fundRestrictionTypeName: string;
-		fundRestrictionToolTip: string;
+        fundRestrictionTypeName: string;
+        fundRestrictionToolTip: string;
     }
 
     export interface IFundRestriction {
@@ -239,20 +235,20 @@
         restrictionValue: number;
         operatorCode: string;
         operatorVal: string;
-		fundId: number;
-		fieldName: string;
-		restrictionValueCurrent: number;
-		restrictionValuePrevious: number;
-		fundRestrictionToolTip: string;
-		displayColor: string;
+        fundId: number;
+        fieldName: string;
+        restrictionValueCurrent: number;
+        restrictionValuePrevious: number;
+        fundRestrictionToolTip: string;
+        displayColor: string;
         isDifferenceOverThreshold: boolean;
         isDisabled: boolean;
     }
 
-    export interface IOperator{
+    export interface IOperator {
         operatorId: number;
         operatorVal: string;
-        operatorCode:string;
+        operatorCode: string;
     }
 
     export interface ITop10Bottom10Positions {
@@ -264,16 +260,16 @@
     export interface IWatch {
         watchId: number;
         watchObjectTypeId: number;
-        watchObjectId:number;
-		isOnWatch: boolean;
-	    inDeleteMode: boolean;
-		watchTypeId: number;
+        watchObjectId: number;
+        isOnWatch: boolean;
+        inDeleteMode: boolean;
+        watchTypeId: number;
         watchComments: string;
-		watchHtmlText: string;
-		securityId: number;
-		issuerId: number;
-	    issuer: string;
-	    securityCode: string;
+        watchHtmlText: string;
+        securityId: number;
+        issuerId: number;
+        issuer: string;
+        securityCode: string;
     }
 
     export interface IPaydown {
@@ -298,13 +294,13 @@
         parameterValueNumber: number;
         parameterValueText: string;
         parameterMinValueNumber: number;
-        parameterMaxValueNumber:number;
-        parameterType:Models.IParameterType;
+        parameterMaxValueNumber: number;
+        parameterType: Models.IParameterType;
     }
 
     export interface IParameterType {
         parameterTypeId: number;
-        parameterTypeName:string;
+        parameterTypeName: string;
     }
 
     export interface IFacility {
@@ -314,8 +310,8 @@
 
     export interface IIssuer {
         issuerId: number;
-		issuerDesc: string;
-		isPrivate: boolean;
+        issuerDesc: string;
+        isPrivate: boolean;
     }
 
     export interface ISecurity {
@@ -332,12 +328,12 @@
         moodyIndustryId: number;
         isCovLite: boolean;
         isFloating: boolean;
-		lienTypeId: number;
-       
+        lienTypeId: number;
+
         facility: IFacility;
         issuer: IIssuer;
         securityName: string;
-        attribute:string;
+        attribute: string;
     }
 
     export interface ISecurityOverride {
@@ -351,7 +347,7 @@
         field: Models.IField;
         security: Models.ISecurity;
         securtiyName: string;
-        securityCode:string;
+        securityCode: string;
         searchText: string;
         facilityDesc: string;
         issuerDesc: string;
@@ -363,71 +359,71 @@
         existingValue: string;
     }
 
-	export interface IAnalystResearchDetail {
-		asOfDate: string;
-		spacer1: string;
-		seniorLeverage: string;
-		totalLeverage: string;
-		netTotalLeverage: string;
-		fcfDebt: string;
-		enterpriseValue: string;
-		spacer2: string;
-		ltmRevenues: string;
-		ltmebitda: string;
-		ltmfcf: string;
-		spacer3: string;
-		revenues: string;
-		yoYGrowth: string;
-		organicGrowth: string;
-		spacer4: string;
-		cashEBITDA: string;
-		margin: string;
-		spacer5: string;
-		transactionExpenses: string;
-		restructuringAndIntegration: string;
-		other1: string;
-		pfebitda: string;
-		spacer6: string;
-		ltmpfebitda: string;
-		pfCostSaves: string;
-		pfAcquisitionAdjustment: string;
-		covenantEBITDA: string;
-		spacer7: string;
-		interest: string;
-		cashTaxes: string;
-		workingCapital: string;
-		restructuringOneTime: string;
-		other2: string;
-		ocf: string;
-		capitalExpenditures: string;
-		fcf: string;
-		ablrcf: string;
-		firstLienDebt: string;
-		totalDebt: string;
-		equityMarketCap: string;
-		cash: string;
-		comments: string;
-		lastUpdatedOn: Date;
-	}
+    export interface IAnalystResearchDetail {
+        asOfDate: string;
+        spacer1: string;
+        seniorLeverage: string;
+        totalLeverage: string;
+        netTotalLeverage: string;
+        fcfDebt: string;
+        enterpriseValue: string;
+        spacer2: string;
+        ltmRevenues: string;
+        ltmebitda: string;
+        ltmfcf: string;
+        spacer3: string;
+        revenues: string;
+        yoYGrowth: string;
+        organicGrowth: string;
+        spacer4: string;
+        cashEBITDA: string;
+        margin: string;
+        spacer5: string;
+        transactionExpenses: string;
+        restructuringAndIntegration: string;
+        other1: string;
+        pfebitda: string;
+        spacer6: string;
+        ltmpfebitda: string;
+        pfCostSaves: string;
+        pfAcquisitionAdjustment: string;
+        covenantEBITDA: string;
+        spacer7: string;
+        interest: string;
+        cashTaxes: string;
+        workingCapital: string;
+        restructuringOneTime: string;
+        other2: string;
+        ocf: string;
+        capitalExpenditures: string;
+        fcf: string;
+        ablrcf: string;
+        firstLienDebt: string;
+        totalDebt: string;
+        equityMarketCap: string;
+        cash: string;
+        comments: string;
+        lastUpdatedOn: Date;
+    }
 
-	export interface IAnalystResearchHeader {
-		analystResearchHeaderId: number;
-		analystId: number;
-		issuerId: number;
-		issuer: string;
-		cloAnalystUserId: number;
-		hfAnalystUserId: number;
-		cloAnalyst: string;
-		hfAnalyst: string;
-		creditScore: number;
-		agentBank: string;
-		businessDescription: string;
-		comments: string;
-		lastUpdatedOn: Date;
-		sponsor: string;
-	}
+    export interface IAnalystResearchHeader {
+        analystResearchHeaderId: number;
+        analystId: number;
+        issuerId: number;
+        issuer: string;
+        cloAnalystUserId: number;
+        hfAnalystUserId: number;
+        cloAnalyst: string;
+        hfAnalyst: string;
+        creditScore: number;
+        agentBank: string;
+        businessDescription: string;
+        comments: string;
+        lastUpdatedOn: Date;
+        sponsor: string;
+    }
 
-    export interface IAnalystResearch  {
+    export interface IAnalystResearch {
         analystId: number;
         issuerId: number;
         cloAnalystUserId: number;
@@ -456,22 +452,22 @@
         ltmebitdaPlaceHolder: number;
         fcfPlaceHolder: number;
         commentsPlaceHolder: string;
-        analystResearchId:number;
+        analystResearchId: number;
 
-        minAsOfDate:string;
+        minAsOfDate: string;
         issuer: string;
         isVisible: boolean;
-		isEditMode: boolean;
+        isEditMode: boolean;
     }
 
     export interface IGroupedAnalystRefresh {
         issuerData: Models.IAnalystResearch;
         analystResearches: Array<IAnalystResearch>;
-    } 
+    }
 
     export interface IAnalystResearchHeaderFileds {
         issuerFields: Array<Models.IField>;
-        analystResearchFields : Array<Models.IField>;
+        analystResearchFields: Array<Models.IField>;
     }
 
     export interface IUser {
@@ -479,9 +475,9 @@
         fullName: string;
     }
 
-    export interface IAnalysts  {
+    export interface IAnalysts {
         cloAnalysts: Array<Models.IUser>;
-        hFnalysts:Array<Models.IUser>;
+        hFnalysts: Array<Models.IUser>;
     }
 
     export interface IPricing {
@@ -492,7 +488,7 @@
         createdBy: string;
         securityCode: string;
         issuer: string;
-        facility:string;
+        facility: string;
     }
 
     export interface ISecurityRecon {
@@ -502,27 +498,27 @@
         securityId: number;
         issuer: string;
         maturityDate: string;
-       
+
         searchText: string;
-        checked:boolean;
+        checked: boolean;
     }
 
-    export interface ILoanAttributeDto  {
+    export interface ILoanAttributeDto {
         field: Models.IField;
         securityOverrideId: number;
         securityId: number;
         overrideValue: string;
         effectiveFrom: string;
         effectiveTo: string;
-        existingValue:string;
+        existingValue: string;
     }
 
     export interface IVwSecurityDto {
-        loanAttributeOverrides : Array<Models.ILoanAttributeDto>;
+        loanAttributeOverrides: Array<Models.ILoanAttributeDto>;
         securityCode: string;
-        securityId:number;
+        securityId: number;
         securityDesc: string;
-        securityName:string;
+        securityName: string;
         bbgId: string;
         issuer: string;
         facility: string;
@@ -534,8 +530,8 @@
         lienType: string;
         issuerId: number;
         watchId: number;
-		isOnWatch: boolean;
-		isSellCandidate: boolean;
+        isOnWatch: boolean;
+        isSellCandidate: boolean;
         watchObjectTypeId: number;
         watchObjectId: number;
         watchComments: string;
@@ -553,49 +549,56 @@
         origIsFloating: string;
         origLienType: string;
         hasPositions: boolean;
-}
+    }
 
     export interface IMessage {
         header: string;
-        body:string;
+        body: string;
     }
 
     export interface IFund {
-        fundId :number;
-        fundCode: string; 
+        fundId: number;
+        fundCode: string;
         isNotSelected: boolean;
-		displayText: string;
-		targetPar: number;
+        displayText: string;
+        targetPar: number;
         assetParPercentageThreshold: number;
         isImsSelected: boolean;
         isWareHouse: boolean;
         canFilter: boolean;
+        PortfolioName: string,
+        PortFolioId: number,
+        Existing: number,
+        Allocated: number,
+        Override: number,
+        FinalQty: number,
+        TradeAmount: number
     }
 
     export interface ITradeAllocation {
-        tradeAllocationId :number;
-        tradeId :number;
-        currentAllocation :number;
+        tradeAllocationId: number;
+        tradeId: number;
+        currentAllocation: number;
         newAllocation: number;
         finalAllocation: number;
-        fundId :number;
+        fundId: number;
         fund: IFund;
         bid: string;
-        offer:string;
+        offer: string;
     }
 
     export interface ITrade {
-        tradeId : number;
-        securityId :number;
+        tradeId: number;
+        securityId: number;
         dateId: number;
-        tradeAmount:number;
-        tradePrice : number;
+        tradeAmount: number;
+        tradePrice: number;
         keepOnBlotter: boolean;
         sellAll: boolean;
-        bidOfferPrice :number;
+        bidOfferPrice: number;
         comments: string;
         isBuy: boolean;
-        isSell:boolean;
+        isSell: boolean;
         security: ISecurity;
         issuerId: number;
         isCancelled: boolean;
@@ -604,8 +607,8 @@
         tradeType: number;
 
         isOnWatch: boolean;
-        watchId:number;
-		watchObjectTypeId: number;
+        watchId: number;
+        watchObjectTypeId: number;
         watchObjectId: number;
         watchComments: string;
         watchLastUpdatedOn: string;
@@ -613,38 +616,34 @@
         toolTipText: string;
 
         forCompare: boolean;
-        audit:string;
+        audit: string;
     }
 
-    export interface ILienType
-    {
+    export interface ILienType {
         lienTypeId: number;
         lienTypeDesc: string;
     }
 
-    export interface IIndustry
-    {
+    export interface IIndustry {
         industryId: number;
         industryDesc: string;
     }
 
-    export interface IRating
-    {
+    export interface IRating {
         ratingId: number;
         ratingDesc: string;
-        rank:number;
+        rank: number;
     }
 
-    export interface ITradeSourceData
-    {
-        securities : Array<IVwSecurityDto>;
+    export interface ITradeSourceData {
+        securities: Array<IVwSecurityDto>;
         issuers: Array<IIssuer>;
         facilities: Array<IFacility>;
         lienTypes: Array<ILienType>;
         snpIndustries: Array<IIndustry>;
         moodyIndustries: Array<IIndustry>;
         ratings: Array<IRating>;
-        funds:Array<IFund>;
+        funds: Array<IFund>;
     }
 
     export interface ITempSecurity {
@@ -657,7 +656,7 @@
         gicsIndustry: string;
         moodyRecovery: number;
         spread: number;
-        
+
         adjustedWARF: number;
         callDate: Date;
         maturityDate: Date;
@@ -666,7 +665,7 @@
         issuer: IIssuer;
         //securityId: string;
         securityCode: string;
-        bBGId:string;
+        bBGId: string;
     }
 
     export interface ITradeInfo {
@@ -677,14 +676,14 @@
         comment: string;
     }
 
-    export interface ITradeSwapParamCriteria  {
+    export interface ITradeSwapParamCriteria {
         selectAll: boolean;
         cash: boolean;
         moodyAdjCfr: boolean;
         //moodyAdjFacility: boolean;
         recovery: boolean;
         spread: boolean;
-        fundId:number;
+        fundId: number;
         excludeZeroTotalExposure: boolean;
     }
 
@@ -709,17 +708,17 @@
 
     }
 
-    export interface ITradeSwapParam  {
+    export interface ITradeSwapParam {
         criteria: ITradeSwapParamCriteria;
-        constraints:ITradeSwapParamConstraints;
+        constraints: ITradeSwapParamConstraints;
     }
 
-    export interface ITradeSwapDefinition{
+    export interface ITradeSwapDefinition {
         tradeSwapId: number;
         status: number;
         createdBy: string;
-        error:string;
-        createdOn:Date;
+        error: string;
+        createdOn: Date;
     }
 
     export interface ITradeSwap {
@@ -742,7 +741,7 @@
         sellIssuer: string;
         sellFacility: string;
         sellMoodyAdjCFR: string;
-        sellMoodyAdjFacility:string;
+        sellMoodyAdjFacility: string;
 
         buySecurityId: number;
         buySecurityOfferPrice: number;
@@ -776,7 +775,7 @@
     export interface IGroupedTradeSwapSnapshot {
         parent: Models.ITradeSwapSnapshot;
         children: Array<Models.ITradeSwapSnapshot>;
-        groupBy:number;
+        groupBy: number;
     }
 
     export interface ITradeSwapSnapshotUi {
@@ -802,14 +801,14 @@
         creditScoreFormatted: string;
         maturityDateFormatted: string;
         moodyAdjCFR: string;
-        moodyAdjFacility:string;
+        moodyAdjFacility: string;
         recovery: number;
-        yield:number;
+        yield: number;
         recoveryFormatted: number;
         yieldFormatted: number;
 
 
-        searchText:string;
+        searchText: string;
     }
 
     export interface IFilterValue {
@@ -821,23 +820,23 @@
     export interface IFilter {
         field: Models.IField;
         lowerBound: IFilterValue;
-		upperBound: IFilterValue;
+        upperBound: IFilterValue;
         average: number;
         sourceCollection: Array<any>;
         isDisabled: boolean;
     }
 
     export interface IPositionFilters {
-	    fixedfields: Array<IFilter>;
+        fixedfields: Array<IFilter>;
         security: Array<IFilter>;
         analyst: Array<IFilter>;
         ratings: Array<IFilter>;
         funds: Array<IFund>;
         operators: Array<IOperator>;
         ratingsDictionary: any;
-		loanCount: number;
-		borrowerCount: number;
-        count:number;
+        loanCount: number;
+        borrowerCount: number;
+        count: number;
     }
 
     export interface IMatrixData {
@@ -942,8 +941,140 @@
         counterparty: string;
     }
 
+    export interface ITradeBookingData {        
+        tradeType: Array<ITradeType>;
+        traders: Array<ITrader>;
+        Facilities: Array<IFacility>;
+        CounterParty: Array<ICounterParty>;
+        SettleMethods: Array<ISettleMethods>;
+        InterestTreatment: Array<IInterestTreatment>;
+        allocationRule: Array<IAllocationRule>;
+        issuer: string;
+        loanXId: string;
+        facilityId: string;
+    }
 
+    export interface ITradeBooking {
+        id: number;
+        tradeId: number;
+        TradeGroupId: number;
+        tradeDate: Date;
+        tradeType: ITradeType;
+        traders: ITrader;
+        loanXId: string;
+        issuer: IIssuer;
+        issuerId: number;
+        issuerDesc: string;
+        facility: IFacility;
+        assetTypes: IAssetType;
+        counterparty: ICounterParty;
+        settlemethods: ISettleMethods;
+        interesttreatments: IInterestTreatment;
+        price: number;
+        totalQty: number;
+        pendingSubmitQty: number;
+        allocationRule: IAllocationRule;
+        tradeComments1: ITradeComment;
+        tradeComments2: ITradeComment;
+        tradeReasons: ITradeReason;
+        Cancel: boolean;
+        UpdateFlag: boolean;
+        tradeTypeDesc: string;
+        tradeBookingDetail: Array<ITradeBookingDetail>;
+        selectedSecurity: string;
+        responseStatus: string;
+        errorMessage: string;
+        partyName: string;
+        settleMethod: string;
+        ruleName: string;
+        tradeComment1: string;
+        tradeComment2: string;
+        tradeReason: string;       
+    }
 
+    export interface ITradeReason {
+        tradeReasonId: number;
+        tradeReasonDesc: string;
+    }
+
+    export interface IAssetType {
+        assetId: number;
+        assetName: string;
+    }
+
+    export interface ITradeBookingDetail {
+        tradeId: number;
+        PortFolioId: number;
+        PortfolioName: string;
+        Existing: number;
+        Exposure: number;
+        Allocated: number;
+        override: number;
+        finalQty: number;
+        TradeAmount: number;
+        IsOverride: boolean;
+        totalQuantity: number;
+        GrandTotal: number;
+        isIncluded: boolean;
+        /*IsSkipped: boolean;*/
+        TotalOverride: number;
+        TotalRemaining: number;
+        ruleName: string;
+        price: number;
+        tradeType: string;
+        netPosition: number;
+    }
+
+    export interface ITradeComment {
+        commentId: number;
+        comment: string;
+    }
+
+    export interface ITrader {
+        traderId: number;
+        traderName: string;
+    }
+
+    export interface ITradeType {
+        tradeTypeId: number;
+        tradeTypeDesc: string;
+    }
+
+    export interface ICounterParty {
+        partyId: number;
+        partyName: string;
+        wsoId: string;
+    }
+
+    export interface ISettleMethods {
+        methodId: number;
+        methodName: string;
+    }
+
+    export interface IInterestTreatment {
+        id: number;
+        description: string;
+    }
+
+    export interface IAllocationRule {
+        id: number;
+        ruleName: string;
+    }
+
+    export interface IIssuerSecurity {
+        SecurityCode: string;
+        SecurityDesc: string;
+        IssuerId: string;
+        Issuer: string;
+        Facility: string;
+        FacilityId: string;
+        Exposure: string;
+        MaturityDate: string;
+        PrimarySpreadType: string;
+        LiborBaseRate: string;
+        spread: string;
+        SecurityFilter: string;
+    }
 }
     
     

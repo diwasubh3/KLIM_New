@@ -31,6 +31,14 @@
 	.red {
 		color: red;
 	}
+
+
+    .ispdollar {
+        font-weight: bold;
+        font-family: Calibri;
+        font-size: 13px;
+		color:green;
+    }
 </style>
 <!--<div ng-show="topNav.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
 	<img src="@HttpContext.Current.Request.Url.AbsoluteUri/Content/images/ajax-loader.gif" style="height: 25px; width: 25px" /><b>&nbsp;&nbsp;Loading...</b>
@@ -50,7 +58,7 @@
 			<button class="btn btn-icon" ng-class="{'btn-filtered':positions.gridApi.grid.getColumn('IsOnPaydown').filters[0].term}"
 					ng-click="positions.filterByName('IsOnPaydown')"
 					style="width: 20px; color: red " ng-disabled="positions.isLoading">
-				<span class="isp">EP</span>
+				<span class="ispdollar">$</span>
 				
 			</button>
 			<!--Commeneted on 25-Feb-2022 asper user request

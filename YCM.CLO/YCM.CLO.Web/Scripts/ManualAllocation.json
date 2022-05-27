@@ -1,0 +1,342 @@
+{
+	"Methods": [
+		{
+			"type": "Manual Allocation",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Existing]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Existing]"
+						},
+						{
+							"type": "EvaluateTradeAmount",
+							"value": "[Override] * [Price]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						},
+						{
+							"type": "TradeAmount",
+							"value": "[EvaluateTradeAmount]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "TargetPar",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Existing]"
+						}
+					],
+					"result": [
+						{
+							"type": "Allocated",
+							"value": 0
+						},
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "AllocatedQtyOutput",
+							"value": "[TotalQuantity] * [Existing] / [GrandTotal]"
+						},
+						{
+							"type": "AdditionalAllocationQty",
+							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[AllocatedQtyOutput] + [AdditionalAllocationQty] + [Existing]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "Position",
+			"rules": [
+				{
+					"rulename": "EvaluateForSkippedRecords",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": 0
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOverride",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "True"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "EvaluateOutput",
+							"value": "[Override] + [Existing]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[EvaluateOutput]"
+						}
+					]
+				},
+				{
+					"rulename": "EvaluateForOther",
+					"conditions": {
+						"all": [
+							{
+								"fact": "TotalQuantity",
+								"operator": "greaterThan",
+								"value": 0
+							},
+							{
+								"fact": "IsIncluded",
+								"operator": "equal",
+								"value": "True"
+							},
+							{
+								"fact": "IsOverride",
+								"operator": "equal",
+								"value": "False"
+							}
+						]
+					},
+					"evaluate": [
+						{
+							"type": "AllocatedQtyOutput",
+							"value": "[TotalQuantity] * [Existing] / [GrandTotal]"
+						},
+						{
+							"type": "AdditionalAllocationQty",
+							"value": "[Existing] / [TotalOverride] * [TotalRemaining]"
+						}
+					],
+					"result": [
+						{
+							"type": "FinalQty",
+							"value": "[AllocatedQtyOutput] + [AdditionalAllocationQty] + [Existing]"
+						}
+					]
+				}
+			]
+		}
+	]
+}
