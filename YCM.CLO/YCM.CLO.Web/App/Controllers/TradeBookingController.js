@@ -9,6 +9,7 @@ var Application;
                 this.statusText = "Loading";
                 this.includeCancelled = false;
                 this.gridHeight = { 'height': '402px' };
+                this.check = false;
                 this.ConvertToCurrency = function (elem) {
                     if (elem != undefined && elem != null && elem.currentTarget != undefined) {
                         var val = elem.currentTarget.value;
@@ -168,6 +169,55 @@ var Application;
                         vm.isSaveDisabled = false;
                     }
                 };
+                this.onRowCheckALL = function () {
+                    var vm = this;
+                    var element = document.getElementById("includedall");
+                    var isChecked = element.checked;
+                    if (isChecked == true) {
+                        for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                            vm.gridOptions.data[_i].isIncluded = true;
+                        }
+                        vm.tradebookingdetail = vm.gridOptions.data;
+                        for (var _i = 0; _i < vm.tradebookingdetail.length; _i++) {
+                            vm.tradebookingdetail[_i].totalQuantity = vm.tempSecurity.totalQty;
+                            vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
+                            vm.tradebookingdetail[_i].price = vm.tempSecurity.price;
+                        }
+                        vm.dataService.getCalculatedData(vm.tradebookingdetail).then(function (data) {
+                            vm.gridOptions.data = data;
+                            vm.checkSaveButton();
+                            vm.isLoading = false;
+                            var elchk = document.getElementById("includedall");
+                            elchk.checked = true;
+                            for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                                //  vm.gridOptions.data[_i].isIncall = true;
+                                vm.gridOptions.data[_i].isIncluded = true;
+                            }
+                        });
+                    }
+                    else {
+                        for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                            // vm.gridOptions.data[_i].isIncall = false;
+                            vm.gridOptions.data[_i].isIncluded = false;
+                        }
+                        vm.tradebookingdetail = vm.gridOptions.data;
+                        for (var _i = 0; _i < vm.tradebookingdetail.length; _i++) {
+                            vm.tradebookingdetail[_i].totalQuantity = vm.tempSecurity.totalQty;
+                            vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
+                            vm.tradebookingdetail[_i].price = vm.tempSecurity.price;
+                        }
+                        vm.dataService.getCalculatedData(vm.tradebookingdetail).then(function (data) {
+                            vm.gridOptions.data = data;
+                            vm.checkSaveButton();
+                            vm.isLoading = false;
+                            var elchk = document.getElementById("includedall");
+                            elchk.checked = false;
+                            for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                                vm.gridOptions.data[_i].isIncluded = false;
+                            }
+                        });
+                    }
+                };
                 this.onRowCheckChanged = function (row) {
                     var vm = this;
                     vm.tradebookingdetail = vm.gridOptions.data;
@@ -181,10 +231,29 @@ var Application;
                         vm.checkSaveButton();
                         vm.isLoading = false;
                     });
+                    if (row.entity.isIncluded == false) {
+                        var elchk = document.getElementById("includedall");
+                        elchk.checked = false;
+                    }
+                    //let isAllselected = false, selectedcount = 0;;
+                    //for (var _i = 0; _i < vm.gridOptions.data.length; _i++) {
+                    //    if (vm.gridOptions.data[_i].isIncluded)
+                    //        selectedcount++;
+                    //}
+                    //console.log("selectedcount:" + selectedcount);
+                    //console.log("row.isIncluded:" + row.entity.isIncluded);
+                    //if (selectedcount === vm.gridOptions.data.length) {
+                    //    var elchk = <HTMLInputElement>document.getElementById("includedall");
+                    //    elchk.checked = true;
+                    //}
+                    //else if (!row.entity.isIncluded) {
+                    //        var elchk = <HTMLInputElement>document.getElementById("includedall");
+                    //        elchk.checked = false;
+                    //    }
                 };
                 this.OnCellLeave = function (row) {
                     var vm = this;
-                    alert('Called');
+                    // alert('Called');
                     //vm.dataService.getCalculatedData(vm.gridOptions.data).then(data => {
                     //    vm.gridOptions.data = data;
                     //    vm.gridOptions.footerTemplate = '<div class="ui-grid-bottom-panel" style="text-align: center">I am a Custom Grid Footer</div>';
@@ -238,7 +307,21 @@ var Application;
                             }
                         }
                     }
-                    
+                    if (vm.tempSecurity.totalQty != null) {
+                        var FinalQtyAmt = vm.tempSecurity.totalQty.toString().replace(/,/g, "");
+                        vm.tempSecurity.totalQty = parseFloat(FinalQtyAmt);
+                    }
+                    ////convert to m and k
+                    //var finalQty = ConvertToLong(vm.tempSecurity.totalQty);
+                    //if (finalQty == "not valid") {
+                    //    bodyMesg = bodyMesg + "<br>" + 'Qty is not valid.';
+                    //}
+                    //  else { vm.tempSecurity.totalQty = finalQty }
+                    // var s =   convertTOM()
+                    //if (vm.tempSecurity.totalQty == )
+                    //
+                    //  console.log(s);
+                    //alert()
                     if (vm.tempSecurity.price == undefined || isNaN(Number(vm.tempSecurity.price.toString())) == true) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
                     }
@@ -334,7 +417,6 @@ var Application;
                             vm.securities = securities;
                         });
                         vm.dataService.getTradeBooking().then(function (trades) {
-                            
                             vm.trades = trades;
                         });
                         vm.dataService.getIssuerList().then(function (issuers) {
@@ -502,7 +584,7 @@ var Application;
                 //    var docDefinition = {
                 //        pageOrientation: "Potrait",
                 //        pageSize: "A4",
-                //        content: [{
+                //gripClickcontent: [{
                 //            style: 'tableStyle',
                 //            table: {
                 //                headerRows: 1,                        
@@ -551,6 +633,21 @@ var Application;
                         }
                     }
                 };
+                this.ConvertAmount = function ConvertAmount(val) {
+                    var vm = this;
+                    ////convert to m and k
+                    var bodyMesg = "";
+                    //var x = <HTMLInputElement>document.getElementById("txtQuantity");
+                    //alert(x.textContent)
+                    var finalQty = ConvertToLong(val);
+                    if (finalQty == "not valid") {
+                        bodyMesg = bodyMesg + "<br>" + 'Qty is not valid.';
+                    }
+                    else {
+                        //var b = <HTMLInputElement>document.getElementById("txtQuantity");
+                        vm.tempSecurity.totalQty = finalQty;
+                    }
+                };
                 var vm = this;
                 vm.dataService = dataService;
                 vm.uiService = uiService;
@@ -583,17 +680,20 @@ var Application;
                 vm.tempSecurity.interesttreatments = { description: 'Settles Without Accrued', id: 1 };
                 vm.errorMessage = "";
                 vm.loadAllocationRule(vm.tempSecurity.tradeType);
+                vm.check = false;
                 var tempFooter = '<div class="ui-grid-cell-contents;" style="text-align:right;padding-top:5px;">{{col.getAggregationValue() | number:2 }}</div>';
                 vm.cDefs = [
                     {
                         name: 'isIncluded',
                         field: "isIncluded",
                         displayName: "Include",
-                        //type:"boolean",
+                        headerCellTemplate: '<div class="ui-grid-cell-contents" ><input type="checkbox"  id="includedall" ng-model="check"  ng-change="grid.appScope.onRowCheckALL(check)"  ng-true-value="true" ng-false-value="false" /> Include All</div>',
+                        //  type: "boolean",
                         enableCellEdit: false,
+                        enableSorting: false,
                         cellEditableCondition: false,
                         cellTemplate: '<div class="ui-grid-cell-contents" ><input type="checkbox" ng-model="row.entity.isIncluded" ng-change="grid.appScope.onRowCheckChanged(row)"/></div>',
-                        width: "5%",
+                        width: "10%",
                         cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
                             if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
                                 return 'highlightrowleft';
@@ -773,6 +873,9 @@ var Application;
                 vm.gridOptions = {
                     columnDefs: vm.cDefs,
                     //showGridFooter: true,
+                    enableSelectAll: true,
+                    //multiSelect: true,
+                    enableRowHeaderSelection: true,
                     showColumnFooter: true,
                     exporterCsvFilename: 'TradeBooking.csv',
                     exporterExcelFilename: 'TradeBooking',
@@ -807,6 +910,42 @@ var Application;
         }());
         TradeBookingController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
         Controllers.TradeBookingController = TradeBookingController;
+        function ConvertToLong(strval) {
+            // var strval = "";
+            var si = [
+                { s: "k" },
+                { s: "m" }
+            ];
+            var result = "";
+            for (var i = 0; i < si.length; i++) {
+                var name = si[i];
+                if (strval.toString().toLowerCase().includes(name.s) == true) {
+                    if (name.s.toString().toLowerCase() == "m") {
+                        var dval = strval.toString().toLowerCase().split("m");
+                        result = (dval[0] * 1000000).toString();
+                        var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
+                        return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
+                        // break;
+                    }
+                    if (name.s.toString().toLowerCase() == "k") {
+                        var dval = strval.toString().toLowerCase().split("k");
+                        result = (dval[0] * 1000).toString();
+                        var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
+                        return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
+                        // break;
+                    }
+                }
+            }
+            if ($.isNumeric(strval)) {
+                result = strval;
+                var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
+                return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
+                // return result;
+            }
+            else {
+                return "not valid";
+            }
+        }
         angular.module('app').controller("application.controllers.tradebookingController", TradeBookingController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));
 })(Application || (Application = {}));
