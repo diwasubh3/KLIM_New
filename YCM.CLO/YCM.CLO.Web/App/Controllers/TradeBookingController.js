@@ -15,7 +15,7 @@ var Application;
                         var val = elem.currentTarget.value;
                         if (val != null && val.length > 0) {
                             var returnVal = parseFloat(val.replace(/,/g, ""))
-                                .toFixed(2)
+                                .toFixed(2) 
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             elem.currentTarget.value = returnVal;
                         }

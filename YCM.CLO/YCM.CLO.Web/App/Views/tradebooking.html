@@ -172,7 +172,6 @@
                                     <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
                                     <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 100px;">Trade Date</th>
                                     <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Trade Type</th>
-                                    <<<<<<< HEAD
                                     <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 200px;">Issuer</th>
                                     <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 100px;">LoanXId</th>
                                     <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 250px;">Counter Party</th>
@@ -183,27 +182,16 @@
                                     <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 125px;">CLO-1 Allocation</th>
 
                                     <!--<th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Trade Reason</th>-->
-                                    =======
-                                    <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 250px;">Issuer</th>
-                                    <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 100px;">CLO-1 Allocation</th>
-                                    <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 125px;">Portfolio Allocation</th>
-                                    >>>>>>> parent of 016b2d1 (adding extra column as per ujser request)
                                     <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
                                     <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
                                 </tr>
                             </thead>
-                            <<<<<<< HEAD
                             <tbody>
                                 <tr ng-repeat="trade in tradebooking.trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
-                                    =======
-                            <tbody>
-                                <tr ng-repeat="trade in tradebooking.trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
-                                    >>>>>>> parent of 016b2d1 (adding extra column as per ujser request)
                                     <td style="padding:0px 3px; border-width: 0px 0px 1px 0px;"><a style="color:blue" ng-click="tradebooking.clearAll(false); tradebooking.setTradeBooking(trade.id);tradebooking.rowHighilited($index)">&nbsp;&nbsp; <i class="fa fa-eye" style="color:#FF7F7F" aria-hidden="true" title="Click to view Trade Details"></i></a></td>
                                     <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.tradeDate | date :'yyyy-MM-dd' }}</td>
                                     <td style="text-align: center; border-width: 0px 0px 1px 0px;">{{trade.tradeTypeDesc}}</td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.issuerDesc}}</td>
-                                    <<<<<<< HEAD
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.loanXId}}</td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.partyName}}</td>
                                     <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.settleMethod}}</td>
@@ -212,10 +200,6 @@
                                     <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.price | number: 2}}</td>
                                     <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.pendingSubmitQty | number: 2}}</td>
                                     <!--<td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.tradeReason}}</td>-->
-                                    =======
-                                    <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.pendingSubmitQty | number: 2}}</td>
-                                    <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.totalQty | number: 2}}</td>
-                                    >>>>>>> parent of 016b2d1 (adding extra column as per ujser request)
                                     <td style="text-align: center; border-width: 0px 0px 1px 0px;"><a style="color:black" ng-click="tradebooking.ShowResponse(trade, this)"><i class="fa fa-envelope-open-o " aria-hidden="true" title="Click to view Trade Response Status"></i></a></td>
                                     <td style="text-align: center; border-width: 0px 0px 1px 0px;" ng-if="trade.responseStatus == 'Error'">
                                         <i class="fa fa-thumbs-o-down" style="color:#FF7F7F" aria-hidden="true"></i>
