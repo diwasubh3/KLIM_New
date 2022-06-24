@@ -52,10 +52,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D6ADB83D2F4184D32B5F57392CAA803688DA4F16</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>FBD6F9337D126F5A8CCBACF7DD05CDA37CB4AD73</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>YCM.CLO.AnalystLinkage_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>YCM.CLO.AnalystLinkage_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -122,6 +122,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="YCM.CLO.AnalystLinkage_1_TemporaryKey.pfx" />
     <None Include="YCM.CLO.AnalystLinkage_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
