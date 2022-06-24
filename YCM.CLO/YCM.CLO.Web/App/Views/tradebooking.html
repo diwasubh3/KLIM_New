@@ -177,7 +177,7 @@
                                         <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
                                     </tr>
                                 </thead>
-                                <tbody> 
+                                <tbody>
                                     <tr ng-repeat="trade in tradebooking.trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
                                         <td style="padding:0px 3px; border-width: 0px 0px 1px 0px;"><a style="color:blue" ng-click="tradebooking.clearAll(false); tradebooking.setTradeBooking(trade.id);tradebooking.rowHighilited($index)">&nbsp;&nbsp; <i class="fa fa-eye" style="color:#FF7F7F" aria-hidden="true" title="Click to view Trade Details"></i></a></td>
                                         <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.tradeDate | date :'yyyy-MM-dd' }}</td>
