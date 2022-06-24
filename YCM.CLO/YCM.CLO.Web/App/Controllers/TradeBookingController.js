@@ -73,6 +73,8 @@ var Application;
                     vm.isTradeReasonHide = true;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
+                    var element = document.getElementById("includedall");
+                    element.checked = false;
                 };
                 this.getNewLoanXId = function () {
                     var vm = _this;
@@ -786,7 +788,7 @@ var Application;
                         visible: true,
                         enableCellEdit: true,
                         enableSorting: false,
-                        type: "number",
+                        type: "text",
                         headerCellClass: 'text-right',
                         enableCellEditOnFocus: true,
                         //cellTemplate: '<div class="ui-grid-cell-contents" ><input type="text" ng-model="row.entity.override" style="height: 20px !important;text-align:right" ng-change="grid.appScope.onChangeDemo(row)"/></div>',
@@ -889,6 +891,11 @@ var Application;
                                 vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
                                 vm.tradebookingdetail[_i].price = vm.tempSecurity.price;
                                 vm.tradebookingdetail[_i].tradeType = vm.tempSecurity.tradeType.tradeTypeDesc;
+                                if (vm.tradebookingdetail[_i].override != null) {
+                                    var override = ConvertToLong(vm.tradebookingdetail[_i].override);
+                                    var FinalAmtOvr = override.toString().replace(/,/g, "");
+                                    vm.tradebookingdetail[_i].override = parseFloat(FinalAmtOvr);
+                                }
                                 if (vm.tradebookingdetail[_i].override > 0)
                                     vm.tradebookingdetail[_i].isIncluded = true;
                             }

@@ -43,7 +43,7 @@
         cDefs: any;
         exportUiGridService: any;
         errorMessage: string;
-       check = false;
+        check = false;
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
 
 
@@ -88,7 +88,7 @@
                     name: 'isIncluded',
                     field: "isIncluded",
                     displayName: "Include",
-                    
+
                     headerCellTemplate: '<div class="ui-grid-cell-contents" ><input type="checkbox"  id="includedall" ng-model="check"  ng-change="grid.appScope.onRowCheckALL(check)"  ng-true-value="true" ng-false-value="false" /> Include All</div>',
                     //  type: "boolean",
                     enableCellEdit: false,
@@ -188,7 +188,7 @@
                     visible: true,
                     enableCellEdit: true,
                     enableSorting: false,
-                    type: "number",
+                    type: "text",
                     headerCellClass: 'text-right',
                     enableCellEditOnFocus: true,
                     //cellTemplate: '<div class="ui-grid-cell-contents" ><input type="text" ng-model="row.entity.override" style="height: 20px !important;text-align:right" ng-change="grid.appScope.onChangeDemo(row)"/></div>',
@@ -282,7 +282,7 @@
             vm.gridOptions = {
                 columnDefs: vm.cDefs,
                 //showGridFooter: true,
-               enableSelectAll: true,
+                enableSelectAll: true,
                 //multiSelect: true,
                 enableRowHeaderSelection: true,
                 showColumnFooter: true,
@@ -293,14 +293,22 @@
                 onRegisterApi(gridApi) {
                     vm.gridApi = gridApi;
 
-                    gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
 
+                    gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
                         vm.tradebookingdetail = vm.gridOptions.data;
+                        
                         for (var _i = 0; _i < vm.tradebookingdetail.length; _i++) {
                             vm.tradebookingdetail[_i].totalQuantity = vm.tempSecurity.totalQty;
                             vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
                             vm.tradebookingdetail[_i].price = vm.tempSecurity.price;
                             vm.tradebookingdetail[_i].tradeType = vm.tempSecurity.tradeType.tradeTypeDesc;
+
+                            if (vm.tradebookingdetail[_i].override != null) {
+                                var override = ConvertToLong(vm.tradebookingdetail[_i].override);
+                                var FinalAmtOvr = override.toString().replace(/,/g, "");
+                                vm.tradebookingdetail[_i].override = parseFloat(FinalAmtOvr);
+
+                            }
 
                             if (vm.tradebookingdetail[_i].override > 0)
                                 vm.tradebookingdetail[_i].isIncluded = true;
@@ -390,7 +398,9 @@
             vm.isTradeReasonHide = true;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
-           
+            var element = <HTMLInputElement>document.getElementById("includedall");
+            element.checked = false;
+
         }
 
         getNewLoanXId = () => {
@@ -495,7 +505,7 @@
 
 
         onRowCheckALL = function () {
-            
+
             var vm = this;
             var element = <HTMLInputElement>document.getElementById("includedall");
             var isChecked = element.checked;
@@ -565,7 +575,7 @@
             }
         }
 
-      
+
 
         onRowCheckChanged = function (row) {
             
@@ -586,7 +596,7 @@
             if (row.entity.isIncluded == false) {
                 var elchk = <HTMLInputElement>document.getElementById("includedall");
                 elchk.checked = false;
-                
+
             }
 
             //let isAllselected = false, selectedcount = 0;;
@@ -668,16 +678,16 @@
                 }
             }
 
-            
+
 
             if (vm.tempSecurity.totalQty != null) {
                 var FinalQtyAmt = vm.tempSecurity.totalQty.toString().replace(/,/g, "");
                 vm.tempSecurity.totalQty = parseFloat(FinalQtyAmt);
             }
-           
-            
 
-          
+
+
+
             ////convert to m and k
             //var finalQty = ConvertToLong(vm.tempSecurity.totalQty);
             //if (finalQty == "not valid") {
@@ -1037,8 +1047,8 @@
 
 
         ConvertAmount = function ConvertAmount(val) {
-           
-         var   vm = this;
+
+            var vm = this;
             ////convert to m and k
             var bodyMesg = "";
             //var x = <HTMLInputElement>document.getElementById("txtQuantity");
@@ -1069,24 +1079,24 @@
         var result = "";
         for (var i = 0; i < si.length; i++) {
             var name = si[i];
-                       
+
             if (strval.toString().toLowerCase().includes(name.s) == true) {
                 if (name.s.toString().toLowerCase() == "m") {
                     var dval = strval.toString().toLowerCase().split("m");
                     result = (dval[0] * 1000000).toString();
 
                     var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
-                    return  (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
-                     // break;
+                    return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
+                    // break;
                 }
                 if (name.s.toString().toLowerCase() == "k") {
                     var dval = strval.toString().toLowerCase().split("k");
                     result = (dval[0] * 1000).toString();
 
                     var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
-                    return  (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
+                    return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
 
-                   // break;
+                    // break;
                 }
             }
         }
@@ -1095,9 +1105,9 @@
 
 
             var options = { style: 'currency', currency: 'USD', minimumFractionDigits: 4 };
-            return (new Intl.NumberFormat('en-US', options).format(parseFloat( result))).replace("$", "");
+            return (new Intl.NumberFormat('en-US', options).format(parseFloat(result))).replace("$", "");
 
-           // return result;
+            // return result;
 
 
         }
