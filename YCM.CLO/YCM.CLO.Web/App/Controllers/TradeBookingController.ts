@@ -187,7 +187,7 @@
                     width: "10%",
                     visible: true,
                     enableCellEdit: true,
-                    enableSorting: false,
+                    enableSorting: false, 
                     type: "text",
                     headerCellClass: 'text-right',
                     enableCellEditOnFocus: true,
