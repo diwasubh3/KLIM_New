@@ -2018,23 +2018,23 @@ namespace YCM.CLO.DataAccess
 
 		IEnumerable<Trader> IRepository.GetTraders()
 		{
-			return _cloContext.Traders.Where(i => i.TraderId > 0);
+			return _cloContext.Traders.Where(i => i.TraderId > 0 && i.IsActive == true);
 		}
 		IEnumerable<TradeType> IRepository.GetTradeType()
 		{
-			return _cloContext.TradeType.Where(i => i.TradeTypeId > 0);
+			return _cloContext.TradeType.Where(i => i.TradeTypeId > 0 && i.IsActive == true);
 		}
 		IEnumerable<CounterParty> IRepository.GetCounterParty()
 		{
-			return _cloContext.CounterParty.Where(i => i.PartyId > 0);
+			return _cloContext.CounterParty.Where(i => i.PartyId > 0 && i.IsActive == true);
 		}
 		IEnumerable<SettleMethods> IRepository.GetSettleMethods()
 		{
-			return _cloContext.SettleMethods.Where(i => i.MethodId > 0);
+			return _cloContext.SettleMethods.Where(i => i.MethodId > 0 && i.IsActive == true).OrderByDescending(i => i.MethodId);
 		}
 		IEnumerable<InterestTreatment> IRepository.GetInterestTreatment()
 		{
-			return _cloContext.InterestTreatment.Where(i => i.Id > 0);
+			return _cloContext.InterestTreatment.Where(i => i.Id > 0 && i.IsActive == true);
 		}
 		IEnumerable<TradeComment> IRepository.GetTradeComment()
 		{
