@@ -42,6 +42,7 @@ namespace YCM.CLO.DTO
         public string SnpIndustry { get; set; }
         public string MoodyIndustry { get; set; }
         public string IsCovLite { get; set; }
+        public string AssetType { get; set; }
         public string IsFloating { get; set; }
         public string LienType { get; set; }
         

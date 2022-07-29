@@ -69,10 +69,10 @@
     <StartupObject>YCM.CLO.CalculationEngine.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>27345354EDD4A79311E5B0B0068FC89F38758A36</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F230DB6153149440C4C11394C74446724F9936A8</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>YCM.CLO.CalculationEngine_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>YCM.CLO.CalculationEngine_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -154,6 +154,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="YCM.CLO.CalculationEngine_1_TemporaryKey.pfx" />
     <None Include="YCM.CLO.CalculationEngine_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

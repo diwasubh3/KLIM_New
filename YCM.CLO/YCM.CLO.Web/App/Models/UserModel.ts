@@ -149,7 +149,7 @@
         moodysLgdPct: string;
         YieldAvgLgdPct: string;
         securityDesc: string;
-
+        assetType: string;
         tradeHistoryExist: boolean;
         primarySpreadType: string;
     }

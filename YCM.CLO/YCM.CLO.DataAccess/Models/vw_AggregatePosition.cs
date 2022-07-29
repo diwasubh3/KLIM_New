@@ -90,6 +90,7 @@ namespace YCM.CLO.DataAccess.Models
         public string SnpIndustry { get; set; }
         public string MoodyIndustry { get; set; }
         public int? IsCovLite { get; set; }
+        public string AssetType { get; set; }
         public string IsFloating { get; set; }
         public string LienType { get; set; }
         public bool? IsOnWatch { get; set; }
@@ -264,5 +265,6 @@ namespace YCM.CLO.DataAccess.Models
         public string PaydownComments { get; set; }
         public string PaydownLastUpdatedOn { get; set; }
         public string PaydownUser { get; set; }
+        
     }
 }

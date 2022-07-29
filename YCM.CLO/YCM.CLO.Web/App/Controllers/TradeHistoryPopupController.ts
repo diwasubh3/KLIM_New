@@ -46,7 +46,7 @@ module Application.Controllers {
                 vm.tradeHistoryDetails = d;
                 vm.isLoading = false;
                 //vm.weightedAveragePrice = 0.0;
-                debugger;
+                
                 vm.weightedAveragePurchasePrice = 0.0, vm.weightedAverageSellPrice = 0.0;
 
                 var totalPrice = 0.0, totalQuantity = 0.0;
