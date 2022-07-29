@@ -15,7 +15,7 @@ var Application;
                         var val = elem.currentTarget.value;
                         if (val != null && val.length > 0) {
                             var returnVal = parseFloat(val.replace(/,/g, ""))
-                                .toFixed(2) 
+                                .toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             elem.currentTarget.value = returnVal;
                         }
@@ -111,6 +111,7 @@ var Application;
                     var vm = _this;
                     vm.isRowhightlight = true;
                     vm.dataService.refreshTradeBooking(tradeId).then(function (data) {
+                        console.log(data);
                         data.tradeDate = new Date(data.tradeDate);
                         vm.tradeTypeChangeEvent(data.tradeType);
                         vm.tempSecurity = data;
@@ -124,7 +125,7 @@ var Application;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
-                        if (data.responseStatus == "Complete")
+                        if (data.responseStatus = "Complete")
                             vm.isCancelHide = false;
                     });
                 };
@@ -312,8 +313,6 @@ var Application;
                             }
                         }
                     }
-<<<<<<< HEAD
-=======
                     if (vm.tempSecurity.totalQty != null) {
                         var FinalQtyAmt = vm.tempSecurity.totalQty.toString().replace(/,/g, "");
                         vm.tempSecurity.totalQty = parseFloat(FinalQtyAmt);
@@ -329,7 +328,6 @@ var Application;
                     //
                     //  console.log(s);
                     //alert()
->>>>>>> a688351179a47bdf7cedbcaa6be8be147b46e516
                     if (vm.tempSecurity.price == undefined || isNaN(Number(vm.tempSecurity.price.toString())) == true) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
                     }
@@ -552,6 +550,38 @@ var Application;
                         vm.isLoading = false;
                     });
                 };
+                this.CancelTrade = function () {
+                    var vm = _this;
+                    vm.isSaveDisabled = true;
+                    var bodyMesg = "";
+                    if (vm.tempSecurity.counterparty == undefined) {
+                        bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
+                    }
+                    if (bodyMesg != '') {
+                        var message = {
+                            header: "Warning",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isSaveDisabled = false;
+                        return;
+                    }
+                    vm.statusText = "Saving";
+                    vm.isLoading = true;
+                    vm.dataService.cancelTrade(vm.tempSecurity).then(function (data) {
+                        vm.clearAll(true);
+                        vm.dataService.getTradeBooking().then(function (trades) {
+                            vm.trades = trades;
+                        });
+                        bodyMesg = 'Trade Cancel XML generated Successfully.';
+                        var message = {
+                            header: "Successfull Message",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isLoading = false;
+                    });
+                };
                 this.ShowResponse = function (trade, row) {
                     var vm = _this;
                     //vm.isRowSelected = 'rowselected';            
@@ -593,38 +623,6 @@ var Application;
                         });
                         vm.exportToCsv('tradebooking.csv', CsvData);
                     }
-                };
-                this.CancelTrade = function () {
-                    var vm = _this;
-                    vm.isSaveDisabled = true;
-                    var bodyMesg = "";
-                    if (vm.tempSecurity.counterparty == undefined) {
-                        bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
-                    }
-                    if (bodyMesg != '') {
-                        var message = {
-                            header: "Warning",
-                            body: "<p><b>" + bodyMesg + "</b></p>"
-                        };
-                        vm.uiService.showMessage(message);
-                        vm.isSaveDisabled = false;
-                        return;
-                    }
-                    vm.statusText = "Saving";
-                    vm.isLoading = true;
-                    vm.dataService.cancelTrade(vm.tempSecurity).then(function (data) {
-                        vm.clearAll(true);
-                        vm.dataService.getTradeBooking().then(function (trades) {
-                            vm.trades = trades;
-                        });
-                        bodyMesg = 'Trade Cancel XML generated Successfully.';
-                        var message = {
-                            header: "Successfull Message",
-                            body: "<p><b>" + bodyMesg + "</b></p>"
-                        };
-                        vm.uiService.showMessage(message);
-                        vm.isLoading = false;
-                    });
                 };
                 //ExportToPDF = () => {
                 //    var vm = this;
@@ -716,7 +714,6 @@ var Application;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;
                 vm.isRowhightlight = false;
-                vm.isCancelHide = true;
                 vm.loadDropdownData();
                 vm.tempSecurity = {};
                 vm.issuerSec = {};
