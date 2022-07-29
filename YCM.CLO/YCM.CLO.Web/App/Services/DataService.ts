@@ -310,6 +310,10 @@
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
         }
 
+        cancelTrade = (data: Models.ITradeBooking) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/CancelTrade', data);
+        }
+
         getIssuerSecurities = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
         }
@@ -320,6 +324,10 @@
 
         getTradeBooking = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+        }
+
+        getTradeBookingHistory = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBookingHistory');
         }
 
         getAllocationRule = (tradeTypeId:number) => {

@@ -70,6 +70,7 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
+                    vm.isCancelHide = true;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                 };
@@ -99,6 +100,7 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = false;
                     vm.isTradeReasonHide = true;
+                    vm.isCancelHide = true;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                 };
@@ -106,7 +108,6 @@ var Application;
                     var vm = _this;
                     vm.isRowhightlight = true;
                     vm.dataService.refreshTradeBooking(tradeId).then(function (data) {
-                        console.log(data);
                         data.tradeDate = new Date(data.tradeDate);
                         vm.tradeTypeChangeEvent(data.tradeType);
                         vm.tempSecurity = data;
@@ -120,6 +121,8 @@ var Application;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
+                        if (data.responseStatus == "Complete")
+                            vm.isCancelHide = false;
                     });
                 };
                 this.checkSaveButton = function () {
@@ -238,7 +241,6 @@ var Application;
                             }
                         }
                     }
-                    
                     if (vm.tempSecurity.price == undefined || isNaN(Number(vm.tempSecurity.price.toString())) == true) {
                         bodyMesg = bodyMesg + "<br>" + 'Please Enter Price';
                     }
@@ -334,12 +336,20 @@ var Application;
                             vm.securities = securities;
                         });
                         vm.dataService.getTradeBooking().then(function (trades) {
-                            
                             vm.trades = trades;
                         });
                         vm.dataService.getIssuerList().then(function (issuers) {
                             vm.issuers = issuers;
                         });
+                    });
+                };
+                this.GetTradeBookingHistory = function () {
+                    var vm = _this;
+                    vm.statusText = "Loading";
+                    vm.isLoading = true;
+                    vm.dataService.getTradeBookingHistory().then(function (alltrades) {
+                        vm.alltrades = alltrades;
+                        vm.isLoading = false;
                     });
                 };
                 this.GenerateTradeXML = function () {
@@ -495,6 +505,38 @@ var Application;
                         vm.exportToCsv('tradebooking.csv', CsvData);
                     }
                 };
+                this.CancelTrade = function () {
+                    var vm = _this;
+                    vm.isSaveDisabled = true;
+                    var bodyMesg = "";
+                    if (vm.tempSecurity.counterparty == undefined) {
+                        bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
+                    }
+                    if (bodyMesg != '') {
+                        var message = {
+                            header: "Warning",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isSaveDisabled = false;
+                        return;
+                    }
+                    vm.statusText = "Saving";
+                    vm.isLoading = true;
+                    vm.dataService.cancelTrade(vm.tempSecurity).then(function (data) {
+                        vm.clearAll(true);
+                        vm.dataService.getTradeBooking().then(function (trades) {
+                            vm.trades = trades;
+                        });
+                        bodyMesg = 'Trade Cancel XML generated Successfully.';
+                        var message = {
+                            header: "Successfull Message",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isLoading = false;
+                    });
+                };
                 //ExportToPDF = () => {
                 //    var vm = this;
                 //    alert();
@@ -570,6 +612,7 @@ var Application;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;
                 vm.isRowhightlight = false;
+                vm.isCancelHide = true;
                 vm.loadDropdownData();
                 vm.tempSecurity = {};
                 vm.issuerSec = {};

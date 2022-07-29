@@ -379,6 +379,7 @@ namespace YCM.CLO.Web.Controllers
                     quantity = allTradeBooking.TotalQty.ToString(),
                     price = allTradeBooking.Price.ToString(),
                     reasonfortrade = TradeReason.ToString(),
+                    primarycommencementdate = allTradeBooking.SettleMethod.ToString() == "Primary" ? allTradeBooking.TradeDate.ToString("yyyy-MM-dd") : "",
                     settlementmethod = allTradeBooking.SettleMethod.ToString(),
                     tradedate = allTradeBooking.TradeDate.ToString("yyyy-MM-dd"),
                     tradeid = allTradeBooking.TradeId.ToString(),
@@ -444,13 +445,36 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonNetResult Save(TradeBooking data)
+        public JsonNetResult GetTradeBookingHistory()
         {
             try
             {
-                data.Id = 2;
-                //var allTradeBooking = _repository.GetTradeBookingXML(data.Id).FirstOrDefault();
+                return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TradeBooking>, IEnumerable<TradeBookingDto>>(_repository.GetTradeBookingHistory()) };
+            }
+            catch (Exception ex)
+            {
+                return new JsonNetResult();
+            }
+        }
+
+        [HttpPost]
+        public JsonNetResult CancelTrade(TradeBooking data)
+        {
+            try
+            {
+                var tradeId = data.Id;
+                var tradecancelreason = data.TradeComment;
+                data.TradeCommentId1 = data.tradeComments1.CommentId;
+                data.TradeCommentId2 = data.tradeComments2.CommentId;
+
+                data.TradeReasonId = data.tradeReasons.TradeReasonId;
+                data.AssetId = data.assetTypes.AssetId;
+                string TradeComment = data.tradeComments1.Comment == null ? "" : data.tradeComments1.Comment + "; " + (data.tradeComments2.Comment == null ? "" : data.tradeComments2.Comment);
+                string TradeReason = data.tradeReasons.TradeReasonDesc == null ? "" : data.tradeReasons.TradeReasonDesc;
+
+                _repository.CancelTradeBooking(tradeId);
+                
+                var allTradeBooking = _repository.GetTradeBookingXML(data.Id).FirstOrDefault();
                 var allTradeGroup = _repository.GetTradeGroupXML(data.Id).FirstOrDefault();
                 var allTradeBookingDetail = _repository.GetTradeBookingDetailXML(data.Id);
                 var portfolios = new List<PORTFOLIOALLOCATION>();
@@ -460,7 +484,7 @@ namespace YCM.CLO.Web.Controllers
                     portfolios.Add(new PORTFOLIOALLOCATION()
                     {
                         portfolioid = tradebookingdt.PortFolioId.ToString(),
-                        amountallocation = tradebookingdt.FinalQty.ToString(),
+                        amountallocation = tradebookingdt.NetPosition.ToString(),
                         name = tradebookingdt.PortfolioName.ToString(),
                         tradeid = tradebookingdt.TradeDetailId.ToString(),
                     });
@@ -470,27 +494,29 @@ namespace YCM.CLO.Web.Controllers
                 var tUDF = new UDF
                 {
                     fieldname = "u_sTradeCommentsYork",
-                    value = data.TradeComment.ToString(),
+                    value = TradeComment.ToString(),
                 };
                 var tNOTE = new NOTE
                 {
                     notetype = "Other",
-                    note = data.TradeComment.ToString(),
+                    note = TradeComment.ToString(),
                 };
                 var tTRADE = new TRADE
                 {
-                    cancel = "false",
-                    cancelid = data.TradeId.ToString(),
-                    counterpartyid = data.counterparty.PartyId.ToString(),
-                    quantity = data.TotalQty.ToString(),
-                    price = data.Price.ToString(),
-                    settlementmethod = data.settlemethods.MethodName.ToString(),
-                    tradedate = data.TradeDate.ToString("yyyy-MM-dd"),
-                    tradeid = data.TradeId.ToString(),
-                    traderid = data.traders.TraderId.ToString(),
-                    type = data.tradeType.TradeTypeDesc.ToString(),
+                    cancel = "true",
+                    cancelid = allTradeBooking.TradeId.ToString(),
+                    counterpartyid = allTradeBooking.CounterPartyId.ToString(),
+                    quantity = allTradeBooking.TotalQty.ToString(),
+                    price = allTradeBooking.Price.ToString(),
+                    reasonfortrade = TradeReason.ToString(),
+                    primarycommencementdate = allTradeBooking.SettleMethod.ToString() == "Primary" ? allTradeBooking.TradeDate.ToString("yyyy-MM-dd") : "",
+                    settlementmethod = allTradeBooking.SettleMethod.ToString(),
+                    tradedate = allTradeBooking.TradeDate.ToString("yyyy-MM-dd"),
+                    tradeid = allTradeBooking.TradeId.ToString(),
+                    traderid = allTradeBooking.TraderId.ToString(),
+                    type = allTradeBooking.TradeTypeDesc.ToString(),
                     update = "false",
-                    updateid = data.TradeId.ToString(),
+                    updateid = allTradeBooking.TradeId.ToString(),
                     UDF = tUDF,
                     NOTE = tNOTE,
                     PORTFOLIOALLOCATION = portfolios
@@ -498,17 +524,17 @@ namespace YCM.CLO.Web.Controllers
 
                 var tTRADEGROUP = new TRADEGROUP
                 {
-                    cancel = "false",
+                    cancel = "true",
                     cancelreferenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
-                    interesttreatment = data.interesttreatments.Description.ToString(),
-                    readyforsettlement = "true",
+                    interesttreatment = allTradeBooking.InterestTreatment.ToString(),
+                    readyforsettlement = allTradeBooking.CounterPartyId.ToString() == "2438" ? "false" : "true",
                     referenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
                     settlementplatform = "Automatic"
                 };
                 var tIDENTIFIER = new IDENTIFIER()
                 {
                     tdes = "LoanXID",
-                    id = data.LoanXId.ToString()
+                    id = allTradeBooking.LoanXId
                 };
 
                 var tPARAMETERS = new PARAMETERS
@@ -535,9 +561,13 @@ namespace YCM.CLO.Web.Controllers
                 };
 
                 var serializer = new XmlSerializer(typeof(WSOXML));
-                using (var stream = new StreamWriter(Server.MapPath("\\Test\\test.xml")))
-                    serializer.Serialize(stream, newdata);
-                return new JsonNetResult() { Data = newdata };
+
+                if (ConfigurationManager.AppSettings.AllKeys.Contains("WSOXML"))
+                {
+                    using (var stream = new StreamWriter(ConfigurationManager.AppSettings["WSOXML"] + allTradeBooking.LoanXId.ToString() + "_" + allTradeGroup.ReferenceTicketId.ToString() + ".xml"))
+                        serializer.Serialize(stream, newdata);
+                }
+                return new JsonNetResult();
             }
             catch (Exception ex)
             {

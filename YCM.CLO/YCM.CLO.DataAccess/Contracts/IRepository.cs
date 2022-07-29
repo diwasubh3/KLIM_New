@@ -258,11 +258,13 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<vw_PositionIssuers> GetIssuerList();
         IEnumerable<Fund> GetFundAllocation();
         IEnumerable<TradeBooking> GetTradeBookings();
+        IEnumerable<TradeBooking> GetTradeBookingHistory();
         IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId, string tradeType);
         int SaveTradeBooking(TradeBooking tradebook, string user);
         bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);
         bool UpdateSubmitDetails(long TradeId);
         TradeBooking RefreshTradeBooking(long TradeId);
         IEnumerable<TradeBookingDetail> RefreshTradeBookingDetail(long TradeId);
+        bool CancelTradeBooking(long TradeId);
     }
 }

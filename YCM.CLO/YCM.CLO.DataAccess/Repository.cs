@@ -2086,6 +2086,11 @@ namespace YCM.CLO.DataAccess
 			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking");
 		}
 
+		IEnumerable<TradeBooking> IRepository.GetTradeBookingHistory()
+		{
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBookingHistory");
+		}
+
 		TradeBooking IRepository.RefreshTradeBooking(long TradeId)
 		{
 			SqlParameter paramFieldTradeId = new SqlParameter("@TradeId", TradeId);
@@ -2199,6 +2204,25 @@ namespace YCM.CLO.DataAccess
 			SqlParameter paramTradeType = new SqlParameter("@TradeType", tradeType);
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
+		}
+
+		bool IRepository.CancelTradeBooking(long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdCancelTradeBooking", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@Id", TradeId));
+						commandtradebooking.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+			}
+			return true;
 		}
 	}
 }

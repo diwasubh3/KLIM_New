@@ -237,6 +237,9 @@ var Application;
                 this.generateTradeXML = function (data) {
                     return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
                 };
+                this.cancelTrade = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/CancelTrade', data);
+                };
                 this.getIssuerSecurities = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
                 };
@@ -245,6 +248,9 @@ var Application;
                 };
                 this.getTradeBooking = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+                };
+                this.getTradeBookingHistory = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBookingHistory');
                 };
                 this.getAllocationRule = function (tradeTypeId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
