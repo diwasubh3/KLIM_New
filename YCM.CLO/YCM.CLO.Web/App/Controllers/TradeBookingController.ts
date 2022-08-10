@@ -66,6 +66,7 @@
             vm.isHide = true;
             vm.isColumnHide = true;
             vm.isTradeReasonHide = true;
+            vm.isCancelHide = true;
             vm.isSaveDisabled = true;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
@@ -440,8 +441,7 @@
         setTradeBooking = (tradeId) => {
             var vm = this;
             vm.isRowhightlight = true;
-            vm.dataService.refreshTradeBooking(tradeId).then(data => {
-                console.log(data);
+            vm.dataService.refreshTradeBooking(tradeId).then(data => {                
                 data.tradeDate = new Date(data.tradeDate);
                 vm.tradeTypeChangeEvent(data.tradeType);
                 vm.tempSecurity = data;
@@ -806,14 +806,13 @@
             var vm = this;
             vm.statusText = "Loading";
             vm.isLoading = true;
-            vm.dataService.getTradeBookingData().then((tradedata) => {
+            vm.dataService.getTradeBookingData().then((tradedata) => {                
                 vm.sourceData = tradedata;
                 vm.isLoading = false;
                 vm.dataService.getIssuerSecurities().then((securities) => {
                     vm.securities = securities;
                 });
                 vm.dataService.getTradeBooking().then((trades) => {
-
                     vm.trades = trades;
                 });
                 vm.dataService.getIssuerList().then(issuers => {

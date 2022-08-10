@@ -164,7 +164,7 @@
 
             <div class="panel-collapse in collapse" aria-hidden="false" style="height: auto;" id="divViewBookingSection">
                 <div class="panel-body">
-                    <div style="max-height: 300px;overflow-y:auto;">
+                    <div style="max-height: 300px;">
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#Current" target="_blank" style="padding: 3px 15px 3px !important;">Current Bookings</a> </li>
                             <li><a data-toggle="tab" href="#History" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="tradebooking.GetTradeBookingHistory()">All Bookings</a> </li>
@@ -192,8 +192,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="trade in tradebooking.trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
-                                        <tr ng-repeat="trade in trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
+                                        <tr ng-repeat="trade in tradebooking.trades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">                                        
                                             <td style="padding:0px 3px; border-width: 0px 0px 1px 0px;"><a style="color:blue" ng-click="tradebooking.clearAll(false); tradebooking.setTradeBooking(trade.id);tradebooking.rowHighilited($index)">&nbsp;&nbsp; <i class="fa fa-eye" style="color:#FF7F7F" aria-hidden="true" title="Click to view Trade Details"></i></a></td>
                                             <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.tradeDate | date :'yyyy-MM-dd' }}</td>
                                             <td style="text-align: center; border-width: 0px 0px 1px 0px;">{{trade.tradeTypeDesc}}</td>
@@ -222,23 +221,23 @@
                             </div>
                             <div id="History" class="tab-pane fade" style="max-height: 300px;overflow-y:auto;">
                                 <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblBookings" name="tblBookings"
-                                       style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                       style="border-width: 0; margin-bottom: 0px; border-top-width: 0px; table-layout: fixed;">
                                     <thead style="position: sticky;top:0;">
                                         <tr>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 100px;">Trade Date</th>
-                                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Trade Type</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 200px;">Issuer</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 100px;">LoanXId</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Counter Party</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Settlement Method</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Allocation Method</th>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 80px;">Price</th>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 125px;">CLO-1 Allocation</th>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 125px;">Portfolio Allocation</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 150px;">Trade Reason</th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
-                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 50px;"></th>
+                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 5%;"></th>
+                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 10%;">Trade Date</th>
+                                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 15%;">Trade Type</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 20%;">Issuer</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 10%;">LoanXId</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 20%;">Counter Party</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 10%;">Settlement Method</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 10%;">Allocation Method</th>
+                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 8%;">Price</th>
+                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 12%;">CLO-1 Allocation</th>
+                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 12%;">Portfolio Allocation</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 15%;">Trade Reason</th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 5%;"></th>
+                                            <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 5%;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>

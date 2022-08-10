@@ -111,7 +111,6 @@ var Application;
                     var vm = _this;
                     vm.isRowhightlight = true;
                     vm.dataService.refreshTradeBooking(tradeId).then(function (data) {
-                        console.log(data);
                         data.tradeDate = new Date(data.tradeDate);
                         vm.tradeTypeChangeEvent(data.tradeType);
                         vm.tempSecurity = data;
@@ -710,6 +709,7 @@ var Application;
                 vm.isHide = true;
                 vm.isColumnHide = true;
                 vm.isTradeReasonHide = true;
+                vm.isCancelHide = true;
                 vm.isSaveDisabled = true;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;

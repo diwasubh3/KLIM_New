@@ -2026,7 +2026,7 @@ namespace YCM.CLO.DataAccess
 		}
 		IEnumerable<CounterParty> IRepository.GetCounterParty()
 		{
-			return _cloContext.CounterParty.Where(i => i.PartyId > 0 && i.IsActive == true);
+			return _cloContext.CounterParty.Where(i => i.PartyId > 0 && i.IsActive == true).OrderBy(i => i.PartyName);
 		}
 		IEnumerable<SettleMethods> IRepository.GetSettleMethods()
 		{
