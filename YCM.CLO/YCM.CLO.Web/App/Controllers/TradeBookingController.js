@@ -125,7 +125,7 @@ var Application;
                         vm.isHide = true;
                         vm.isLoading = false;
                         if (data.responseStatus = "Complete")
-                            vm.isCancelHide = false;
+                            vm.isCancelHide = true;
                     });
                 };
                 this.checkSaveButton = function () {
