@@ -94,207 +94,281 @@
                 <div ng-hide="topNav.isBusy">
                     <div class="col-md-12" style="padding: 0px 50px !important;">
                         <div style="padding:0px !important" id="data">
-                            <uib-accordion close-others="oneAtATime">
-                                
-                                <div uib-accordion-group class="panel-default" ng-click="topNav.onTestResultsVisibilityChanged(topNav.testResultIsOpen)" is-open="topNav.testResultIsOpen">
-                                    <uib-accordion-heading>                                        
-                                        <div>
-                                            TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>                                            
+                            <div class="col-md-12" style="padding: 0px 0px !important;">
+                                <div style="padding:0px !important" id="data">
+                                    <uib-accordion close-others="oneAtATime">
+                                        <div uib-accordion-group class="panel-default" ng-click="topNav.onTestResultsVisibilityChanged(topNav.testResultIsOpen)" is-open="topNav.testResultIsOpen">
+                                            <uib-accordion-heading>
+                                                <div>
+                                                    TEST RESULTS<i class="fa fa-chevron-down pull-right" ng-class="{'fa-chevron-up': topNav.testResultIsOpen, 'fa-chevron-down': !topNav.testResultIsOpen}"></i>
+                                                </div>
+                                            </uib-accordion-heading>
+                                            <div>
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a data-toggle="tab" href="#testResult1" target="_blank" style="padding: 3px 15px 3px !important;">Summary</a> </li>
+                                                    <li><a data-toggle="tab" href="#testResult2" target="_blank" style="padding: 3px 15px 3px !important;">WSO Compliance Test Results</a> </li>
+                                                </ul>
+                                            </div>
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade active in" id="testResult1" role="tabpanel" aria-labelledby="home-tab">
+                                                    <div style="max-height: {{44*topNav.summaryData.length}}px;">
+                                                        <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams"
+                                                               id="tblSummaryBody"
+                                                               style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                                                    </th>
+                                                                    <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
+                                                                    <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
+                                                                    <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
+                                                                    <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                                                                    <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>REINVEST CASH</div></th>
+                                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
+                                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>SOFR</div></th>
+                                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
+                                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
+                                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
+                                                                    <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
+                                                                    <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
+                                                                    <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
+                                                                        <div>MOODY'S RECOVERY</div>
+                                                                    </th>
+                                                                    <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
+                                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
+                                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAPP</div></th>
+                                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
+                                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody ng-repeat="data in $data">
+                                                                <tr ng-class="{'active':data==topNav.selectedFund}"
+                                                                    ng-hide="data!=topNav.selectedFund && data.inActive"
+                                                                    ng-click="topNav.selectFund(data)" class="pointer">
+                                                                    @**@
+                                                                    <!--<td style="width: 50px; background: none !important; cursor: default !important; border-width: 0 !important" ng-class="{'stale':data.isStale}"></td>-->
+                                                                    <td style="width: 25px; text-align: right; border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                    <td style="border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
+                                                                        <span uib-tooltip-html="(data.isStale?'STATUS | STALE':'')+(data.isStale?'<br/>':'')+('AS OF DATE | ' + data.positionDate)" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.fundCode}}</span>
+                                                                    </td>
+                                                                    <td ng-style="data.parBgStyle"
+                                                                        style="width: 130px; text-align: left; border-width: 0px 0px 1px 0px;" ng-click="topNav.selectPar(data)">
+                                                                        <span uib-tooltip-html="data.parTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.par| number:0}}</span>
+                                                                    </td>
+                                                                    <td ng-style="data.assetParBgStyle"
+                                                                        style="width: 130px; text-align: left; border-width: 0px 0px 1px 0px;">
+                                                                        <span ng-click="topNav.downloadLoanPositions(data.fundId)" uib-tooltip-html="data.assetParTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.assetPar| number:0}}</span>
+
+                                                                    </td>
+
+                                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.principalCashBgStyle">
+                                                                        <span uib-tooltip-html="data.principalCashTooltip" tooltip-append-to-body="true">
+                                                                            {{data.principalCash| number:0}}
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
+                                                                        <a ng-href="{{data.reInvestCashFilepath}}" ng-click="topNav.downloadReInvestCash(data.reInvestCashFilepath)" ng-if="data.reInvestCash != 0">
+                                                                            {{ data.reInvestCash | number:0 }}
+                                                                        </a>
+                                                                    </td>
+
+                                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" @*ng-style="data.wsoSpreadBgStyle"*@>
+                                                                        <span ng-show="data.spread" uib-tooltip-html="data.wsoSpreadTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.wsoSpread| number:2}}%
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{data.sofr| number:2}}%</span>
+                                                                    </td>
+
+                                                                    @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
+                                                                            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                                {{data.totalCoupon| number:2}}%
+                                                                            </span>
+                                                                        </td>*@
+
+                                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
+                                                                        <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.wsowarf| number:0}}
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.b3ToAssetParPctStyle">
+                                                                        <span uib-tooltip-html="data.b3ToAssetParPctTooltip" tooltip-append-to-body="true">
+                                                                            {{data.b3ToAssetParPct| number:0}}{{data.b3ToAssetParPct != null && data.b3ToAssetParPct.toString().length? '%':''}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bMinusToAssetParPctStyle">
+                                                                        <span uib-tooltip-html="data.b3MinusToAssetParPctTooltip" tooltip-append-to-body="true">
+                                                                            {{data.bMinusToAssetParPct| number:0}}{{data.bMinusToAssetParPct != null && data.bMinusToAssetParPct.toString().length? '%':''}}
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoWalCushionBgStyle">
+                                                                        <span uib-tooltip-html="data.walCushionTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.walCushion| number:1}}
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.timeToReinvestBgStyle">
+                                                                        <span uib-tooltip-html="data.timeToReinvestTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.timeToReinvest| number:1}}
+                                                                        </span>
+                                                                    </td>
+
+
+
+
+                                                                    <td style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoMoodyRecoveryBgStyle">
+                                                                        <span uib-tooltip-html="data.wsoMoodyRecoveryTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.wsoMoodyRecovery| number:1}}
+                                                                        </span>
+                                                                    </td>
+
+                                                                    @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
+                                                                            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                                {{data.wsowaLife| number:2}}
+                                                                            </span>
+                                                                        </td>*@
+                                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
+                                                                        <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
+                                                                            {{data.wsoDiversity| number:0}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
+                                                                        <span uib-tooltip-html="data.bidTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.bid| number:2}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wappBgStyle">
+                                                                        <span uib-tooltip-html="data.wappTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.wapp| number:2}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bbmvocBgStyle">
+                                                                        <span uib-tooltip-html="data.bbmvocfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.bbmvoc| number:2}}{{data.bbmvoc != null && data.bbmvoc.toString().length? '%':''}}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.cleanNavBgStyle">
+                                                                        <span uib-tooltip-html="data.cleanNavTooltip" tooltip-append-to-body="true">
+                                                                            {{data.cleanNav| number:2}}%
+                                                                        </span>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="testResult2" role="tabpanel" aria-labelledby="home-tab">
+                                                    <div style="display:inline-flex">
+                                                        @*style="max-height: 286px;"*@
+                                                        <div>
+                                                            <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.testResultsTableParams"
+                                                                   id="tblTestResult2"
+                                                                   style="border-width: 0; margin-bottom: 0px; border-top-width: 0px; ">
+                                                                <thead style="position: sticky;top: 0;left:0">
+                                                                    <tr>
+                                                                        <th style="border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; position: sticky; left: 0 ;width :700px"><div>Test Name</div></th>
+                                                                        <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 1</div></th>
+                                                                        <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 2</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 3</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 4</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 5</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 6</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 7</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 8</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 9</div></th>
+                                                                        <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLO 10</div></th>
+                                                                        <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLO 11</div></th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody ng-repeat="data in $data">
+                                                                    <tr ng-class="{'active':data==topNav.selectedTest}"
+                                                                        ng-click="topNav.selectTest(data)" class="pointer">
+
+                                                                        <td ng-style="data.testDisplayNameBgStyle" style="text-align: left; border-width: 0px 0px 1px 0px;">
+                                                                            <span style="word-wrap: break-word; white-space: normal;" uib-tooltip-html="data.testDisplayNameTooltip" tooltip-append-to-body="true">{{data.testDisplayName}}</span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund1OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund1OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund1OutcomeDisplay}}
+                                                                            </span>
+                                                                            @*<span tooltip-placement="bottom"></span>*@
+                                                                        </td>
+                                                                        <td ng-style="data.fund2OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund2OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund2OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund3OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund3OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund3OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund4OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund4OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund4OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund5OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund5OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund5OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund6OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund6OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund6OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund7OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund7OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund7OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund8OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund8OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund8OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund9OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund9OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund9OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund10OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund10OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund10OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund11OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span uib-tooltip-html="data.fund11OutcomeTooltip" tooltip-append-to-body="true">
+                                                                                {{data.fund11OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </uib-accordion-heading>
-                                    @*<div style="padding: 4px !important">
-                <div class="pull-left" style="padding: 0px 0px 10px !important">
-                    <button class="btn btn-primary"
-                            ng-click="topNav.downloadSummaries()"
-                            ng-disabled="topNav.isLoading">
-                        <i class="fa fa-file-excel-o">&nbsp;&nbsp;Export to Excel</i>
-                    </button>
-                </div>
-            </div>*@
-                                    @*<div class="table-header" style="padding:0px ">
-                <table class="table table-bordered table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams" style="border-width: 0;margin-bottom: 0px">
-                    <thead>
-                        <tr>
+                                    </uib-accordion>
 
-                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                            </th>
-                            <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
-                            <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
-                            <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
-                            <th style="text-align: right;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
-                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
-                            <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
-                            <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
-                            <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
-                            <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
-                            <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
-                            <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                                <div>MOODY'S RECOVERY</div>
-                            </th>
-                            <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
-                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
-                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
-                            <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
-
-                        </tr>
-                    </thead>
-                </table>
-            </div>*@
-                                    
-                                    <div style="max-height: {{44*topNav.summaryData.length}}px;">
-                                        <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.summaryTableParams"
-                                               id="tblSummaryBody"
-                                               style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                                                    </th>
-                                                    <th style="border-width:1px 0px 1px 0px !important; border-top: 1px solid #dddddd;"><div>CLO NAME</div></th>
-                                                    <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
-                                                    <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
-                                                    <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
-                                                    <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>REINVEST CASH</div></th>
-                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
-                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>SOFR</div></th>
-                                                    <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WARF</div></th>
-                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B3%</div></th>
-                                                    <th style="text-align: right; width: 75px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>B-%</div></th>
-                                                    <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAL CUSHION</div></th>
-                                                    <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TIME TO REINVEST</div></th>
-                                                    <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd">
-                                                        <div>MOODY'S RECOVERY</div>
-                                                    </th>
-                                                    <th style="text-align: right; width: 100px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>Diversity</div></th>
-                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WA BID</div></th>
-                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAPP</div></th>
-                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>BB MVOC</div></th>
-                                                    <th style="text-align: right;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLEAN NAV</div></th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody ng-repeat="data in $data">
-                                                <tr ng-class="{'active':data==topNav.selectedFund}"
-                                                    ng-hide="data!=topNav.selectedFund && data.inActive"
-                                                    ng-click="topNav.selectFund(data)" class="pointer">
-                                                    <!--<td style="width: 50px; background: none !important; cursor: default !important; border-width: 0 !important" ng-class="{'stale':data.isStale}"></td>-->
-                                                    <td style="width: 25px; text-align: right; border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
-                                                        &nbsp;
-                                                    </td>
-                                                    <td style="border-width: 0px 0px 1px 0px;" ng-class="{'stale':data.isStale}">
-                                                        <span uib-tooltip-html="(data.isStale?'STATUS | STALE':'')+(data.isStale?'<br/>':'')+('AS OF DATE | ' + data.positionDate)" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.fundCode}}</span>
-                                                    </td>
-                                                    <td ng-style="data.parBgStyle"
-                                                        style="width: 130px; text-align: left; border-width: 0px 0px 1px 0px;">
-                                                        <span uib-tooltip-html="data.parTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.par| number:0}}</span>
-                                                    </td>
-                                                    <td ng-style="data.assetParBgStyle"
-                                                        style="width: 130px; text-align: left; border-width: 0px 0px 1px 0px;">
-                                                        <span ng-click="topNav.downloadLoanPositions(data.fundId)" uib-tooltip-html="data.assetParTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">{{data.assetPar| number:0}}</span>
-
-                                                    </td>
-
-                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.principalCashBgStyle">
-                                                        <span uib-tooltip-html="data.principalCashTooltip" tooltip-append-to-body="true">
-                                                            {{data.principalCash| number:0}}
-                                                        </span>
-                                                    </td>
-
-                                                    <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
-                                                        <a ng-href="{{data.reInvestCashFilepath}}" ng-click="topNav.downloadReInvestCash(data.reInvestCashFilepath)" ng-if="data.reInvestCash != 0">
-                                                            {{ data.reInvestCash | number:0 }}
-                                                        </a>
-                                                    </td>
-
-                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" @*ng-style="data.wsoSpreadBgStyle"*@>
-                                                        <span ng-show="data.spread" uib-tooltip-html="data.wsoSpreadTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.wsoSpread| number:2}}%
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;">
-                                                        <span tooltip-append-to-body="true" tooltip-placement="bottom">{{data.sofr| number:2}}%</span>
-                                                    </td>
-
-                                                    @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                {{data.totalCoupon| number:2}}%
-            </span>
-        </td>*@
-
-                                                    <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
-                                                        <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.wsowarf| number:0}}
-                                                        </span>
-                                                    </td>
-
-                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.b3ToAssetParPctStyle">
-                                                        <span uib-tooltip-html="data.b3ToAssetParPctTooltip" tooltip-append-to-body="true">
-                                                            {{data.b3ToAssetParPct| number:0}}{{data.b3ToAssetParPct != null && data.b3ToAssetParPct.toString().length? '%':''}}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 75px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bMinusToAssetParPctStyle">
-                                                        <span uib-tooltip-html="data.b3MinusToAssetParPctTooltip" tooltip-append-to-body="true">
-                                                            {{data.bMinusToAssetParPct| number:0}}{{data.bMinusToAssetParPct != null && data.bMinusToAssetParPct.toString().length? '%':''}}
-                                                        </span>
-                                                    </td>
-
-                                                    <td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoWalCushionBgStyle">
-                                                        <span uib-tooltip-html="data.walCushionTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.walCushion| number:1}}
-                                                        </span>
-                                                    </td>
-
-                                                    <td style="width: 120px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.timeToReinvestBgStyle">
-                                                        <span uib-tooltip-html="data.timeToReinvestTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.timeToReinvest| number:1}}
-                                                        </span>
-                                                    </td>
-
-
-
-
-                                                    <td style="width: 130px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoMoodyRecoveryBgStyle">
-                                                        <span uib-tooltip-html="data.wsoMoodyRecoveryTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.wsoMoodyRecovery| number:1}}
-                                                        </span>
-                                                    </td>
-
-                                                    @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                {{data.wsowaLife| number:2}}
-            </span>
-        </td>*@
-                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
-                                                        <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
-                                                            {{data.wsoDiversity| number:0}}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bidBgStyle">
-                                                        <span uib-tooltip-html="data.bidTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.bid| number:2}}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wappBgStyle">
-                                                        <span uib-tooltip-html="data.wappTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.wapp| number:2}}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.bbmvocBgStyle">
-                                                        <span uib-tooltip-html="data.bbmvocfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                            {{data.bbmvoc| number:2}}{{data.bbmvoc != null && data.bbmvoc.toString().length? '%':''}}
-                                                        </span>
-                                                    </td>
-                                                    <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.cleanNavBgStyle">
-                                                        <span uib-tooltip-html="data.cleanNavTooltip" tooltip-append-to-body="true">
-                                                            {{data.cleanNav| number:2}}%
-                                                        </span>
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                 </div>
-                            </uib-accordion>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -305,109 +379,110 @@
                                 <div class="collapse navbar-collapse  p-0" style="height:24px!important;position:static !important">
                                     <ul class="nav navbar-nav" style="height:24px">
                                         @*@if (ViewBag.HasPositionScreenPermission)
-        {
-            <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
-        }*@
+                                            {
+                                                <li id="navlinktestresults" class="nav-link {{topNav.activeView=='testresults'?'active':''}}"><a href="#/testresults">Test Results</a></li>
+                                            }*@
                                         @if (ViewBag.HasPositionScreenPermission)
                                         {
-                                        <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
+                                            <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
                                         }
                                         @if (ViewBag.HasTop10Bottom10Permission)
                                         {
-                                        <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
-                                        @*<li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>*@
+                                            <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
+                                            @*<li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>*@
                                         }
                                         else
                                         {
-                                        <li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>
+                                            <li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>
                                         }
                                         @if (ViewBag.HasTradePermission)
                                         {
-                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='trades'?'active':''}}"><a href="#/trades">Trades</a></li>
+                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='trades'?'active':''}}"><a href="#/trades">Trades</a></li>
                                         }
                                         else
                                         {
-                                        <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='trades'?'active':''}}"><a href="#/positions">Trades</a></li>
+                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='trades'?'active':''}}"><a href="#/positions">Trades</a></li>
                                         }
                                         @if (ViewBag.HasTradeSwapPermission)
                                         {
-                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/tradeswapping">Trade Swapping</a></li>
+                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/tradeswapping">Trade Swapping</a></li>
                                         }
                                         else
                                         {
-                                        <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
+                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
                                         }
                                         @*@if (ViewBag.HasAnalystResearchPermission)
-        {
-            <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
-        }*@
+                                            {
+                                                <li id="navlinkanalystresearch" class="nav-link {{topNav.activeView=='analystresearch'?'active':''}}"><a href="#analystresearch">Analyst Research</a></li>
+                                            }*@
                                         @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
                                         {
 
-                                        <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
-                                            <a class="dropdown-toggle" style="cursor: pointer !important"
-                                               data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
-                                            <ul class="dropdown-menu">
-                                                @if (ViewBag.HasBidOfferUploadPermission)
+                                            <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
+                                                <a class="dropdown-toggle" style="cursor: pointer !important"
+                                                   data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    @if (ViewBag.HasBidOfferUploadPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
-                                                <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
+                                                        <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
+                                                        <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
                                                     }
-                                                @if (ViewBag.HasFundTriggersPermission)
+                                                    @if (ViewBag.HasFundTriggersPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
+                                                        <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
                                                     }
-                                                @if (ViewBag.HasFundOverridesPermission)
+                                                    @if (ViewBag.HasFundOverridesPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
+                                                        <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
                                                     }
-                                                <li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>
-                                                @if (ViewBag.HasParametersPermission)
+                                                    <li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>
+                                                    @if (ViewBag.HasParametersPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
+                                                        <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
                                                     }
-                                                @if (ViewBag.HasLoanAttributeOverridePermission)
+                                                    @if (ViewBag.HasLoanAttributeOverridePermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
+                                                        <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
                                                     }
-                                            </ul>
-                                        </li>
+                                                </ul>
+                                            </li>
                                         }
                                         else
                                         {
-                                        <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
+                                            <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
                                         }
 
                                         @if (ViewBag.HasNewLoanReconPermission || ViewBag.HasLoanAttributeOverridesReconPermission || ViewBag.HasAdminPermission)
                                         {
-                                        <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
-                                            <a class="dropdown-toggle" style="cursor:pointer !important"
-                                               data-toggle="dropdown">WSO<b class="caret" style="margin-top:4px !important"></b></a>
-                                            <ul class="dropdown-menu">
-                                                @if (ViewBag.HasNewLoanReconPermission)
+                                            <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
+                                                <a class="dropdown-toggle" style="cursor:pointer !important"
+                                                   data-toggle="dropdown">WSO<b class="caret" style="margin-top:4px !important"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    @if (ViewBag.HasNewLoanReconPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#newsecurityrecon">New Loan Recon</a></li>
+                                                        <li><a style="font-size: 12px" href="#newsecurityrecon">New Loan Recon</a></li>
                                                     }
-                                                @if (ViewBag.HasLoanAttributeOverridesReconPermission)
+                                                    @if (ViewBag.HasLoanAttributeOverridesReconPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#loanattributeoverriderecon">Loan Attribute Overrides Recon</a></li>
+                                                        <li><a style="font-size: 12px" href="#loanattributeoverriderecon">Loan Attribute Overrides Recon</a></li>
                                                     }
-                                                @if (ViewBag.HasAdminPermission)
+                                                    @if (ViewBag.HasAdminPermission)
                                                     {
-                                                <li><a style="font-size: 12px" href="#admin">Admin</a></li>
+                                                        <li><a style="font-size: 12px" href="#admin">Admin</a></li>
                                                     }
-                                                @*<li><a style="font-size: 12px" href="#reconreport">Recon Report</a></li>*@
-                                            </ul>
-                                        </li>
+                                                    @*<li><a style="font-size: 12px" href="#reconreport">Recon Report</a></li>*@
+                                                </ul>
+                                            </li>
                                         }
                                         @if (ViewBag.HasReportEditPermission)
                                         {
-                                        <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
+                                            <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
                                         }
                                         @if (ViewBag.HasAdminPermission)
                                         {
-                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
+                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
                                         }
+
                                     </ul>
                                 </div>
                             </div>
@@ -427,7 +502,7 @@
             <h1 style="text-align: center;color: red">You don't have permission to see this Application.</h1>
         </div>
     }
-<script>
+    <script>
         pageOptions = {};
         pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
         pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
@@ -475,6 +550,15 @@
     @Scripts.Render("~/bundles/YorkScriptsFinal")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.9.12/xlsx.full.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var y = $(window).height();
+            var b = y / 1.3;
+            $("#testResult2").css('height', b);
+
+        });
+    </script>
 
 </body>
 
