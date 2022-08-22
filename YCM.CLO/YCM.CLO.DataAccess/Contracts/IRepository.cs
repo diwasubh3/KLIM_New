@@ -26,6 +26,7 @@ namespace YCM.CLO.DataAccess.Contracts
 		IEnumerable<LoanPosition> GetLoanPositions(int dateId, int priorDateId, int fundId);
 	    IEnumerable<AssetExposure> GetAssetPars(int dateId);
         IEnumerable<vw_CLOSummary> GetSummaries(int dateId);
+        IEnumerable<vw_CLOTestResults> GetTestResults(int dateId);
 
         IEnumerable<Rule> GetRules();
 

@@ -90,6 +90,111 @@ var Application;
                         });
                     });
                 };
+                this.loadTestResults = function () {
+                    var vm = _this;
+                    vm.statusText = "Loading";
+                    vm.isLoading = true;
+                    vm.window.setTimeout(function () {
+                        if (!pageOptions.TestResultsNew)
+                            vm.dataService.loadTestResults().then(function (testResultsData) {
+                                pageOptions.TestResultsNew = testResultsData;
+                                vm.setTestResultsData(testResultsData);
+                                //vm.setSummaryData(summaries);
+                                vm.setTestTableParams();
+                            });
+                        else {
+                            vm.setTestResultsData(pageOptions.TestResultsNew);
+                            vm.setTestTableParams();
+                        }
+                        //pageOptions.TestResults = summaries;
+                        //vm.setSummaryData(summaries);
+                    });
+                };
+                this.setTestResultsData = function (testResultsData) {
+                    var vm = _this;
+                    testResultsData.forEach(function (tData) {
+                        var clo = 1;
+                        var redColor = { 'background-color': 'RED', 'color': '#333333' };
+                        var yellowColor = { 'background-color': 'yellow', 'color': 'rgb(51, 51, 51)' };
+                        //var blackFontColor = { 'color': 'black' };
+                        var redFontColor = { 'color': 'red' };
+                        for (var clo = 1; clo < 12; clo++) {
+                            if (tData["fund" + clo + "OutcomeDisplay"] && tData["fund" + clo + "OutcomeDisplay"].includes("$")) {
+                                var testOutcome = tData["fund" + clo + "OutcomeDisplay"].split("$")[1].replaceAll(",", '');
+                                if (tData["testDisplayName"] === "OC vs Target Par") {
+                                    tData["fund" + clo + "OutcomeBgStyle"] = testOutcome < 0 ? redFontColor : '';
+                                }
+                                var formatter = new Intl.NumberFormat('en-US', {
+                                    //style: 'currency',
+                                    //currency: 'USD',
+                                    // These options are needed to round to whole numbers if that's what you want.
+                                    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                                    maximumFractionDigits: 0 // (causes 2500.99 to be printed as $2,501)
+                                });
+                                tData["fund" + clo + "OutcomeDisplay"] = formatter.format(testOutcome).toString();
+                            }
+                            if (tData.condition && tData["fund" + clo + "OutcomeDisplay"]) {
+                                var breachCondition = '', dangerCondition = '';
+                                if (tData.condition === ">=") {
+                                    breachCondition = "<";
+                                    dangerCondition = "<=";
+                                }
+                                else if (tData.condition === "<=") {
+                                    breachCondition = ">";
+                                    dangerCondition = ">=";
+                                }
+                                var calcTooltip = tData["calculatedColumn" + clo].toString();
+                                var breachToolTip = tData["fund" + clo + "Breach"].toString();
+                                if (tData["fund" + clo + "OutcomeDisplay"].includes(".")) {
+                                    calcTooltip = tData["calculatedColumn" + clo].toFixed(2).toString();
+                                    breachToolTip = tData["fund" + clo + "Breach"].toFixed(2).toString();
+                                }
+                                if (tData["fund" + clo + "OutcomeDisplay"].includes("%")) {
+                                    calcTooltip = calcTooltip + "%";
+                                    breachToolTip = breachToolTip + "%";
+                                }
+                                tData["fund" + clo + "OutcomeTooltip"] = "<div>DANGER &nbsp;" + dangerCondition + "&nbsp;" + calcTooltip + "</div><div>BREACH&nbsp;" + breachCondition + "&nbsp;" + breachToolTip + "</div>";
+                                //console.log("<div>DANGER &nbsp;" + tData.condition + "&nbsp;" + tData["calculatedColumn" + clo].toString() + "</div><div>BREACH&nbsp;" + tData.condition + "&nbsp;" + tData["fund" + clo + "Breach"].toString() + "</div>");
+                                if (tData["fund" + clo + "OutcomeDisplay"] !== "N/A") {
+                                    if (tData.condition === ">=") {
+                                        tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] < tData["fund" + clo + "Breach"] ? redColor :
+                                            tData["fund" + clo + "Outcome"] <= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] >= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                                    }
+                                    else if (tData.condition === "<=") {
+                                        tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] > tData["fund" + clo + "Breach"] ? redColor :
+                                            tData["fund" + clo + "Outcome"] >= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] <= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                                    }
+                                }
+                            }
+                        }
+                        if (tData["testHoverNote"] !== "") {
+                            tData["testDisplayNameTooltip"] = tData["testHoverNote"];
+                        }
+                    });
+                    var groupBy = function (xs, key) {
+                        return xs.reduce(function (rv, x) {
+                            (rv[x[key]] = rv[x[key]] || []).push(x);
+                            return rv;
+                        }, {});
+                    };
+                    var groupByData = [];
+                    var dataWithGroups = groupBy(testResultsData, 'testCategoryName');
+                    Object.keys(dataWithGroups).forEach(function (key) {
+                        var groupStyle = {
+                            "font-size": "small",
+                            "font-weight": "bold"
+                        };
+                        groupByData.push({ 'testDisplayName': key, 'testDisplayNameBgStyle': groupStyle });
+                        dataWithGroups[key].forEach(function (tData) {
+                            groupByData.push(tData);
+                        });
+                        groupByData.push({});
+                    });
+                    //vm.testResultsData = testResultsData;
+                    vm.testResultsData = groupByData;
+                    vm.selectTest(groupByData[1]);
+                    //console.log(testResultsData);
+                };
                 this.setSummaryData = function (summaries) {
                     var vm = _this;
                     vm.summaryData = summaries;
@@ -160,6 +265,16 @@ var Application;
                         vm.rootScope.$emit('onFundChanged', fundRow);
                     }
                 };
+                this.selectTest = function (testRow) {
+                    var vm = _this;
+                    if (vm.selectedTest != testRow) {
+                        vm.selectedTest = testRow;
+                        vm.rootScope['selectedTest'] = testRow;
+                    }
+                };
+                this.selectPar = function (fundRow) {
+                    //alert(fundRow.par);
+                };
                 this.downloadLoanPositions = function (fundId) {
                     var vm = _this;
                     var fieldFundRestrictions = vm.getAssetParRestrictions('AssetPar', fundId);
@@ -193,6 +308,22 @@ var Application;
                     //    vm.summaryTableParams.reload();
                     //}
                 };
+                this.setTestTableParams = function () {
+                    var vm = _this;
+                    //if (!vm.summaryTableParams) {
+                    vm.testResultsTableParams = new vm.ngTestTableParamas({
+                        page: 1,
+                        noPager: true,
+                        count: 10000
+                        //sorting: {
+                        //    'fundCode': 'asc'
+                        //}
+                    }, {
+                        total: 1,
+                        counts: [],
+                        dataset: vm.testResultsData
+                    });
+                };
                 var vm = this;
                 vm.uiService = uiService;
                 vm.rootScope = $rootScope;
@@ -202,6 +333,7 @@ var Application;
                 vm.window = $window;
                 vm.filter = $filter;
                 vm.interval = $interval;
+                vm.ngTestTableParamas = ngTableParams;
                 vm.rootScope.$on('onActivated', function (event, data) {
                     vm.activeView = data;
                     vm.rootScope['activeView'] = data;
@@ -213,6 +345,7 @@ var Application;
                     vm.refreshFundRestrictions();
                 });
                 vm.loadData();
+                vm.loadTestResults();
                 vm.interval(vm.checkForAutoRefresh, 300000);
             }
             TopNavController.prototype.onTestResultsVisibilityChanged = function (open) {

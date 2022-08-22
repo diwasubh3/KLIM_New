@@ -60,6 +60,9 @@ var Application;
                 this.loadSummaryData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getsummaries');
                 };
+                this.loadTestResults = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
+                };
                 this.getFieldsForCustomView = function (viewId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
                 };

@@ -42,6 +42,80 @@
 
     }
 
+    export interface ITestResults{
+        testDisplayName: string;
+        fund1Outcome: Number;
+        
+        fund1Breach: Number;
+        fund2Outcome: Number;
+        
+        fund2Breach: Number;
+        fund3Outcome: Number;
+        
+        fund3Breach: Number;
+        fund4Outcome: Number;
+        
+        fund4Breach: Number;
+        fund5Outcome: Number;
+        
+        fund5Breach: Number;
+        fund6Outcome: Number;
+        
+        fund6Breach: Number;
+        fund7Outcome: Number;
+        
+        fund7Breach: Number;
+        fund8Outcome: Number;
+        
+        fund8Breach: Number;
+        fund9Outcome: Number;
+        
+        fund9Breach: Number;
+        fund10Outcome: Number;
+        
+        fund10Breach: Number;
+        fund11Outcome: Number;
+       
+        fund11Breach: Number;
+        calculatedColumn1: Number;
+        calculatedColumn2: Number;
+        calculatedColumn3: Number;
+        calculatedColumn4: Number;
+        calculatedColumn5: Number;
+        calculatedColumn6: Number;
+        calculatedColumn7: Number;
+        calculatedColumn8: Number;
+        calculatedColumn9: Number;
+        calculatedColumn10: Number;
+        calculatedColumn11: Number;
+        fund1OutcomeBgStyle: any;
+        fund2OutcomeBgStyle: any;
+        fund3OutcomeBgStyle: any;
+        fund4OutcomeBgStyle: any;
+        fund5OutcomeBgStyle: any;
+        fund6OutcomeBgStyle: any;
+        fund7OutcomeBgStyle: any;
+        fund8OutcomeBgStyle: any;
+        fund9OutcomeBgStyle: any;
+        fund10OutcomeBgStyle: any;
+        fund11OutcomeBgStyle: any;
+        fund1OutcomeDisplay: string;
+        fund2OutcomeDisplay: string;
+        fund3OutcomeDisplay: string;
+        fund4OutcomeDisplay: string;
+        fund5OutcomeDisplay: string;
+        fund6OutcomeDisplay: string;
+        fund7OutcomeDisplay: string;
+        fund8OutcomeDisplay: string;
+        fund9OutcomeDisplay: string;
+        fund10OutcomeDisplay: string;
+        fund11utcomeDisplay: string;
+        testCategoryName: string;
+        testDisplayNameBgStyle: any;
+        condition: string;
+        testHoverNote: string;
+    }
+
     export interface IRule {
         ruleId: number;
         ruleName: string;
@@ -945,7 +1019,7 @@
         tradeType: Array<ITradeType>;
         traders: Array<ITrader>;
         Facilities: Array<IFacility>;
-        CounterParty: Array<ICounterParty>;
+        counterParty: Array<ICounterParty>;
         SettleMethods: Array<ISettleMethods>;
         InterestTreatment: Array<IInterestTreatment>;
         allocationRule: Array<IAllocationRule>;

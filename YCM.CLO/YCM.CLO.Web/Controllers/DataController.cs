@@ -497,6 +497,33 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
+
+		public JsonNetResult GetTestResults()
+		{
+			try
+			{
+				_logger.Info("Getting dateId...");
+				var dateId = Helper.GetPrevDayDateId();
+
+				_logger.Info($"_repository is null? {_repository == null}");
+				var data = CLOCache.GetTestResults();//_repository.GetSummaries(dateId).ToList();				
+				
+				_logger.Info($"data is null? {data == null}");
+				if (data != null)
+					_logger.Info($"data count: {data.Count}");
+				return new JsonNetResult()
+				{
+					Data = data
+				};
+			}
+			catch (Exception exception)
+			{
+				EmailHelper.SendEmail(exception.ToString(), "CLO:" + ConfigurationManager.AppSettings["Environment"] + ":" + "Exception occurred in GetTestResults");
+				throw;
+			}
+		}
+
+
 		private decimal ReadReinvestData(string filePath, string fileName, string sheetName, string fieldLocation)
 		{
 			decimal reinvestValue = 0;

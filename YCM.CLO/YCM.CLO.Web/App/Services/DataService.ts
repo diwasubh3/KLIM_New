@@ -78,6 +78,10 @@
             return <ng.IPromise<Array<Application.Models.ISummary>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getsummaries');
         }
 
+        loadTestResults = () => {
+            return <ng.IPromise<Array<Application.Models.ITestResults>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
+        }
+
 		getFieldsForCustomView = (viewId: number) => {
 			return <ng.IPromise<Array<Application.Models.IField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
 		}

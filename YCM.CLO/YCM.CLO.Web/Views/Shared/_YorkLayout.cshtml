@@ -310,32 +310,32 @@
         }*@
                                         @if (ViewBag.HasPositionScreenPermission)
                                         {
-                                            <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
+                                        <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
                                         }
                                         @if (ViewBag.HasTop10Bottom10Permission)
                                         {
-                                            <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
-                                            @*<li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>*@
+                                        <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
+                                        @*<li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>*@
                                         }
                                         else
                                         {
-                                            <li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>
+                                        <li id="navlinksummary" class="nav-link disabled {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/positions">Top 10 / Bottom 10</a></li>
                                         }
                                         @if (ViewBag.HasTradePermission)
                                         {
-                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='trades'?'active':''}}"><a href="#/trades">Trades</a></li>
+                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='trades'?'active':''}}"><a href="#/trades">Trades</a></li>
                                         }
                                         else
                                         {
-                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='trades'?'active':''}}"><a href="#/positions">Trades</a></li>
+                                        <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='trades'?'active':''}}"><a href="#/positions">Trades</a></li>
                                         }
                                         @if (ViewBag.HasTradeSwapPermission)
                                         {
-                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/tradeswapping">Trade Swapping</a></li>
+                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/tradeswapping">Trade Swapping</a></li>
                                         }
                                         else
                                         {
-                                            <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
+                                        <li id="navlinktrades" class="nav-link disabled {{topNav.activeView=='tradeswapping'?'active':''}}"><a href="#/positions">Trade Swapping</a></li>
                                         }
                                         @*@if (ViewBag.HasAnalystResearchPermission)
         {
@@ -344,67 +344,70 @@
                                         @if (ViewBag.HasBidOfferUploadPermission || ViewBag.HasFundTriggersPermission || ViewBag.HasFundOverridesPermission || ViewBag.HasParametersPermission || ViewBag.HasLoanAttributeOverridePermission)
                                         {
 
-                                            <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
-                                                <a class="dropdown-toggle" style="cursor: pointer !important"
-                                                   data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
-                                                <ul class="dropdown-menu">
-                                                    @if (ViewBag.HasBidOfferUploadPermission)
+                                        <li id="navlinkmaintenance" class="dropdown nav-link {{topNav.activeView=='maintenance'?'active':''}}">
+                                            <a class="dropdown-toggle" style="cursor: pointer !important"
+                                               data-toggle="dropdown">Maintenance<b class="caret" style="margin-top: 4px !important"></b></a>
+                                            <ul class="dropdown-menu">
+                                                @if (ViewBag.HasBidOfferUploadPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
-                                                        <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
+                                                <li><a style="font-size: 12px" href="#bidofferupload">Bid/Offer Upload</a></li>
+                                                <li><a style="font-size: 12px" href="#collateralqualitymatrix">Collateral Quality Matrix</a></li>
                                                     }
-                                                    @if (ViewBag.HasFundTriggersPermission)
+                                                @if (ViewBag.HasFundTriggersPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
+                                                <li><a style="font-size: 12px" href="#fundtriggers">Fund Triggers</a></li>
                                                     }
-                                                    @if (ViewBag.HasFundOverridesPermission)
+                                                @if (ViewBag.HasFundOverridesPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
+                                                <li><a style="font-size: 12px" href="#fundoverrides">Fund Overrides</a></li>
                                                     }
-                                                    <li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>
-                                                    @if (ViewBag.HasParametersPermission)
+                                                <li><a style="font-size: 12px" href="#addnewsecurity">New Loan</a></li>
+                                                @if (ViewBag.HasParametersPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
+                                                <li><a style="font-size: 12px" href="#parameters">Parameters</a></li>
                                                     }
-                                                    @if (ViewBag.HasLoanAttributeOverridePermission)
+                                                @if (ViewBag.HasLoanAttributeOverridePermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
+                                                <li><a style="font-size: 12px" href="#securityoverrides">Loan Attribute Overrides</a></li>
                                                     }
-                                                </ul>
-                                            </li>
+                                            </ul>
+                                        </li>
                                         }
                                         else
                                         {
-                                            <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
+                                        <li id="navlinkmaintenance" class="nav-link disabled {{topNav.activeView=='maintenance'?'active':''}}"><a href="#/positions">Maintenance</a></li>
                                         }
 
                                         @if (ViewBag.HasNewLoanReconPermission || ViewBag.HasLoanAttributeOverridesReconPermission || ViewBag.HasAdminPermission)
                                         {
-                                            <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
-                                                <a class="dropdown-toggle" style="cursor:pointer !important"
-                                                   data-toggle="dropdown">WSO<b class="caret" style="margin-top:4px !important"></b></a>
-                                                <ul class="dropdown-menu">
-                                                    @if (ViewBag.HasNewLoanReconPermission)
+                                        <li id="navlinkwso" class="dropdown nav-link {{topNav.activeView=='wso'?'active':''}}">
+                                            <a class="dropdown-toggle" style="cursor:pointer !important"
+                                               data-toggle="dropdown">WSO<b class="caret" style="margin-top:4px !important"></b></a>
+                                            <ul class="dropdown-menu">
+                                                @if (ViewBag.HasNewLoanReconPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#newsecurityrecon">New Loan Recon</a></li>
+                                                <li><a style="font-size: 12px" href="#newsecurityrecon">New Loan Recon</a></li>
                                                     }
-                                                    @if (ViewBag.HasLoanAttributeOverridesReconPermission)
+                                                @if (ViewBag.HasLoanAttributeOverridesReconPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#loanattributeoverriderecon">Loan Attribute Overrides Recon</a></li>
+                                                <li><a style="font-size: 12px" href="#loanattributeoverriderecon">Loan Attribute Overrides Recon</a></li>
                                                     }
-                                                    @if (ViewBag.HasAdminPermission)
+                                                @if (ViewBag.HasAdminPermission)
                                                     {
-                                                        <li><a style="font-size: 12px" href="#admin">Admin</a></li>
+                                                <li><a style="font-size: 12px" href="#admin">Admin</a></li>
                                                     }
-                                                    @*<li><a style="font-size: 12px" href="#reconreport">Recon Report</a></li>*@
-                                                </ul>
-                                            </li>
+                                                @*<li><a style="font-size: 12px" href="#reconreport">Recon Report</a></li>*@
+                                            </ul>
+                                        </li>
                                         }
                                         @if (ViewBag.HasReportEditPermission)
                                         {
-                                            <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
+                                        <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
                                         }
+                                        @if (ViewBag.HasAdminPermission)
+                                        {
                                         <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
+                                        }
                                     </ul>
                                 </div>
                             </div>

@@ -80,7 +80,21 @@ namespace YCM.CLO.DataAccess
 			}
 		}
 
-        bool IRepository.CalculateSummaries()
+		IEnumerable<vw_CLOTestResults> IRepository.GetTestResults(int dateId)
+		{
+			using (CLOContext cloContext = new CLOContext())
+			{
+				/* 
+				 * As per user request, Summary section need to be available whole day and change for the same managed at database level
+				 * 
+				 --Old Code
+				 return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				 * */
+				return cloContext.vw_CLOTestResults.OrderBy(c => c.SortBy).ToList();
+			}
+		}
+
+		bool IRepository.CalculateSummaries()
         {
             using (CLOContext context = new CLOContext())
             {

@@ -21,6 +21,7 @@ module Application.Services.Contracts {
         loadData: () => ng.IPromise<Array<Application.Models.UserModel>>;
         updateData: (userModel: Application.Models.UserModel) => ng.IPromise<boolean>;
         loadSummaryData: () => ng.IPromise<Array<Application.Models.ISummary>>;
+        loadTestResults: () => ng.IPromise<Array<Application.Models.ITestResults>>;
         loadRules: () => ng.IPromise<Array<Application.Models.IRule>>;
         loadTop10Bottom10: (fund: Models.ISummary, ruleId: number) => ng.IPromise<Models.ITop10Bottom10Positions>;
         loadPositionViewFieldGroups: () => ng.IPromise<Array<Application.Models.IFieldGroup>>;

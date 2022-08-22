@@ -821,6 +821,7 @@
             });
         }
 
+
         GetTradeBookingHistory = () => {
             var vm = this;
                     vm.statusText = "Loading";
