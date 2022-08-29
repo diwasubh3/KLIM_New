@@ -202,7 +202,7 @@
                     aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                     footerCellTemplate: tempFooter,
                     cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                        if (parseFloat(row.entity.finalQty) < 0) {
+                        if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                             return 'red';
                         }
                         if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -246,7 +246,7 @@
                     aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                     footerCellTemplate: tempFooter,
                     cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                        if (parseFloat(row.entity.finalQty) < 0) {
+                        if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                             return 'red';
                         }
                         if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -441,7 +441,7 @@
         setTradeBooking = (tradeId) => {
             var vm = this;
             vm.isRowhightlight = true;
-            vm.dataService.refreshTradeBooking(tradeId).then(data => {                
+            vm.dataService.refreshTradeBooking(tradeId).then(data => {
                 data.tradeDate = new Date(data.tradeDate);
                 vm.tradeTypeChangeEvent(data.tradeType);
                 vm.tempSecurity = data;
@@ -455,8 +455,9 @@
                 vm.isDisabled = true;
                 vm.isHide = true;
                 vm.isLoading = false;
-                if(data.responseStatus = "Complete")
-                    vm.isCancelHide = true;
+                if (data.responseStatus == "Complete")
+                    vm.isCancelHide = false;
+               
             });
         }
 
@@ -482,7 +483,7 @@
                 }
                 else {
                     tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                    if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
+                    if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0 && parseFloat(vm.gridOptions.data[_i].finalQty.toString()).toFixed(2) != "-0.00")
                         isfinalNegative = true;
                 }
                 TotalAllocatedQty = TotalAllocatedQty + tempOverride;
@@ -1001,10 +1002,16 @@ CancelTrade = () => {
 
         ExportToCSV = () => {
             var vm = this;
-            if (vm.trades.length > 0) {
+            var activeTab = "alltrades"
+            var active = $("ul.nav.nav-tabs.tradesHistory li.active a").attr('href')
+            if (active === "#Current") {
+                activeTab ="trades"
+            } 
+            
+            if (vm[activeTab] && vm[activeTab].length > 0) {
                 var CsvData = [];
 
-                vm.trades.forEach(line => {
+                vm[activeTab].forEach(line => {
                     let reportDate = new Date(line.tradeDate);
                     let csvLine = {
                         tradeDate: `${reportDate.getDate()}/${reportDate.getMonth() + 1}/${reportDate.getFullYear()}`,
@@ -1025,7 +1032,7 @@ CancelTrade = () => {
                     CsvData.push(csvLine);
                 });
                 vm.exportToCsv('tradebooking.csv', CsvData);
-            }
+            }           
         }
 
 

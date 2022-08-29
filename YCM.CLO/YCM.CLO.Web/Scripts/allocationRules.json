@@ -7,12 +7,7 @@
 				{
 					"rulename": "EvaluateForSkippedRecords",
 					"conditions": {
-						"all": [
-							{
-								"fact": "Override",
-								"operator": "lessThan",
-								"value": "[Existing]"
-							},
+						"all": [							
 							{
 								"fact": "IsIncluded",
 								"operator": "equal",

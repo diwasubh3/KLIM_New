@@ -18,6 +18,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Configuration;
 using Newtonsoft.Json.Linq;
+using log4net;
 
 namespace YCM.CLO.Web.Controllers
 {
@@ -26,11 +27,13 @@ namespace YCM.CLO.Web.Controllers
         private IRepository _repository;
         private readonly IAlertEngine _alertEngine;
         private readonly IPositionCacheManager _cacheManager;
+        private readonly ILog _logger;
         public TradebookingDataController(IRepository repository, IAlertEngine alertEngine, IPositionCacheManager cacheManager)
         {
             _repository = repository;
             _alertEngine = alertEngine;
             _cacheManager = cacheManager;
+            _logger = LogManager.GetLogger(typeof(TradebookingDataController));
         }
         public JsonNetResult GetSourceData()
         {
@@ -84,7 +87,7 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
-                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(tradeBooking.allocationRule.RuleName, tradeBooking.IssuerId, tradeBooking.LoanXId, tradeBooking.tradeType.TradeTypeDesc));                
+                var data = Mapper.Map<IEnumerable<TradeBookingDetail>, IEnumerable<TradeBookingDetailDto>>(_repository.GetTradeFundAllocation(tradeBooking.allocationRule.RuleName, tradeBooking.IssuerId, tradeBooking.LoanXId, tradeBooking.tradeType.TradeTypeDesc));
                 data.ForEach(x =>
                 {
                     x.TotalQuantity = tradeBooking.TotalQty;
@@ -92,7 +95,7 @@ namespace YCM.CLO.Web.Controllers
                     x.Price = tradeBooking.Price;
                     x.TradeType = tradeBooking.tradeType.TradeTypeDesc;
                 });
-                return getCalculatedData(data); 
+                return getCalculatedData(data);
             }
             catch (ReflectionTypeLoadException ex)
             {
@@ -266,13 +269,14 @@ namespace YCM.CLO.Web.Controllers
         public JsonNetResult GetTradeBooking()
         {
             try
-            {                
+            {
                 return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TradeBooking>, IEnumerable<TradeBookingDto>>(_repository.GetTradeBookings()) };
             }
             catch (Exception ex)
             {
+                _logger.Error($"Error in GetTradeBooking " + ex);
                 return new JsonNetResult();
-            }            
+            }
         }
 
         public JsonNetResult RefreshTradeBooking(Int64 TradeId)
@@ -313,6 +317,7 @@ namespace YCM.CLO.Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error($"Error in RefreshTradeBooking " + ex);
                 return new JsonNetResult();
             }
         }
@@ -322,6 +327,7 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
+                _logger.Info($"GenerateTradeXML Started");
                 data.TradeTypeId = data.tradeType.TradeTypeId;
                 data.TraderId = data.traders.TraderId;
                 data.FacilityId = data.facility.FacilityId;
@@ -338,17 +344,20 @@ namespace YCM.CLO.Web.Controllers
                 string TradeReason = data.tradeReasons.TradeReasonDesc == null ? "" : data.tradeReasons.TradeReasonDesc;
                 var tradebookingId = _repository.SaveTradeBooking(data, User.Identity.Name);
                 if (tradebookingId > 0)
-                {                    
+                {
+                    _logger.Info($"Saved Tradebooking ");
                     _repository.SaveTradeBookingDetails(data.TradeBookingDetail, tradebookingId);
                     _repository.UpdateSubmitDetails(tradebookingId);
+                    _logger.Info($"Saved Tradebooking deatils  and Updated Submit Details  ");
                 }
-                
+
                 data.Id = tradebookingId;
                 var allTradeBooking = _repository.GetTradeBookingXML(data.Id).FirstOrDefault();
                 var allTradeGroup = _repository.GetTradeGroupXML(data.Id).FirstOrDefault();
                 var allTradeBookingDetail = _repository.GetTradeBookingDetailXML(data.Id);
                 var portfolios = new List<PORTFOLIOALLOCATION>();
 
+                _logger.Info($"Adding Portfolios ");
                 foreach (var tradebookingdt in allTradeBookingDetail)
                 {
                     portfolios.Add(new PORTFOLIOALLOCATION()
@@ -361,6 +370,8 @@ namespace YCM.CLO.Web.Controllers
                 }
 
                 var tPORTFOLIOALLOCATION = portfolios;
+                _logger.Info($"PortFolios Added");
+
                 var tUDF = new UDF
                 {
                     fieldname = "u_sTradeCommentsYork",
@@ -371,6 +382,7 @@ namespace YCM.CLO.Web.Controllers
                     notetype = "Other",
                     note = TradeComment.ToString(),
                 };
+                _logger.Info($"Adding Trade");
                 var tTRADE = new TRADE
                 {
                     cancel = "false",
@@ -391,7 +403,7 @@ namespace YCM.CLO.Web.Controllers
                     NOTE = tNOTE,
                     PORTFOLIOALLOCATION = portfolios
                 };
-
+                _logger.Info($" Trade added");
                 var tTRADEGROUP = new TRADEGROUP
                 {
                     cancel = "false",
@@ -401,6 +413,7 @@ namespace YCM.CLO.Web.Controllers
                     referenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
                     settlementplatform = "Automatic"
                 };
+                _logger.Info($" Trade Group added");
                 var tIDENTIFIER = new IDENTIFIER()
                 {
                     tdes = "LoanXID",
@@ -431,16 +444,18 @@ namespace YCM.CLO.Web.Controllers
                 };
 
                 var serializer = new XmlSerializer(typeof(WSOXML));
-
+                _logger.Info($"Creating XML");
                 if (ConfigurationManager.AppSettings.AllKeys.Contains("WSOXML"))
                 {
                     using (var stream = new StreamWriter(ConfigurationManager.AppSettings["WSOXML"] + allTradeBooking.LoanXId.ToString() + "_" + allTradeGroup.ReferenceTicketId.ToString() + ".xml"))
                         serializer.Serialize(stream, newdata);
-                }                    
+                }
+                _logger.Info($"XML Created");
                 return new JsonNetResult();
             }
             catch (Exception ex)
             {
+                _logger.Error($"Error in GenerateTradeXML " + ex);
                 return new JsonNetResult();
             }
         }
@@ -453,6 +468,7 @@ namespace YCM.CLO.Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error($"Error in GetTradeBookingHistory " + ex);
                 return new JsonNetResult();
             }
         }
@@ -462,6 +478,7 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
+                _logger.Info($"Cancel Trade Started");
                 var tradeId = data.Id;
                 var tradecancelreason = data.TradeComment;
                 data.TradeCommentId1 = data.tradeComments1.CommentId;
@@ -472,13 +489,14 @@ namespace YCM.CLO.Web.Controllers
                 string TradeComment = data.tradeComments1.Comment == null ? "" : data.tradeComments1.Comment + "; " + (data.tradeComments2.Comment == null ? "" : data.tradeComments2.Comment);
                 string TradeReason = data.tradeReasons.TradeReasonDesc == null ? "" : data.tradeReasons.TradeReasonDesc;
 
-                _repository.CancelTradeBooking(tradeId);
-                
+
+
                 var allTradeBooking = _repository.GetTradeBookingXML(data.Id).FirstOrDefault();
                 var allTradeGroup = _repository.GetTradeGroupXML(data.Id).FirstOrDefault();
                 var allTradeBookingDetail = _repository.GetTradeBookingDetailXML(data.Id);
                 var portfolios = new List<PORTFOLIOALLOCATION>();
-
+                _repository.CancelTradeBooking(tradeId);
+                _logger.Info($"Canceled Tradebooking ");
                 foreach (var tradebookingdt in allTradeBookingDetail)
                 {
                     portfolios.Add(new PORTFOLIOALLOCATION()
@@ -501,6 +519,7 @@ namespace YCM.CLO.Web.Controllers
                     notetype = "Other",
                     note = TradeComment.ToString(),
                 };
+                _logger.Info($"Adding Trade");
                 var tTRADE = new TRADE
                 {
                     cancel = "true",
@@ -521,6 +540,7 @@ namespace YCM.CLO.Web.Controllers
                     NOTE = tNOTE,
                     PORTFOLIOALLOCATION = portfolios
                 };
+                _logger.Info($" Trade added");
 
                 var tTRADEGROUP = new TRADEGROUP
                 {
@@ -531,6 +551,7 @@ namespace YCM.CLO.Web.Controllers
                     referenceticketid = allTradeGroup.ReferenceTicketId.ToString(),
                     settlementplatform = "Automatic"
                 };
+                _logger.Info($" Trade Group added");
                 var tIDENTIFIER = new IDENTIFIER()
                 {
                     tdes = "LoanXID",
@@ -561,16 +582,18 @@ namespace YCM.CLO.Web.Controllers
                 };
 
                 var serializer = new XmlSerializer(typeof(WSOXML));
-
+                _logger.Info($"Creating XML");
                 if (ConfigurationManager.AppSettings.AllKeys.Contains("WSOXML"))
                 {
                     using (var stream = new StreamWriter(ConfigurationManager.AppSettings["WSOXML"] + allTradeBooking.LoanXId.ToString() + "_" + allTradeGroup.ReferenceTicketId.ToString() + ".xml"))
                         serializer.Serialize(stream, newdata);
                 }
+                _logger.Info($"XML Created");
                 return new JsonNetResult();
             }
             catch (Exception ex)
             {
+                _logger.Error($"Error in CancelTrade " + ex);
                 return new JsonNetResult();
             }
         }

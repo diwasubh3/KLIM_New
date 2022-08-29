@@ -124,8 +124,8 @@ var Application;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
-                        if (data.responseStatus = "Complete")
-                            vm.isCancelHide = true;
+                        if (data.responseStatus == "Complete")
+                            vm.isCancelHide = false;
                     });
                 };
                 this.checkSaveButton = function () {
@@ -149,7 +149,7 @@ var Application;
                         }
                         else {
                             tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
+                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0 && parseFloat(vm.gridOptions.data[_i].finalQty.toString()).toFixed(2) != "-0.00")
                                 isfinalNegative = true;
                         }
                         TotalAllocatedQty = TotalAllocatedQty + tempOverride;
@@ -598,9 +598,14 @@ var Application;
                 };
                 this.ExportToCSV = function () {
                     var vm = _this;
-                    if (vm.trades.length > 0) {
+                    var activeTab = "alltrades";
+                    var active = $("ul.nav.nav-tabs.tradesHistory li.active a").attr('href');
+                    if (active === "#Current") {
+                        activeTab = "trades";
+                    }
+                    if (vm[activeTab] && vm[activeTab].length > 0) {
                         var CsvData = [];
-                        vm.trades.forEach(function (line) {
+                        vm[activeTab].forEach(function (line) {
                             var reportDate = new Date(line.tradeDate);
                             var csvLine = {
                                 tradeDate: reportDate.getDate() + "/" + (reportDate.getMonth() + 1) + "/" + reportDate.getFullYear(),
@@ -843,7 +848,7 @@ var Application;
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                         footerCellTemplate: tempFooter,
                         cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                            if (parseFloat(row.entity.finalQty) < 0) {
+                            if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                                 return 'red';
                             }
                             if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -885,7 +890,7 @@ var Application;
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                         footerCellTemplate: tempFooter,
                         cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                            if (parseFloat(row.entity.finalQty) < 0) {
+                            if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                                 return 'red';
                             }
                             if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
