@@ -448,6 +448,10 @@
             return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
         }
 
+        getFilteredTrades = (startDate: any, endDate: any) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
+        }
+
 
     }
 

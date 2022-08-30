@@ -260,6 +260,7 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<Fund> GetFundAllocation();
         IEnumerable<TradeBooking> GetTradeBookings();
         IEnumerable<TradeBooking> GetTradeBookingHistory();
+        IEnumerable<TradeBooking> GetFilteredTrades(DateTime StartDate, DateTime EndDate);
         IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId, string tradeType);
         int SaveTradeBooking(TradeBooking tradebook, string user);
         bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);

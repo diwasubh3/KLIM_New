@@ -134,6 +134,7 @@ module Application.Services.Contracts {
 
         updatePaydown: (watch: Application.Models.IPaydown, fundCode: string) => ng.IPromise<Models.IPaydown>;
         deletePaydown: (watch: Application.Models.IPaydown) => ng.IPromise<boolean>;
+        getFilteredTrades: (startDate: any, endDate: any) => ng.IPromise<Array<Models.ITradeBooking>>;
 
     }
 } 

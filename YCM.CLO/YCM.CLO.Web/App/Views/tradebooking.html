@@ -167,7 +167,7 @@
                     <div style="max-height: 300px;">
                         <ul id="tradesHistory" class="nav nav-tabs tradesHistory">
                             <li class="active"><a data-toggle="tab" href="#Current" target="_blank" style="padding: 3px 15px 3px !important;">Current Bookings</a> </li>
-                            <li><a data-toggle="tab" href="#History" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="tradebooking.GetTradeBookingHistory()">All Bookings</a> </li>
+                            <li><a data-toggle="tab" href="#History" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="tradebooking.getFilteredTrades();">All Bookings</a> </li>
                         </ul>
                         <div class="tab-content">
                             <div style="max-height: 300px;overflow-y:auto;" id="Current" class="tab-pane fade in active">
@@ -301,6 +301,17 @@
                     <div class="col-sm-2">
                         <button name="btnCancelTradeBook" id="btnCancelTradeBook" class="btn btn-info" ng-click="tradebooking.CancelTrade();" ng-hide="tradebooking.isCancelHide">
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Cancel Trade Booking
+                        </button>
+                    </div>
+                    <div class="col-sm-1">
+                        <input id="txtStartDate" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.startDate" ng-required="">
+                    </div>
+                    <div class="col-sm-1">
+                        <input id="txtEndDate" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.endDate" ng-required="">
+                    </div>
+                    <div class="col-sm-1">
+                        <button name="btnTradeFilter" id="btnTradeFilter" class="btn btn-info" ng-click="tradebooking.getFilteredTrades();">
+                              Filter
                         </button>
                     </div>
                 </div>

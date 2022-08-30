@@ -549,6 +549,13 @@ var Application;
                         vm.isLoading = false;
                     });
                 };
+                this.getFilteredTrades = function () {
+                    var vm = _this;
+                    vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
+                        vm.alltrades = data;
+                        vm.isLoading = false;
+                    });
+                };
                 this.CancelTrade = function () {
                     var vm = _this;
                     vm.isSaveDisabled = true;
@@ -700,6 +707,12 @@ var Application;
                     }
                 };
                 var vm = this;
+                var yesterday = new Date(new Date());
+                yesterday.setDate(yesterday.getDate() - 1);
+                var lastMonthdate = new Date(new Date());
+                lastMonthdate.setDate(lastMonthdate.getDate() - 30);
+                vm.startDate = lastMonthdate;
+                vm.endDate = yesterday;
                 vm.dataService = dataService;
                 vm.uiService = uiService;
                 vm.rootScope = $rootScope;

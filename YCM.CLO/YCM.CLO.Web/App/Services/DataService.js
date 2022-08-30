@@ -338,6 +338,9 @@ var Application;
                 this.deletePaydown = function (paydown) {
                     return _this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
                 };
+                this.getFilteredTrades = function (startDate, endDate) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
             }
             return DataService;

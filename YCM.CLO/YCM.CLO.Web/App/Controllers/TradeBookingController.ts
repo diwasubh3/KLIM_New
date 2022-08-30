@@ -46,12 +46,20 @@
         exportUiGridService: any;
         errorMessage: string;
         check = false;
+        startDate: any;
+        endDate : any;
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
 
 
         constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService,
             ngTableParams: NgTableParams, $filter: ng.IFilterService, $scope: angular.IScope, uiGridConstants: any, exportUiGridService: any) {
             var vm = this;
+            const yesterday = new Date(new Date())
+            yesterday.setDate(yesterday.getDate() - 1);
+            const lastMonthdate = new Date(new Date())
+            lastMonthdate.setDate(lastMonthdate.getDate() - 30);
+            vm.startDate = lastMonthdate;
+            vm.endDate = yesterday;
             vm.dataService = dataService;
             vm.uiService = uiService;
             vm.rootScope = $rootScope;
@@ -821,7 +829,7 @@
                 });
             });
         }
-
+       
 
         GetTradeBookingHistory = () => {
             var vm = this;
@@ -950,6 +958,14 @@
                 vm.isLoading = false;
             });
         }
+
+getFilteredTrades = () => {
+    var vm = this;
+    vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
+        vm.alltrades = data;
+        vm.isLoading = false;
+    });
+}
 
 CancelTrade = () => {
                     var vm = this;

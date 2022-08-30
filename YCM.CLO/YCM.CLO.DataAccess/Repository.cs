@@ -2104,6 +2104,14 @@ namespace YCM.CLO.DataAccess
 		{
 			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBookingHistory");
 		}
+		IEnumerable<TradeBooking> IRepository.GetFilteredTrades( DateTime StartDate, DateTime EndDate)
+		{
+			SqlParameter paramFieldStartDate = new SqlParameter("@StartDate", StartDate);
+			SqlParameter paramFielEndDate = new SqlParameter("@EndDate", EndDate);
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetFilteredTrades @StartDate,@EndDate", paramFieldStartDate, paramFielEndDate);
+		}
+
+		
 
 		TradeBooking IRepository.RefreshTradeBooking(long TradeId)
 		{

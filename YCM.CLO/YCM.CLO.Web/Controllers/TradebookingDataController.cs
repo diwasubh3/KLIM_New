@@ -473,6 +473,22 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
+        public JsonNetResult GetFilteredTrades(string startDate , string endDate )
+        {
+            try
+            {
+                DateTime SDate = DateTime.Parse(startDate);
+                DateTime EDate = DateTime.Parse(endDate);
+
+                return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TradeBooking>, IEnumerable<TradeBookingDto>>(_repository.GetFilteredTrades(SDate, EDate)) };
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error in GetTradeBookingHistory " + ex);
+                return new JsonNetResult();
+            }
+        }
+
         [HttpPost]
         public JsonNetResult CancelTrade(TradeBooking data)
         {
