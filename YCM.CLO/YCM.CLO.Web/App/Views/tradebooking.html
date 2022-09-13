@@ -164,9 +164,9 @@
 
             <div class="panel-collapse in collapse" aria-hidden="false" style="height: auto;" id="divViewBookingSection">
                 <div class="panel-body">
-                    <div style="max-height: 300px;">
+                    <div>
                         <ul id="tradesHistory" class="nav nav-tabs tradesHistory">
-                            <li class="active"><a data-toggle="tab" href="#Current" target="_blank" style="padding: 3px 15px 3px !important;">Current Bookings</a> </li>
+                            <li class="active"><a data-toggle="tab" href="#Current" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="tradebooking.setStartTradeVisibilty(false);">Current Bookings</a> </li>
                             <li><a data-toggle="tab" href="#History" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="tradebooking.getFilteredTrades();">All Bookings</a> </li>
                         </ul>
                         <div class="tab-content">
@@ -227,13 +227,39 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div id="History" class="tab-pane fade" style="max-height: 300px;overflow-y:auto;">
+                            <div id="History" class="tab-pane fade" style="overflow-y:auto;">
                                 <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblBookings" name="tblBookings"
                                        style="border-width: 0; margin-bottom: 0px; border-top-width: 0px; table-layout: fixed;">
                                     <thead style="position: sticky;top:0;">
                                         <tr>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 5%;"></th>
-                                            <th style="text-align: right; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 10%;">Trade Date</th>
+                                            <th style="width: 5%;border-width: 0px !important"></th>
+                                            <th colspan="13" style="border-width: 0px !important">
+                                                <div class="row">
+
+
+                                                    <div class="col-sm-1" style="padding-top: 0.5%;">
+                                                        <span style="float: right">From Date </span>
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top: 0.3%">
+                                                        <input id="txtStartDate" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.startDate" ng-required="">
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top: 0.5%">
+                                                        <span style="float: right">To Date </span>
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top: 0.3%">
+                                                        <input id="txtEndDate" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.endDate" ng-required="">
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top: 0.3%">
+                                                        <button name="btnTradeFilter" id="btnTradeFilter" class="btn btn-info" ng-click="tradebooking.getFilteredTrades();">
+                                                            Filter
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd;width: 5%;"></th>
+                                            <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 10%;">Trade Date</th>
                                             <th style="text-align: center; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 15%;">Trade Type</th>
                                             <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 20%;">Issuer</th>
                                             <th style="text-align: left; width: 1px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; width: 10%;">LoanXId</th>
@@ -250,8 +276,8 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="trade in tradebooking.alltrades" ng-class="{rowHighlight:$index==tradebooking.isRowSelected, rowHighlight1:$index==(trade.pendingSubmitQty > 0 ? $index : undefined)}">
-                                            <td style="padding:0px 3px; border-width: 0px 0px 1px 0px;"><a style="color:blue" ng-click="tradebooking.clearAll(false); tradebooking.setTradeBooking(trade.id);tradebooking.rowHighilited($index)">&nbsp;&nbsp; <i class="fa fa-eye" style="color:#FF7F7F" aria-hidden="true" title="Click to view Trade Details"></i></a></td>
-                                            <td style="text-align: right; border-width: 0px 0px 1px 0px;">{{trade.tradeDate | date :'yyyy-MM-dd' }}</td>
+                                            <td style="padding:0px 3px; border-width: 0px 0px 1px 0px;"><a style="color:blue" ng-click="tradebooking.clearAll(false);  tradebooking.setTradeBooking(trade.id);tradebooking.rowHighilited($index);tradebooking.setStartTradeVisibilty(true);">&nbsp;&nbsp; <i class="fa fa-eye" style="color:#FF7F7F" aria-hidden="true" title="Click to view Trade Details"></i></a></td>
+                                            <td style="text-align: center; border-width: 0px 0px 1px 0px;">{{trade.tradeDate | date :'yyyy-MM-dd' }}</td>
                                             <td style="text-align: center; border-width: 0px 0px 1px 0px;">{{trade.tradeTypeDesc}}</td>
                                             <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.issuerDesc}}</td>
                                             <td style="text-align: left; border-width: 0px 0px 1px 0px;">{{trade.loanXId}}</td>
@@ -294,7 +320,7 @@
             <div style="padding: 5px 0">
                 <div class="row">
                     <div class="col-sm-2">
-                        <button name="btnTradeBook" id="btnTradeBook" class="btn btn-info" ng-click="tradebooking.clearAll(true);">
+                        <button name="btnTradeBook" id="btnTradeBook" class="btn btn-info" ng-click="tradebooking.clearAll(true);" ng-hide="tradebooking.isStartTradeHide">
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Start Trade Booking
                         </button>
                     </div>
@@ -303,17 +329,7 @@
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;  Cancel Trade Booking
                         </button>
                     </div>
-                    <div class="col-sm-1">
-                        <input id="txtStartDate" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.startDate" ng-required="">
-                    </div>
-                    <div class="col-sm-1">
-                        <input id="txtEndDate" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="tradebooking.endDate" ng-required="">
-                    </div>
-                    <div class="col-sm-1">
-                        <button name="btnTradeFilter" id="btnTradeFilter" class="btn btn-info" ng-click="tradebooking.getFilteredTrades();">
-                              Filter
-                        </button>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -329,7 +345,7 @@
             </div>
         </div>-->
         <uib-accordion close-others="oneAtATime">
-            <div uib-accordion-group class="panel-default" ng-click="tradebooking.onVisibilityChanged(tradebooking.TradeBookingIsOpen)" is-open="tradebooking.TradeBookingIsOpen">
+            <div uib-accordion-group class="panel-default"  ng-click="tradebooking.onVisibilityChanged(tradebooking.TradeBookingIsOpen)" is-open="tradebooking.TradeBookingIsOpen">
                 <uib-accordion-heading>
                     <div class="panel-heading" style="cursor: pointer;">
                         <h4 class="panel-title">
@@ -519,3 +535,12 @@
         </uib-accordion>
 
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var y = $(window).height();
+            var b = y / 1.5;
+            $("#History").css('height', b);
+
+        });
+    </script>

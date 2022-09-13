@@ -10,6 +10,7 @@ var Application;
                 this.includeCancelled = false;
                 this.gridHeight = { 'height': '402px' };
                 this.check = false;
+                this.isStartTradeHide = false;
                 this.ConvertToCurrency = function (elem) {
                     if (elem != undefined && elem != null && elem.currentTarget != undefined) {
                         var val = elem.currentTarget.value;
@@ -72,6 +73,7 @@ var Application;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
                     vm.isCancelHide = true;
+                    vm.isStartTradeHide = false;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                     var element = document.getElementById("includedall");
@@ -551,10 +553,15 @@ var Application;
                 };
                 this.getFilteredTrades = function () {
                     var vm = _this;
+                    vm.isStartTradeHide = true;
                     vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
                         vm.alltrades = data;
                         vm.isLoading = false;
                     });
+                };
+                this.setStartTradeVisibilty = function (visible) {
+                    var vm = _this;
+                    vm.isStartTradeHide = visible;
                 };
                 this.CancelTrade = function () {
                     var vm = _this;
@@ -728,6 +735,7 @@ var Application;
                 vm.isColumnHide = true;
                 vm.isTradeReasonHide = true;
                 vm.isCancelHide = true;
+                vm.isStartTradeHide = false;
                 vm.isSaveDisabled = true;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;
