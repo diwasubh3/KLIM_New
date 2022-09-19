@@ -2052,7 +2052,7 @@ namespace YCM.CLO.DataAccess
 		}
 		IEnumerable<TradeComment> IRepository.GetTradeComment()
 		{
-			return _cloContext.TradeComment.Where(c => c.CommentId > 0 && c.IsActive == true);
+			return _cloContext.TradeComment.Where(c => c.CommentId > 0 && c.IsActive == true).OrderBy(c=>c.Comment);
 		}
 
 		public IEnumerable<TradeReason> GetTradeReasons()
