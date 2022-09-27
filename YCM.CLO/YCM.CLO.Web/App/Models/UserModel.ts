@@ -226,6 +226,10 @@
         assetType: string;
         tradeHistoryExist: boolean;
         primarySpreadType: string;
+        fitchIndustry: string;
+        fitchRating: string;
+        frequency: string;
+        
     }
 
     export interface IAlert {

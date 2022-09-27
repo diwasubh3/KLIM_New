@@ -265,6 +265,10 @@ namespace YCM.CLO.DataAccess.Models
         public string PaydownComments { get; set; }
         public string PaydownLastUpdatedOn { get; set; }
         public string PaydownUser { get; set; }
-        
+        public string OrigFitchIndustry { get; set; }
+        public string FitchIndustry { get; set; }
+        public string FitchRating { get; set; }
+        public string Frequency { get; set; }
+
     }
 }
