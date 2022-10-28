@@ -637,6 +637,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\MismatchData.cshtml" />
     <Content Include="Views\Home\TotalParChanges.cshtml" />
+    <Content Include="Views\Home\MoodyRecoveryChange.cshtml" />
     <None Include="Web.PROD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

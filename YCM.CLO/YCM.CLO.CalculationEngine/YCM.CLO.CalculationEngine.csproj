@@ -18,8 +18,8 @@
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>\\kl02cloweb-uat.kl.local\C%24\Applications\WCF_CLOPortal\</PublishUrl>
-    <Install>true</Install>
+    <PublishUrl>\\kl02cloweb-uat.kl.local\C%24\Applications\test\</PublishUrl>
+    <Install>false</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>

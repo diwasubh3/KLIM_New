@@ -123,6 +123,7 @@
                                                                     <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>TOTAL PAR</div></th>
                                                                     <th style="text-align: left;width:130px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>ASSET PAR</div></th>
                                                                     <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>PRINCIPAL CASH</div></th>
+                                                                    <th style="text-align: left;width:100px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>% CASH</div></th>
                                                                     <th style="text-align: left;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>REINVEST CASH</div></th>
                                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>WAS</div></th>
                                                                     <th style="text-align: right;width:80px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>SOFR</div></th>
@@ -169,6 +170,11 @@
                                                                             {{data.principalCash| number:0}}
                                                                         </span>
                                                                     </td>
+                                                                    <td style="width: 100px; text-align: left; border-width: 0px 0px 1px 0px;">
+                                                                        <span uib-tooltip-html="data.cashPerTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                            {{data.cashPer| number:1}}{{data.cashPer != null && data.cashPer.toString().length? '%':''}}
+                                                                        </span>
+                                                                    </td>
 
                                                                     <td style="width: 150px; text-align: left; border-width: 0px 0px 1px 0px;" ng-style="data.reinvestCashBgStyle">
                                                                         <a ng-href="{{data.reInvestCashFilepath}}" ng-click="topNav.downloadReInvestCash(data.reInvestCashFilepath)" ng-if="data.reInvestCash != 0">
@@ -186,10 +192,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-                                                                            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                                {{data.totalCoupon| number:2}}%
-                                                                            </span>
-                                                                        </td>*@
+            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.totalCoupon| number:2}}%
+            </span>
+        </td>*@
 
                                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
                                                                         <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
@@ -230,10 +236,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-                                                                            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                                {{data.wsowaLife| number:2}}
-                                                                            </span>
-                                                                        </td>*@
+            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                {{data.wsowaLife| number:2}}
+            </span>
+        </td>*@
                                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
                                                                         <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
                                                                             {{data.wsoDiversity| number:0}}

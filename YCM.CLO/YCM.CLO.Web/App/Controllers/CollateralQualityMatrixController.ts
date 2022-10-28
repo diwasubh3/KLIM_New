@@ -28,6 +28,7 @@
         paramSpread: number;
         paramWarf: number;
         paramDiversity: number;
+        warfConstant: number;
 
         static $inject = ["application.services.dataService", "$rootScope", '$modal', '$filter', '$timeout'];
         constructor(dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, modalService: angular.ui.bootstrap.IModalService, $filter: ng.IFilterService, timeOutService: ng.ITimeoutService) {
@@ -55,6 +56,7 @@
                 vm.paramSpread = params.filter(p => p.parameterValueText == 'SPREAD')[0].parameterMaxValueNumber;
                 vm.paramWarf = params.filter(p => p.parameterValueText == 'WARF')[0].parameterMaxValueNumber;
                 vm.paramDiversity = params.filter(p => p.parameterValueText == 'DIVERSITY')[0].parameterMaxValueNumber;
+                vm.warfConstant = params.filter(p => p.parameterValueText == 'WARF CONSTANT')[0].parameterMaxValueNumber;
             });
 
             vm.dataService.loadSummaryData().then(summs => {
@@ -70,6 +72,11 @@
             if (vm.selectedFund)
             {
                 vm.selectedFundSummary = vm.summaries.filter(f => f.fundId == vm.selectedFund.fundId)[0];
+                if (vm.selectedFundSummary.isNewCalc) {
+                    vm.paramWarfRecovery = vm.parameterValues.filter(p => p.parameterValueText == 'WARF NEW RECOVERY')[0].parameterMaxValueNumber;
+                } else {
+                    vm.paramWarfRecovery = vm.parameterValues.filter(p => p.parameterValueText == 'WARF RECOVERY')[0].parameterMaxValueNumber;
+                }
                 vm.matrixPoint = <Models.IMatrixPoint>{};
                 vm.dataService.getMatrixPoints(vm.selectedFund.fundId).then(points => {
                     vm.matrixPoints = points;
@@ -78,6 +85,18 @@
                         vm.matrixPoint = points[0];
                         vm.matrixPoint.showDetails = true;
                     }
+                    vm.matrixPoints.forEach(function (mPoint) {
+                        console.log(vm.warfConstant)
+                        var moodyRecovery = vm.selectedFundSummary.moodyRecovery.valueOf();
+                        var walwarfAdj = vm.selectedFund.walwarfAdj ? vm.selectedFund.walwarfAdj : 0;
+                        var diffRecovery = (moodyRecovery - vm.paramWarfRecovery) * mPoint.WarfModifier;
+                        if (vm.selectedFundSummary.isNewCalc) {
+                            diffRecovery = diffRecovery < vm.warfConstant ? vm.warfConstant : diffRecovery;
+                        }
+                        mPoint.cushion = vm.getRoundedUpNumber(((walwarfAdj + mPoint.Warf + diffRecovery) - vm.selectedFundSummary.warf.valueOf())) || 0;
+                        mPoint.recovery = vm.getRoundedUpNumber(((walwarfAdj + mPoint.Warf + diffRecovery)));
+                        
+                    });
 
                     vm.loadMajors();
                 });
@@ -122,7 +141,7 @@
             var vm = this;
             
             var menus = [];
-
+            var moodyRecovery = vm.selectedFundSummary.moodyRecovery;
             if (matrixData.Warf != vm.matrixPoint.Warf) {
                 menus.push(['Set as Matrix Point', () => {
                     var modalInstance = vm.modalService.open({
@@ -189,6 +208,10 @@
                                     matrixData.RightMajorDiversity = vm.matrix.colGroups[i].data;
                                     break;
                                 }
+                            }
+                            var moodyRecovery = vm.selectedFundSummary.moodyRecovery;
+                            if (vm.selectedFundSummary.isNewCalc && moodyRecovery > vm.paramWarfRecovery) {
+                                matrixData.WarfModifier = matrixData.WarfModifier2 ? matrixData.WarfModifier2 :0
                             }
 
                             vm.dataService.addMatrixPoint(matrixData).then(points => {

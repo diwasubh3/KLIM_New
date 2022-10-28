@@ -22,6 +22,7 @@ var Application;
                         vm.paramSpread = params.filter(function (p) { return p.parameterValueText == 'SPREAD'; })[0].parameterMaxValueNumber;
                         vm.paramWarf = params.filter(function (p) { return p.parameterValueText == 'WARF'; })[0].parameterMaxValueNumber;
                         vm.paramDiversity = params.filter(function (p) { return p.parameterValueText == 'DIVERSITY'; })[0].parameterMaxValueNumber;
+                        vm.warfConstant = params.filter(function (p) { return p.parameterValueText == 'WARF CONSTANT'; })[0].parameterMaxValueNumber;
                     });
                     vm.dataService.loadSummaryData().then(function (summs) {
                         vm.summaries = summs;
@@ -33,6 +34,12 @@ var Application;
                     vm.statusText = "Loading";
                     if (vm.selectedFund) {
                         vm.selectedFundSummary = vm.summaries.filter(function (f) { return f.fundId == vm.selectedFund.fundId; })[0];
+                        if (vm.selectedFundSummary.isNewCalc) {
+                            vm.paramWarfRecovery = vm.parameterValues.filter(function (p) { return p.parameterValueText == 'WARF NEW RECOVERY'; })[0].parameterMaxValueNumber;
+                        }
+                        else {
+                            vm.paramWarfRecovery = vm.parameterValues.filter(function (p) { return p.parameterValueText == 'WARF RECOVERY'; })[0].parameterMaxValueNumber;
+                        }
                         vm.matrixPoint = {};
                         vm.dataService.getMatrixPoints(vm.selectedFund.fundId).then(function (points) {
                             vm.matrixPoints = points;
@@ -40,6 +47,17 @@ var Application;
                                 vm.matrixPoint = points[0];
                                 vm.matrixPoint.showDetails = true;
                             }
+                            vm.matrixPoints.forEach(function (mPoint) {
+                                console.log(vm.warfConstant);
+                                var moodyRecovery = vm.selectedFundSummary.moodyRecovery.valueOf();
+                                var walwarfAdj = vm.selectedFund.walwarfAdj ? vm.selectedFund.walwarfAdj : 0;
+                                var diffRecovery = (moodyRecovery - vm.paramWarfRecovery) * mPoint.WarfModifier;
+                                if (vm.selectedFundSummary.isNewCalc) {
+                                    diffRecovery = diffRecovery < vm.warfConstant ? vm.warfConstant : diffRecovery;
+                                }
+                                mPoint.cushion = vm.getRoundedUpNumber(((walwarfAdj + mPoint.Warf + diffRecovery) - vm.selectedFundSummary.warf.valueOf())) || 0;
+                                mPoint.recovery = vm.getRoundedUpNumber(((walwarfAdj + mPoint.Warf + diffRecovery)));
+                            });
                             vm.loadMajors();
                         });
                     }
@@ -75,6 +93,7 @@ var Application;
                 this.showMenu = function (matrixData, rowIndex, colIndex) {
                     var vm = _this;
                     var menus = [];
+                    var moodyRecovery = vm.selectedFundSummary.moodyRecovery;
                     if (matrixData.Warf != vm.matrixPoint.Warf) {
                         menus.push(['Set as Matrix Point', function () {
                                 var modalInstance = vm.modalService.open({
@@ -130,6 +149,10 @@ var Application;
                                                 matrixData.RightMajorDiversity = vm.matrix.colGroups[i].data;
                                                 break;
                                             }
+                                        }
+                                        var moodyRecovery = vm.selectedFundSummary.moodyRecovery;
+                                        if (vm.selectedFundSummary.isNewCalc && moodyRecovery > vm.paramWarfRecovery) {
+                                            matrixData.WarfModifier = matrixData.WarfModifier2 ? matrixData.WarfModifier2 : 0;
                                         }
                                         vm.dataService.addMatrixPoint(matrixData).then(function (points) {
                                             vm.matrixPoints = points;

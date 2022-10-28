@@ -10,6 +10,7 @@ using YCM.CLO.DataAccess;
 using YCM.CLO.DataAccess.Contracts;
 using YCM.CLO.DataAccess.Models;
 using YCM.CLO.Web.Objects;
+using log4net;
 
 namespace YCM.CLO.Web.Controllers
 {
@@ -24,10 +25,11 @@ namespace YCM.CLO.Web.Controllers
         //{
 
         //}
-
+        private readonly ILog _logger;
         public MatrixDataController(IRepository repository)
         {
             _repository = repository;
+            _logger = LogManager.GetLogger(typeof(MatrixDataController));
         }
 
         // GET: MatrixData
@@ -110,14 +112,22 @@ namespace YCM.CLO.Web.Controllers
         [System.Web.Mvc.HttpPost]
         public JsonResult AddMatrixPoint([FromBody] MatrixPoint matrixData)
         {
-            _repository.AddMatrixPoint(matrixData, User.Identity.Name);
+            try
+            {
+                _repository.AddMatrixPoint(matrixData, User.Identity.Name);
 
-            CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
-            calculationEngineClient.CalculateFrontier(_repository.GetPrevDayDateId(), matrixData.FundId, User.Identity.Name);
-            //AllPositionsCache allPositionsCache = new AllPositionsCache();
-            //allPositionsCache.Invalidate();
-            CLOCache.Invalidate();
-            return MatrixPoints(matrixData.FundId);
+                CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
+                calculationEngineClient.CalculateFrontier(_repository.GetPrevDayDateId(), matrixData.FundId, User.Identity.Name);
+                //AllPositionsCache allPositionsCache = new AllPositionsCache();
+                //allPositionsCache.Invalidate();
+                CLOCache.Invalidate();
+                return MatrixPoints(matrixData.FundId);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Error in AddMatrixPoint " + ex);
+                return MatrixPoints(matrixData.FundId);
+            }
         }
 
         protected override void Dispose(bool disposing)

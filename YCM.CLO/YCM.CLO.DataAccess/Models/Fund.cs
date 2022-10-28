@@ -92,6 +92,7 @@ namespace YCM.CLO.DataAccess.Models
 		    => $"{FundId} - {FundCode} Active: {IsActive} Stale: {IsStale} Cash Stale: {IsPrincipalCashStale}";
 
         public bool? CanFilter { get; set; }
+        public bool? IsNewCalc { get; set; }
 
 
     }

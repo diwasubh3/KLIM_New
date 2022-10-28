@@ -1100,6 +1100,11 @@ namespace YCM.CLO.DataAccess
 				"CLO.spGetTotalParDifference @CurrentDate, @PREVIOUSDATE",
                 new SqlParameter("@CurrentDate", startDateId),
                 new SqlParameter("@PREVIOUSDATE", endDateId));
+		IEnumerable<MoodyRecoveryChange> IRepository.GetMoodyRecoveryChange(int startDateId, int endDateId)
+			=> _cloContext.Database.SqlQuery<MoodyRecoveryChange>(
+				"CLO.spGetMoodyRecoveryChange @startDateId, @endDateId",
+				new SqlParameter("@startDateId", startDateId),
+				new SqlParameter("@endDateId", endDateId));
 
 		Fund IRepository.SaveFund(Fund fund)
 		{
@@ -1767,6 +1772,7 @@ namespace YCM.CLO.DataAccess
                         fields.ForEach(f =>
                         {
                             fundRestrictions.Add(new FundRestriction() {
+								Field= f,
                                 FundId = matrixData.FundId,
                                 FieldId = f.FieldId,
                                 FundRestrictionTypeId =1,
@@ -1774,7 +1780,8 @@ namespace YCM.CLO.DataAccess
                             });
                             fundRestrictions.Add(new FundRestriction()
                             {
-                                FundId = matrixData.FundId,
+								Field = f,
+								FundId = matrixData.FundId,
                                 FieldId = f.FieldId,
                                 FundRestrictionTypeId = 2,
                                 OperatorId = 4
@@ -1789,8 +1796,28 @@ namespace YCM.CLO.DataAccess
 
                 var summary = (this as IRepository).GetSummaries(Helper.GetPrevDayDateId()).FirstOrDefault(summ => summ.FundId == matrixData.FundId);
 
-                //Warf Recovery
-                var matrixWarfRecovery = Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+				//Warf Recovery
+				var warfConstant = parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF CONSTANT").ParameterMaxValueNumber;
+
+				decimal matrixWarfRecovery = 0;
+				if(summary.IsNewCalc == true)
+                {
+					var diffRecovery = (summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF NEW RECOVERY").ParameterMaxValueNumber)* matrixData.WarfModifier;
+					if (summary.IsNewCalc == true)
+					{
+						diffRecovery = diffRecovery < warfConstant ?   warfConstant : diffRecovery;
+					}
+					matrixWarfRecovery = Math.Round((matrixData.Warf + diffRecovery  ).Value);
+
+				}
+                else
+                {
+					matrixWarfRecovery = Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+				}
+					//var matrixWarfRecovery = summary.IsNewCalc == true ? Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF NEW RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value)
+     //           							: Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+
+
 
                 //Spread
                 var spreadFundRestrictions = fundRestrictions.Where(f => f.Field.FieldTitle == "SPREAD").ToList();

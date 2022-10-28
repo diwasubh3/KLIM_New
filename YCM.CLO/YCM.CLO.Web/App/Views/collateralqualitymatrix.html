@@ -174,10 +174,10 @@
                             WARF RECOVERY 
                         </td>
                         <td style="border-left-width:0;border-right-width:0;text-align:center">
-                            {{collateralqualitymatrix.getRoundedUpNumber((collateralqualitymatrix.selectedFund.walwarfAdj?collateralqualitymatrix.selectedFund.walwarfAdj:0) + mp.Warf +  ((collateralqualitymatrix.selectedFundSummary.moodyRecovery - collateralqualitymatrix.paramWarfRecovery)*mp.WarfModifier))}}
+                            {{mp.recovery}}
                         </td>
                         <td style="border-left-width:0;border-right-width:0;text-align:center">
-                            <span>{{(collateralqualitymatrix.getRoundedUpNumber((collateralqualitymatrix.selectedFund.walwarfAdj?collateralqualitymatrix.selectedFund.walwarfAdj:0) + mp.Warf + ((collateralqualitymatrix.selectedFundSummary.moodyRecovery - collateralqualitymatrix.paramWarfRecovery)*mp.WarfModifier)) - collateralqualitymatrix.selectedFundSummary.warf)| number : 0}}</span>
+                            <span>{{mp.cushion}}</span>
                         </td>
                     </tr>
                     <tr ng-show="mp.showDetails">

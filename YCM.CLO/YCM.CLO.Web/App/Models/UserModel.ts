@@ -39,6 +39,8 @@
         cleanNavBgStyle: any;
         sortOrder: number;
         sOFR: number;
+        isNewCalc: boolean;
+        cashPer: number;
 
     }
 
@@ -651,6 +653,8 @@
         Override: number,
         FinalQty: number,
         TradeAmount: number
+        isNewCalc: boolean;
+        walwarfAdj: number
     }
 
     export interface ITradeAllocation {
@@ -938,6 +942,7 @@
         BottomSpread: number;
         LeftDiversity: number;
         RightDiversity: number;
+        WarfModifier2: number;
     }
 
     export interface IMatrixGroup {
@@ -968,6 +973,8 @@
         WarfModifier: number;
         CreatedBy: number;
         CreatedOn: string;
+        cushion: number;
+        recovery: number;
     }
 
 

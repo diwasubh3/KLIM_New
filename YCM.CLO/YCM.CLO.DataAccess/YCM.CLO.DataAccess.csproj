@@ -154,6 +154,7 @@
     <Compile Include="Models\Mapping\PaydownMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\MoodyRecoveruChange.cs" />
     <Compile Include="Models\TradeComment.cs" />
     <Compile Include="Models\TradeReason.cs" />
     <Compile Include="Models\vw_CLOTestResults.cs" />
