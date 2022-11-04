@@ -58,6 +58,9 @@ namespace YCM.CLO.Web.Objects
 		public static List<vw_CLOSummary> GetSummaries() =>
 			GetDataInternal<vw_CLOSummary>(SummariesCacheKey, GetExpiration(SummariesCacheKey));
 
+		public static List<vw_CLOTestResults> GetTestResults () =>
+			GetDataInternal<vw_CLOTestResults>(TestResultsCacheKey, GetExpiration(TestResultsCacheKey));
+
 		private static List<vw_AggregatePosition> GetPositionsInternal(bool includeWithNullExposure)
 		{
 			var allPositions = GetDataInternal<vw_AggregatePosition>(PositionsCacheKey, GetExpiration(PositionsCacheKey));
@@ -154,6 +157,9 @@ namespace YCM.CLO.Web.Objects
 						break;
 					case SummariesCacheKey:
 						data = _repository.GetSummaries(GetPrevDayDateId()) as List<T>;
+						break;
+					case TestResultsCacheKey:
+						data = _repository.GetTestResults(GetPrevDayDateId()) as List<T>;
 						break;
 				}
 				_logger.Info($"Got {data.Count} items.");

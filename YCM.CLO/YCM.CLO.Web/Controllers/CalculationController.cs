@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using YCM.CLO.DataAccess;
 using YCM.CLO.Web.Models;
 using YCM.CLO.Web.Objects;
@@ -37,6 +38,28 @@ namespace YCM.CLO.Web.Controllers
         {
             CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
             return new JsonNetResult() { Data = new { status = calculationEngineClient.SendTotalParChangeEmail() } };
+        }
+
+        public JsonNetResult SendRecoveryChangeEmail()
+        {
+            
+            var today = DateTime.Today;
+            int endDateId;
+            int startDateId;
+
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                endDateId = Helper.GetDateId(today.AddDays(-4));
+            }
+            else
+            {
+                endDateId = Helper.GetDateId(today.AddDays(-2));
+            }
+            
+            startDateId = Helper.GetDateId(today.AddDays(-1));
+            
+            CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
+            return new JsonNetResult() { Data = new { status = calculationEngineClient.SendRecoveryChangeEmail(startDateId,endDateId) } };
         }
 
         public JsonNetResult SendPriceMoverEmail()

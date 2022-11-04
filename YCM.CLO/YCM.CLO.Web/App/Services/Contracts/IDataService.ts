@@ -21,6 +21,7 @@ module Application.Services.Contracts {
         loadData: () => ng.IPromise<Array<Application.Models.UserModel>>;
         updateData: (userModel: Application.Models.UserModel) => ng.IPromise<boolean>;
         loadSummaryData: () => ng.IPromise<Array<Application.Models.ISummary>>;
+        loadTestResults: () => ng.IPromise<Array<Application.Models.ITestResults>>;
         loadRules: () => ng.IPromise<Array<Application.Models.IRule>>;
         loadTop10Bottom10: (fund: Models.ISummary, ruleId: number) => ng.IPromise<Models.ITop10Bottom10Positions>;
         loadPositionViewFieldGroups: () => ng.IPromise<Array<Application.Models.IFieldGroup>>;
@@ -89,12 +90,14 @@ module Application.Services.Contracts {
         getTradeSourceData: () => ng.IPromise<Models.ITradeSourceData>;
         getTradeBookingData: () => ng.IPromise<Models.ITradeBookingData>;
         generateTradeXML: (data: Models.ITradeBooking) => ng.IPromise<Models.ITradeBooking>;
+        cancelTrade: (data: Models.ITradeBooking) => ng.IPromise<Models.ITradeBooking>;
         getTradeFundAllocation: (data: Models.ITradeBooking) => ng.IPromise<Array<Models.ITradeBookingDetail>>;
         getCalculatedData: (data: Array<Models.ITradeBookingDetail>) => ng.IPromise<Array<Models.ITradeBookingDetail>>;//, totalQty: number, ruleName: string
         refreshTradeBooking: (tradeId: number) => ng.IPromise<Models.ITradeBooking>;
         getIssuerSecurities: () => ng.IPromise<Array<Models.IIssuerSecurity>>;
         getIssuerList: () => ng.IPromise<Array<Models.IIssuerSecurity>>;
         getTradeBooking: () => ng.IPromise<Array<Models.ITradeBooking>>;
+        getTradeBookingHistory: () => ng.IPromise<Array<Models.ITradeBooking>>;
         getAllocationRule: (tradeTypeId: number) => ng.IPromise<Array<Models.IAllocationRule>>;
         getBloombergData: (securityCode: string) => ng.IPromise<Models.ITempSecurity>;
         saveTempSecurity: (tempsecurity: Models.ITempSecurity) => ng.IPromise<Models.ISecurity>;
@@ -131,6 +134,7 @@ module Application.Services.Contracts {
 
         updatePaydown: (watch: Application.Models.IPaydown, fundCode: string) => ng.IPromise<Models.IPaydown>;
         deletePaydown: (watch: Application.Models.IPaydown) => ng.IPromise<boolean>;
+        getFilteredTrades: (startDate: any, endDate: any) => ng.IPromise<Array<Models.ITradeBooking>>;
 
     }
 } 

@@ -360,6 +360,8 @@ namespace YCM.CLO.Web.Models
 
         private string settlementmethodField;
 
+        private string primarycommencementdateField;
+
         private string tradedateField;
 
         private string tradeidField;
@@ -495,6 +497,19 @@ namespace YCM.CLO.Web.Models
             }
         }
 
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string primarycommencementdate
+        {
+            get
+            {
+                return this.primarycommencementdateField;
+            }
+            set
+            {
+                this.primarycommencementdateField = value;
+            }
+        }
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string settlementmethod
@@ -507,7 +522,7 @@ namespace YCM.CLO.Web.Models
             {
                 this.settlementmethodField = value;
             }
-        }
+        }        
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

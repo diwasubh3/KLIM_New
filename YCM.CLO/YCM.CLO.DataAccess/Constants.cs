@@ -62,6 +62,7 @@ namespace YCM.CLO.DataAccess
 		public const string CacheSettingsCacheKey = "CacheSetting";
 		public const string PositionsCacheKey = "Positions";
 		public const string SummariesCacheKey = "Summaries";
+		public const string TestResultsCacheKey = "TestResults";
 
 		public const short FilterColumnFieldId = 121;
 		public const short SearchTextFieldId = 51;

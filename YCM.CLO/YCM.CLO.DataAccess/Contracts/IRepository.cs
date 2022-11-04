@@ -26,6 +26,7 @@ namespace YCM.CLO.DataAccess.Contracts
 		IEnumerable<LoanPosition> GetLoanPositions(int dateId, int priorDateId, int fundId);
 	    IEnumerable<AssetExposure> GetAssetPars(int dateId);
         IEnumerable<vw_CLOSummary> GetSummaries(int dateId);
+        IEnumerable<vw_CLOTestResults> GetTestResults(int dateId);
 
         IEnumerable<Rule> GetRules();
 
@@ -156,6 +157,7 @@ namespace YCM.CLO.DataAccess.Contracts
 
         IEnumerable<Fund> GetFunds();
         IEnumerable<TotalParChange> GetTotalParChange(int startDateId, int endDateId);
+        IEnumerable<MoodyRecoveryChange> GetMoodyRecoveryChange(int startDateId, int endDateId);
         IEnumerable<RatingChange> GetRatingChanges(int startDateId, int endDateId);
 
         Security AddUpdateSecurity(Security security,string user);
@@ -258,11 +260,15 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<vw_PositionIssuers> GetIssuerList();
         IEnumerable<Fund> GetFundAllocation();
         IEnumerable<TradeBooking> GetTradeBookings();
+        IEnumerable<TradeBooking> GetTradeBookingHistory();
+        IEnumerable<TradeBooking> GetFilteredTrades(DateTime StartDate, DateTime EndDate);
         IEnumerable<TradeBookingDetail> GetTradeFundAllocation(string ruleName, int issuerId, string LoanXId, string tradeType);
         int SaveTradeBooking(TradeBooking tradebook, string user);
         bool SaveTradeBookingDetails(IEnumerable<TradeBookingDetail> tradebookdetail, long TradeId);
         bool UpdateSubmitDetails(long TradeId);
         TradeBooking RefreshTradeBooking(long TradeId);
         IEnumerable<TradeBookingDetail> RefreshTradeBookingDetail(long TradeId);
+        bool CancelTradeBooking(long TradeId);
+        
     }
 }

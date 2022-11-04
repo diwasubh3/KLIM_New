@@ -147,14 +147,17 @@
     <Compile Include="Models\Mapping\TradeReasonMap.cs" />
     <Compile Include="Models\Mapping\TraderMap.cs" />
     <Compile Include="Models\Mapping\TradeTypeMap.cs" />
+    <Compile Include="Models\Mapping\vw_CLOTestResultsMap.cs" />
     <Compile Include="Models\Mapping\vw_MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\MatrixDataMap.cs" />
     <Compile Include="Models\Mapping\vw_ReinvestDetailsMap.cs" />
     <Compile Include="Models\Mapping\PaydownMap.cs" />
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
+    <Compile Include="Models\MoodyRecoveruChange.cs" />
     <Compile Include="Models\TradeComment.cs" />
     <Compile Include="Models\TradeReason.cs" />
+    <Compile Include="Models\vw_CLOTestResults.cs" />
     <Compile Include="Models\vw_PositionIssuers.cs" />
     <Compile Include="Models\SettleMethods.cs" />
     <Compile Include="Models\TotalParChange.cs" />

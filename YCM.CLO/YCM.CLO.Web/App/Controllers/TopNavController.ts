@@ -3,16 +3,20 @@ module Application.Controllers {
     export class TopNavController {
         rootScope: ng.IRootScopeService;
         summaryTableParams: any;
+        testResultsTableParams: any;
         ngTableParams: any;
+        ngTestTableParamas: any;
         uiService: Application.Services.Contracts.IUIService;
         statusText: string;
         isLoading: boolean;
         summaryData: Array<Application.Models.ISummary>;
+        testResultsData: Array<Application.Models.ITestResults>;
         dataService: Application.Services.Contracts.IDataService;
         window: ng.IWindowService;
         activeView: string;
         filter: ng.IFilterService;
         selectedFund: Models.ISummary;
+        selectedTest: Models.ITestResults;
         fundRestrictionTypes: Array<Models.IFundRestrictionsTypes>;
         fundRestrictions: Array<Models.IFundRestriction>;
         appBasePath: string = pageOptions.appBasePath;
@@ -33,6 +37,7 @@ module Application.Controllers {
             vm.window         = $window;
             vm.filter = $filter;
             vm.interval = $interval;
+            vm.ngTestTableParamas = ngTableParams;
 
             vm.rootScope.$on('onActivated', (event, data) => {
                 vm.activeView = data;
@@ -48,6 +53,7 @@ module Application.Controllers {
             });
 
             vm.loadData();
+            vm.loadTestResults();
 
             vm.interval(vm.checkForAutoRefresh, 300000);
         }
@@ -95,13 +101,15 @@ module Application.Controllers {
                 vm.summaryData.forEach(summary => {
                     vm.fundRestrictionFields.forEach((fundRestrictionField: Models.IField) => {
                         var rowStyles = vm.getBackgroundColorStyle(<string>fundRestrictionField.jsonPropertyName, summary);
+                      
                         var jsonPropName = fundRestrictionField.jsonPropertyName;
                         var bodJsonPropName = 'bod' + vm.uiService.capitalizeFirstLetter(fundRestrictionField.jsonPropertyName);
                         summary[jsonPropName + 'BgStyle'] = rowStyles.topRow;
                         summary[bodJsonPropName + 'BgStyle'] = rowStyles.bodRow;
-
                         summary[jsonPropName + 'Tooltip'] = rowStyles.toolTipText;
                         summary[bodJsonPropName + 'Tooltip'] = rowStyles.toolTipText;
+                       
+                        
                     });
                 });
             });
@@ -140,10 +148,130 @@ module Application.Controllers {
                     });
                 });
             });
-		}
+        }
 
-		setSummaryData = (summaries: Models.ISummary[]) => {
-			var vm = this;
+        loadTestResults = () => {
+            var vm = this;
+            vm.statusText = "Loading";
+            vm.isLoading = true;
+            vm.window.setTimeout(() => {
+                
+                if (!pageOptions.TestResultsNew)
+                    vm.dataService.loadTestResults().then((testResultsData) => {
+                        pageOptions.TestResultsNew = testResultsData;
+                        vm.setTestResultsData(testResultsData);
+                        //vm.setSummaryData(summaries);
+                        vm.setTestTableParams();
+                    });
+                else {
+                    vm.setTestResultsData(pageOptions.TestResultsNew);
+                    vm.setTestTableParams();
+                }
+                        
+                    //pageOptions.TestResults = summaries;
+                //vm.setSummaryData(summaries);
+               
+            });
+        }
+
+        setTestResultsData = (testResultsData: Models.ITestResults[]) => {
+            var vm = this;           
+           
+            testResultsData.forEach(function (tData) {
+                
+                var clo = 1;
+                var redColor = { 'background-color': 'RED', 'color': '#333333'};
+                var yellowColor = { 'background-color': 'yellow', 'color': 'rgb(51, 51, 51)' };
+                //var blackFontColor = { 'color': 'black' };
+                var redFontColor = {'color': 'red'}
+                for (var clo = 1; clo < 12; clo++) {
+                    if (tData["fund" + clo + "OutcomeDisplay"] && tData["fund" + clo + "OutcomeDisplay"].includes("$")) {//&& typeof tData["fund" + clo + "Outcome"] === "number"
+                        var testOutcome = tData["fund" + clo + "OutcomeDisplay"].split("$")[1].replaceAll(",", '');
+                       
+                        if (tData["testDisplayName"] === "OC vs Target Par") {
+                            tData["fund" + clo + "OutcomeBgStyle"] = testOutcome < 0 ? redFontColor : '';
+                        }
+                        var formatter = new Intl.NumberFormat('en-US', {
+                            //style: 'currency',
+                            //currency: 'USD',
+
+                            // These options are needed to round to whole numbers if that's what you want.
+                            //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+                            maximumFractionDigits: 0 // (causes 2500.99 to be printed as $2,501)
+                        });
+
+                        tData["fund" + clo + "OutcomeDisplay"] = formatter.format(testOutcome).toString();
+                        
+
+                    }
+                    if (tData.condition && tData["fund" + clo + "OutcomeDisplay"]) {
+
+                        var breachCondition ='',dangerCondition ='';
+                        if (tData.condition === ">=") {
+                            breachCondition = "<";
+                            dangerCondition = "<=";
+                        } else if (tData.condition === "<=") {
+                            breachCondition = ">";
+                            dangerCondition = ">=";
+                        }
+                        var calcTooltip = tData["calculatedColumn" + clo].toString();
+                        var breachToolTip = tData["fund" + clo + "Breach"].toString()
+                        if (tData["fund" + clo + "OutcomeDisplay"].includes(".")) {
+                            calcTooltip = tData["calculatedColumn" + clo].toFixed(2).toString();
+                            breachToolTip = tData["fund" + clo + "Breach"].toFixed(2).toString();
+                        }
+                        if (tData["fund" + clo + "OutcomeDisplay"].includes("%")) {
+                            calcTooltip = calcTooltip + "%";
+                            breachToolTip = breachToolTip + "%";
+                        }
+                        tData["fund" + clo + "OutcomeTooltip"] = "<div>DANGER &nbsp;" + dangerCondition + "&nbsp;" + calcTooltip + "</div><div>BREACH&nbsp;" + breachCondition + "&nbsp;" + breachToolTip + "</div>";
+                        //console.log("<div>DANGER &nbsp;" + tData.condition + "&nbsp;" + tData["calculatedColumn" + clo].toString() + "</div><div>BREACH&nbsp;" + tData.condition + "&nbsp;" + tData["fund" + clo + "Breach"].toString() + "</div>");
+                        if (tData["fund" + clo + "OutcomeDisplay"] !== "N/A") {
+                            if (tData.condition === ">=") {
+                                tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] < tData["fund" + clo + "Breach"] ? redColor :
+                                    tData["fund" + clo + "Outcome"] <= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] >= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                            } else if (tData.condition === "<=") {
+                                tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] > tData["fund" + clo + "Breach"] ? redColor :
+                                    tData["fund" + clo + "Outcome"] >= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] <= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                            }
+                        }
+                    }
+                }
+
+                if (tData["testHoverNote"] !== "") {
+                    tData["testDisplayNameTooltip"] = tData["testHoverNote"] ;
+                }
+                
+                
+            });
+            var groupBy = function (xs, key) {
+                return xs.reduce(function (rv, x) {
+                    (rv[x[key]] = rv[x[key]] || []).push(x);
+                    return rv;
+                }, {});
+            };
+            var groupByData = [];
+            var dataWithGroups = groupBy(testResultsData, 'testCategoryName');
+            Object.keys(dataWithGroups).forEach(key => {
+                var groupStyle = {
+                    "font-size": "small",
+                    "font-weight": "bold"
+                }
+                groupByData.push({ 'testDisplayName': key, 'testDisplayNameBgStyle': groupStyle});
+                dataWithGroups[key].forEach(tData => {
+                    groupByData.push(tData)
+                });
+                groupByData.push({});
+            });
+            //vm.testResultsData = testResultsData;
+            vm.testResultsData = groupByData;
+            vm.selectTest(groupByData[1])
+            //console.log(testResultsData);
+        }
+
+        setSummaryData = (summaries: Models.ISummary[]) => { 
+            var vm = this;
+            
 			vm.summaryData = summaries;
 			vm.setBackgroundStyleBasedOnFundRestrictions();
 
@@ -151,7 +279,7 @@ module Application.Controllers {
 				vm.isLoading = false;
 				vm.setParamsTable();
 				if (summaries.length) {
-					vm.selectFund(summaries[0]);
+                    vm.selectFund(summaries[0]);
 				}
 			});
 		}
@@ -220,6 +348,20 @@ module Application.Controllers {
             }
         }
 
+        selectTest = (testRow: Models.ITestResults) => {
+            var vm = this;
+          
+            if (vm.selectedTest != testRow) {
+                vm.selectedTest = testRow;
+                vm.rootScope['selectedTest'] = testRow;
+                
+            }
+        }
+
+        selectPar = (fundRow: Models.ISummary) => {
+            //alert(fundRow.par);
+        }
+
 	    onTestResultsVisibilityChanged(open: boolean): void {
 			var vm = this;
 			vm.rootScope.$emit('onTestResultsVisibilityChanged', open);
@@ -267,6 +409,23 @@ module Application.Controllers {
             //} else {
             //    vm.summaryTableParams.reload();
             //}
+        }
+
+        setTestTableParams = () => {
+            var vm = this;
+            //if (!vm.summaryTableParams) {
+            vm.testResultsTableParams = new vm.ngTestTableParamas({
+                page: 1,
+                noPager: true,
+                count: 10000
+                //sorting: {
+                //    'fundCode': 'asc'
+                //}
+            }, {
+                total: 1,
+                counts: [],
+                dataset: vm.testResultsData
+            });
         }
     }
 

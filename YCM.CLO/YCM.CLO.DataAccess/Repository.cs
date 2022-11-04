@@ -80,7 +80,21 @@ namespace YCM.CLO.DataAccess
 			}
 		}
 
-        bool IRepository.CalculateSummaries()
+		IEnumerable<vw_CLOTestResults> IRepository.GetTestResults(int dateId)
+		{
+			using (CLOContext cloContext = new CLOContext())
+			{
+				/* 
+				 * As per user request, Summary section need to be available whole day and change for the same managed at database level
+				 * 
+				 --Old Code
+				 return cloContext.vw_CLOSummary.Where(v=>v.DateId==dateId).OrderBy(c=>c.SortOrder).ToList();
+				 * */
+				return cloContext.vw_CLOTestResults.OrderBy(c => c.SortBy).ToList();
+			}
+		}
+
+		bool IRepository.CalculateSummaries()
         {
             using (CLOContext context = new CLOContext())
             {
@@ -1086,6 +1100,11 @@ namespace YCM.CLO.DataAccess
 				"CLO.spGetTotalParDifference @CurrentDate, @PREVIOUSDATE",
                 new SqlParameter("@CurrentDate", startDateId),
                 new SqlParameter("@PREVIOUSDATE", endDateId));
+		IEnumerable<MoodyRecoveryChange> IRepository.GetMoodyRecoveryChange(int startDateId, int endDateId)
+			=> _cloContext.Database.SqlQuery<MoodyRecoveryChange>(
+				"CLO.spGetMoodyRecoveryChange @startDateId, @endDateId",
+				new SqlParameter("@startDateId", startDateId),
+				new SqlParameter("@endDateId", endDateId));
 
 		Fund IRepository.SaveFund(Fund fund)
 		{
@@ -1753,6 +1772,7 @@ namespace YCM.CLO.DataAccess
                         fields.ForEach(f =>
                         {
                             fundRestrictions.Add(new FundRestriction() {
+								Field= f,
                                 FundId = matrixData.FundId,
                                 FieldId = f.FieldId,
                                 FundRestrictionTypeId =1,
@@ -1760,7 +1780,8 @@ namespace YCM.CLO.DataAccess
                             });
                             fundRestrictions.Add(new FundRestriction()
                             {
-                                FundId = matrixData.FundId,
+								Field = f,
+								FundId = matrixData.FundId,
                                 FieldId = f.FieldId,
                                 FundRestrictionTypeId = 2,
                                 OperatorId = 4
@@ -1775,8 +1796,28 @@ namespace YCM.CLO.DataAccess
 
                 var summary = (this as IRepository).GetSummaries(Helper.GetPrevDayDateId()).FirstOrDefault(summ => summ.FundId == matrixData.FundId);
 
-                //Warf Recovery
-                var matrixWarfRecovery = Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+				//Warf Recovery
+				var warfConstant = parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF CONSTANT").ParameterMaxValueNumber;
+
+				decimal matrixWarfRecovery = 0;
+				if(summary.IsNewCalc == true)
+                {
+					var diffRecovery = (summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF NEW RECOVERY").ParameterMaxValueNumber)* matrixData.WarfModifier;
+					if (summary.IsNewCalc == true)
+					{
+						diffRecovery = diffRecovery < warfConstant ?   warfConstant : diffRecovery;
+					}
+					matrixWarfRecovery = Math.Round((matrixData.Warf + diffRecovery  ).Value);
+
+				}
+                else
+                {
+					matrixWarfRecovery = Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+				}
+					//var matrixWarfRecovery = summary.IsNewCalc == true ? Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF NEW RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value)
+     //           							: Math.Round((matrixData.Warf + ((summary.MoodyRecovery - parameterValues.FirstOrDefault(p => p.ParameterValueText == "WARF RECOVERY").ParameterMaxValueNumber) * matrixData.WarfModifier)).Value);
+
+
 
                 //Spread
                 var spreadFundRestrictions = fundRestrictions.Where(f => f.Field.FieldTitle == "SPREAD").ToList();
@@ -2026,7 +2067,7 @@ namespace YCM.CLO.DataAccess
 		}
 		IEnumerable<CounterParty> IRepository.GetCounterParty()
 		{
-			return _cloContext.CounterParty.Where(i => i.PartyId > 0 && i.IsActive == true);
+			return _cloContext.CounterParty.Where(i => i.PartyId > 0 && i.IsActive == true).OrderBy(i => i.PartyName);
 		}
 		IEnumerable<SettleMethods> IRepository.GetSettleMethods()
 		{
@@ -2038,7 +2079,7 @@ namespace YCM.CLO.DataAccess
 		}
 		IEnumerable<TradeComment> IRepository.GetTradeComment()
 		{
-			return _cloContext.TradeComment.Where(c => c.CommentId > 0 && c.IsActive == true);
+			return _cloContext.TradeComment.Where(c => c.CommentId > 0 && c.IsActive == true).OrderBy(c=>c.Comment);
 		}
 
 		public IEnumerable<TradeReason> GetTradeReasons()
@@ -2085,6 +2126,19 @@ namespace YCM.CLO.DataAccess
 		{
 			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBooking");
 		}
+
+		IEnumerable<TradeBooking> IRepository.GetTradeBookingHistory()
+		{
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetTradeBookingHistory");
+		}
+		IEnumerable<TradeBooking> IRepository.GetFilteredTrades( DateTime StartDate, DateTime EndDate)
+		{
+			SqlParameter paramFieldStartDate = new SqlParameter("@StartDate", StartDate);
+			SqlParameter paramFielEndDate = new SqlParameter("@EndDate", EndDate);
+			return _cloContext.Database.SqlQuery<TradeBooking>("CLO.dbsp_GetFilteredTrades @StartDate,@EndDate", paramFieldStartDate, paramFielEndDate);
+		}
+
+		
 
 		TradeBooking IRepository.RefreshTradeBooking(long TradeId)
 		{
@@ -2199,6 +2253,25 @@ namespace YCM.CLO.DataAccess
 			SqlParameter paramTradeType = new SqlParameter("@TradeType", tradeType);
 			_cloContext.Database.CommandTimeout = timeout_short;
 			return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
+		}
+
+		bool IRepository.CancelTradeBooking(long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdCancelTradeBooking", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@Id", TradeId));
+						commandtradebooking.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+			}
+			return true;
 		}
 	}
 }

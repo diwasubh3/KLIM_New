@@ -78,6 +78,10 @@
             return <ng.IPromise<Array<Application.Models.ISummary>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getsummaries');
         }
 
+        loadTestResults = () => {
+            return <ng.IPromise<Array<Application.Models.ITestResults>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
+        }
+
 		getFieldsForCustomView = (viewId: number) => {
 			return <ng.IPromise<Array<Application.Models.IField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
 		}
@@ -310,6 +314,10 @@
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
         }
 
+        cancelTrade = (data: Models.ITradeBooking) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/CancelTrade', data);
+        }
+
         getIssuerSecurities = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
         }
@@ -320,6 +328,10 @@
 
         getTradeBooking = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+        }
+
+        getTradeBookingHistory = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBookingHistory');
         }
 
         getAllocationRule = (tradeTypeId:number) => {
@@ -434,6 +446,10 @@
 
         deletePaydown = (paydown: Models.IPaydown) => {
             return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
+        }
+
+        getFilteredTrades = (startDate: any, endDate: any) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
         }
 
 

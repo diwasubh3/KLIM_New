@@ -8,6 +8,7 @@
         isLoading: boolean;
         funds: Array<Models.IFund>;
         trades: Array<Models.ITradeBooking>;
+        alltrades: Array<Models.ITradeBooking>;
         appBasePath: string = pageOptions.appBasePath;
         ngTableParams: any;
         statusText: string = "Loading";
@@ -30,6 +31,7 @@
         isHide: boolean;
         isColumnHide: boolean;
         isTradeReasonHide: boolean;
+        isCancelHide: boolean;
         isDisabledSettlement: boolean;
         isRowDisabled: boolean;
         isCommentsDisabled: boolean;
@@ -44,12 +46,21 @@
         exportUiGridService: any;
         errorMessage: string;
         check = false;
+        startDate: any;
+        endDate: any;
+        isStartTradeHide: boolean = false;
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
 
 
         constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService,
             ngTableParams: NgTableParams, $filter: ng.IFilterService, $scope: angular.IScope, uiGridConstants: any, exportUiGridService: any) {
             var vm = this;
+            const yesterday = new Date(new Date())
+            yesterday.setDate(yesterday.getDate() - 1);
+            const lastMonthdate = new Date(new Date())
+            lastMonthdate.setDate(lastMonthdate.getDate() - 30);
+            vm.startDate = lastMonthdate;
+            vm.endDate = yesterday;
             vm.dataService = dataService;
             vm.uiService = uiService;
             vm.rootScope = $rootScope;
@@ -64,6 +75,8 @@
             vm.isHide = true;
             vm.isColumnHide = true;
             vm.isTradeReasonHide = true;
+            vm.isCancelHide = true;
+            vm.isStartTradeHide = false;
             vm.isSaveDisabled = true;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
@@ -199,7 +212,7 @@
                     aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                     footerCellTemplate: tempFooter,
                     cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                        if (parseFloat(row.entity.finalQty) < 0) {
+                        if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                             return 'red';
                         }
                         if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -243,7 +256,7 @@
                     aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                     footerCellTemplate: tempFooter,
                     cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                        if (parseFloat(row.entity.finalQty) < 0) {
+                        if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                             return 'red';
                         }
                         if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -296,7 +309,7 @@
 
                     gridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
                         vm.tradebookingdetail = vm.gridOptions.data;
-                        
+
                         for (var _i = 0; _i < vm.tradebookingdetail.length; _i++) {
                             vm.tradebookingdetail[_i].totalQuantity = vm.tempSecurity.totalQty;
                             vm.tradebookingdetail[_i].ruleName = vm.tempSecurity.allocationRule.ruleName;
@@ -396,6 +409,8 @@
             vm.isHide = true;
             vm.isColumnHide = true;
             vm.isTradeReasonHide = true;
+            vm.isCancelHide = true;
+            vm.isStartTradeHide = false;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
             var element = <HTMLInputElement>document.getElementById("includedall");
@@ -429,6 +444,7 @@
             vm.isHide = true;
             vm.isColumnHide = false;
             vm.isTradeReasonHide = true;
+            vm.isCancelHide = true;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
         }
@@ -437,7 +453,6 @@
             var vm = this;
             vm.isRowhightlight = true;
             vm.dataService.refreshTradeBooking(tradeId).then(data => {
-                console.log(data);
                 data.tradeDate = new Date(data.tradeDate);
                 vm.tradeTypeChangeEvent(data.tradeType);
                 vm.tempSecurity = data;
@@ -451,6 +466,9 @@
                 vm.isDisabled = true;
                 vm.isHide = true;
                 vm.isLoading = false;
+                if (data.responseStatus == "Complete")
+                    vm.isCancelHide = false;
+
             });
         }
 
@@ -476,7 +494,7 @@
                 }
                 else {
                     tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                    if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
+                    if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0 && parseFloat(vm.gridOptions.data[_i].finalQty.toString()).toFixed(2) != "-0.00")
                         isfinalNegative = true;
                 }
                 TotalAllocatedQty = TotalAllocatedQty + tempOverride;
@@ -578,7 +596,7 @@
 
 
         onRowCheckChanged = function (row) {
-            
+
             var vm = this;
             vm.tradebookingdetail = vm.gridOptions.data;
             for (var _i = 0; _i < vm.tradebookingdetail.length; _i++) {
@@ -807,12 +825,22 @@
                     vm.securities = securities;
                 });
                 vm.dataService.getTradeBooking().then((trades) => {
-
                     vm.trades = trades;
                 });
                 vm.dataService.getIssuerList().then(issuers => {
                     vm.issuers = issuers;
                 });
+            });
+        }
+
+
+        GetTradeBookingHistory = () => {
+            var vm = this;
+            vm.statusText = "Loading";
+            vm.isLoading = true;
+            vm.dataService.getTradeBookingHistory().then(function (alltrades) {
+                vm.alltrades = alltrades;
+                vm.isLoading = false;
             });
         }
 
@@ -934,6 +962,53 @@
             });
         }
 
+        getFilteredTrades = () => {
+            var vm = this;
+            vm.isStartTradeHide = true;
+            vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
+                vm.alltrades = data;
+                vm.isLoading = false;
+            });
+        }
+
+        setStartTradeVisibilty = (visible) => {
+            var vm = this;
+            vm.isStartTradeHide = visible;
+        }
+
+        CancelTrade = () => {
+            var vm = this;
+            vm.isSaveDisabled = true;
+            var bodyMesg = "";
+            if (vm.tempSecurity.counterparty == undefined) {
+                bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
+            }
+            if (bodyMesg != '') {
+                var message = {
+                    header: "Warning",
+                    body: "<p><b>" + bodyMesg + "</b></p>"
+                };
+                vm.uiService.showMessage(message);
+                vm.isSaveDisabled = false;
+                return;
+            }
+            vm.statusText = "Saving";
+            vm.isLoading = true;
+            vm.dataService.cancelTrade(vm.tempSecurity).then(function (data) {
+                vm.clearAll(true);
+                vm.dataService.getTradeBooking().then(function (trades) {
+                    vm.trades = trades;
+                });
+                bodyMesg = 'Trade Cancel XML generated Successfully.';
+                var message = {
+                    header: "Successfull Message",
+                    body: "<p><b>" + bodyMesg + "</b></p>"
+                };
+                vm.uiService.showMessage(message);
+                vm.isLoading = false;
+            });
+        }
+
         ShowResponse = (trade, row) => {
             var vm = this;
             //vm.isRowSelected = 'rowselected';            
@@ -948,16 +1023,20 @@
                 body: "<p><b>" + bodyMesg + "</b></p>"
             };
             vm.uiService.showMessage(message);
-
-
         }
 
         ExportToCSV = () => {
             var vm = this;
-            if (vm.trades.length > 0) {
+            var activeTab = "alltrades"
+            var active = $("ul.nav.nav-tabs.tradesHistory li.active a").attr('href')
+            if (active === "#Current") {
+                activeTab = "trades"
+            }
+
+            if (vm[activeTab] && vm[activeTab].length > 0) {
                 var CsvData = [];
 
-                vm.trades.forEach(line => {
+                vm[activeTab].forEach(line => {
                     let reportDate = new Date(line.tradeDate);
                     let csvLine = {
                         tradeDate: `${reportDate.getDate()}/${reportDate.getMonth() + 1}/${reportDate.getFullYear()}`,

@@ -881,6 +881,72 @@ namespace YCM.CLO.CalculationEngine
             }
         }
 
+        public bool SendRecoveryChangeEmail(int startDateId, int endDateId)
+        {
+            try
+            {
+                _logger.Info("SendRecoveryChangeEmail started");
+
+                IRepository repository = new Repository();
+                var moodyRecoveryChanges = repository.GetMoodyRecoveryChange(startDateId, endDateId);
+                if (moodyRecoveryChanges != null && moodyRecoveryChanges.Any())
+                {
+                    _logger.Info("Moody Recovery Change Found:");
+                    WebClient client = new WebClient();
+                    client.Credentials = CredentialCache.DefaultCredentials;
+                    _logger.Info("Client URL to get Moody Recovery content:" + ConfigurationManager.AppSettings["MoodyRecoveryChangeURL"]);
+                    string message = client.DownloadString(ConfigurationManager.AppSettings["MoodyRecoveryChangeURL"]);
+                    string subject = ConfigurationManager.AppSettings["MoodyRecoveryChangeURLSubject"];
+
+                    subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                    Console.WriteLine(message);
+                    _logger.Info("Email Message to be sent:" + message);
+
+                    var msg = new MailMessage();
+                    msg.IsBodyHtml = true;
+                    msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+                    _logger.Info("Email Message object created");
+
+                    var emailTos = ConfigurationManager.AppSettings["MoodyRecoveryChangeToEmailIds"].Split(new char[] { ',', ';' });
+                    _logger.Info("Email Message to be sent to:" + emailTos);
+                    emailTos.ToList().ForEach(e =>
+                    {
+                        msg.To.Add(e);
+                    });
+
+                    string ccList = ConfigurationManager.AppSettings["MoodyRecoveryChangeCCEmailIds"];
+                    _logger.Info("Email Message to be CC:" + ccList);
+                    if (!string.IsNullOrEmpty(ccList))
+                    {
+                        ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                        {
+                            msg.CC.Add(e);
+                        });
+                    }
+
+                    msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                    msg.Subject = subject;
+                    msg.Body = message;
+
+                    _logger.Info("SendRecoveryChangeEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(msg);
+                    _logger.Info("SendRecoveryChangeEmail Change Email Sent successfully");
+                }
+                else
+                    _logger.Info("No change in Moody Recovery Found and hence no email will be sent today");
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                _logger.Info("Exeption while sending email message on Moody Recovery Change");
+                _logger.Error(exception);
+                return false;
+            }
+        }
+
         public bool CalculateFrontier(int dateId, int fundId, string user)
         {
             try

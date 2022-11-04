@@ -10,12 +10,13 @@ var Application;
                 this.includeCancelled = false;
                 this.gridHeight = { 'height': '402px' };
                 this.check = false;
+                this.isStartTradeHide = false;
                 this.ConvertToCurrency = function (elem) {
                     if (elem != undefined && elem != null && elem.currentTarget != undefined) {
                         var val = elem.currentTarget.value;
                         if (val != null && val.length > 0) {
                             var returnVal = parseFloat(val.replace(/,/g, ""))
-                                .toFixed(2) 
+                                .toFixed(2)
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             elem.currentTarget.value = returnVal;
                         }
@@ -71,6 +72,8 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
+                    vm.isCancelHide = true;
+                    vm.isStartTradeHide = false;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                     var element = document.getElementById("includedall");
@@ -102,6 +105,7 @@ var Application;
                     vm.isHide = true;
                     vm.isColumnHide = false;
                     vm.isTradeReasonHide = true;
+                    vm.isCancelHide = true;
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                 };
@@ -109,7 +113,6 @@ var Application;
                     var vm = _this;
                     vm.isRowhightlight = true;
                     vm.dataService.refreshTradeBooking(tradeId).then(function (data) {
-                        console.log(data);
                         data.tradeDate = new Date(data.tradeDate);
                         vm.tradeTypeChangeEvent(data.tradeType);
                         vm.tempSecurity = data;
@@ -123,6 +126,8 @@ var Application;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
+                        if (data.responseStatus == "Complete")
+                            vm.isCancelHide = false;
                     });
                 };
                 this.checkSaveButton = function () {
@@ -146,7 +151,7 @@ var Application;
                         }
                         else {
                             tempOverride = parseFloat(vm.gridOptions.data[_i].netPosition.toString());
-                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0)
+                            if (parseFloat(vm.gridOptions.data[_i].finalQty.toString()) < 0 && parseFloat(vm.gridOptions.data[_i].finalQty.toString()).toFixed(2) != "-0.00")
                                 isfinalNegative = true;
                         }
                         TotalAllocatedQty = TotalAllocatedQty + tempOverride;
@@ -426,6 +431,15 @@ var Application;
                         });
                     });
                 };
+                this.GetTradeBookingHistory = function () {
+                    var vm = _this;
+                    vm.statusText = "Loading";
+                    vm.isLoading = true;
+                    vm.dataService.getTradeBookingHistory().then(function (alltrades) {
+                        vm.alltrades = alltrades;
+                        vm.isLoading = false;
+                    });
+                };
                 this.GenerateTradeXML = function () {
                     var vm = _this;
                     vm.isSaveDisabled = true;
@@ -537,6 +551,50 @@ var Application;
                         vm.isLoading = false;
                     });
                 };
+                this.getFilteredTrades = function () {
+                    var vm = _this;
+                    vm.isStartTradeHide = true;
+                    vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
+                        vm.alltrades = data;
+                        vm.isLoading = false;
+                    });
+                };
+                this.setStartTradeVisibilty = function (visible) {
+                    var vm = _this;
+                    vm.isStartTradeHide = visible;
+                };
+                this.CancelTrade = function () {
+                    var vm = _this;
+                    vm.isSaveDisabled = true;
+                    var bodyMesg = "";
+                    if (vm.tempSecurity.counterparty == undefined) {
+                        bodyMesg = bodyMesg + "<br>" + 'Please Select Counter Party From List';
+                    }
+                    if (bodyMesg != '') {
+                        var message = {
+                            header: "Warning",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isSaveDisabled = false;
+                        return;
+                    }
+                    vm.statusText = "Saving";
+                    vm.isLoading = true;
+                    vm.dataService.cancelTrade(vm.tempSecurity).then(function (data) {
+                        vm.clearAll(true);
+                        vm.dataService.getTradeBooking().then(function (trades) {
+                            vm.trades = trades;
+                        });
+                        bodyMesg = 'Trade Cancel XML generated Successfully.';
+                        var message = {
+                            header: "Successfull Message",
+                            body: "<p><b>" + bodyMesg + "</b></p>"
+                        };
+                        vm.uiService.showMessage(message);
+                        vm.isLoading = false;
+                    });
+                };
                 this.ShowResponse = function (trade, row) {
                     var vm = _this;
                     //vm.isRowSelected = 'rowselected';            
@@ -554,9 +612,14 @@ var Application;
                 };
                 this.ExportToCSV = function () {
                     var vm = _this;
-                    if (vm.trades.length > 0) {
+                    var activeTab = "alltrades";
+                    var active = $("ul.nav.nav-tabs.tradesHistory li.active a").attr('href');
+                    if (active === "#Current") {
+                        activeTab = "trades";
+                    }
+                    if (vm[activeTab] && vm[activeTab].length > 0) {
                         var CsvData = [];
-                        vm.trades.forEach(function (line) {
+                        vm[activeTab].forEach(function (line) {
                             var reportDate = new Date(line.tradeDate);
                             var csvLine = {
                                 tradeDate: reportDate.getDate() + "/" + (reportDate.getMonth() + 1) + "/" + reportDate.getFullYear(),
@@ -651,6 +714,12 @@ var Application;
                     }
                 };
                 var vm = this;
+                var yesterday = new Date(new Date());
+                yesterday.setDate(yesterday.getDate() - 1);
+                var lastMonthdate = new Date(new Date());
+                lastMonthdate.setDate(lastMonthdate.getDate() - 30);
+                vm.startDate = lastMonthdate;
+                vm.endDate = yesterday;
                 vm.dataService = dataService;
                 vm.uiService = uiService;
                 vm.rootScope = $rootScope;
@@ -665,6 +734,8 @@ var Application;
                 vm.isHide = true;
                 vm.isColumnHide = true;
                 vm.isTradeReasonHide = true;
+                vm.isCancelHide = true;
+                vm.isStartTradeHide = false;
                 vm.isSaveDisabled = true;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;
@@ -798,7 +869,7 @@ var Application;
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                         footerCellTemplate: tempFooter,
                         cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                            if (parseFloat(row.entity.finalQty) < 0) {
+                            if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                                 return 'red';
                             }
                             if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {
@@ -840,7 +911,7 @@ var Application;
                         aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true,
                         footerCellTemplate: tempFooter,
                         cellClass: function (grid, row, col, rowRenderIndex, colRenderIndex) {
-                            if (parseFloat(row.entity.finalQty) < 0) {
+                            if (parseFloat(row.entity.finalQty) < 0 && parseFloat(row.entity.finalQty).toFixed(2) != "-0.00") {
                                 return 'red';
                             }
                             if (row.entity.isIncluded == true && row.entity.portfolioName == "York CLO-1 Ltd." && vm.isRowhightlight == true) {

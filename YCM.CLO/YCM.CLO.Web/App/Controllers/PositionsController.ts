@@ -528,7 +528,7 @@ module Application.Controllers {
 		}
 
 		populateViewList = (views: Array<Models.ICustomView>, selectedView: Models.ICustomView) => {
-			var vm = this;
+            var vm = this;
 			var separatorName = "---------------";
 			(<any>views).forEach(x => x.isDisabled = false);
 			var sorted = views.sort(function (a, b) {

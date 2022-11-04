@@ -28,5 +28,7 @@ namespace YCM.CLO.DataAccess.Models
 
         public Int16? DataPointType { get; set; }
 
+        public decimal? WarfModifier2 { get; set; }
+
     }
 }
