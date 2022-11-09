@@ -484,7 +484,7 @@ namespace YCM.CLO.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error($"Error in GetTradeBookingHistory " + ex);
+                _logger.Error($"Error in GetFilteredTrades " + ex);
                 return new JsonNetResult();
             }
         }

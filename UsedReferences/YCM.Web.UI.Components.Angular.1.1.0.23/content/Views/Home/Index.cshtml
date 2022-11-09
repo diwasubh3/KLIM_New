@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<a href="#home">home</a>
+<a href="#about">about</a>
+
+<div ng-view="">
+    
+</div>
+
+@section PageScripts
+{
+    <script src="~/App/app.js"></script>
+    <script src="~/App/controllers.js"></script>
+    <script src="~/App/aboutController.js"></script>
+}

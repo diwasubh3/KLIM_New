@@ -1,0 +1,29 @@
+﻿ .navbar {
+                min-height: 0px !important;
+            }
+
+            .dropdown-menu .divider {
+height: 1px;
+margin: 9px 0;
+overflow: hidden;
+background-color: lightgray !important;
+                border-bottom-color: lightgray !important;
+                color: lightgray !important;
+}
+
+.caret {
+    vertical-align: top !important;
+}
+
+.navbar-inner {
+    border-bottom: 0px;
+}
+
+.subnavbar-inner {
+    border-bottom: 0px;
+}
+
+body {
+    /*background: #E9E9E9 url(../img/body-bg.png) repeat 0 0;*/
+    font: 13px/1.7em 'Montserrat' !important;
+}
