@@ -101,7 +101,7 @@
       <HintPath>..\YCM.CLO\packages\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
     </Reference>
     <Reference Include="YCM.Common.Utils">
-      <HintPath>..\LocalProject\YCM.CLO\packages\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
+      <HintPath>..\YCM.CLO\packages\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
