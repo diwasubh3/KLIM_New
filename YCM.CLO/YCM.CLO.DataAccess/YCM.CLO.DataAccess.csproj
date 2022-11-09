@@ -157,6 +157,9 @@
     <Compile Include="Models\MoodyRecoveruChange.cs" />
     <Compile Include="Models\TradeComment.cs" />
     <Compile Include="Models\TradeReason.cs" />
+    <Compile Include="Models\TrendPeriod.cs" />
+    <Compile Include="Models\Trends.cs" />
+    <Compile Include="Models\TrendType.cs" />
     <Compile Include="Models\vw_CLOTestResults.cs" />
     <Compile Include="Models\vw_PositionIssuers.cs" />
     <Compile Include="Models\SettleMethods.cs" />

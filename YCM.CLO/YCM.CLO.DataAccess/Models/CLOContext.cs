@@ -114,6 +114,7 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<TradeBooking> TradeBooking { get; set; }
         public DbSet<TradeReason> TradeReason { get; set; }
         public DbSet<AssetType> AssetType { get; set; }
+        public DbSet<TrendType> TrendType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

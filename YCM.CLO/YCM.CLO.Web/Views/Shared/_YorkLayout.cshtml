@@ -107,6 +107,7 @@
                                                 <ul class="nav nav-tabs">
                                                     <li class="active"><a data-toggle="tab" href="#testResult1" target="_blank" style="padding: 3px 15px 3px !important;">Summary</a> </li>
                                                     <li><a data-toggle="tab" href="#testResult2" target="_blank" style="padding: 3px 15px 3px !important;">WSO Compliance Test Results</a> </li>
+                                                    <li><a data-toggle="tab" href="#trends" target="_blank" style="padding: 3px 15px 3px !important;">Trends</a> </li>
                                                 </ul>
                                             </div>
                                             <div class="tab-content" id="myTabContent">
@@ -192,10 +193,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                {{data.totalCoupon| number:2}}%
-            </span>
-        </td>*@
+                                                                            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                                {{data.totalCoupon| number:2}}%
+                                                                            </span>
+                                                                        </td>*@
 
                                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
                                                                         <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
@@ -236,10 +237,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                {{data.wsowaLife| number:2}}
-            </span>
-        </td>*@
+                                                                            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                                                                {{data.wsowaLife| number:2}}
+                                                                            </span>
+                                                                        </td>*@
                                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
                                                                         <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
                                                                             {{data.wsoDiversity| number:0}}
@@ -356,6 +357,145 @@
                                                                         <td ng-style="data.fund11OutcomeBgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
                                                                             <span uib-tooltip-html="data.fund11OutcomeTooltip" tooltip-append-to-body="true">
                                                                                 {{data.fund11OutcomeDisplay}}
+                                                                            </span>
+                                                                        </td>
+
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tab-pane fade" id="trends" role="tabpanel" aria-labelledby="home-tab">
+                                                    <div style="display:inline-flex">
+                                                        @*style="max-height: 286px;"*@
+                                                        <div>
+                                                            <table class="table table-bordered noth table-3pxcondensed table-fixedheight" ng-table="topNav.trendTableParams"
+                                                                   id="tbTrends"
+                                                                   style="border-width: 0; margin-bottom: 0px; border-top-width: 0px; ">
+                                                                <thead style="position: sticky;top: 0;left:5">
+                                                                    <tr>
+                                                                        <th style="border-width: 0px !important" colspan="5">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-1" style="padding-top: 0.6%;padding-right:0.1%">
+                                                                                    <span style="float: left">Type: </span>
+                                                                                </div>
+                                                                                <div class="col-sm-1" style="display: inline-block; font-weight: bold; width: 230px; padding-top: 0.3%">
+                                                                                    <select class="form-control" ng-model="topNav.trendType"
+                                                                                            ng-disabled="topNav.isLoading"
+                                                                                            ng-options="tt as tt.trendTypeName for tt in topNav.trendtypes track by tt.typeID"></select>
+                                                                                </div>
+                                                                                <div class="col-sm-1" style="padding-top: 0.6%; padding-right: 0.1%">
+                                                                                    <span style="float: left">Period: </span>
+                                                                                </div>
+                                                                                <div class="col-sm-1" style="display: inline-block; font-weight: bold; width: 100px; padding-top: 0.3%">
+                                                                                    <select class="form-control" ng-model="topNav.period" ng-change="topNav.periodChangeEvent()"
+                                                                                            ng-disabled="topNav.isLoading"
+                                                                                            ng-options="tt as tt.periodName for tt in topNav.trendPeriod track by tt.periodId"></select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </th>
+                                                                        <th style="border-width: 0px !important" colspan="8">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-2" style="padding-top: 1%;">
+                                                                                    <span style="float: right">From Date </span>
+                                                                                </div>
+                                                                                <div class="col-sm-2" style="padding-top: 0.5%">
+                                                                                    <input id="txtStartDate" ng-disabled="topNav.isDateDisabled" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="topNav.startDate" ng-required="">
+                                                                                </div>
+                                                                                <div class="col-sm-2" style="padding-top: 1%">
+                                                                                    <span style="float: right">To Date </span>
+                                                                                </div>
+                                                                                <div class="col-sm-2" style="padding-top: 0.5%">
+                                                                                    <input id="txtEndDate" ng-disabled="topNav.isDateDisabled" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="topNav.endDate" ng-required="">
+                                                                                </div>
+                                                                                <div class="col-sm-1" style="padding-top: 0.5%">
+                                                                                    <button name="btnTrendFilter" id="btnTrendFilter" class="btn btn-info" ng-click="topNav.loadTrends();" ng-disabled="topNav.isLoading">
+                                                                                        Show Trends
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th style="text-align: center ;border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd; position: sticky; left: 0; width: 100px"><div>Date</div></th>
+                                                                        <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 1</div></th>
+                                                                        <th style="text-align: right; width: 130px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 2</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 3</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 4</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 5</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 6</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 7</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 8</div></th>
+                                                                        <th style="text-align: right; width: 150px; border-width: 1px 0px 1px 0px !important; border-top: 1px solid #dddddd"><div>CLO 9</div></th>
+                                                                        <th style="text-align: right;width:150px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLO 10</div></th>
+                                                                        <th style="text-align: right;width:120px;border-width:1px 0px 1px 0px !important;border-top:1px solid #dddddd"><div>CLO 11</div></th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody ng-repeat="data in $data">
+                                                                    <tr ng-class="{'active':data==topNav.selectedTrend}"
+                                                                        ng-click="topNav.selectTrend(data)" class="pointer">
+
+                                                                        <td style="text-align: center; border-width: 0px 0px 1px 0px;">
+                                                                            <span style="word-wrap: break-word; white-space: normal;" tooltip-append-to-body="true"><b>{{data.trendDate}}</b></span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund1BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization1}}
+                                                                            </span>
+                                                                            @*<span tooltip-placement="bottom"></span>*@
+                                                                        </td>
+                                                                        <td ng-style="data.fund2BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization2}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund3BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization3}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund4BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization4}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund5BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization5}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund6BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization6}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund7BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization7}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund8BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization8}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund9BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization9}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund10BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization10}}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-style="data.fund11BgStyle" style="text-align: right; border-width: 0px 0px 1px 0px;">
+                                                                            <span tooltip-append-to-body="true">
+                                                                                {{data.fundOvercollateralization11}}
                                                                             </span>
                                                                         </td>
 
@@ -562,6 +702,7 @@
             var y = $(window).height();
             var b = y / 1.3;
             $("#testResult2").css('height', b);
+            $("#trends").css('height', b);
 
         });
     </script>
