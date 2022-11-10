@@ -57,10 +57,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C3993B9ABD83A7E1DEA5BB49321ABB676AFD35C8</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>71B048D255FFB6BB7F3A3CF233AFC6952FB70BF5</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WSOImport_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>WSOImport_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -98,10 +98,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="YCM.Common.Utilities.Data">
-      <HintPath>..\..\..\..\LocalProject\YCM.CLO\packages\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
+      <HintPath>..\YCM.CLO\packages\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
     </Reference>
     <Reference Include="YCM.Common.Utils">
-      <HintPath>..\..\..\..\LocalProject\YCM.CLO\packages\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
+      <HintPath>..\YCM.CLO\packages\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +124,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="WSOImport_1_TemporaryKey.pfx" />
+    <None Include="WSOImport_2_TemporaryKey.pfx" />
     <None Include="WSOImport_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

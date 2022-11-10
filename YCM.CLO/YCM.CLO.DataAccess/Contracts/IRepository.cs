@@ -269,6 +269,9 @@ namespace YCM.CLO.DataAccess.Contracts
         TradeBooking RefreshTradeBooking(long TradeId);
         IEnumerable<TradeBookingDetail> RefreshTradeBookingDetail(long TradeId);
         bool CancelTradeBooking(long TradeId);
-        
+        IEnumerable<Trends> GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId);
+        IEnumerable<TrendType> GetTrendTypes();
+        IEnumerable<TrendPeriod> GetTrendPeriod();
+
     }
 }

@@ -44,40 +44,40 @@
 
     }
 
-    export interface ITestResults{
+    export interface ITestResults {
         testDisplayName: string;
         fund1Outcome: Number;
-        
+
         fund1Breach: Number;
         fund2Outcome: Number;
-        
+
         fund2Breach: Number;
         fund3Outcome: Number;
-        
+
         fund3Breach: Number;
         fund4Outcome: Number;
-        
+
         fund4Breach: Number;
         fund5Outcome: Number;
-        
+
         fund5Breach: Number;
         fund6Outcome: Number;
-        
+
         fund6Breach: Number;
         fund7Outcome: Number;
-        
+
         fund7Breach: Number;
         fund8Outcome: Number;
-        
+
         fund8Breach: Number;
         fund9Outcome: Number;
-        
+
         fund9Breach: Number;
         fund10Outcome: Number;
-        
+
         fund10Breach: Number;
         fund11Outcome: Number;
-       
+
         fund11Breach: Number;
         calculatedColumn1: Number;
         calculatedColumn2: Number;
@@ -116,6 +116,43 @@
         testDisplayNameBgStyle: any;
         condition: string;
         testHoverNote: string;
+    }
+
+    export interface ITrends {
+        fundOvercollateralization1: number;
+        fundOvercollateralization2: number;
+        fundOvercollateralization3: number;
+        fundOvercollateralization4: number;
+        fundOvercollateralization5: number;
+        fundOvercollateralization6: number;
+        fundOvercollateralization7: number;
+        fundOvercollateralization8: number;
+        fundOvercollateralization9: number;
+        fundOvercollateralization10: number;
+        fundOvercollateralization11: number;
+        fundOvercollateralization1Old: number;
+        fundOvercollateralization2Old: number;
+        fundOvercollateralization3Old: number;
+        fundOvercollateralization4Old: number;
+        fundOvercollateralization5Old: number;
+        fundOvercollateralization6Old: number;
+        fundOvercollateralization7Old: number;
+        fundOvercollateralization8Old: number;
+        fundOvercollateralization9Old: number;
+        fundOvercollateralization10Old: number;
+        fundOvercollateralization11Old: number;
+        fund1BgStyle: any;
+        fund2BgStyle: any;
+        fund3BgStyle: any;
+        fund4BgStyle: any;
+        fund5BgStyle: any;
+        fund6BgStyle: any;
+        fund7BgStyle: any;
+        fund8BgStyle: any;
+        fund9BgStyle: any;
+        fund10BgStyle: any;
+        fund11BgStyle: any;
+        trendDate: string;
     }
 
     export interface IRule {
@@ -231,7 +268,7 @@
         fitchIndustry: string;
         fitchRating: string;
         frequency: string;
-        
+
     }
 
     export interface IAlert {
@@ -1026,7 +1063,7 @@
         counterparty: string;
     }
 
-    export interface ITradeBookingData {        
+    export interface ITradeBookingData {
         tradeType: Array<ITradeType>;
         traders: Array<ITrader>;
         Facilities: Array<IFacility>;
@@ -1074,7 +1111,7 @@
         ruleName: string;
         tradeComment1: string;
         tradeComment2: string;
-        tradeReason: string;       
+        tradeReason: string;
     }
 
     export interface ITradeReason {
@@ -1160,7 +1197,17 @@
         spread: string;
         SecurityFilter: string;
     }
+
+    export interface ITrendType {
+        typeID: number;
+        trendTypeName: string;
+    }
+
+    export interface ITrendPeriod {
+        periodId: number;
+        periodName: string;
+        isDefault: boolean;
+    }
 }
-    
-    
-    
+
+

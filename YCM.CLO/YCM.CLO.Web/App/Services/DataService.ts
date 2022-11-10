@@ -6,35 +6,35 @@
             this.httpWrapperFactory = httpWrapperFactory;
         }
 
-	    userIsAnAdmin = () => {
-			return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/userIsAnAdmin');
-	    }
+        userIsAnAdmin = () => {
+            return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/userIsAnAdmin');
+        }
 
-	    userIsASuperUser = () => {
-			return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/userIsASuperUser');
-		}
+        userIsASuperUser = () => {
+            return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/userIsASuperUser');
+        }
 
-		deleteCustomView = (view: Models.ICustomView) => {
-			return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/deleteCustomView', view);
-		}
+        deleteCustomView = (view: Models.ICustomView) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/deleteCustomView', view);
+        }
 
-		saveCustomView = (view: Models.ICustomView) => {
-			//return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/savefund', fund);
-			return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/saveCustomView', view);
-		}
+        saveCustomView = (view: Models.ICustomView) => {
+            //return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/savefund', fund);
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/saveCustomView', view);
+        }
 
-	    getAnalystResearchDetails = (headerId: number) => {
-			return <ng.IPromise<Array<Application.Models.IAnalystResearchDetail>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchdetails?headerId=' + headerId);
-		}
+        getAnalystResearchDetails = (headerId: number) => {
+            return <ng.IPromise<Array<Application.Models.IAnalystResearchDetail>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchdetails?headerId=' + headerId);
+        }
 
-	    downloadSummaries = () => {
-			var hurl = pageOptions.appBasePath + 'data/downloadSummaries';
-			window.open(hurl);
-		}
+        downloadSummaries = () => {
+            var hurl = pageOptions.appBasePath + 'data/downloadSummaries';
+            window.open(hurl);
+        }
 
-	    downloadLoanPositions = (fundId: number) => {
-			var hurl = pageOptions.appBasePath + 'data/downloadloanpositionsfile?fundId=' + fundId;
-			window.open(hurl);
+        downloadLoanPositions = (fundId: number) => {
+            var hurl = pageOptions.appBasePath + 'data/downloadloanpositionsfile?fundId=' + fundId;
+            window.open(hurl);
         }
 
         downloadReInvestCash = (Url: string) => {
@@ -46,33 +46,33 @@
             return <ng.IPromise<Array<Application.Models.UserModel>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/api/user');
         }
 
-	    getAnalystResearchIssuerIds = () => {
-		    return <ng.IPromise<Array<number>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchissuerids');
-		}
+        getAnalystResearchIssuerIds = () => {
+            return <ng.IPromise<Array<number>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchissuerids');
+        }
 
-	    getCustomViews = () => {
-			return <ng.IPromise<Array<Models.ICustomView>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getcustomviews');
+        getCustomViews = () => {
+            return <ng.IPromise<Array<Models.ICustomView>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getcustomviews');
         }
 
         getPerson = () => {
             return <ng.IPromise<Array<Models.ICustomView>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetPerson');
         }
 
-		getCustomView = (viewId: number) => {
-			return <ng.IPromise<Models.ICustomView>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getcustomview?viewId=' + viewId);
-		}
-
-	    viewNameIsTaken = (viewName: string) => {
-			return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/viewnameistaken?viewName=' + viewName);
-		}
-
-	    updateData = (userModel: Application.Models.UserModel) => {
-			return <ng.IPromise<boolean>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/api/user', userModel);
+        getCustomView = (viewId: number) => {
+            return <ng.IPromise<Models.ICustomView>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getcustomview?viewId=' + viewId);
         }
 
-	    getAnalystResearchHeader = (issuerId: number) => {
-			return <ng.IPromise<Models.IAnalystResearchHeader>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchheader?issuerId=' + issuerId);
-	    }
+        viewNameIsTaken = (viewName: string) => {
+            return <ng.IPromise<boolean>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/viewnameistaken?viewName=' + viewName);
+        }
+
+        updateData = (userModel: Application.Models.UserModel) => {
+            return <ng.IPromise<boolean>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/api/user', userModel);
+        }
+
+        getAnalystResearchHeader = (issuerId: number) => {
+            return <ng.IPromise<Models.IAnalystResearchHeader>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getanalystresearchheader?issuerId=' + issuerId);
+        }
 
         loadSummaryData = () => {
             return <ng.IPromise<Array<Application.Models.ISummary>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getsummaries');
@@ -81,10 +81,13 @@
         loadTestResults = () => {
             return <ng.IPromise<Array<Application.Models.ITestResults>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
         }
+        loadTrends = (startDate: any, endDate: any, trendTypeId: number, periodId: number) => {
+            return <ng.IPromise<Array<Application.Models.ITrends>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettrends?trendTypeId=' + trendTypeId.toString() + '&startDate=' + startDate.toString() + '&endDate=' + endDate.toString() + '&periodId=' + periodId.toString());
+        }
 
-		getFieldsForCustomView = (viewId: number) => {
-			return <ng.IPromise<Array<Application.Models.IField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
-		}
+        getFieldsForCustomView = (viewId: number) => {
+            return <ng.IPromise<Array<Application.Models.IField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
+        }
 
         loadFixedFields = () => {
             return <ng.IPromise<Array<Application.Models.IField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/GetFixedFields');
@@ -95,7 +98,7 @@
         }
 
         loadParameterValuesForParameterType = (parameterType: string) => {
-            return <ng.IPromise<Array<Application.Models.IParameterValue>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/parameterdata/GetParameterValuesForParameterType?parameterTypeName='+parameterType);
+            return <ng.IPromise<Array<Application.Models.IParameterValue>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/parameterdata/GetParameterValuesForParameterType?parameterTypeName=' + parameterType);
         }
 
         loadParameterTypes = () => {
@@ -110,24 +113,24 @@
             return <ng.IPromise<Array<Application.Models.IFieldGroup>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getpositionviewfieldgroups');
         }
 
-	    getCustomPositionViewFieldGroups = () => {
-			return <ng.IPromise<Array<Application.Models.IFieldGroup>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getCustomPositionViewFieldGroups');
-		}
+        getCustomPositionViewFieldGroups = () => {
+            return <ng.IPromise<Array<Application.Models.IFieldGroup>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getCustomPositionViewFieldGroups');
+        }
 
-	    getAllFieldGroups = () => {
-			return <ng.IPromise<Array<Application.Models.IFieldGroup>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getfieldgroups');
-		}
+        getAllFieldGroups = () => {
+            return <ng.IPromise<Array<Application.Models.IFieldGroup>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getfieldgroups');
+        }
 
-	    getAllCustomViewFields = () => {
-			return <ng.IPromise<Array<Application.Models.ICustomViewField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getallcustomviewfields');
-		}
+        getAllCustomViewFields = () => {
+            return <ng.IPromise<Array<Application.Models.ICustomViewField>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getallcustomviewfields');
+        }
 
         loadFundRestrictionFieldGroup = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getpositionviewfieldgroups?fundgroupname=');
         }
 
-        loadTop10Bottom10 = (fund:Models.ISummary,ruleId:number) => {
-            return <ng.IPromise<Models.ITop10Bottom10Positions>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/positiondata/GetTopBottomPositions?fundCode=' + (fund && fund.fundCode ? fund.fundCode: "CLO-1") +"&ruleId="+ruleId);
+        loadTop10Bottom10 = (fund: Models.ISummary, ruleId: number) => {
+            return <ng.IPromise<Models.ITop10Bottom10Positions>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/positiondata/GetTopBottomPositions?fundCode=' + (fund && fund.fundCode ? fund.fundCode : "CLO-1") + "&ruleId=" + ruleId);
         }
 
         loadPositions = (fund: Models.ISummary, onlyWithExposures: boolean) => {
@@ -142,8 +145,8 @@
             return <ng.IPromise<Array<Models.IFundRestrictionsTypes>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fundrestrictiondata/getfundrestrictionstypes');
         }
 
-        loadFundRestrictions = (fundId:number) => {
-            return <ng.IPromise<Array<Models.IFundRestriction>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fundrestrictiondata/getfundrestrictions' + (fundId ?'?fundId='+fundId: ''));
+        loadFundRestrictions = (fundId: number) => {
+            return <ng.IPromise<Array<Models.IFundRestriction>>>this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fundrestrictiondata/getfundrestrictions' + (fundId ? '?fundId=' + fundId : ''));
         }
 
         loadOperators = () => {
@@ -154,8 +157,8 @@
             return <ng.IPromise<Array<Models.IFundRestriction>>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/fundrestrictiondata/SaveFundRestrictions', fundRestrictions);
         }
 
-		updateWatch = (watch: Models.IWatch, fundCode: string) => {
-			return <ng.IPromise<Models.IWatch>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/watchdata/savewatch', { watch: watch, fundCode: fundCode });
+        updateWatch = (watch: Models.IWatch, fundCode: string) => {
+            return <ng.IPromise<Models.IWatch>>this.httpWrapperFactory.postData(pageOptions.appBasePath + '/watchdata/savewatch', { watch: watch, fundCode: fundCode });
         }
 
         updateParameterValue = (parameterValue: Models.IParameterValue) => {
@@ -163,13 +166,13 @@
         }
 
         deleteWatch = (watch: Models.IWatch) => {
-            return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/watchdata/deletewatch?watchId=' +  watch.watchId);
+            return this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/watchdata/deletewatch?watchId=' + watch.watchId);
         }
-        
+
         getSecurityOverrides = (loadType: number, securityId: number) => {
             var url = pageOptions.appBasePath + '/securitydata/getsecurityoverrides?';
             if (loadType != null) {
-                url += 'loadType=' + loadType + (securityId? '&':'');
+                url += 'loadType=' + loadType + (securityId ? '&' : '');
             }
             if (securityId) {
                 url += 'securityId=' + securityId;
@@ -190,7 +193,7 @@
             return this.httpWrapperFactory.getData(url);
         }
 
-        getSecurityOverrideHeaderFields = () =>{
+        getSecurityOverrideHeaderFields = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getsecurityoverrideheaderfields');
         }
 
@@ -214,7 +217,7 @@
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/SaveSecurityOverrides', securityOverrides);
         }
 
-        getAnalystResearches = (loadType: number,issuerId:number) => {
+        getAnalystResearches = (loadType: number, issuerId: number) => {
             var url = pageOptions.appBasePath + '/analystdata/getanalystrefresh?';
             if (loadType != null) {
                 url += 'loadType=' + loadType + (issuerId ? '&' : '');
@@ -225,7 +228,7 @@
             return this.httpWrapperFactory.getData(url);
         }
 
-        getAnalystResearchHeaderFields= () => {
+        getAnalystResearchHeaderFields = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getanalystresearchheaderfields');
         };
 
@@ -233,7 +236,7 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getissuers');
         }
 
-        getAnalysts= () => {
+        getAnalysts = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/analystdata/getanalysts');
         }
 
@@ -266,10 +269,10 @@
         }
 
         getLoanAttributeOverrides = (securityId: number) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/securitydata/getloanattributesoverridesforrecon' + (securityId?'?securityId='+securityId:''));
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/securitydata/getloanattributesoverridesforrecon' + (securityId ? '?securityId=' + securityId : ''));
         }
 
-        endSecurityOverride = (loanAttributeOverride:Models.ILoanAttributeDto) => {
+        endSecurityOverride = (loanAttributeOverride: Models.ILoanAttributeDto) => {
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/endsecurityoverride', loanAttributeOverride);
         }
 
@@ -278,27 +281,27 @@
         }
 
         getTradeAllocations = (securityId: number) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/gettradeallocations' + ('?securityId=' + securityId ));
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/gettradeallocations' + ('?securityId=' + securityId));
         }
 
         saveTrades = (trade: Models.ITrade, processSaveTrade: boolean) => {
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradedata/savetrade', { trade: trade, processSavedTrade: processSaveTrade });
         };
-        
+
 
         getPositions = (securityCode: string, fundCode: string) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/positiondata/getallpositionsbasedonsecuritycodeandfundcode' + (securityCode ? '?securityCode=' + securityCode : '') + (fundCode?'&fundCode='+fundCode:''));
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/positiondata/getallpositionsbasedonsecuritycodeandfundcode' + (securityCode ? '?securityCode=' + securityCode : '') + (fundCode ? '&fundCode=' + fundCode : ''));
         }
 
         getPositionsForSecurities = (securityIds: Array<number>, fundCode: string) => {
-            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/positiondata/getallpositionsforsecurities', { securityIds: securityIds, fundCode: fundCode} );
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/positiondata/getallpositionsforsecurities', { securityIds: securityIds, fundCode: fundCode });
         }
 
         getTradesHeaderFields = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/gettradesheaderfields');
         }
 
-        getTrades = (includeCancelled: boolean, fundCode:string ) => {
+        getTrades = (includeCancelled: boolean, fundCode: string) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/gettrades?includeCancelled=' + includeCancelled + '&fundCode=' + fundCode);
         }
 
@@ -334,7 +337,7 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBookingHistory');
         }
 
-        getAllocationRule = (tradeTypeId:number) => {
+        getAllocationRule = (tradeTypeId: number) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
         }
 
@@ -344,15 +347,15 @@
 
         getCalculatedData = (data: Array<Models.ITradeBookingDetail>) => { //, totalQty: number, ruleName: string
             /*return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData?data=' + JSON.stringify(data) + '&totalQty=' + totalQty + '&ruleName=' + ruleName);*/
-            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData',data);
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/getCalculatedData', data);
         }
 
-        refreshTradeBooking = (tradeId: number) => { 
+        refreshTradeBooking = (tradeId: number) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/refreshTradeBooking?TradeId=' + tradeId);
         }
 
         getBloombergData = (securityCode: string) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode='+securityCode);
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradedata/getbloombergsecurityinfo?securityCode=' + securityCode);
         }
 
         saveTempSecurity = (tempsecurity: Models.ITempSecurity) => {
@@ -364,14 +367,14 @@
         }
 
         getTradeSnapshots = (fundid: number, tradeswapid: number, groupby: number) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'tradeswapdata/GetTradeSwaps?fundid=' + fundid + '&tradeswapid=' + tradeswapid +'&groupby='+groupby);
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'tradeswapdata/GetTradeSwaps?fundid=' + fundid + '&tradeswapid=' + tradeswapid + '&groupby=' + groupby);
         }
 
         saveFund = (fund: Models.IFund) => {
             return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/data/savefund', fund);
         }
 
-        getLastTradeSwap= () => {
+        getLastTradeSwap = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradeswapdata/getlastsavedtradeswap');
         }
 
@@ -380,7 +383,7 @@
         }
 
         process = (url) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath+url);
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + url);
         }
 
         getMoodyRatings = () => {
@@ -393,14 +396,14 @@
 
         getFilterFieldGroups = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'fielddata/GetFilterFields');
-		}
+        }
 
-	    updateSecurity = (security: Models.ISecurity) => {
-			return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/updateBbgId', { dto: security });
-		};
+        updateSecurity = (security: Models.ISecurity) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/updateBbgId', { dto: security });
+        };
 
-	    updateIsPrivate = (issuer: Models.IIssuer) => {
-			return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/updateIsPrivate', { dto: issuer });
+        updateIsPrivate = (issuer: Models.IIssuer) => {
+            return this.httpWrapperFactory.postData(pageOptions.appBasePath + '/securitydata/updateIsPrivate', { dto: issuer });
         };
 
 
@@ -409,11 +412,11 @@
         }
 
 
-        getMajors = (fundId:number) => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'matrixdata/majors?fundid='+fundId);
+        getMajors = (fundId: number) => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'matrixdata/majors?fundid=' + fundId);
         }
 
-        getMinorsByDiversity= (fundId: number, fromDiversity: number, toDiversity: number) => {
+        getMinorsByDiversity = (fundId: number, fromDiversity: number, toDiversity: number) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'matrixdata/diversityminors?fundid=' + fundId + '&fromDiversity=' + fromDiversity + '&toDiversity=' + toDiversity);
         }
 
@@ -421,7 +424,7 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'matrixdata/spreadminors?fundid=' + fundId + '&fromSpread=' + fromSpread + '&toSpread=' + toSpread);
         }
 
-        getMatrixPoints= (fundId: number) => {
+        getMatrixPoints = (fundId: number) => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + 'matrixdata/matrixpoints?fundid=' + fundId);
         }
 
@@ -452,8 +455,14 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
         }
 
+        loadTrendTypes = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendTypes');
+        }
 
+        loadPeriod = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendPeriod');
+        }
     }
 
-    angular.module("app").service("application.services.dataService", DataService); 
+    angular.module("app").service("application.services.dataService", DataService);
 }
