@@ -39,6 +39,7 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
+                var name = System.Web.HttpContext.Current.User.Identity.Name;
                 var data = new
                 {
                     Facilities = Mapper.Map<IEnumerable<Facility>, IEnumerable<FacilityDto>>(_repository.GetFacilities()),
@@ -50,6 +51,7 @@ namespace YCM.CLO.Web.Controllers
                     TradeComment = Mapper.Map<IEnumerable<TradeComment>, IEnumerable<TradeCommentDto>>(_repository.GetTradeComment()),
                     TradeReasons = Mapper.Map<IEnumerable<TradeReason>, IEnumerable<TradeReasonDto>>(_repository.GetTradeReasons()),
                     AssetTypes = Mapper.Map<IEnumerable<AssetType>, IEnumerable<AssetTypeDto>>(_repository.GetAssetTypes()),
+                    permissions = _repository.GetPermission(name.Substring(name.IndexOf("\\") + 1).ToLower()).ToList()
                 };
                 return new JsonNetResult() { Data = data };
             }

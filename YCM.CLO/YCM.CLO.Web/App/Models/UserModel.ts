@@ -1074,6 +1074,7 @@
         issuer: string;
         loanXId: string;
         facilityId: string;
+        permissions: any;
     }
 
     export interface ITradeBooking {
