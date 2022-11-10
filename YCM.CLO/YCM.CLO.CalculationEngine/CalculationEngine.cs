@@ -970,5 +970,73 @@ namespace YCM.CLO.CalculationEngine
                 throw;
             }
         }
+
+        public bool SendDataExceptionReportingEmail()
+        {
+            try
+            {
+                _logger.Info("SendDataExceptionReportingEmail started");
+
+                IRepository repository = new Repository();
+                var reconReport = repository.GetDataExceptionReporting();
+                if (reconReport != null && reconReport.Any())
+                {
+                    _logger.Info("Recon Change Found:");
+                    WebClient client = new WebClient
+                    {
+                        Credentials = CredentialCache.DefaultCredentials
+                    };
+                    _logger.Info("Client URL to get Recon content:" + ConfigurationManager.AppSettings["DataExceptionReportingEmailURL"]);
+                    string message = client.DownloadString(ConfigurationManager.AppSettings["DataExceptionReportingEmailURL"]);
+                    string subject = ConfigurationManager.AppSettings["DataExceptionReportingEmailSubject"];
+
+                    subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                    Console.WriteLine(message);
+                    _logger.Info("Email Message to be sent:" + message);
+
+                    var msg = new MailMessage();
+                    msg.IsBodyHtml = true;
+                    msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+                    _logger.Info("Email Message object created");
+
+                    var emailTos = ConfigurationManager.AppSettings["DataExceptionReportingToEmailIds"].Split(new char[] { ',', ';' });
+                    _logger.Info("Email Message to be sent to:" + emailTos);
+                    emailTos.ToList().ForEach(e =>
+                    {
+                        msg.To.Add(e);
+                    });
+
+                    string ccList = ConfigurationManager.AppSettings["DataExceptionReportingCCEmailIds"];
+                    _logger.Info("Email Message to be CC:" + ccList);
+                    if (!string.IsNullOrEmpty(ccList))
+                    {
+                        ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                        {
+                            msg.CC.Add(e);
+                        });
+                    }
+
+                    msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                    msg.Subject = subject;
+                    msg.Body = message;
+
+                    _logger.Info("SendDataExceptionReportingEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(msg);
+                    _logger.Info("SendDataExceptionReportingEmail Change Email Sent successfully");
+                }
+                else
+                    _logger.Info("No Data Exception Found and hence no email will be sent today");
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                _logger.Info("Exeption while sending email message on Moody Recovery Change");
+                _logger.Error(exception);
+                return false;
+            }
+        }
     }
 }

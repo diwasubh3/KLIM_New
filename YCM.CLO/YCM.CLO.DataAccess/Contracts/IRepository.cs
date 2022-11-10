@@ -269,6 +269,7 @@ namespace YCM.CLO.DataAccess.Contracts
         TradeBooking RefreshTradeBooking(long TradeId);
         IEnumerable<TradeBookingDetail> RefreshTradeBookingDetail(long TradeId);
         bool CancelTradeBooking(long TradeId);
-        
+
+        List<List<DataExceptionObject>> GetDataExceptionReporting();
     }
 }

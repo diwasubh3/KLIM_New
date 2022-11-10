@@ -59,6 +59,8 @@ namespace YCM.CLO.CalculationEngine.Contracts
         [WebInvoke(UriTemplate = "CalculateFrontier?dateId={dateId}&fundId={fundId}&user={user}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
         bool CalculateFrontier(int dateId, int fundId, string user);
 
-
+        [OperationContract]
+        [WebInvoke(UriTemplate = "SendDataExceptionReportingEmail", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        bool SendDataExceptionReportingEmail();
     }
 }

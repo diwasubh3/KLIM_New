@@ -145,7 +145,26 @@ namespace YCM.CLO.Web.Objects
         }
 
 
+        public bool SendDataExceptionReportingEmail()
+        {
+            try
+            {
+                _logger.Info(" SendDataExceptionReportingEmail called");
 
+                var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendDataExceptionReportingEmail";
+
+                _logger.Info(url);
+                var request = new { };
+                _logger.Info(url);
+                return SendToCalculationEngine(url, request);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error  on Calculation Client method SendDataExceptionReportingEmail", ex);
+                return false;
+            }
+
+        }
 
     }
 }

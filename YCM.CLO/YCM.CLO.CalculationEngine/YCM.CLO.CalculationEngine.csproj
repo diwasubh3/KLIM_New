@@ -69,10 +69,11 @@
     <StartupObject>YCM.CLO.CalculationEngine.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F230DB6153149440C4C11394C74446724F9936A8</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>3EA4C9DF085B69724097081AB09CEF6E52DE9C9C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>YCM.CLO.CalculationEngine_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>

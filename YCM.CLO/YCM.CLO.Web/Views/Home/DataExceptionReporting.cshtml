@@ -1,0 +1,211 @@
+﻿
+@model List<List<YCM.CLO.DataAccess.Models.DataExceptionObject>>
+
+@{
+    Layout = "../Shared/_BlankLayout.cshtml";
+}
+
+@if (Model.Count > 0)
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <div style="padding:20px">
+            @if (i == 0)
+            {
+                <h4>
+                    <u>S & P Industry</u>
+                </h4>
+            }
+            @if (i == 1)
+            {
+                <h4>
+                    <u>Frequency</u>
+                </h4>
+            }
+            @if (i == 2)
+            {
+                <h4>
+                    <u>Country</u>
+                </h4>
+            }
+            @if (i == 3)
+            {
+                <h4>
+                    <u>Moody’s Industry</u>
+                </h4>
+            }
+            @if (i == 4)
+            {
+                <h4>
+                    <u>Fitch Industry</u>
+                </h4>
+            }
+            @foreach (var rc in Model[i])
+            {
+                <table style="border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; ">
+                                Issuer
+                            </th>
+                            <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                SecurityID
+                            </th>
+                            <th style="border: 1px solid black;text-align: left; padding: 0 20px 0 20px;">
+                                DateId
+                            </th>
+                            @if (rc.CLO_1 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-1
+                                </th>
+                            }
+                            @if (rc.CLO_2 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-2
+                                </th>
+                            }
+                            @if (rc.CLO_3 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-3
+                                </th>
+                            }
+                            @if (rc.CLO_4 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-4
+                                </th>
+                            }
+                            @if (rc.CLO_5 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-5
+                                </th>
+                            }
+                            @if (rc.CLO_6 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-6
+                                </th>
+                            }
+                            @if (rc.CLO_7 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-7
+                                </th>
+                            }
+                            @if (rc.CLO_8 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-8
+                                </th>
+                            }
+                            @if (rc.CLO_9 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-9
+                                </th>
+                            }
+                            @if (rc.CLO_10 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-10
+                                </th>
+                            }
+                            @if (rc.CLO_11 != null)
+                            {
+                                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                    CLO-11
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+
+                    <tr>
+                        <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                            @rc.Issuer
+                        </td>
+                        <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                            @rc.SecurityID
+                        </td>
+                        <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                            @rc.DateId
+                        </td>
+                        @if (rc.CLO_1 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_1
+                            </td>
+                        }
+                        @if (rc.CLO_2 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_2
+                            </td>
+                        }
+                        @if (rc.CLO_3 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_3
+                            </td>
+                        }
+                        @if (rc.CLO_4 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_4
+                            </td>
+                        }
+                        @if (rc.CLO_5 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_5
+                            </td>
+                        }
+                        @if (rc.CLO_6 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_6
+                            </td>
+                        }
+                        @if (rc.CLO_7 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_7
+                            </td>
+                        }
+                        @if (rc.CLO_8 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_8
+                            </td>
+                        }
+                        @if (rc.CLO_9 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_9
+                            </td>
+                        }
+                        @if (rc.CLO_10 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_10
+                            </td>
+                        }
+                        @if (rc.CLO_11 != null)
+                        {
+                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                @rc.CLO_11
+                            </td>
+                        }
+                    </tr>
+                </table>
+                <br />
+                <br />
+
+            }
+        </div>
+    }
+
+}

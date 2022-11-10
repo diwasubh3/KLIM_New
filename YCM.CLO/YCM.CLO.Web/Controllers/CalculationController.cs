@@ -101,5 +101,11 @@ namespace YCM.CLO.Web.Controllers
             CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
             return new JsonNetResult() { Data = new { status = calculationEngineClient.UpdateStalePositions() } };
         }
+
+        public JsonNetResult SendDataExceptionReportingEmail()
+        {
+            CalculationEngineClient calculationEngineClient = new CalculationEngineClient();
+            return new JsonNetResult() { Data = new { status = calculationEngineClient.SendDataExceptionReportingEmail() } };
+        }
     }
 }
