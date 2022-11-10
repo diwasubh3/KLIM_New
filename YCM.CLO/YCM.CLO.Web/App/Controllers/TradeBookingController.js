@@ -8,9 +8,11 @@ var Application;
                 this.appBasePath = pageOptions.appBasePath;
                 this.statusText = "Loading";
                 this.includeCancelled = false;
+                this.isCancelHide = true;
                 this.gridHeight = { 'height': '402px' };
                 this.check = false;
-                this.isStartTradeHide = false;
+                this.isStartTradeHide = true;
+                this.hasAdminPermission = false;
                 this.ConvertToCurrency = function (elem) {
                     if (elem != undefined && elem != null && elem.currentTarget != undefined) {
                         var val = elem.currentTarget.value;
@@ -73,7 +75,9 @@ var Application;
                     vm.isColumnHide = true;
                     vm.isTradeReasonHide = true;
                     vm.isCancelHide = true;
-                    vm.isStartTradeHide = false;
+                    if (vm.hasAdminPermission) {
+                        vm.isStartTradeHide = false;
+                    }
                     vm.isRowDisabled = false;
                     vm.isCommentsDisabled = false;
                     var element = document.getElementById("includedall");
@@ -126,8 +130,9 @@ var Application;
                         vm.isDisabled = true;
                         vm.isHide = true;
                         vm.isLoading = false;
-                        if (data.responseStatus == "Complete")
+                        if (data.responseStatus == "Complete" && vm.hasAdminPermission) {
                             vm.isCancelHide = false;
+                        }
                     });
                 };
                 this.checkSaveButton = function () {
@@ -429,6 +434,13 @@ var Application;
                         vm.dataService.getIssuerList().then(function (issuers) {
                             vm.issuers = issuers;
                         });
+                        var permArray = vm.sourceData.permissions.filter(function (item) {
+                            return item.toUpperCase() == "ADMIN";
+                        });
+                        if (permArray && permArray.length) {
+                            vm.hasAdminPermission = true;
+                            vm.isStartTradeHide = false;
+                        }
                     });
                 };
                 this.GetTradeBookingHistory = function () {
@@ -561,7 +573,14 @@ var Application;
                 };
                 this.setStartTradeVisibilty = function (visible) {
                     var vm = _this;
-                    vm.isStartTradeHide = visible;
+                    if (visible) {
+                        vm.isStartTradeHide = visible;
+                    }
+                    else {
+                        if (vm.hasAdminPermission) {
+                            vm.isStartTradeHide = visible;
+                        }
+                    }
                 };
                 this.CancelTrade = function () {
                     var vm = _this;
@@ -735,7 +754,9 @@ var Application;
                 vm.isColumnHide = true;
                 vm.isTradeReasonHide = true;
                 vm.isCancelHide = true;
-                vm.isStartTradeHide = false;
+                if (vm.hasAdminPermission) {
+                    vm.isStartTradeHide = false;
+                }
                 vm.isSaveDisabled = true;
                 vm.isRowDisabled = false;
                 vm.isCommentsDisabled = false;
