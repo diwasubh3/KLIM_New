@@ -52,10 +52,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>7CC7F30821D9162E4CBA8D4650DBD30A6E019EC8</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>3EA4C9DF085B69724097081AB09CEF6E52DE9C9C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>YCM.CLO.AnalystLinkage_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>

@@ -103,6 +103,7 @@
     <Compile Include="Models\AssetType.cs" />
     <Compile Include="Models\CacheSetting.cs" />
     <Compile Include="Models\CounterParty.cs" />
+    <Compile Include="Models\DataExceptionObject.cs" />
     <Compile Include="Models\DefaultSecurity.cs" />
     <Compile Include="Models\FundAssetClass.cs" />
     <Compile Include="Models\FundCalculation.cs" />

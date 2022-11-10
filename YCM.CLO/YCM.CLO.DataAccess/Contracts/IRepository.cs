@@ -273,5 +273,7 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<TrendType> GetTrendTypes();
         IEnumerable<TrendPeriod> GetTrendPeriod();
 
+
+        List<List<DataExceptionObject>> GetDataExceptionReporting();
     }
 }
