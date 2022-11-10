@@ -2268,6 +2268,45 @@ namespace YCM.CLO.DataAccess
             return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
         }
 
+		bool IRepository.CancelTradeBooking(long TradeId)
+		{
+			using (var cloContext = new CLOContext())
+			{
+				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
+				{
+					connection.Open();
+					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdCancelTradeBooking", connection))
+					{
+						commandtradebooking.CommandType = CommandType.StoredProcedure;
+						commandtradebooking.Parameters.Add(new SqlParameter("@Id", TradeId));
+						commandtradebooking.ExecuteNonQuery();
+					}
+					connection.Close();
+				}
+			}
+			return true;
+		}
+
+
+		IEnumerable<Trends> IRepository.GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId)
+		{
+			SqlParameter paramtrendTypeId = new SqlParameter("@TrendTypeId", trendTypeId);
+			SqlParameter paramFieldStartDate = new SqlParameter("@StartDate", startDate);
+			SqlParameter paramFielEndDate = new SqlParameter("@EndDate", endDate);
+			SqlParameter paramPeriodId = new SqlParameter("@PeriodId", periodId);
+			return _cloContext.Database.SqlQuery<Trends>("CLO.dbsp_GetTrends @TrendTypeId,@StartDate,@EndDate,@PeriodId", paramtrendTypeId, paramFieldStartDate, paramFielEndDate, paramPeriodId);
+		}
+
+		IEnumerable<TrendType> IRepository.GetTrendTypes()
+		{
+			return _cloContext.Database.SqlQuery<TrendType>("CLO.usp_GetTrendingTypes");
+		}
+
+		IEnumerable<TrendPeriod> IRepository.GetTrendPeriod()
+		{
+			return _cloContext.Database.SqlQuery<TrendPeriod>("CLO.usp_GetTrendPeriod");
+		}
+	}
         bool IRepository.CancelTradeBooking(long TradeId)
         {
             using (var cloContext = new CLOContext())

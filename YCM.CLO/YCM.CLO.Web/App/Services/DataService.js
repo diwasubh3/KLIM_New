@@ -63,6 +63,9 @@ var Application;
                 this.loadTestResults = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
                 };
+                this.loadTrends = function (startDate, endDate, trendTypeId, periodId) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettrends?trendTypeId=' + trendTypeId.toString() + '&startDate=' + startDate.toString() + '&endDate=' + endDate.toString() + '&periodId=' + periodId.toString());
+                };
                 this.getFieldsForCustomView = function (viewId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
                 };
@@ -340,6 +343,12 @@ var Application;
                 };
                 this.getFilteredTrades = function (startDate, endDate) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
+                };
+                this.loadTrendTypes = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendTypes');
+                };
+                this.loadPeriod = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendPeriod');
                 };
                 this.httpWrapperFactory = httpWrapperFactory;
             }

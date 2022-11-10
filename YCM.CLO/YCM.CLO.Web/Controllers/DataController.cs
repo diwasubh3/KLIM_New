@@ -702,7 +702,54 @@ namespace YCM.CLO.Web.Controllers
             return new JsonNetResult() {Data = new {status = calculationEngineClient.Calculate(dateId,User.Identity.Name)}};
         }
 
-        protected override void Dispose(bool disposing)
+
+		public JsonNetResult GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId)
+		{
+			try
+			{
+				_logger.Info("Getting dateId...");
+				var dateId = Helper.GetPrevDayDateId();
+
+				_logger.Info($"_repository is null? {_repository == null}");
+				return new JsonNetResult() { Data = Mapper.Map<IEnumerable<Trends>, IEnumerable<Trends>>(_repository.GetTrends(trendTypeId, startDate, endDate, periodId)) };
+			}
+			catch (Exception exception)
+			{
+				EmailHelper.SendEmail(exception.ToString(), "Exception occurred in GetTrends");
+				throw;
+			}
+		}
+
+		public JsonNetResult GetTrendTypes()
+		{
+			try
+			{
+				_logger.Info($"_repository is null? {_repository == null}");
+				return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TrendType>, IEnumerable<TrendType>>(_repository.GetTrendTypes()) };
+			}
+			catch (Exception exception)
+			{
+				EmailHelper.SendEmail(exception.ToString(), "Exception occurred in GetTrendTypes");
+				throw;
+			}
+		}
+
+		public JsonNetResult GetTrendPeriod()
+		{
+			try
+			{
+				_logger.Info($"_repository is null? {_repository == null}");
+				var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<TrendPeriod>, IEnumerable<TrendPeriod>>(_repository.GetTrendPeriod()) };
+				return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TrendPeriod>, IEnumerable<TrendPeriod>>(_repository.GetTrendPeriod()) };
+			}
+			catch (Exception exception)
+			{
+				EmailHelper.SendEmail(exception.ToString(), "Exception occurred in GetTrendPeriod");
+				throw;
+			}
+		}
+
+		protected override void Dispose(bool disposing)
         {
             _repository.Dispose();
             base.Dispose(disposing);

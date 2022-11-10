@@ -125,6 +125,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="WSOImport_1_TemporaryKey.pfx" />
+    <None Include="WSOImport_2_TemporaryKey.pfx" />
     <None Include="WSOImport_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

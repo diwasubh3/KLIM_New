@@ -1,0 +1,68 @@
+﻿@using System.Configuration
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Content/images/YorkIcon.ico">
+
+    @Styles.Render("~/Content/Yorknet/YorkMenuBootstrapCss")
+    @Styles.Render("~/Content/YorkCss")
+    @Styles.Render("~/Content/BootstrapCssResponsive")
+    @Styles.Render("~/Content/BootstrapCss")
+    @RenderSection("PageCss", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800" rel="stylesheet" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="NavContainer">
+        <div id="main-fixed-nav-bar" class="navbar navbar-fixed-top  navbar-inverse">
+            <div>
+                <div class="navbar-inner">
+                    <div id="main-fixed-nav-bar-navbar-inner-container" class="container">
+                        <div class="subnavbar pull-left" id="subnav" style="width:1100px">
+                            <div class="subnavbar-inner">
+                                <div class="container" id="york-menu-container">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-app="app">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </div>
+    <script>
+            pageOptions = {};
+            pageOptions.sharepointBasePath = '@ConfigurationManager.AppSettings["SharepointPath"]';
+            pageOptions.webBasePath = '@ConfigurationManager.AppSettings["BaseWebPath"]';
+            pageOptions.dwhBasePath = '@ConfigurationManager.AppSettings["DWHPath"]';
+            pageOptions.menuWebApiUri = '@ConfigurationManager.AppSettings["BaseWebPath"]/NavigationMenu/GetMenus';
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/YorkScripts")
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-route.min.js"></script>
+
+    @RenderSection("PageScripts", required: false)
+    @Scripts.Render("~/bundles/YorkScriptsFinal")
+
+</body>
+</html>

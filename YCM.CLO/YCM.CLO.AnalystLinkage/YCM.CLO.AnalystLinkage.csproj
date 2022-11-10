@@ -124,6 +124,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="YCM.CLO.AnalystLinkage_1_TemporaryKey.pfx" />
+    <None Include="YCM.CLO.AnalystLinkage_2_TemporaryKey.pfx" />
     <None Include="YCM.CLO.AnalystLinkage_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
