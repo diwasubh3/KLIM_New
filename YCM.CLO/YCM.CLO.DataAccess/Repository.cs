@@ -2268,45 +2268,6 @@ namespace YCM.CLO.DataAccess
             return _cloContext.Database.SqlQuery<TradeBookingDetail>("CLO.dbsp_GetTradeBookingAllocation @ruleName,@issuerId,@LoanXId,@TradeType", paramruleName, paramissuerId, paramLoanXId, paramTradeType);
         }
 
-		bool IRepository.CancelTradeBooking(long TradeId)
-		{
-			using (var cloContext = new CLOContext())
-			{
-				using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["CLOContext"].ConnectionString))
-				{
-					connection.Open();
-					using (SqlCommand commandtradebooking = new SqlCommand("CLO.dbsp_UpdCancelTradeBooking", connection))
-					{
-						commandtradebooking.CommandType = CommandType.StoredProcedure;
-						commandtradebooking.Parameters.Add(new SqlParameter("@Id", TradeId));
-						commandtradebooking.ExecuteNonQuery();
-					}
-					connection.Close();
-				}
-			}
-			return true;
-		}
-
-
-		IEnumerable<Trends> IRepository.GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId)
-		{
-			SqlParameter paramtrendTypeId = new SqlParameter("@TrendTypeId", trendTypeId);
-			SqlParameter paramFieldStartDate = new SqlParameter("@StartDate", startDate);
-			SqlParameter paramFielEndDate = new SqlParameter("@EndDate", endDate);
-			SqlParameter paramPeriodId = new SqlParameter("@PeriodId", periodId);
-			return _cloContext.Database.SqlQuery<Trends>("CLO.dbsp_GetTrends @TrendTypeId,@StartDate,@EndDate,@PeriodId", paramtrendTypeId, paramFieldStartDate, paramFielEndDate, paramPeriodId);
-		}
-
-		IEnumerable<TrendType> IRepository.GetTrendTypes()
-		{
-			return _cloContext.Database.SqlQuery<TrendType>("CLO.usp_GetTrendingTypes");
-		}
-
-		IEnumerable<TrendPeriod> IRepository.GetTrendPeriod()
-		{
-			return _cloContext.Database.SqlQuery<TrendPeriod>("CLO.usp_GetTrendPeriod");
-		}
-	}
         bool IRepository.CancelTradeBooking(long TradeId)
         {
             using (var cloContext = new CLOContext())
@@ -2324,6 +2285,26 @@ namespace YCM.CLO.DataAccess
                 }
             }
             return true;
+        }
+
+
+        IEnumerable<Trends> IRepository.GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId)
+        {
+            SqlParameter paramtrendTypeId = new SqlParameter("@TrendTypeId", trendTypeId);
+            SqlParameter paramFieldStartDate = new SqlParameter("@StartDate", startDate);
+            SqlParameter paramFielEndDate = new SqlParameter("@EndDate", endDate);
+            SqlParameter paramPeriodId = new SqlParameter("@PeriodId", periodId);
+            return _cloContext.Database.SqlQuery<Trends>("CLO.dbsp_GetTrends @TrendTypeId,@StartDate,@EndDate,@PeriodId", paramtrendTypeId, paramFieldStartDate, paramFielEndDate, paramPeriodId);
+        }
+
+        IEnumerable<TrendType> IRepository.GetTrendTypes()
+        {
+            return _cloContext.Database.SqlQuery<TrendType>("CLO.usp_GetTrendingTypes");
+        }
+
+        IEnumerable<TrendPeriod> IRepository.GetTrendPeriod()
+        {
+            return _cloContext.Database.SqlQuery<TrendPeriod>("CLO.usp_GetTrendPeriod");
         }
 
         List<List<DataExceptionObject>> IRepository.GetDataExceptionReporting()
@@ -2348,44 +2329,8 @@ namespace YCM.CLO.DataAccess
                         bigObj.Add(obj);
                     }
                     while (reader.NextResult());
-
-                    //    //while (reader.HasRows)
-                    //    //{
-                    //    int i = 0;
-                    //    while (i < 5)
-                    //    {
-                    //        //while (reader.Read())
-                    //        //{
-                    //            List<DataExceptionObject> obj = ((IObjectContextAdapter)_cloContext).ObjectContext.Translate<DataExceptionObject>(reader).ToList();
-                    //            bigObj.Add(obj);
-                    //        //}
-                    //        reader.NextResult();
-                    //        i++;
-                    //    }
-                    //    //}
-                    //    if (!reader.IsClosed)
-                    //    { reader.Close(); }
-
-                    //    //    List<DataExceptionObject> obj = ((IObjectContextAdapter)_cloContext).ObjectContext.Translate<DataExceptionObject>
-                    //    //(reader).ToList();
-                    //    //    bigObj.Add(obj);
-
-                    //    //    reader.NextResult();
                 }
-
-
-                    ////// Drop down to the wrapped `ObjectContext` to get access to
-                    ////// the `Translate` method
-                    ////var objectContext = ((IObjectContextAdapter)_cloContext).ObjectContext;
-
-
-                    ////// Read Entity1 from the first resultset
-                    ////result.Set1 = objectContext.Translate<Entity1>(reader, "Set1", MergeOptions.AppendOnly);
-
-                    ////// Read Entity2 from the second resultset
-                    ////reader.NextResult();
-                    //result.Set2 = objectContext.Translate<Entity2>(reader, "Set2", MergeOptions.AppendOnly);
-                    return bigObj;
+                return bigObj;
             }
             finally
             {
