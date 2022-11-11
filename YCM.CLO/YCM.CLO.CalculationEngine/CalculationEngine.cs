@@ -984,17 +984,18 @@ namespace YCM.CLO.CalculationEngine
                 {
                     if (reconReport.Count > 0)
                     {
-                        int i = 0;
-                        foreach (var item in reconReport)
+                        int count = 0;
+                        for (int i = 0; i < reconReport.Count; i++)
                         {
-                            if (item.Count == 0)
+                            if(reconReport[i].Count == 0)
                             {
-                                i++;
+                                count++;
                             }
                         }
-
-                        if (i == 4)
+                        if(count == reconReport.Count -1)
+                        {
                             return false;
+                        }
                     }
                     _logger.Info("Recon Change Found:");
                     WebClient client = new WebClient
