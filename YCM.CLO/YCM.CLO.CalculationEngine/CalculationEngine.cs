@@ -14,6 +14,7 @@ using System.IO;
 using CsvHelper;
 using System.Net.Mail;
 using System.Net;
+using System.Collections.Generic;
 
 namespace YCM.CLO.CalculationEngine
 {
@@ -59,7 +60,7 @@ namespace YCM.CLO.CalculationEngine
                         cloContext.vwSecurityFunds.OrderBy(v => v.SecurityId).ThenBy(v => v.FundCode).ToList();
                     _logger.Info("securities data for dateId:" + securities.Count());
 
-                    _logger.Info("Get Position data for Active Fudn And dateId:"+ dateId);
+                    _logger.Info("Get Position data for Active Fudn And dateId:" + dateId);
                     var groupedPositionsDictionary = cloContext.Positions
                         .Include(x => x.Fund)
                         .Include(p => p.Security)
@@ -141,7 +142,7 @@ namespace YCM.CLO.CalculationEngine
                             {
                                 _logger.Error(exception);
                             }
-                            
+
                             try
                             {
                                 _logger.Info("  totalParLifeCalculator calculation started");
@@ -152,7 +153,7 @@ namespace YCM.CLO.CalculationEngine
                             {
                                 _logger.Error(exception);
                             }
-                            
+
                             try
                             {
                                 _logger.Info("  moodyFacilityRatingAdjustedCalculator calculation started");
@@ -186,7 +187,7 @@ namespace YCM.CLO.CalculationEngine
                                 _logger.Error(exception);
                             }
 
-                            try 
+                            try
                             {
                                 _logger.Info("  warfRecoveryCalculator calculation started");
                                 //NOTE: this relies on calculations in snPAssetRecoveryRatingCalculator, so it must come after it
@@ -320,7 +321,7 @@ namespace YCM.CLO.CalculationEngine
                     repository.CalculateSummaries();
                 }
 
-                _logger.Info("Process CalculateFrontier for dateId:"+dateId);
+                _logger.Info("Process CalculateFrontier for dateId:" + dateId);
                 CalculateFrontier(dateId, -1, user);
 
                 _logger.Info("Completed Calculation");
@@ -416,19 +417,19 @@ namespace YCM.CLO.CalculationEngine
                 _logger.Info("  Started Processing CreateStalePositions function for FundId :" + fund.FundId);
                 repository.CreateStalePositions(fund.FundId);
                 _logger.Info("  Completed Processing CreateStalePositions function for FundId :" + fund.FundId);
-                
+
                 context.Entry(fund).Reload();
-                _logger.Info("  Processing for file :" + fund.CLOFileName); 
+                _logger.Info("  Processing for file :" + fund.CLOFileName);
                 if (!string.IsNullOrEmpty(fund.CLOFileName))
                 {
                     _logger.Info("      Started Processing ReadTradeFile function for FundId :" + fund.FundId);
                     ReadTradeFile(repository, fund, context, fileDateId, dateId);
-                    _logger.Info("      Extra Check for FundId :" + fund.FundId+    "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                    _logger.Info("      Extra Check for FundId :" + fund.FundId + "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
                     _logger.Info("      Completed Processing ReadTradeFile function for FundId :" + fund.FundId);
                     context.SaveChanges();
                     if (fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value)
                     {
-                        _logger.Info("      Started Processing CleanPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:"+ dateId.ToString());
+                        _logger.Info("      Started Processing CleanPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:" + dateId.ToString());
                         repository.CleanPositionsBasedOnPrincipalCash(fund.FundId, dateId);
                         _logger.Info("      Extra Check for FundId :" + fund.FundId + "   (fund.IsStale.Value: " + fund.IsStale.Value + "      && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
                         _logger.Info("      Completed Processing CleanPositionsBasedOnPrincipalCash function for FundId :" + fund.FundId + " and dateId:" + dateId.ToString());
@@ -503,7 +504,7 @@ namespace YCM.CLO.CalculationEngine
         {
             try
             {
-                _logger.Info("          Check (fund.IsStale.HasValue: " + fund.IsStale.HasValue.ToString() + " && fund.IsStale.Value: "+ fund.IsStale.Value + ") (fund.IsPrincipalCashStale.HasValue: " + fund.IsPrincipalCashStale.HasValue.ToString() + " && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
+                _logger.Info("          Check (fund.IsStale.HasValue: " + fund.IsStale.HasValue.ToString() + " && fund.IsStale.Value: " + fund.IsStale.Value + ") (fund.IsPrincipalCashStale.HasValue: " + fund.IsPrincipalCashStale.HasValue.ToString() + " && fund.IsPrincipalCashStale.Value: " + fund.IsPrincipalCashStale.Value + ")");
                 if (!(fund.IsStale.HasValue && fund.IsStale.Value || fund.IsPrincipalCashStale.HasValue && fund.IsPrincipalCashStale.Value))
                 {
                     var clofile = Convert.ToString(ConfigurationManager.AppSettings["SourceDirectory"]).Replace("{dateid}", fileDateId.ToString()); ;
@@ -532,7 +533,7 @@ namespace YCM.CLO.CalculationEngine
                     }
                     else
                     {
-                        _logger.Info("          File not exists, update fund: "+ fund.FundCode  + " as stale");
+                        _logger.Info("          File not exists, update fund: " + fund.FundCode + " as stale");
                         fund.IsPrincipalCashStale = true;
                     }
                 }
@@ -558,7 +559,7 @@ namespace YCM.CLO.CalculationEngine
         {
             try
             {
-                _logger.Info("Started On " + DateTime.Now.ToString() + " for fileDateId:" + fileDateId.ToString() + " and dateid:"+ dateId.ToString());
+                _logger.Info("Started On " + DateTime.Now.ToString() + " for fileDateId:" + fileDateId.ToString() + " and dateid:" + dateId.ToString());
                 using (CLOContext context = new CLOContext())
                 {
                     IRepository repository = new Repository();
@@ -645,7 +646,7 @@ namespace YCM.CLO.CalculationEngine
 
                 subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
                 Console.WriteLine(message);
-                _logger.Info("message:"+ message);
+                _logger.Info("message:" + message);
 
                 var msg = new MailMessage();
                 msg.Body = message;
@@ -671,11 +672,11 @@ namespace YCM.CLO.CalculationEngine
                 msg.Subject = subject;
                 msg.Body = message;
 
-                _logger.Info("SendPriceMoverEmail ~~ message:" + message + "  ;From:"+ msg.From + " ;Subject:"+ msg.Subject);
+                _logger.Info("SendPriceMoverEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
                 SmtpClient smtpClient = new SmtpClient();
                 smtpClient.Send(msg);
 
-                
+
                 return true;
             }
             catch (Exception exception)
@@ -698,13 +699,13 @@ namespace YCM.CLO.CalculationEngine
                 string subject = ConfigurationManager.AppSettings["RatingChangeSubject"];
 
                 subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
-  
+
                 var msg = new MailMessage();
                 msg.Body = message;
                 _logger.Info("message:" + message);
                 msg.IsBodyHtml = true;
                 msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
-                
+
                 var emailTos = ConfigurationManager.AppSettings["RatingChangeToEmailIds"].Split(new char[] { ',', ';' });
                 emailTos.ToList().ForEach(e =>
                 {
@@ -778,7 +779,7 @@ namespace YCM.CLO.CalculationEngine
                 msg.Subject = subject;
                 msg.Body = message;
                 _logger.Info("SendMismatchEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
-                
+
                 SmtpClient smtpClient = new SmtpClient();
                 smtpClient.Send(msg);
                 return true;
@@ -842,7 +843,7 @@ namespace YCM.CLO.CalculationEngine
                     _logger.Info("Email Message object created");
 
                     var emailTos = ConfigurationManager.AppSettings["TotalParChangeToEmailIds"].Split(new char[] { ',', ';' });
-                    _logger.Info("Email Message to be sent to:"+ emailTos);
+                    _logger.Info("Email Message to be sent to:" + emailTos);
                     emailTos.ToList().ForEach(e =>
                     {
                         msg.To.Add(e);
@@ -968,6 +969,88 @@ namespace YCM.CLO.CalculationEngine
 
                 EmailHelper.SendEmail(exception.ToString(), "Exception has occurred during Frontier Calculation");
                 throw;
+            }
+        }
+
+        public bool SendDataExceptionReportingEmail()
+        {
+            try
+            {
+                _logger.Info("SendDataExceptionReportingEmail started");
+
+                IRepository repository = new Repository();
+                List<List<DataExceptionObject>> reconReport = repository.GetDataExceptionReporting();
+                if (reconReport != null && reconReport.Any())
+                {
+                    if (reconReport.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (var item in reconReport)
+                        {
+                            if (item.Count == 0)
+                            {
+                                i++;
+                            }
+                        }
+
+                        if (i == 4)
+                            return false;
+                    }
+                    _logger.Info("Recon Change Found:");
+                    WebClient client = new WebClient
+                    {
+                        Credentials = CredentialCache.DefaultCredentials
+                    };
+                    _logger.Info("Client URL to get Recon content:" + ConfigurationManager.AppSettings["DataExceptionReportingEmailURL"]);
+                    string message = client.DownloadString(ConfigurationManager.AppSettings["DataExceptionReportingEmailURL"]);
+                    string subject = ConfigurationManager.AppSettings["DataExceptionReportingEmailSubject"];
+
+                    subject = subject.Replace("{date}", DateTime.Today.ToShortDateString());
+                    Console.WriteLine(message);
+                    _logger.Info("Email Message to be sent:" + message);
+
+                    var msg = new MailMessage();
+                    msg.IsBodyHtml = true;
+                    msg.ReplyToList.Add(new MailAddress(ConfigurationManager.AppSettings["ReplyToEmail"], ConfigurationManager.AppSettings["ReplyToName"]));
+                    _logger.Info("Email Message object created");
+
+                    var emailTos = ConfigurationManager.AppSettings["DataExceptionReportingToEmailIds"].Split(new char[] { ',', ';' });
+                    _logger.Info("Email Message to be sent to:" + emailTos);
+                    emailTos.ToList().ForEach(e =>
+                    {
+                        msg.To.Add(e);
+                    });
+
+                    string ccList = ConfigurationManager.AppSettings["DataExceptionReportingCCEmailIds"];
+                    _logger.Info("Email Message to be CC:" + ccList);
+                    if (!string.IsNullOrEmpty(ccList))
+                    {
+                        ccList.Split(new char[] { ',', ';' }).ToList().ForEach(e =>
+                        {
+                            msg.CC.Add(e);
+                        });
+                    }
+
+                    msg.From = new MailAddress(ConfigurationManager.AppSettings["CLOSupportEmail"], ConfigurationManager.AppSettings["CLOSupportName"]);
+                    msg.Subject = subject;
+                    msg.Body = message;
+
+                    _logger.Info("SendDataExceptionReportingEmail ~~ message:" + message + "  ;From:" + msg.From + " ;Subject:" + msg.Subject);
+                    SmtpClient smtpClient = new SmtpClient();
+                    smtpClient.Send(msg);
+                    _logger.Info("SendDataExceptionReportingEmail Change Email Sent successfully");
+                }
+                else
+                    _logger.Info("No Data Exception Found and hence no email will be sent today");
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.Write(exception.ToString());
+                _logger.Info("Exeption while sending email message on Moody Recovery Change");
+                _logger.Error(exception);
+                return false;
             }
         }
     }

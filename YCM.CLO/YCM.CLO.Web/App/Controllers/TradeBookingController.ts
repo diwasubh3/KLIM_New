@@ -31,7 +31,7 @@
         isHide: boolean;
         isColumnHide: boolean;
         isTradeReasonHide: boolean;
-        isCancelHide: boolean;
+        isCancelHide: boolean = true;
         isDisabledSettlement: boolean;
         isRowDisabled: boolean;
         isCommentsDisabled: boolean;
@@ -48,7 +48,8 @@
         check = false;
         startDate: any;
         endDate: any;
-        isStartTradeHide: boolean = false;
+        isStartTradeHide: boolean = true;
+        hasAdminPermission: boolean = false;
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
 
 
@@ -76,7 +77,9 @@
             vm.isColumnHide = true;
             vm.isTradeReasonHide = true;
             vm.isCancelHide = true;
-            vm.isStartTradeHide = false;
+            if (vm.hasAdminPermission) {
+                vm.isStartTradeHide = false;
+            }         
             vm.isSaveDisabled = true;
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
@@ -410,7 +413,9 @@
             vm.isColumnHide = true;
             vm.isTradeReasonHide = true;
             vm.isCancelHide = true;
-            vm.isStartTradeHide = false;
+            if (vm.hasAdminPermission) {
+                vm.isStartTradeHide = false;
+            }
             vm.isRowDisabled = false;
             vm.isCommentsDisabled = false;
             var element = <HTMLInputElement>document.getElementById("includedall");
@@ -466,9 +471,9 @@
                 vm.isDisabled = true;
                 vm.isHide = true;
                 vm.isLoading = false;
-                if (data.responseStatus == "Complete")
+                if (data.responseStatus == "Complete" && vm.hasAdminPermission) {
                     vm.isCancelHide = false;
-
+                }
             });
         }
 
@@ -830,9 +835,16 @@
                 vm.dataService.getIssuerList().then(issuers => {
                     vm.issuers = issuers;
                 });
+                var permArray = vm.sourceData.permissions.filter(function (item) {
+                    return item.toUpperCase() == "ADMIN";
+                });
+                if (permArray && permArray.length) {
+                    vm.hasAdminPermission = true;
+                    vm.isStartTradeHide = false;
+                }
+                
             });
         }
-
 
         GetTradeBookingHistory = () => {
             var vm = this;
@@ -963,8 +975,8 @@
         }
 
         getFilteredTrades = () => {
-            var vm = this;
-            vm.isStartTradeHide = true;
+            var vm = this;            
+            vm.isStartTradeHide = true;     
             vm.dataService.getFilteredTrades(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then(function (data) {
                 vm.alltrades = data;
                 vm.isLoading = false;
@@ -973,7 +985,13 @@
 
         setStartTradeVisibilty = (visible) => {
             var vm = this;
-            vm.isStartTradeHide = visible;
+            if (visible) {
+                vm.isStartTradeHide = visible;
+            } else {
+                if (vm.hasAdminPermission) {
+                    vm.isStartTradeHide = visible;
+                }
+            }   
         }
 
         CancelTrade = () => {

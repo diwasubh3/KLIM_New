@@ -23,7 +23,7 @@ namespace YCM.CLO.Web.Controllers
         readonly IRepository _repository;
         private readonly IRuleEngine _ruleEngine;
 
-        
+
         public HomeController(IRepository repository, IRuleEngine ruleEngine)
         {
             _repository = repository;
@@ -85,7 +85,7 @@ namespace YCM.CLO.Web.Controllers
                             ViewBag.HasAdminPermission = true;
                             break;
                         case "BidOfferUpload":
-                            if(ViewBag.HasAdminPermission)
+                            if (ViewBag.HasAdminPermission)
                                 ViewBag.HasBidOfferUploadPermission = true;
                             break;
                         case "CollateralQualityMatrix":
@@ -180,98 +180,98 @@ namespace YCM.CLO.Web.Controllers
             return View();
         }
 
-            public  List<string> GetRolesPermissions(string name)
+        public List<string> GetRolesPermissions(string name)
+        {
+            name = System.Web.HttpContext.Current.User.Identity.Name;
+            return _repository.GetPermission(name.Substring(name.IndexOf("\\") + 1).ToLower()).ToList();
+        }
+
+        public static string[] GetRoles(string userName)
+        {
+            _logger.Info($"Getting permissions for: {userName ?? "null"}");
+            using (var client = new WebClient())
             {
-                name = System.Web.HttpContext.Current.User.Identity.Name;
-                return _repository.GetPermission(name.Substring(name.IndexOf("\\") + 1).ToLower()).ToList();
+                var baseWebPath = ConfigurationManager.AppSettings["BaseWebPath"];
+                _logger.Info($"Base Web Path: {baseWebPath ?? "null"}");
+
+                var permissions = client.DownloadString(string.Concat(baseWebPath
+                    , "/Entitlement/GetUserRoles?userid=", userName
+                ));
+
+                return permissions.Replace("\"", "").Split(new char[] { ',' });
+            }
+        }
+
+        [AllowAnonymous]
+        public ViewResult TopBottomPriceMovers()
+        {
+            int fromDateId = Helper.GetPrevDayDateId();
+            int toDateId;
+
+            if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+            {
+                toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(3));
+            }
+            else
+            {
+                toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(1));
             }
 
-            public static string[] GetRoles(string userName)
+            var funds = _repository.GetFunds();
+
+            DateTime Prev5BusinessDay = new DateTime();
+            if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
             {
-                _logger.Info($"Getting permissions for: {userName ?? "null"}");
-                using (var client = new WebClient())
-                {
-                    var baseWebPath = ConfigurationManager.AppSettings["BaseWebPath"];
-                    _logger.Info($"Base Web Path: {baseWebPath ?? "null"}");
-
-                    var permissions = client.DownloadString(string.Concat(baseWebPath
-                        , "/Entitlement/GetUserRoles?userid=", userName
-                    ));
-
-                    return permissions.Replace("\"", "").Split(new char[] { ',' });
-                }
+                Prev5BusinessDay = Helper.GetPrevBusinessDay(7);
+            }
+            else
+            {
+                Prev5BusinessDay = Helper.GetPrevBusinessDay(5);
             }
 
-            [AllowAnonymous]
-            public ViewResult TopBottomPriceMovers()
-            {
-                int fromDateId = Helper.GetPrevDayDateId();
-                int toDateId;
+            int to5DateId = Helper.GetDateId(Prev5BusinessDay);
 
-                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+            ViewBag.PrevDayTop = _repository.GetPriceMove("Top", fromDateId, toDateId);
+            ViewBag.PrevDayBottom = _repository.GetPriceMove("Bottom", fromDateId, toDateId);
+            ViewBag.IsStale = funds.Any(f => ((f.IsStale.HasValue && f.IsStale.Value) || (f.IsPrincipalCashStale.HasValue && f.IsPrincipalCashStale.Value)));
+
+            ViewBag.Prev5BusinessDay = Prev5BusinessDay.ToShortDateString();
+            ViewBag.Prev5DayTop = _repository.GetPriceMove("Top", fromDateId, to5DateId);
+            ViewBag.Prev5DayBottom = _repository.GetPriceMove("Bottom", fromDateId, to5DateId);
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ViewResult RatingChanges(int? startDateId = null, int? endDateId = null)
+        {
+            if (startDateId == null)
+            {
+                var today = DateTime.Today;
+
+                if (today.DayOfWeek == DayOfWeek.Monday)
                 {
-                    toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(3));
+                    startDateId = Helper.GetDateId(today.AddDays(-4));
                 }
                 else
                 {
-                    toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(1));
+                    startDateId = Helper.GetDateId(today.AddDays(-2));
                 }
-
-                var funds = _repository.GetFunds();
-
-                DateTime Prev5BusinessDay = new DateTime();
-                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
-                {
-                    Prev5BusinessDay = Helper.GetPrevBusinessDay(7);
-                }
-                else
-                {
-                    Prev5BusinessDay = Helper.GetPrevBusinessDay(5);
-                }
-
-                int to5DateId = Helper.GetDateId(Prev5BusinessDay);
-
-                ViewBag.PrevDayTop = _repository.GetPriceMove("Top", fromDateId, toDateId);
-                ViewBag.PrevDayBottom = _repository.GetPriceMove("Bottom", fromDateId, toDateId);
-                ViewBag.IsStale = funds.Any(f => ((f.IsStale.HasValue && f.IsStale.Value) || (f.IsPrincipalCashStale.HasValue && f.IsPrincipalCashStale.Value)));
-
-                ViewBag.Prev5BusinessDay = Prev5BusinessDay.ToShortDateString();
-                ViewBag.Prev5DayTop = _repository.GetPriceMove("Top", fromDateId, to5DateId);
-                ViewBag.Prev5DayBottom = _repository.GetPriceMove("Bottom", fromDateId, to5DateId);
-
-                return View();
             }
 
-            [AllowAnonymous]
-            public ViewResult RatingChanges(int? startDateId = null, int? endDateId = null)
+            if (endDateId == null)
             {
-                if (startDateId == null)
-                {
-                    var today = DateTime.Today;
-
-                    if (today.DayOfWeek == DayOfWeek.Monday)
-                    {
-                        startDateId = Helper.GetDateId(today.AddDays(-4));
-                    }
-                    else
-                    {
-                        startDateId = Helper.GetDateId(today.AddDays(-2));
-                    }
-                }
-
-                if (endDateId == null)
-                {
-                    var today = DateTime.Today;
-                    endDateId = Helper.GetDateId(today.AddDays(-1));
-                }
-
-                var ratingChanges = _repository.GetRatingChanges(
-                    startDateId.Value, endDateId.Value)
-                    .OrderBy(rc => rc.Issuer)
-                    .ToList();
-
-                return View(ratingChanges);
+                var today = DateTime.Today;
+                endDateId = Helper.GetDateId(today.AddDays(-1));
             }
+
+            var ratingChanges = _repository.GetRatingChanges(
+                startDateId.Value, endDateId.Value)
+                .OrderBy(rc => rc.Issuer)
+                .ToList();
+
+            return View(ratingChanges);
+        }
 
 
         [AllowAnonymous]
@@ -337,46 +337,46 @@ namespace YCM.CLO.Web.Controllers
         }
 
         [AllowAnonymous]
-            public ViewResult MisMatchData()
+        public ViewResult MisMatchData()
+        {
+            MismatchData mismatchData = new MismatchData();
+            mismatchData.Cfrs = _repository.GetMismatchData(13)
+                .OrderBy(rc => rc.SecurityCode)
+                .ToList();
+
+            mismatchData.CfrAdjs = _repository.GetMismatchData(14)
+                .OrderBy(rc => rc.SecurityCode)
+                .ToList();
+
+            mismatchData.Facilities = _repository.GetMismatchData(15)
+                .OrderBy(rc => rc.SecurityCode)
+                .ToList();
+
+            if (mismatchData.CfrAdjs.Count >= 0 || mismatchData.Cfrs.Count >= 0 || mismatchData.Facilities.Count >= 0)
             {
-                MismatchData mismatchData = new MismatchData();
-                mismatchData.Cfrs = _repository.GetMismatchData(13)
-                    .OrderBy(rc => rc.SecurityCode)
-                    .ToList();
-
-                mismatchData.CfrAdjs = _repository.GetMismatchData(14)
-                    .OrderBy(rc => rc.SecurityCode)
-                    .ToList();
-
-                mismatchData.Facilities = _repository.GetMismatchData(15)
-                    .OrderBy(rc => rc.SecurityCode)
-                    .ToList();
-
-                if (mismatchData.CfrAdjs.Count >= 0 || mismatchData.Cfrs.Count >= 0 || mismatchData.Facilities.Count >= 0)
-                {
-                    return View(mismatchData);
-                }
-                else
-                {
-                    throw new Exception("No Mismatch, hence can't show anything.");
-                }
+                return View(mismatchData);
             }
-
-
-
-            [AllowAnonymous]
-            public ViewResult FundStaleStatus()
+            else
             {
-                ViewBag.Funds = _repository.GetFunds();
-                return View();
+                throw new Exception("No Mismatch, hence can't show anything.");
             }
+        }
 
-            static HomeController()
-            {
-                _logger = LogManager.GetLogger(typeof(HomeController));
-                PositionCacheManager positionCacheManager = new PositionCacheManager();
-                positionCacheManager.Check();
-            }
+
+
+        [AllowAnonymous]
+        public ViewResult FundStaleStatus()
+        {
+            ViewBag.Funds = _repository.GetFunds();
+            return View();
+        }
+
+        static HomeController()
+        {
+            _logger = LogManager.GetLogger(typeof(HomeController));
+            PositionCacheManager positionCacheManager = new PositionCacheManager();
+            positionCacheManager.Check();
+        }
 
         private static string _currentVersion;
         public static string GetCurrentVersion()
@@ -408,7 +408,14 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ViewResult DataExceptionReporting()
+        {
+            var dataException = _repository.GetDataExceptionReporting()
+                .ToList();
 
+            return View(dataException);
+        }
 
     }
 }

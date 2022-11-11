@@ -57,10 +57,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>71B048D255FFB6BB7F3A3CF233AFC6952FB70BF5</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>3EA4C9DF085B69724097081AB09CEF6E52DE9C9C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WSOImport_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
