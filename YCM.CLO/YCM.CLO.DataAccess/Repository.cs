@@ -2310,8 +2310,6 @@ namespace YCM.CLO.DataAccess
         List<List<DataExceptionObject>> IRepository.GetDataExceptionReporting()
         {
             List<List<DataExceptionObject>> bigObj = new List<List<DataExceptionObject>>();
-            //var result = _cloContext.Database.SqlQuery<DataExceptionObject>("CLO.uspGetDataExceptionReport");
-            //return null;
             var command = _cloContext.Database.Connection.CreateCommand();
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.CommandText = "CLO.uspGetDataExceptionReport";
