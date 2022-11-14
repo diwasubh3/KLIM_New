@@ -99,10 +99,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="YCM.Common.Utilities.Data">
-      <HintPath>..\YCM.CLO\packages\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
+      <HintPath>..\UsedReferences\YCM.Common.Utilities.Data.1.0.0.6\lib\YCM.Common.Utilities.Data.dll</HintPath>
     </Reference>
     <Reference Include="YCM.Common.Utils">
-      <HintPath>..\YCM.CLO\packages\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
+      <HintPath>..\UsedReferences\YCM.Common.Utils.2.0.7.23668\lib\YCM.Common.Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
