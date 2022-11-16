@@ -148,11 +148,18 @@ module Application.Controllers {
             };
 
             vm.rootScope.close = function () {
+       
                 var datas = vm.rootScope.gridApi.selection.getSelectedRows();
                 vm.rootScope.colFilter.listTerm = [];
-
+                var filterEmptyValues = false;
                 datas.forEach(function (prop) {
-                    vm.rootScope.colFilter.listTerm.push(prop[vm.rootScope.title]);
+                    var propNew = prop[vm.rootScope.title];
+                   
+                    if (propNew === "") {
+                        propNew ="Empty"
+                        filterEmptyValues = true;
+                    }
+                    vm.rootScope.colFilter.listTerm.push(propNew);
                 });
 
                 vm.rootScope.colFilter.term = vm.rootScope.colFilter.listTerm.join(', ');
@@ -160,7 +167,12 @@ module Application.Controllers {
                 vm.rootScope.colFilter.condition =
 
                     function (searchTerm, activityType) {
-                        return vm.rootScope.colFilter.listTerm.indexOf(activityType) > -1
+                        if (activityType === "" && filterEmptyValues) {// cas
+                            return true;
+                        } else {
+                            return vm.rootScope.colFilter.listTerm.indexOf(activityType) > -1
+                        }
+                        
                     }
 
                 if ($elm) {

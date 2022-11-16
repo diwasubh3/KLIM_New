@@ -87,6 +87,9 @@ namespace YCM.CLO.DataAccess.Models
 
 		public decimal? SOFR { get; set; }
 		public decimal? WAPP { get; set; }
+		public bool? IsNewCalc { get; set; }
+
+		public decimal? CashPer { get; set; }
 	}
 
 

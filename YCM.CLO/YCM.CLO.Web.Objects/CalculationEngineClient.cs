@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Newtonsoft.Json;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Net;
@@ -80,10 +81,40 @@ namespace YCM.CLO.Web.Objects
 
         public bool SendTotalParChangeEmail()
         {
-            var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendTotalParChangeEmail";
-            var request = new { };
-            return SendToCalculationEngine(url, request);
+            try
+            {
+                
+                var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendTotalParChangeEmail";
+                var request = new { };
+                _logger.Info(url);
+                return SendToCalculationEngine(url, request);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error  on Calculation Client method SendTotalParChangeEmail ", ex);
+                return false;
+            }
         }
+
+        public bool SendRecoveryChangeEmail(int startDateId, int endDateId)
+        {
+            try
+            {
+                _logger.Info(" SendRecoveryChangeEmail called");
+
+                var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendRecoveryChangeEmail?startDateId="+startDateId+"&endDateId="+endDateId;
+                var request = new { };
+                _logger.Info(url);
+                return SendToCalculationEngine(url, request);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error("Error  on Calculation Client method  SendRecoveryChangeEmail", ex);
+                return false;
+            }
+            
+        }
+
         public bool SendPriceMoverEmail()
         {
             var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendPriceMoverEmail";
@@ -114,7 +145,26 @@ namespace YCM.CLO.Web.Objects
         }
 
 
+        public bool SendDataExceptionReportingEmail()
+        {
+            try
+            {
+                _logger.Info(" SendDataExceptionReportingEmail called");
 
+                var url = ConfigurationManager.AppSettings["ServiceBaseUrl"] + "/SendDataExceptionReportingEmail";
+
+                _logger.Info(url);
+                var request = new { };
+                _logger.Info(url);
+                return SendToCalculationEngine(url, request);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error  on Calculation Client method SendDataExceptionReportingEmail", ex);
+                return false;
+            }
+
+        }
 
     }
 }

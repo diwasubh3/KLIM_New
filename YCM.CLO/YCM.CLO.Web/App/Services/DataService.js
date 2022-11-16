@@ -60,6 +60,12 @@ var Application;
                 this.loadSummaryData = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/getsummaries');
                 };
+                this.loadTestResults = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettestresults');
+                };
+                this.loadTrends = function (startDate, endDate, trendTypeId, periodId) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/gettrends?trendTypeId=' + trendTypeId.toString() + '&startDate=' + startDate.toString() + '&endDate=' + endDate.toString() + '&periodId=' + periodId.toString());
+                };
                 this.getFieldsForCustomView = function (viewId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/fielddata/getFieldsForCustomView?viewId=' + viewId);
                 };
@@ -237,6 +243,9 @@ var Application;
                 this.generateTradeXML = function (data) {
                     return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/GenerateTradeXML', data);
                 };
+                this.cancelTrade = function (data) {
+                    return _this.httpWrapperFactory.postData(pageOptions.appBasePath + '/tradebookingdata/CancelTrade', data);
+                };
                 this.getIssuerSecurities = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetIssuerSecurities');
                 };
@@ -245,6 +254,9 @@ var Application;
                 };
                 this.getTradeBooking = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBooking');
+                };
+                this.getTradeBookingHistory = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetTradeBookingHistory');
                 };
                 this.getAllocationRule = function (tradeTypeId) {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetAllocationRule?tradeTypeId=' + tradeTypeId);
@@ -328,6 +340,15 @@ var Application;
                 };
                 this.deletePaydown = function (paydown) {
                     return _this.httpWrapperFactory.deleteData(pageOptions.appBasePath + '/paydowndata/deletepaydown?paydownId=' + paydown.paydownId);
+                };
+                this.getFilteredTrades = function (startDate, endDate) {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/tradebookingdata/GetFilteredTrades?startDate=' + startDate.toString() + '&endDate=' + endDate.toString());
+                };
+                this.loadTrendTypes = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendTypes');
+                };
+                this.loadPeriod = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendPeriod');
                 };
                 this.httpWrapperFactory = httpWrapperFactory;
             }

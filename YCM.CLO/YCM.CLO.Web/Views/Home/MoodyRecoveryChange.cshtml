@@ -1,0 +1,40 @@
+﻿@model List<YCM.CLO.DataAccess.Models.MoodyRecoveryChange>
+
+@{
+    Layout = "../Shared/_BlankLayout.cshtml";
+}
+
+<div style="padding:20px">
+
+    <table style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; ">
+                    Fund
+                </th>
+                <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                    Old Recovery rate
+                </th>
+                <th style="border: 1px solid black;text-align: left; padding: 0 20px 0 20px;">
+                    New Recovery rate
+                </th>
+            </tr>
+        </thead>
+        @foreach (var rc in Model)
+        {
+            <tr>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    @rc.Fund
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    @rc.OldRecovery
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    @rc.NewRecovery
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+

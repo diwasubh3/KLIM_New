@@ -25,6 +25,10 @@ namespace YCM.CLO.CalculationEngine.Contracts
         bool SendTotalParChangeEmail(int startDateId, int endDateId);
 
         [OperationContract]
+        [WebInvoke(UriTemplate = "SendRecoveryChangeEmail?startDateId={startDateId}&endDateId={endDateId}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        bool SendRecoveryChangeEmail(int startDateId, int endDateId);
+
+        [OperationContract]
         [WebInvoke(UriTemplate = "ProcessTradeFile?fundId={fundId}&fileDateId={fileDateId}&dateId={dateId}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
         bool ProcessTradeFile(int fundId, int fileDateId, int dateId);
 
@@ -55,6 +59,8 @@ namespace YCM.CLO.CalculationEngine.Contracts
         [WebInvoke(UriTemplate = "CalculateFrontier?dateId={dateId}&fundId={fundId}&user={user}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
         bool CalculateFrontier(int dateId, int fundId, string user);
 
-
+        [OperationContract]
+        [WebInvoke(UriTemplate = "SendDataExceptionReportingEmail", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, Method = "POST")]
+        bool SendDataExceptionReportingEmail();
     }
 }

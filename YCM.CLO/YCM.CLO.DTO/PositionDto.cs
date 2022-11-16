@@ -42,6 +42,7 @@ namespace YCM.CLO.DTO
         public string SnpIndustry { get; set; }
         public string MoodyIndustry { get; set; }
         public string IsCovLite { get; set; }
+        public string AssetType { get; set; }
         public string IsFloating { get; set; }
         public string LienType { get; set; }
         
@@ -403,5 +404,8 @@ namespace YCM.CLO.DTO
         public string PaydownComments { get; set; }
         public string PaydownLastUpdatedOn { get; set; }
         public string PaydownUser { get; set; }
+        public string FitchIndustry { get; set; }
+        public string FitchRating { get; set; }
+        public string Frequency { get; set; }
     }
 }

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div style="padding:20px">
+        <span>Trade booking failed with below details :</span>
+        <br />
+        <span>{errorMessage}</span>
+        <br /> <br />
+
+        <span><b>Trade Booking details:<b></span>
+        <table style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color:lightblue">
+                        Trade Date
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue">
+                        Trade Type
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue ">
+                        Issuer
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue ">
+                        Counter Party
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue">
+                        LoanX Id
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue">
+                        Total Qty
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue">
+                        Price
+                    </th>
+                    <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; background-color: lightblue">
+                        Settlement Type
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; ">
+                    {newTradeDate}
+                </th>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {tradeTypeDesc}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {issuer}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {partyName}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {loanxId}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {totalQty}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {price}
+                </td>
+                <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    {setType}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+</html>

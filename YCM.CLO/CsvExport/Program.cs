@@ -40,7 +40,9 @@ namespace ExportCsv
             _logger.Info(_argument);
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Yoda"].ConnectionString;
 
+            _logger.Info($"Export Process Started");
             Process(_argument, connectionString);
+            _logger.Info($"Export Process Ended");
             return (int)ExitCode.Success;
         }
 
@@ -52,25 +54,37 @@ namespace ExportCsv
 
         private static void ExportData(ImportArgument argument, string connectionString)
         {
-
-            // var date = argument.ImportDate;
-            //
-
-            var import = GetFileExport(connectionString, argument.ImportId);
-            _logger.Info($"File Export properties: {import}");
-
-            var ds = GetExportDatafromSP(connectionString, import.TableName);
-
-            if (ds.Rows.Count == 0)
+            try
             {
-                _logger.Info("No data to Export. Exiting.");
-                return;
+                // var date = argument.ImportDate;
+                //
+                _logger.Info($"ExportData Started");
+                var import = GetFileExport(connectionString, argument.ImportId);
+                _logger.Info($"File Export properties: {import}");
+
+
+                _logger.Info($"GetExportDatafromSP Started");
+                var ds = GetExportDatafromSP(connectionString, import.TableName);
+                _logger.Info($"GetExportDatafromSP Ended");
+
+                if (ds.Rows.Count == 0)
+                {
+                    _logger.Info("No data to Export. Exiting.");
+                    return;
+                }
+
+                _logger.Info("File Writing Started");
+                WriteExcelWithNPOI(ds, "xlsx", Path.Combine(import.FileLocation, import.FileNameMask), "Sheet 1", import.TableName);
+                _logger.Info("File Writing Ended");
+                _logger.Info("Exported succesfully File path" + Path.Combine(import.FileLocation, import.FileNameMask));
+                _logger.Info($"ExportData Ended");
             }
-
-            WriteExcelWithNPOI(ds, "xlsx", Path.Combine(import.FileLocation, import.FileNameMask), "Sheet 1", import.TableName);
-
-            _logger.Info("Exported succesfully File path" + Path.Combine(import.FileLocation, import.FileNameMask));
-
+            catch (Exception ex)
+            {
+                _logger.Error("error in ExportData");
+                _logger.Error(ex);
+                throw ex;
+            }
         }
 
         private static void ExportTOCSV(DataTable dtDataTable, string strFilePath)
@@ -144,131 +158,166 @@ namespace ExportCsv
 
         private static DataTable GetExportDatafromSP(string connectionString, string SPName)
         {
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-                SqlCommand cmd = new SqlCommand(SPName, connection);
-                // cmd.Parameters.Add("@TABLE_NAME", SqlDbType.VarChar, 100).Value = TextBox1.Text;
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter adp = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adp.Fill(dt);
+                    SqlCommand cmd = new SqlCommand(SPName, connection);
+                    // cmd.Parameters.Add("@TABLE_NAME", SqlDbType.VarChar, 100).Value = TextBox1.Text;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adp.Fill(dt);
 
-                return dt;
+                    return dt;
 
 
+                }
+            }catch(Exception ex)
+            {
+                _logger.Error("error in GetExportDatafromSP");
+                _logger.Error(ex);
+                throw ex;
             }
         }
 
         private static FileImport GetFileExport(string connectionString, int importId)
         {
-            using (var connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                using (var cmd = new SqlCommand("SELECT FileNameMask, TableName, FileLocation, DeleteWhereClause"
-                + $", HasHeader, UseDateIdOnFileMask, UseDateIdOnDeleteClauseMask FROM CLO.FileExport WHERE Id = {importId}"
-                    , connection))
+                _logger.Info("GetFileExport Started");
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    using (var reader = cmd.ExecuteReader())
+                    connection.Open();
+                    _logger.Info("Data read from  CLO.FileExport Started");
+                    using (var cmd = new SqlCommand("SELECT FileNameMask, TableName, FileLocation, DeleteWhereClause"
+                    + $", HasHeader, UseDateIdOnFileMask, UseDateIdOnDeleteClauseMask FROM CLO.FileExport WHERE Id = {importId}"
+                        , connection))
                     {
-                        reader.Read();
-                        var imp = new FileImport
+                       
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            FileLocation = reader[nameof(FileImport.FileLocation)].ToString()
-                            ,
-                            FileNameMask = reader[nameof(FileImport.FileNameMask)].ToString()
-                            ,
-                            TableName = reader[nameof(FileImport.TableName)].ToString()
-                            ,
-                            DeleteWhereClause = reader[nameof(FileImport.DeleteWhereClause)].ToString()
-                            ,
-                            HasHeader = reader.GetBoolValueOrDefault(nameof(FileImport.HasHeader))
-                            ,
-                            UseDateIdOnFileMask = reader.GetBoolValueOrDefault(nameof(FileImport.UseDateIdOnFileMask))
-                            ,
-                            UseDateIdOnDeleteClauseMask = reader.GetBoolValueOrDefault(nameof(FileImport.UseDateIdOnDeleteClauseMask))
-                        };
-                        return imp;
+                            reader.Read();
+                            var imp = new FileImport
+                            {
+                                FileLocation = reader[nameof(FileImport.FileLocation)].ToString()
+                                ,
+                                FileNameMask = reader[nameof(FileImport.FileNameMask)].ToString()
+                                ,
+                                TableName = reader[nameof(FileImport.TableName)].ToString()
+                                ,
+                                DeleteWhereClause = reader[nameof(FileImport.DeleteWhereClause)].ToString()
+                                ,
+                                HasHeader = reader.GetBoolValueOrDefault(nameof(FileImport.HasHeader))
+                                ,
+                                UseDateIdOnFileMask = reader.GetBoolValueOrDefault(nameof(FileImport.UseDateIdOnFileMask))
+                                ,
+                                UseDateIdOnDeleteClauseMask = reader.GetBoolValueOrDefault(nameof(FileImport.UseDateIdOnDeleteClauseMask))
+                            };
+                            _logger.Info("Data read from  CLO.FileExport Ended");
+                            _logger.Info("GetFileExport Ended");
+                            return imp;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("error in GetFileExport");
+                _logger.Error(ex);
+                throw ex;
             }
         }
 
         public static void WriteExcelWithNPOI(DataTable dt, String extension, string Filepath, string SheetName, string SPName)
         {
-            if (SPName == "[dbo].[CLO.GetPurchaseSalePrices_Monthly]")
+            _logger.Info("WriteExcelWithNPOI Started ");
+            try
             {
+                
                 using (FileStream stream = new FileStream(Filepath, FileMode.Create, FileAccess.Write))
-                {
-                    IWorkbook workbook;
-
-                    if (extension == "xlsx")
                     {
-                        workbook = new XSSFWorkbook();
-                    }
-                    else if (extension == "xls")
-                    {
-                        workbook = new HSSFWorkbook();
-                    }
-                    else
-                    {
-                        throw new Exception("This format is not supported");
-                    }
+                        IWorkbook workbook;
+                        _logger.Info("WriteExcelWithNPOI Excel extension is  " + extension);
+                        if (extension == "xlsx")
+                        {
+                            workbook = new XSSFWorkbook();
+                        }
+                        else if (extension == "xls")
+                        {
+                            workbook = new HSSFWorkbook();
+                        }
+                        else
+                        {
+                            throw new Exception("This format is not supported");
+                        }
 
-                    ISheet sheet1 = workbook.CreateSheet(SheetName);
+                        ISheet sheet1 = workbook.CreateSheet(SheetName);
+                        _logger.Info("Excel Sheet Created");
+                         sheet1.SetColumnWidth(0, 4500);
+                        sheet1.SetColumnWidth(1, 5500);
+                        sheet1.SetColumnWidth(2, 7500);
+                        sheet1.SetColumnWidth(3, 3500);
+                        sheet1.SetColumnWidth(4, 3500);
+                        sheet1.SetColumnWidth(5, 3500);
+                        sheet1.SetColumnWidth(6, 5500);
+                        sheet1.SetColumnWidth(7, 6500);
+                        sheet1.SetColumnWidth(8, 6000);
 
-                    sheet1.SetColumnWidth(0, 4500);
-                    sheet1.SetColumnWidth(1, 5500);
-                    sheet1.SetColumnWidth(2, 7500);
-                    sheet1.SetColumnWidth(3, 3500);
-                    sheet1.SetColumnWidth(4, 3500);
-                    sheet1.SetColumnWidth(5, 3500);
-                    sheet1.SetColumnWidth(6, 5500);
-                    sheet1.SetColumnWidth(7, 6500);
-                    sheet1.SetColumnWidth(8, 6000);
-
-                    //make a header row
-                    IRow row1 = sheet1.CreateRow(0);
-                    for (int j = 0; j < dt.Columns.Count; j++)
-                    {
-                        ICell cell = row1.CreateCell(j);
-                        String columnName = dt.Columns[j].ToString();
-                        cell.SetCellValue(columnName);
-                    }
-
-
-                    //loops through data
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        IRow row = sheet1.CreateRow(i + 1);
+                        //make a header row
+                        IRow row1 = sheet1.CreateRow(0);
                         for (int j = 0; j < dt.Columns.Count; j++)
                         {
-                            ICell cell = row.CreateCell(j);
+                            ICell cell = row1.CreateCell(j);
                             String columnName = dt.Columns[j].ToString();
-                            if (Convert.ToDouble(dt.Rows[i][11].ToString()) >= 1 || Convert.ToDouble(dt.Rows[i][12].ToString()) >= 1)
-                            {
-                                ICellStyle fCellStyle = workbook.CreateCellStyle();
-                                fCellStyle.FillForegroundColor = HSSFColor.Yellow.Index;
-                                fCellStyle.FillPattern = FillPattern.SolidForeground;
-                                cell.CellStyle = fCellStyle;
-                            }
-                            if (j == 3 || j == 4 || j == 9 || j == 10 || j == 11 || j == 12)
-                            {
-                                cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
-                                cell.CellStyle.Alignment = HorizontalAlignment.Right;
-
-                            }
-                            else
-                            {
-                                cell.SetCellValue(dt.Rows[i][columnName].ToString());
-                            }
-
+                            cell.SetCellValue(columnName);
                         }
-                    }
-                    workbook.Write(stream);
+                        _logger.Info("Excel Headers Created");
+                       
+                        //loops through data
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            IRow row = sheet1.CreateRow(i + 1);
+                            for (int j = 0; j < dt.Columns.Count; j++)
+                            {
+                                ICell cell = row.CreateCell(j);
+                                String columnName = dt.Columns[j].ToString();
+                                if (Convert.ToDouble(dt.Rows[i][11].ToString()) >= 1 || Convert.ToDouble(dt.Rows[i][12].ToString()) >= 1)
+                                {
+                                    ICellStyle fCellStyle = workbook.CreateCellStyle();
+                                    fCellStyle.FillForegroundColor = HSSFColor.Yellow.Index;
+                                    fCellStyle.FillPattern = FillPattern.SolidForeground;
+                                    cell.CellStyle = fCellStyle;
+                                }
+                                if (j == 3 || j == 4 || j == 9 || j == 10 || j == 11 || j == 12)
+                                {
+                                    cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
+                                    cell.CellStyle.Alignment = HorizontalAlignment.Right;
+
+                                }
+                                else
+                                {
+                                    cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                                }
+
+                            }
+                        }
+                        _logger.Info("Looping though data Completed");
+                        workbook.Write(stream);
+                        _logger.Info("Data written to Sheet");
+                        _logger.Info("WriteExcelWithNPOI Ended ");
                 }
+                
             }
+            catch(Exception ex)
+            {
+                _logger.Error("error in WriteExcelWithNPOI");
+                _logger.Error(ex);
+                throw ex;
+            }
+           
         }
 
         

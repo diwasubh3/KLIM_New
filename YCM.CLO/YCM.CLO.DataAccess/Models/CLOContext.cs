@@ -61,6 +61,7 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<vw_AnalystResearch> vw_AnalystResearch { get; set; }
         public DbSet<vw_Calculation> vw_Calculation { get; set; }
         public DbSet<vw_CLOSummary> vw_CLOSummary { get; set; }
+        public DbSet<vw_CLOTestResults> vw_CLOTestResults { get; set; }
         public DbSet<vw_CurrentActiveSecurityOverrides> vw_CurrentActiveSecurityOverrides { get; set; }
         public DbSet<vw_CurrentAnalystResearch> vw_CurrentAnalystResearch { get; set; }
         
@@ -113,6 +114,7 @@ namespace YCM.CLO.DataAccess.Models
         public DbSet<TradeBooking> TradeBooking { get; set; }
         public DbSet<TradeReason> TradeReason { get; set; }
         public DbSet<AssetType> AssetType { get; set; }
+        public DbSet<TrendType> TrendType { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -163,6 +165,7 @@ namespace YCM.CLO.DataAccess.Models
             modelBuilder.Configurations.Add(new vw_AnalystResearchMap());
             modelBuilder.Configurations.Add(new vw_CalculationMap());
             modelBuilder.Configurations.Add(new vw_CLOSummaryMap());
+            modelBuilder.Configurations.Add(new vw_CLOTestResultsMap());
             modelBuilder.Configurations.Add(new vw_CurrentActiveSecurityOverridesMap());
             modelBuilder.Configurations.Add(new vw_CurrentAnalystResearchMap());
             modelBuilder.Configurations.Add(new vw_MarketDataMap());

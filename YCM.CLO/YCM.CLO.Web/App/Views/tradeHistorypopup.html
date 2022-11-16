@@ -16,7 +16,7 @@
 <div ng-show="researchpopup.isLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
     <img src="{{researchpopup.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{researchpopup.statusText}}...</b>
 </div>
-<div class="modal-body" style="max-height: 777px;overflow-y: auto">
+<div class="modal-body" style="min-height: 150px; max-height: 777px; overflow-y: auto">
     Trade History for <b>{{researchpopup.issuer}}</b> (<b>{{researchpopup.securitycode}}</b>)
     &nbsp;&nbsp;<button type="button" data-ng-click="researchpopup.exportExcel('tbl_tradeHistoryDetails', 'TradeHistoryExport')"> Export To CSV </button>
     <button type="button" class="close" data-dismiss="dialog" data-ng-click="researchpopup.cancel()" style="font-size: 18px !important;">

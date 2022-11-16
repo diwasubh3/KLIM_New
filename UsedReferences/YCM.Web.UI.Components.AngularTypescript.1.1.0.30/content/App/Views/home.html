@@ -1,0 +1,52 @@
+﻿<div class="jumbotron text-center">
+    <h1>Home Page</h1>
+</div>
+
+<div class="col-md-12 p-0 table-header" style="margin-top: 10px;height:27px">
+    <table class="table table-bordered table-condensed"  ng-table="home.tableParams" style="border-width: 0;margin-bottom: 0px">
+        <thead>
+            <tr>
+                
+                <th rowspan="2" class="sortable" style="text-align: left;width:245px;border-width:0px;cursor:pointer" ng-class="{'sort-asc': home.tableParams.isSortBy('FirstName', 'asc'),
+                    'sort-desc': home.tableParams.isSortBy('FirstName', 'desc')
+                  }"
+                    ng-click="home.sortTableParams('FirstName')">
+                    <div>
+                        First Name
+                        <span ng-show="home.tableParams.isSortBy('FirstName', 'asc')" class="pull-right"><i class="icon-caret-up"></i></span>
+                        <span ng-show="home.tableParams.isSortBy('FirstName', 'desc')" class="pull-right"><i class="icon-caret-down"></i></span>
+                    </div>
+                </th>
+
+                <th rowspan="2" class="sortable" style="text-align: left;width:250px;border-width:0px;cursor:pointer" ng-class="{'sort-asc': home.tableParams.isSortBy('LastName', 'asc'),
+                    'sort-desc': home.tableParams.isSortBy('LastName', 'desc')
+                  }"
+                    ng-click="home.sortTableParams('LastName')">
+                    <div>
+                        Last Name
+                        <span ng-show="home.tableParams.isSortBy('LastName', 'asc')" class="pull-right"><i class="icon-caret-up"></i></span>
+                        <span ng-show="home.tableParams.isSortBy('LastName', 'desc')" class="pull-right"><i class="icon-caret-down"></i></span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div class="col-md-12 p-0" style="height: 500px;overflow-y: scroll">
+    <table class="table table-bordered noth table-condensed" ng-table="home.tableParams"
+           id="tblSummaryBody"
+           style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+        <thead style="display:none">
+
+        </thead>
+        <tbody>
+            <tr ng-repeat="data in $data">
+                <td style="width:250px;border-width:0px">{{data.FirstName}}</td>
+                <td style="width:250px;border-width:0px">{{data.LastName}}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
