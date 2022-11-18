@@ -306,6 +306,7 @@
     <Content Include="App\Views\collateralqualitymatrix.html" />
     <Content Include="App\Views\buyselltrade.html" />
     <Content Include="App\Views\confirmcustomviewdelete.html" />
+    <Content Include="App\Views\DayOverChanges.html" />
     <Content Include="App\Views\filterpositions.html" />
     <Content Include="App\Views\message.html" />
     <Content Include="App\Views\confirmsecurityrecon.html" />
@@ -674,6 +675,7 @@
     <TypeScriptCompile Include="App\Controllers\ConfirmCustomViewDeleteController.ts" />
     <TypeScriptCompile Include="App\Controllers\CustomModalFilterCtrl.ts" />
     <TypeScriptCompile Include="App\Controllers\BuySellTradeController.ts" />
+    <TypeScriptCompile Include="App\Controllers\DayOverChangesController.ts" />
     <TypeScriptCompile Include="App\Controllers\FilterPositionsController.ts" />
     <TypeScriptCompile Include="App\Controllers\PaydownController.ts" />
     <TypeScriptCompile Include="App\Controllers\ReportingController.ts" />

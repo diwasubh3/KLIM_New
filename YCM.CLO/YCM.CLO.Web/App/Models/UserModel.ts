@@ -1209,6 +1209,54 @@
         periodName: string;
         isDefault: boolean;
     }
+
+    export interface IRatingChange {
+        issuer: string;
+        totalPar: number;
+        moodyCFJAdjNew: string;
+        moodyCFJAdjOld: string;
+        moodyFacitityRatingNew: string;
+        moodyFacitityRatinOld: string;
+        snPIssuerRatingNew: string;
+        snPIssuerRatingOld: string;
+    }
+
+    export interface ITotalParChange {
+        fund: string;
+        previous_TotalPar: number;
+        current_TotalPar: number;
+        totalPar_Diff: number;
+    }
+
+    export interface IMoodyRecoveryChange {
+        fund: string;
+        oldRecovery: number;
+        newRecovery: number;
+    }
+
+    export interface IMoodyRecoveryChange {
+        fund: string;
+        oldRecovery: number;
+        newRecovery: number;
+    }
+
+    export interface IPriceMove {
+        issuer: string;
+        totalPar: number;
+        priceMove: number;
+        bid: number;
+        costPrice: number;
+        moodyCFR: string;
+    }
+
+    export interface ITopBottonPriceMovers {
+        isStale: boolean;
+        prev5BusinessDay: string;
+        prevDayTop: Array<Models.IPriceMove>;
+        prevDayBottom: Array<Models.IPriceMove>;
+        prev5DayTop: Array<Models.IPriceMove>;
+        prev5DayBottom: Array<Models.IPriceMove>;
+    }
 }
 
 
