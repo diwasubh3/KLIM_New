@@ -629,6 +629,23 @@ module Application.Services {
             return paydown;
         }
 
+        showChartsPopup = (modalService: angular.ui.bootstrap.IModalService, trendsData: Array<Application.Models.ITrends>) => {
+            var modalInstance = modalService.open({
+                templateUrl: pageOptions.appBasePath + 'app/views/chartsPopup.html?v=' + pageOptions.appVersion,
+                controller: 'application.controllers.chartsPopupController',
+                controllerAs: 'chartsPopup',
+                windowClass: 'app-modal-window',
+                resolve: {
+                    sourcedata: () => {
+                        var data: any = {};
+                        data.trendsData = trendsData;
+                        return data;
+                    }
+                }
+            });
+
+        }
+
     }
 
     angular.module("app").service("application.services.uiService", UIService);

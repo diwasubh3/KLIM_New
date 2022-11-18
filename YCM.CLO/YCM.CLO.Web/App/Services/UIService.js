@@ -530,6 +530,21 @@ var Application;
                     };
                     return paydown;
                 };
+                this.showChartsPopup = function (modalService, trendsData) {
+                    var modalInstance = modalService.open({
+                        templateUrl: pageOptions.appBasePath + 'app/views/chartsPopup.html?v=' + pageOptions.appVersion,
+                        controller: 'application.controllers.chartsPopupController',
+                        controllerAs: 'chartsPopup',
+                        windowClass: 'app-modal-window',
+                        resolve: {
+                            sourcedata: function () {
+                                var data = {};
+                                data.trendsData = trendsData;
+                                return data;
+                            }
+                        }
+                    });
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
                 this.uiGridConstants = uiGridConstants;
                 this.sce = $sce;

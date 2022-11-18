@@ -1,6 +1,7 @@
 ﻿
 module Application.Controllers {
     export class TopNavController {
+        modalService: angular.ui.bootstrap.IModalService;
         rootScope: ng.IRootScopeService;
         summaryTableParams: any;
         testResultsTableParams: any;
@@ -38,8 +39,9 @@ module Application.Controllers {
         selectedTrend: any;
         tooltipTextTemplate: string = '<div>__CONTENT__</div>';
         isDateDisabled = false;
-        static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
-        constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, ngTableParams: NgTableParams, $filter: ng.IFilterService, $window: ng.IWindowService, $interval: ng.IIntervalService) {
+       
+        static $inject = ["$uibModal","application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
+        constructor(modalService: angular.ui.bootstrap.IModalService,uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, ngTableParams: NgTableParams, $filter: ng.IFilterService, $window: ng.IWindowService, $interval: ng.IIntervalService) {
             var vm = this;
             vm.uiService = uiService;
             vm.rootScope = $rootScope;
@@ -51,6 +53,7 @@ module Application.Controllers {
             vm.interval = $interval;
             vm.ngTestTableParamas = ngTableParams;
             vm.ngTrendTableParams = ngTableParams;
+            vm.modalService = modalService;
             
             const yesterday = new Date(new Date())
             yesterday.setDate(yesterday.getDate() - 1);
@@ -260,6 +263,11 @@ module Application.Controllers {
             //}
             vm.isLoading = false;
             //});
+        }
+
+        showCharts = () => {
+            var vm = this;
+            vm.uiService.showChartsPopup(vm.modalService, vm.trendsData);
         }
 
         setTrendsData = (trendResultsData: Models.ITrends[]) => {

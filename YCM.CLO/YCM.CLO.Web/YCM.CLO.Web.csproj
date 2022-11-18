@@ -303,6 +303,7 @@
     <Content Include="App\Views\addnewtrade-tradedetails.htm" />
     <Content Include="App\Views\analystresearchpopup.html" />
     <Content Include="App\Views\bbgPopup.html" />
+    <Content Include="App\Views\chartsPopup.html" />
     <Content Include="App\Views\collateralqualitymatrix.html" />
     <Content Include="App\Views\buyselltrade.html" />
     <Content Include="App\Views\confirmcustomviewdelete.html" />
@@ -428,6 +429,7 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-chart.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
@@ -539,6 +541,9 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Scripts\charts\chart.esm.min.js" />
+    <Content Include="Scripts\charts\chart.min.js" />
+    <Content Include="Scripts\charts\helpers.esm.min.js" />
     <Content Include="Scripts\DatePicker\angular-bootstrap-datepicker.js" />
     <Content Include="Scripts\file-saver\bower.json" />
     <Content Include="Scripts\file-saver\demo\index.xhtml" />
@@ -651,6 +656,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\CalcilationEngine\" />
     <Folder Include="Views\Calculation\" />
+    <Folder Include="Views\ChartsPopup\" />
     <Folder Include="Views\MatrixData\" />
     <Folder Include="Views\Permission\" />
     <Folder Include="Views\TradebookingData\" />
@@ -669,6 +675,7 @@
     <TypeScriptCompile Include="App\app.ts" />
     <TypeScriptCompile Include="App\Controllers\AnalystResearchPopupController.ts" />
     <TypeScriptCompile Include="App\Controllers\BbgPopupController.ts" />
+    <TypeScriptCompile Include="App\Controllers\ChartsPopupController.ts" />
     <TypeScriptCompile Include="App\Controllers\CollateralQualityMatrixController.ts" />
     <TypeScriptCompile Include="App\Controllers\ConfirmMatrixPointController.ts" />
     <TypeScriptCompile Include="App\Controllers\ConfirmCustomViewDeleteController.ts" />

@@ -3,7 +3,7 @@ var Application;
     var Controllers;
     (function (Controllers) {
         var TopNavController = (function () {
-            function TopNavController(uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
+            function TopNavController(modalService, uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
                 var _this = this;
                 this.appBasePath = pageOptions.appBasePath;
                 this.hideNotActive = false;
@@ -170,6 +170,10 @@ var Application;
                     //}
                     vm.isLoading = false;
                     //});
+                };
+                this.showCharts = function () {
+                    var vm = _this;
+                    vm.uiService.showChartsPopup(vm.modalService, vm.trendsData);
                 };
                 this.setTrendsData = function (trendResultsData) {
                     var vm = _this;
@@ -453,6 +457,7 @@ var Application;
                 vm.interval = $interval;
                 vm.ngTestTableParamas = ngTableParams;
                 vm.ngTrendTableParams = ngTableParams;
+                vm.modalService = modalService;
                 var yesterday = new Date(new Date());
                 yesterday.setDate(yesterday.getDate() - 1);
                 var lastMonthdate = new Date(new Date());
@@ -489,7 +494,7 @@ var Application;
             };
             return TopNavController;
         }());
-        TopNavController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
+        TopNavController.$inject = ["$uibModal", "application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
         Controllers.TopNavController = TopNavController;
         angular.module("app").controller("topNavController", TopNavController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));

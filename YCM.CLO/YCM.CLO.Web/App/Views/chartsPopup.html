@@ -1,0 +1,31 @@
+﻿<style>
+    .panel-default .panel-body {
+        padding: 0px;
+    }
+
+    .panel-default .panel-heading {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .panel-default .panel-title {
+        font-size: 12px;
+    }
+</style>
+<div style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+    <!-- <img src="{{researchpopup.appBasePath}}/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;{{researchpopup.statusText}}...</b>-->
+</div>
+<div class="modal-body">
+    <!--Trade History for <b>{{researchpopup.issuer}}</b> (<b>{{researchpopup.securitycode}}</b>)
+    &nbsp;&nbsp;<button type="button" data-ng-click="researchpopup.exportExcel('tbl_tradeHistoryDetails', 'TradeHistoryExport')"> Export To CSV </button>-->
+    <button type="button" class="close" data-dismiss="dialog" data-ng-click="chartsPopup.cancel()" style="font-size: 18px !important;">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <div style="padding: 0px !important;">
+        <!--<div class="chart-container" style="position: relative; height: 40vh; width: 80vw">-->
+        <canvas id="trendsChart"></canvas>
+        <!-- </div> -->
+    </div>
+</div>
+
