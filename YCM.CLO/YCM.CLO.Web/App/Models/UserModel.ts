@@ -1214,9 +1214,9 @@
         issuer: string;
         totalPar: number;
         moodyCFJAdjNew: string;
-        moodyCFJAdjOld: string;
+        moodyCFRAdjOld: string;
         moodyFacitityRatingNew: string;
-        moodyFacitityRatinOld: string;
+        moodyFacitityRatingOld: string;
         snPIssuerRatingNew: string;
         snPIssuerRatingOld: string;
     }

@@ -23,6 +23,9 @@
         prevDayBottomCount: number;
         prev5DayTopCount: number;
         prev5DayBottomCount: number;
+        isRatingDataAvailable: boolean = false;
+        isMoodyDataAvailable: boolean = false;
+        isTotalParDataAvailable: boolean = false;
 
         constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, $scope: angular.IScope, uiGridConstants: any, exportUiGridService: any) {
             var vm = this;
@@ -42,6 +45,8 @@
             vm.dataService.getRatingchanges().then((ratechange) => {
                 vm.ratingchanges = ratechange;
                 vm.isLoading = false;
+                if (vm.ratingchanges.length <= 0)
+                    vm.isRatingDataAvailable = true;
             });
         }
 
@@ -52,6 +57,8 @@
             vm.dataService.getTotalParChanges().then((totalpar) => {
                 vm.totalparchanges = totalpar;
                 vm.isLoading = false;
+                if (vm.totalparchanges.length <= 0)
+                    vm.isTotalParDataAvailable  = true;
             });
         }
 
@@ -62,6 +69,8 @@
             vm.dataService.getMoodyRecoveryDateChanges().then(moody => {
                 vm.moodyrecoverychanges = moody;
                 vm.isLoading = false;
+                if (vm.moodyrecoverychanges.length <= 0)
+                    vm.isMoodyDataAvailable = true;
             });
         }
 
