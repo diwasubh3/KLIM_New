@@ -37,7 +37,7 @@ module Application.Controllers {
 
             vm.timeoutService(function () {
                 var check = document.getElementById('acquisitions');
-                var fundColors = ['#ff6384', '#36a2eb', '#cc65fe', '#00ff80', '#66ff33', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#996633'];
+                var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#66ff33', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399','#ff6384'];
                 var chartDataSet = [];
                 for (var i = 1; i < 11; i++) {
                     var fundDataSet = {
