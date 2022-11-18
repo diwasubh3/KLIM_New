@@ -997,7 +997,7 @@ namespace YCM.CLO.CalculationEngine
                         if (count == reconReport.Count)
                         {
                             _logger.Info("No Data Exception Found and hence no email will be sent today");
-                            return false;
+                            return true;
                         }
                     }
                     _logger.Info("Recon Change Found:");

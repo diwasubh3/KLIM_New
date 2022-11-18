@@ -350,6 +350,18 @@ var Application;
                 this.loadPeriod = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendPeriod');
                 };
+                this.getRatingchanges = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetRatingChanges');
+                };
+                this.getTotalParChanges = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParChanges');
+                };
+                this.getMoodyRecoveryDateChanges = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetMoodyRecoveryDateChanges');
+                };
+                this.getTopBottomPriceMoversChanges = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTopBottomPriceMovers');
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
             }
             return DataService;

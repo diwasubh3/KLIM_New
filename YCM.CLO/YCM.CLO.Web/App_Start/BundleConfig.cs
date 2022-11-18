@@ -97,7 +97,8 @@ namespace YCM.CLO.Web
                "~/App/Controllers/ConfirmMatrixPointController.js",
                "~/App/Controllers/ReportingController.js",
                "~/App/Controllers/PaydownController.js",
-               "~/App/Controllers/TradeBookingController.js"
+               "~/App/Controllers/TradeBookingController.js",
+               "~/App/Controllers/DayOverChangesController.js"
                ));
 
             bundles.Add(new ScriptBundle("~/bundles/YorkScriptsFinal").Include(

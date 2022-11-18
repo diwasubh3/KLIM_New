@@ -462,6 +462,23 @@
         loadPeriod = () => {
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTrendPeriod');
         }
+
+        getRatingchanges = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetRatingChanges');
+        }
+
+        getTotalParChanges = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParChanges');
+        }
+
+        getMoodyRecoveryDateChanges = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetMoodyRecoveryDateChanges');
+        }
+
+        getTopBottomPriceMoversChanges = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTopBottomPriceMovers');
+        }
+
     }
 
     angular.module("app").service("application.services.dataService", DataService);
