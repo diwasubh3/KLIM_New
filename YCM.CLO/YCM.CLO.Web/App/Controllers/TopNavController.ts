@@ -246,28 +246,12 @@ module Application.Controllers {
                 vm.setTrendsData(trendResultsData);
                 vm.setTrendTableParams();
             });
-            //if (!pageOptions.TrendsResult) {
-            //    //trendTypeId = vm.trendtype.typeID;
-            //    //if (trendTypeId == 'undefined' || trendTypeId <= 0)
-            //    //    trendTypeId = 1;
-            //    vm.dataService.loadTrends(vm.trendTypeId, vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then((trendResultsData) => {
-            //        //debugger;
-            //        pageOptions.TrendsResult = trendResultsData;
-            //        vm.setTrendsData(trendResultsData);
-            //        vm.setTrendTableParams();
-            //    });
-            //}
-            //else {
-            //    vm.setTrendsData(pageOptions.TrendsResult);
-            //    vm.setTrendTableParams();
-            //}
             vm.isLoading = false;
-            //});
         }
 
         showCharts = () => {
             var vm = this;
-            vm.uiService.showChartsPopup(vm.modalService, vm.trendsData);
+            vm.uiService.showChartsPopup(vm.modalService, vm.trendsData, vm.trendPeriod, vm.trendtypes, vm.period, vm.trendType );
         }
 
         setTrendsData = (trendResultsData: Models.ITrends[]) => {

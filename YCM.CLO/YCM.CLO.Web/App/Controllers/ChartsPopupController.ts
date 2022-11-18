@@ -13,30 +13,54 @@ module Application.Controllers {
         scope: ng.IScope;
         windowService: ng.IWindowService;
         timeoutService: ng.ITimeoutService;
-        
-        
-
+        trendsData: any;
+        trendPeriod: any;
+        trendtypes: any;
+        period: any;
+        trendType: any;
+        startDate: any;
+        endDate: any;
+        isDateDisabled = false;
+        trendsChart: any;
+       
 
         static $inject = ["application.services.dataService", "$window", "$scope", "$uibModalInstance", 'NgTableParams', '$timeout', 'sourcedata'];
 
-        constructor(dataService: Application.Services.Contracts.IDataService, $window: ng.IWindowService, $scope: angular.IScope, $modalInstance: angular.ui.bootstrap.IModalServiceInstance, ngTableParams: NgTableParams, $timeout: ng.ITimeoutService, sourcedata:any) {
+        constructor(dataService: Application.Services.Contracts.IDataService, $window: ng.IWindowService, $scope: angular.IScope, $modalInstance: angular.ui.bootstrap.IModalServiceInstance, ngTableParams: NgTableParams, $timeout: ng.ITimeoutService, sourcedata: any) {
             var vm = this;
             vm.windowService = $window;
             vm.timeoutService = $timeout;
+            vm.dataService = dataService;
             vm.modalInstance = $modalInstance;
             vm.sourcedata = sourcedata;
-            vm.loadChartData();
+            vm.trendsData = vm.sourcedata.trendsData
+            vm.trendtypes = vm.sourcedata.trendtypes;
+            vm.trendType = vm.sourcedata.trendType;
+            vm.trendPeriod = vm.sourcedata.trendPeriod;
+            vm.period = vm.sourcedata.period;
+            const yesterday = new Date(new Date())
+            yesterday.setDate(yesterday.getDate() - 1);
+            const lastMonthdate = new Date(new Date())
+            lastMonthdate.setDate(lastMonthdate.getDate() - 45);
+            vm.startDate = lastMonthdate;
+            vm.endDate = yesterday;
+
+            vm.loadCharts();
+            vm.disableTrendDates();
         }
 
-        loadChartData = () => {
+        loadCharts = () => {
             var vm = this;
-            var trendsData = vm.sourcedata.trendsData;
+            var trendsData = vm.trendsData;
             trendsData = trendsData.sort((a, b) => {
                 return new Date(a.trendDate).getTime() - new Date(b.trendDate).getTime();
             });
 
             vm.timeoutService(function () {
-                var check = document.getElementById('acquisitions');
+                if (vm.trendsChart) {
+                    vm.trendsChart.destroy();
+                }
+                var chartDiv = document.getElementById('trendsChart')
                 var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#66ff33', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399','#ff6384'];
                 var chartDataSet = [];
                 for (var i = 1; i < 11; i++) {
@@ -50,8 +74,8 @@ module Application.Controllers {
                     chartDataSet.push(fundDataSet);
                 }
               
-                var trendsChart = new vm.windowService.Chart(
-                    document.getElementById('trendsChart'),
+                vm.trendsChart = new vm.windowService.Chart(
+                    chartDiv,
                     {
                         type: 'line',
                         data: {
@@ -76,11 +100,65 @@ module Application.Controllers {
            
         }
 
+        periodChangeEvent = () => {
+            this.disableTrendDates()
+        }
 
+        disableTrendDates = () => {
+            var vm = this;
+            if (vm.period.periodName === "Daily") {
+                vm.isDateDisabled = false;
+            } else {
+                vm.isDateDisabled = true;
+            }
+        }
         cancel = () => {
             var vm = this;
             vm.statusText ="Closing"
             vm.modalInstance.dismiss('cancel');
+        }
+        loadTrends = () => {
+            var vm = this;
+            vm.statusText = "Loading";
+            vm.isLoading = true;
+            var trendTypeId;
+            if (vm.trendType) trendTypeId = vm.trendType.typeID;
+            else trendTypeId = 1; // Default
+            var periodId = vm.period ? vm.period.periodId : 1;
+
+            vm.dataService.loadTrends(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString(), trendTypeId, periodId).then((trendResultsData) => {
+                pageOptions.TrendsResult = trendResultsData;
+                vm.setTrendsData(trendResultsData);
+            });
+            vm.isLoading = false;
+        }
+
+        setTrendsData = (trendResultsData: Models.ITrends[]) => {
+            var vm = this;
+            var redColor = { 'background-color': 'lightcoral', 'color': '#333333' };
+            var greenColor = { 'background-color': 'lightgreen', 'color': '#333333' };
+
+            trendResultsData.forEach((tData, idx) => {
+                for (var i = 1; i < 12; i++) {
+                    tData["fundOvercollateralization" + i] = (tData["fundOvercollateralization" + i] / 1000000).toFixed(1);
+                    tData["fundOvercollateralization" + i + "Old"] = (tData["fundOvercollateralization" + i + "Old"] / 1000000).toFixed(1);
+                    if (tData["fundOvercollateralization" + i] === '0.0') {
+                        tData["fundOvercollateralization" + i] = '';
+                        tData["fund" + i + "BgStyle"] = '';
+                    } else {
+                        if (trendResultsData[idx + 1]) {
+                            var diffCollateralization = trendResultsData[idx]["fundOvercollateralization" + i] - (trendResultsData[idx + 1]["fundOvercollateralization" + i] / 1000000);
+                            tData["fund" + i + "BgStyle"] = diffCollateralization > 0.3 ? greenColor : diffCollateralization < -0.3 ? redColor : "";
+                        }
+
+                    }
+
+
+                }
+
+            });
+            vm.trendsData = trendResultsData;
+            vm.loadCharts();
         }
        
     }

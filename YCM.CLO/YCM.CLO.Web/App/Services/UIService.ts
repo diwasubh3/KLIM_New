@@ -629,7 +629,7 @@ module Application.Services {
             return paydown;
         }
 
-        showChartsPopup = (modalService: angular.ui.bootstrap.IModalService, trendsData: Array<Application.Models.ITrends>) => {
+        showChartsPopup = (modalService: angular.ui.bootstrap.IModalService, trendsData: Array<Application.Models.ITrends>, trendPeriod: Array<Models.ITrendPeriod>, trendtypes: Array<Models.ITrendType>, period : any, trendType : any) => {
             var modalInstance = modalService.open({
                 templateUrl: pageOptions.appBasePath + 'app/views/chartsPopup.html?v=' + pageOptions.appVersion,
                 controller: 'application.controllers.chartsPopupController',
@@ -639,6 +639,10 @@ module Application.Services {
                     sourcedata: () => {
                         var data: any = {};
                         data.trendsData = trendsData;
+                        data.trendPeriod = trendPeriod;
+                        data.trendtypes = trendtypes;
+                        data.period = period;
+                        data.trendType = trendType;
                         return data;
                     }
                 }

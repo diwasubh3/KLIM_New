@@ -530,7 +530,7 @@ var Application;
                     };
                     return paydown;
                 };
-                this.showChartsPopup = function (modalService, trendsData) {
+                this.showChartsPopup = function (modalService, trendsData, trendPeriod, trendtypes, period, trendType) {
                     var modalInstance = modalService.open({
                         templateUrl: pageOptions.appBasePath + 'app/views/chartsPopup.html?v=' + pageOptions.appVersion,
                         controller: 'application.controllers.chartsPopupController',
@@ -540,6 +540,10 @@ var Application;
                             sourcedata: function () {
                                 var data = {};
                                 data.trendsData = trendsData;
+                                data.trendPeriod = trendPeriod;
+                                data.trendtypes = trendtypes;
+                                data.period = period;
+                                data.trendType = trendType;
                                 return data;
                             }
                         }
