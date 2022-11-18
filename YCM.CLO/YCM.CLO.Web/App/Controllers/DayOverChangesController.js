@@ -9,6 +9,9 @@ var Application;
                 //ngTableParams: any;
                 this.statusText = "Loading";
                 this.gridHeight = { 'height': '402px' };
+                this.isRatingDataAvailable = false;
+                this.isMoodyDataAvailable = false;
+                this.isTotalParDataAvailable = false;
                 this.loadRatingChanges = function () {
                     var vm = _this;
                     vm.statusText = "Loading";
@@ -16,6 +19,8 @@ var Application;
                     vm.dataService.getRatingchanges().then(function (ratechange) {
                         vm.ratingchanges = ratechange;
                         vm.isLoading = false;
+                        if (vm.ratingchanges.length <= 0)
+                            vm.isRatingDataAvailable = true;
                     });
                 };
                 this.loadTotalParChanges = function () {
@@ -25,6 +30,8 @@ var Application;
                     vm.dataService.getTotalParChanges().then(function (totalpar) {
                         vm.totalparchanges = totalpar;
                         vm.isLoading = false;
+                        if (vm.totalparchanges.length <= 0)
+                            vm.isTotalParDataAvailable = true;
                     });
                 };
                 this.loadMoodyRecoveryDateChanges = function () {
@@ -34,6 +41,8 @@ var Application;
                     vm.dataService.getMoodyRecoveryDateChanges().then(function (moody) {
                         vm.moodyrecoverychanges = moody;
                         vm.isLoading = false;
+                        if (vm.moodyrecoverychanges.length <= 0)
+                            vm.isMoodyDataAvailable = true;
                     });
                 };
                 /*count <= 15 ? count : 15;*/
