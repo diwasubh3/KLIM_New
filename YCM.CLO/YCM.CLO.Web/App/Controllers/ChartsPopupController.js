@@ -28,7 +28,8 @@ var Application;
                                 data: trendsData.map(function (row) { return row["fundOvercollateralization" + i]; }),
                                 borderColor: fundColors[i],
                                 fill: false,
-                                tensions: 0.1
+                                tensions: 0.1,
+                                hidden: i === 1 ? false : true
                             };
                             chartDataSet.push(fundDataSet);
                         }

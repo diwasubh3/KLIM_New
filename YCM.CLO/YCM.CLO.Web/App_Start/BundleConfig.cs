@@ -28,7 +28,7 @@ namespace YCM.CLO.Web
                 "~/Scripts/YorkNet/YorkNetAll.js",
                 "~/Scripts/jquery.unhandledexception.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/VendorJS").Include(
+            bundles.Add(new Bundle("~/bundles/VendorJS").Include(
                  "~/Scripts/angular.min.js",
                  "~/Scripts/angular-route.min.js",
                  "~/Scripts/angular-sanitize.js",
