@@ -69,7 +69,7 @@ module Application.Controllers {
                         data: trendsData.map(row => row["fundOvercollateralization" + i]),
                         borderColor: fundColors[i],
                         fill: false,
-                        tensions: 0.1,
+                        lineTension: 0.4,
                         hidden: i === 1 ?false: true
                     }
                     chartDataSet.push(fundDataSet);
