@@ -789,24 +789,24 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
-                if (startDateId == null)
+                if (endDateId == null)
                 {
                     var today = DateTime.Today;
 
                     if (today.DayOfWeek == DayOfWeek.Monday)
                     {
-                        startDateId = Helper.GetDateId(today.AddDays(-4));
+                        endDateId = Helper.GetDateId(today.AddDays(-4));
                     }
                     else
                     {
-                        startDateId = Helper.GetDateId(today.AddDays(-2));
+                        endDateId = Helper.GetDateId(today.AddDays(-2));
                     }
                 }
 
-                if (endDateId == null)
+                if (startDateId == null)
                 {
                     var today = DateTime.Today;
-                    endDateId = Helper.GetDateId(today.AddDays(-1));
+                    startDateId = Helper.GetDateId(today.AddDays(-1));
                 }
                 _logger.Info($"_repository is null? {_repository == null}");
                 //var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
@@ -823,24 +823,24 @@ namespace YCM.CLO.Web.Controllers
         {
             try
             {
-                if (startDateId == null)
+                if (endDateId == null)
                 {
                     var today = DateTime.Today;
 
                     if (today.DayOfWeek == DayOfWeek.Monday)
                     {
-                        startDateId = Helper.GetDateId(today.AddDays(-4));
+                        endDateId = Helper.GetDateId(today.AddDays(-4));
                     }
                     else
                     {
-                        startDateId = Helper.GetDateId(today.AddDays(-2));
+                        endDateId = Helper.GetDateId(today.AddDays(-2));
                     }
                 }
 
-                if (endDateId == null)
+                if (startDateId == null)
                 {
                     var today = DateTime.Today;
-                    endDateId = Helper.GetDateId(today.AddDays(-1));
+                    startDateId = Helper.GetDateId(today.AddDays(-1));
                 }
                 _logger.Info($"_repository is null? {_repository == null}");
                 //var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<MoodyRecoveryChange>, IEnumerable<MoodyRecoveryChange>>(_repository.GetMoodyRecoveryChange(startDateId.Value, endDateId.Value)) };

@@ -85,10 +85,9 @@
                             <li><a data-toggle="tab" href="#ParChange" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="dayoverchanges.loadTotalParChanges();" ng-disabled="dayoverchanges.isLoading">Total Par Change</a> </li>
                             <li><a data-toggle="tab" href="#PriceMover" target="_blank" style="padding: 3px 15px 3px !important;" ng-click="dayoverchanges.loadTopBottonPriceMovers();" ng-disabled="dayoverchanges.isLoading">Price Movers</a> </li>
                         </ul>
-                        <div class="tab-content">                           
+                        <div class="tab-content">
                             <div style="max-height: 500px;overflow-y:auto;" id="Current" class="tab-pane fade in active">
-                                <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblRateChanges" name="tblRateChanges"
-                                       style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                <table class="noth table-3pxcondensed table-fixedheight" id="tblRateChanges" name="tblRateChanges" style="border-collapse: collapse;">
                                     <thead>
                                         <tr ng-show="dayoverchanges.isRatingDataAvailable">
                                             <td colspan="16" style="border:0">
@@ -98,48 +97,64 @@
                                             </td>
                                         </tr>
                                         <tr ng-show="!dayoverchanges.isRatingDataAvailable">
-                                            <th style="text-align: left; padding: 0 20px 0 20px; border: 1px solid black;">
+                                            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 Issuer
                                             </th>
-                                            <th style="text-align: left; padding: 0 20px 0 20px; border: 1px solid black;">
+                                            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 Total Exposure
                                             </th>
-                                            <th style="border-left: 1px solid black; text-align: left; padding: 0 20px 0 20px; border: 1px solid black;">
+                                            <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border-bottom: 1px solid black;">
                                                 CFR Adj (New)
                                             </th>
-                                            <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 CFR Adj (Old)
                                             </th>
-                                            <th style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                            <th style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 Facility (New)
                                             </th>
-                                            <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 Facility (Old)
                                             </th>
-                                            <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                            <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
                                                 S&P (New)
                                             </th>
-                                            <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                            <th style="border-right: 1px solid black; text-align: left; padding: 0 20px 0 20px; border-bottom: 1px solid black;">
                                                 S&P (Old)
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="rating in dayoverchanges.ratingchanges" ng-show="!dayoverchanges.isRatingDataAvailable">
-                                            <td style="text-align: left; padding:0 20px 0 20px;">{{rating.issuer}}</td>
-                                            <td style="text-align: left; padding:  0 20px 0 20px;">{{rating.totalPar}}</td>
-                                            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">{{rating.moodyCFJAdjNew}}</td>
-                                            <td style="text-align: left; padding:  0 20px 0 20px;">{{rating.moodyCFRAdjOld}}</td>
-                                            <td style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px;">{{rating.moodyFacitityRatingNew}}</td>
-                                            <td style="text-align: left; padding:  0 20px 0 20px;">{{rating.moodyFacitityRatingOld}}</td>
-                                            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">{{rating.snPIssuerRatingNew}}</td>
-                                            <td style="text-align: left; padding:  0 20px 0 20px;">{{rating.snPIssuerRatingOld}}</td>
+                                        <tr ng-repeat="rating in dayoverchanges.ratingchanges| orderBy : 'issuer'" ng-show="!dayoverchanges.isRatingDataAvailable">
+                                            <td style="text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.issuer}}
+                                            </td>
+                                            <td style="text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.totalPar}}
+                                            </td>
+                                            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.moodyCFJAdjNew}}
+                                            </td>
+                                            <td style="text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.moodyCFRAdjOld}}
+                                            </td>
+                                            <td style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.moodyFacitityRatingNew}}
+                                            </td>
+                                            <td style="text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.moodyFacitityRatingOld}}
+                                            </td>
+                                            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                                                {{rating.snPIssuerRatingNew}}
+                                            </td>
+                                            <td style="border-right: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                                {{rating.snPIssuerRatingOld}}
+                                            </td>                                            
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div id="Moody" class="tab-pane fade" style="overflow-y:auto;">
-                                <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblMoodyChanges" name="tblMoodyChanges"
+                                <table class="table-bordered noth table-3pxcondensed table-fixedheight" id="tblMoodyChanges" name="tblMoodyChanges"
                                        style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
                                     <thead>
                                         <tr ng-show="dayoverchanges.isMoodyDataAvailable">
@@ -177,7 +192,7 @@
                                 </table>
                             </div>
                             <div id="ParChange" class="tab-pane fade" style="overflow-y:auto;">
-                                <table class="table table-bordered noth table-3pxcondensed table-fixedheight" id="tblParChanges" name="tblParChanges"
+                                <table class="table-bordered noth table-3pxcondensed table-fixedheight" id="tblParChanges" name="tblParChanges"
                                        style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
                                     <thead>
                                         <tr ng-show="dayoverchanges.isTotalParDataAvailable">
@@ -187,7 +202,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr  ng-show="!dayoverchanges.isTotalParDataAvailable">
+                                        <tr ng-show="!dayoverchanges.isTotalParDataAvailable">
                                             <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
                                                 Fund
                                             </th>
@@ -203,7 +218,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="change in dayoverchanges.totalparchanges"  ng-show="!dayoverchanges.isTotalParDataAvailable">
+                                        <tr ng-repeat="change in dayoverchanges.totalparchanges" ng-show="!dayoverchanges.isTotalParDataAvailable">
                                             <td style="text-align: left; padding:  0 20px 0 20px;">
                                                 {{change.fund}}
                                             </td>
