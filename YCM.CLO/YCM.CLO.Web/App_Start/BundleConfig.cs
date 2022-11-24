@@ -99,7 +99,7 @@ namespace YCM.CLO.Web
                "~/App/Controllers/ReportingController.js",
                "~/App/Controllers/PaydownController.js",
                "~/App/Controllers/TradeBookingController.js",
-               "~/App/Controllers/DayOverChangesController.js"
+               "~/App/Controllers/DayOverChangesController.js",
                 "~/App/Controllers/ChartsPopupController.js"
                ));
 
