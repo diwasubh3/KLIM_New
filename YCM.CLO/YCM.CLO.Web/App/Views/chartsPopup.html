@@ -1,0 +1,56 @@
+﻿<style>
+    .panel-default .panel-body {
+        padding: 0px;
+    }
+
+    .panel-default .panel-heading {
+        text-align: center;
+        padding: 6px;
+    }
+
+    .panel-default .panel-title {
+        font-size: 12px;
+    }
+</style>
+
+<div class="modal-body" style="overflow:hidden">
+    <div class="row">
+        <div class="col-sm-2" >
+            <span style="float: left"><b>Type:</b> </span>
+            <select class="form-control" ng-model="chartsPopup.trendType"
+                    ng-options="tt as tt.trendTypeName for tt in chartsPopup.trendtypes track by tt.typeID"></select>
+        </div>
+        <div class="col-sm-2">
+            <span style="float: left"><b>Period: </b></span>
+            <select class="form-control" ng-model="chartsPopup.period" ng-change="chartsPopup.periodChangeEvent()"
+                    ng-disabled="chartsPopup.isLoading"
+                    ng-options="tt as tt.periodName for tt in chartsPopup.trendPeriod track by tt.periodId"></select>
+        </div>
+        <div class="col-sm-2" >
+            <span style="float: left"><b>From Date </b> </span>
+            <input id="txtStartDate" ng-disabled="chartsPopup.isDateDisabled" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="chartsPopup.startDate" ng-required="">
+        </div>
+        <div class="col-sm-2">
+            <span style="float: left"><b>To Date </b></span>
+            <input id="txtEndDate" ng-disabled="chartsPopup.isDateDisabled" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="chartsPopup.endDate" ng-required="">
+        </div>
+        <div class="col-sm-1"  style="padding-top: 0.7%">
+            <button name="btnTrendFilter" id="btnTrendFilter" class="btn btn-info" ng-click="chartsPopup.loadTrends();" ng-disabled="chartsPopup.isLoading">
+                Show
+            </button>
+        </div>
+        <div class="col-sm-3"  style="padding-top: 0.5%">
+            <button type="button" class="close" data-dismiss="dialog" data-ng-click="chartsPopup.cancel()" style="font-size: 18px !important;">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+        </div>
+     </div>
+
+        <div style="padding: 0px !important;">
+            <!--<div class="chart-container" style="position: relative; height: 40vh; width: 80vw">-->
+            <canvas id="trendsChart"></canvas>
+            <!-- </div> -->
+        </div>
+    </div>
+

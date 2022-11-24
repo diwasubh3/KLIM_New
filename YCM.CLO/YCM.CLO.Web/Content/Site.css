@@ -577,3 +577,11 @@ textarea {
     background-color: #6ccbde !important;
     font-weight: bold !important;
 }
+.app-modal-window {
+    overflow: hidden !important;
+}
+.app-modal-window .modal-dialog {
+    width: 85vw;
+    height: 85vw;
+  
+}

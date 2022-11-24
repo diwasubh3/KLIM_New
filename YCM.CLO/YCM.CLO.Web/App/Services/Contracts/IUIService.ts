@@ -23,5 +23,6 @@
         showTradeHistoryPopup: (securitycode: string, issuer: string, modalService: angular.ui.bootstrap.IModalService, codeToExcute: any) => void;
         showPaydownModal: (watch: Models.IPaydown, modalService: angular.ui.bootstrap.IModalService, inDeleteMode: boolean, paydownTypeId: number, codeToExcute: any) => void;
         createPaydown: (position: Models.IPosition) => Models.IPaydown;
+        showChartsPopup: (modalService: angular.ui.bootstrap.IModalService, trendsData: Array<Application.Models.ITrends>, trendPeriod: Array<Models.ITrendPeriod>, trendtypes: Array<Models.ITrendType>, period: any, trendType: any) => void;
     }
 } 
