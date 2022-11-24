@@ -3,7 +3,7 @@ var Application;
     var Controllers;
     (function (Controllers) {
         var TopNavController = (function () {
-            function TopNavController(uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
+            function TopNavController(modalService, uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
                 var _this = this;
                 this.appBasePath = pageOptions.appBasePath;
                 this.hideNotActive = false;
@@ -153,23 +153,11 @@ var Application;
                         vm.setTrendsData(trendResultsData);
                         vm.setTrendTableParams();
                     });
-                    //if (!pageOptions.TrendsResult) {
-                    //    //trendTypeId = vm.trendtype.typeID;
-                    //    //if (trendTypeId == 'undefined' || trendTypeId <= 0)
-                    //    //    trendTypeId = 1;
-                    //    vm.dataService.loadTrends(vm.trendTypeId, vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then((trendResultsData) => {
-                    //        //debugger;
-                    //        pageOptions.TrendsResult = trendResultsData;
-                    //        vm.setTrendsData(trendResultsData);
-                    //        vm.setTrendTableParams();
-                    //    });
-                    //}
-                    //else {
-                    //    vm.setTrendsData(pageOptions.TrendsResult);
-                    //    vm.setTrendTableParams();
-                    //}
                     vm.isLoading = false;
-                    //});
+                };
+                this.showCharts = function () {
+                    var vm = _this;
+                    vm.uiService.showChartsPopup(vm.modalService, vm.trendsData, vm.trendPeriod, vm.trendtypes, vm.period, vm.trendType);
                 };
                 this.setTrendsData = function (trendResultsData) {
                     var vm = _this;
@@ -453,6 +441,7 @@ var Application;
                 vm.interval = $interval;
                 vm.ngTestTableParamas = ngTableParams;
                 vm.ngTrendTableParams = ngTableParams;
+                vm.modalService = modalService;
                 var yesterday = new Date(new Date());
                 yesterday.setDate(yesterday.getDate() - 1);
                 var lastMonthdate = new Date(new Date());
@@ -489,7 +478,7 @@ var Application;
             };
             return TopNavController;
         }());
-        TopNavController.$inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
+        TopNavController.$inject = ["$uibModal", "application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
         Controllers.TopNavController = TopNavController;
         angular.module("app").controller("topNavController", TopNavController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));

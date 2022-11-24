@@ -411,9 +411,14 @@
                                                                                 <div class="col-sm-2" style="padding-top: 0.5%">
                                                                                     <input id="txtEndDate" ng-disabled="topNav.isDateDisabled" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="topNav.endDate" ng-required="">
                                                                                 </div>
-                                                                                <div class="col-sm-1" style="padding-top: 0.5%">
+                                                                                <div class="col-sm-2" style="padding-top: 0.5%">
                                                                                     <button name="btnTrendFilter" id="btnTrendFilter" class="btn btn-info" ng-click="topNav.loadTrends();" ng-disabled="topNav.isLoading">
                                                                                         Show Trends
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="col-sm-1" style="padding-top: 0.5%">
+                                                                                    <button name="btnTrendFilter" id="btnShowCharts" class="btn btn-info" ng-click="topNav.showCharts();" ng-disabled="topNav.isLoading">
+                                                                                        Charts
                                                                                     </button>
                                                                                 </div>
                                                                             </div>
