@@ -984,17 +984,20 @@ namespace YCM.CLO.CalculationEngine
                 {
                     if (reconReport.Count > 0)
                     {
+                        _logger.Info("Checking for rows");
                         int count = 0;
                         for (int i = 0; i < reconReport.Count; i++)
                         {
-                            if(reconReport[i].Count == 0)
+                            if (reconReport[i].Count == 0)
                             {
                                 count++;
                             }
                         }
-                        if(count == reconReport.Count -1)
+
+                        if (count == reconReport.Count)
                         {
-                            return false;
+                            _logger.Info("No Data Exception Found and hence no email will be sent today");
+                            return true;
                         }
                     }
                     _logger.Info("Recon Change Found:");

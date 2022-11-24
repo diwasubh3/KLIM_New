@@ -537,6 +537,8 @@
                                         {
                                             <li id="navlinkpositions" class="nav-link {{topNav.activeView=='positions'?'active':''}}"><a href="#/positions">Positions</a></li>
                                         }
+                                        <li id="navlinkdayover" class="nav-link {{topNav.activeView=='dayoverchanges'?'active':''}}"><a href="#/dayoverchanges">Day Over Changes</a></li>
+
                                         @if (ViewBag.HasTop10Bottom10Permission)
                                         {
                                             <li id="navlinksummary" class="nav-link {{topNav.activeView=='top10bottom10'?'active':''}}"><a href="#/top10Bottom10">Top 10 / Bottom 10</a></li>
@@ -630,8 +632,8 @@
                                             <li id="navreporting" class="nav-link {{topNav.activeView=='reporting'?'active':''}}"><a href="#/reporting">Reporting</a></li>
                                         }
                                         @*@if (ViewBag.HasAdminPermission)
-                                        {*@
-                                            <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
+                                            {*@
+                                        <li id="navlinktrades" class="nav-link {{topNav.activeView=='tradebooking'?'active':''}}"><a href="#/tradebooking">Trade Booking</a></li>
                                         @*  }*@
 
                                     </ul>
