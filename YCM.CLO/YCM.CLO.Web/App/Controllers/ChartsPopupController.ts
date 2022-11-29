@@ -22,6 +22,7 @@ module Application.Controllers {
         endDate: any;
         isDateDisabled = false;
         trendsChart: any;
+   
        
 
         static $inject = ["application.services.dataService", "$window", "$scope", "$uibModalInstance", 'NgTableParams', '$timeout', 'sourcedata'];
@@ -49,6 +50,8 @@ module Application.Controllers {
             vm.disableTrendDates();
         }
 
+      
+
         loadCharts = () => {
             var vm = this;
             var trendsData = vm.trendsData;
@@ -70,32 +73,82 @@ module Application.Controllers {
                         borderColor: fundColors[i],
                         fill: false,
                         lineTension: 0.4,
-                        hidden: i === 1 ?false: true
+                        hidden: i === 1 ? false : true,
+                        type: 'line'
                     }
                     chartDataSet.push(fundDataSet);
                 }
-              
+                const newLegendClickHandler = function (e, legendItem, legend) {
+                    var check = this;
+                    const index = legendItem.datasetIndex;
+                    const ci = legend.chart;
+                    if (ci.isDatasetVisible(index)) {
+                        ci.data.datasets[index].hidden = true;
+                        ci.hide(index);
+                        legendItem.hidden = true;
+                    } else {
+                        ci.data.datasets[index].hidden = false;
+                        ci.show(index);
+                        legendItem.hidden = false;
+                    }
+
+                }.bind(this)
+
+                
+
+                
                 vm.trendsChart = new vm.windowService.Chart(
                     chartDiv,
                     {
-                        type: 'line',
+                        
                         data: {
                             labels: trendsData.map(row => row.trendDate),
                             datasets: chartDataSet
-                           
+
                         },
                         options: {
-                            showLines: true, 
-                            legend: {
-                                display: true,
-                                labels: {
-                                    fontColor: 'rgb(255, 99, 132)'
+                            showLines: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        usePointStyle: true,
+                                        generateLabels: (chart) => {
+                                            //console.log(chart);
+                                            let pointStyle = [];
+                                            chart.data.datasets.forEach((dataset,index) => {
+                                                if (dataset.hidden === true) {
+                                                    pointStyle.push({ type: 'crossRot', color: ' #000000' })
+                                                } else {
+                                                    pointStyle.push({ type: 'circle', color: fundColors[index + 1] })
+                                                }
+
+                                            })
+                                            return chart.data.datasets.map(
+                                                (dataset, index) => ({
+                                                    text: dataset.label,
+                                                    fillStyle: pointStyle[index].color,
+                                                    strokeStyle: pointStyle[index].color,
+                                                    pointStyle: pointStyle[index].type,
+                                                    hidden: false,
+                                                    datasetIndex: index
+                                                   
+                                                })
+                                            )
+                                        }
+                                    },
+                                    onClick: newLegendClickHandler
                                 }
                             }
-                        }
+                         
+                        },
+                 
                       
                     }
                 );
+
+                
+
+
 
             })
            
