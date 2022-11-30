@@ -29,25 +29,62 @@ var Application;
                                 borderColor: fundColors[i],
                                 fill: false,
                                 lineTension: 0.4,
-                                hidden: i === 1 ? false : true
+                                hidden: i === 1 ? false : true,
+                                type: 'line'
                             };
                             chartDataSet.push(fundDataSet);
                         }
+                        var newLegendClickHandler = function (e, legendItem, legend) {
+                            var check = this;
+                            var index = legendItem.datasetIndex;
+                            var ci = legend.chart;
+                            if (ci.isDatasetVisible(index)) {
+                                ci.data.datasets[index].hidden = true;
+                                ci.hide(index);
+                                legendItem.hidden = true;
+                            }
+                            else {
+                                ci.data.datasets[index].hidden = false;
+                                ci.show(index);
+                                legendItem.hidden = false;
+                            }
+                        }.bind(this);
                         vm.trendsChart = new vm.windowService.Chart(chartDiv, {
-                            type: 'line',
                             data: {
                                 labels: trendsData.map(function (row) { return row.trendDate; }),
                                 datasets: chartDataSet
                             },
                             options: {
                                 showLines: true,
-                                legend: {
-                                    display: true,
-                                    labels: {
-                                        fontColor: 'rgb(255, 99, 132)'
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            usePointStyle: true,
+                                            generateLabels: function (chart) {
+                                                //console.log(chart);
+                                                var pointStyle = [];
+                                                chart.data.datasets.forEach(function (dataset, index) {
+                                                    if (dataset.hidden === true) {
+                                                        pointStyle.push({ type: 'crossRot', color: ' #000000' });
+                                                    }
+                                                    else {
+                                                        pointStyle.push({ type: 'circle', color: fundColors[index + 1] });
+                                                    }
+                                                });
+                                                return chart.data.datasets.map(function (dataset, index) { return ({
+                                                    text: dataset.label,
+                                                    fillStyle: pointStyle[index].color,
+                                                    strokeStyle: pointStyle[index].color,
+                                                    pointStyle: pointStyle[index].type,
+                                                    hidden: false,
+                                                    datasetIndex: index
+                                                }); });
+                                            }
+                                        },
+                                        onClick: newLegendClickHandler
                                     }
                                 }
-                            }
+                            },
                         });
                     });
                 };

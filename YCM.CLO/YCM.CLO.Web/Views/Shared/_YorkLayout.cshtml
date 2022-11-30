@@ -104,10 +104,12 @@
                                                 </div>
                                             </uib-accordion-heading>
                                             <div>
-                                                <ul class="nav nav-tabs">
+                                                <ul class="nav nav-tabs testResultsTab" id="testResultsTab">
                                                     <li class="active"><a data-toggle="tab" href="#testResult1" target="_blank" style="padding: 3px 15px 3px !important;">Summary</a> </li>
                                                     <li><a data-toggle="tab" href="#testResult2" target="_blank" style="padding: 3px 15px 3px !important;">WSO Compliance Test Results</a> </li>
                                                     <li><a data-toggle="tab" href="#trends" target="_blank" style="padding: 3px 15px 3px !important;">Trends</a> </li>
+                                                    <li><a data-toggle="tab" href="#trendCharts" target="_blank" style="padding: 3px 15px 3px !important;">Charts</a> </li>
+                                                    <li style="float:right"> <div><a href="" title="Click to Download list in CSV"style="padding: 3px 15px 3px !important;"><i class="fa fa-file-excel-o" aria-hidden="true" ng-click="topNav.exportToCSV()"></i></a></div></li>
                                                 </ul>
                                             </div>
                                             <div class="tab-content" id="myTabContent">
@@ -193,10 +195,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 150px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.totalCouponBgStyle">
-                                                                            <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                                {{data.totalCoupon| number:2}}%
-                                                                            </span>
-                                                                        </td>*@
+                                <span ng-show="data.totalCoupon" uib-tooltip-html="data.totalCouponTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.totalCoupon| number:2}}%
+                                </span>
+                            </td>*@
 
                                                                     <td style="width: 80px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowarfBgStyle">
                                                                         <span uib-tooltip-html="data.wsowarfTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
@@ -237,10 +239,10 @@
                                                                     </td>
 
                                                                     @*<td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsowaLifeBgStyle">
-                                                                            <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
-                                                                                {{data.wsowaLife| number:2}}
-                                                                            </span>
-                                                                        </td>*@
+                                <span uib-tooltip-html="data.wsowaLifeTooltip" tooltip-append-to-body="true" tooltip-placement="bottom">
+                                    {{data.wsowaLife| number:2}}
+                                </span>
+                            </td>*@
                                                                     <td style="width: 100px; text-align: right; border-width: 0px 0px 1px 0px;" ng-style="data.wsoDiversityBgStyle">
                                                                         <span uib-tooltip-html="data.wsoDiversityTooltip" tooltip-append-to-body="true">
                                                                             {{data.wsoDiversity| number:0}}
@@ -416,11 +418,11 @@
                                                                                         Show Trends
                                                                                     </button>
                                                                                 </div>
-                                                                                <div class="col-sm-1" style="padding-top: 0.5%">
+                                                                                @*<div class="col-sm-1" style="padding-top: 0.5%">
                                                                                     <button name="btnTrendFilter" id="btnShowCharts" class="btn btn-info" ng-click="topNav.showCharts();" ng-disabled="topNav.isLoading">
                                                                                         Charts
                                                                                     </button>
-                                                                                </div>
+                                                                                </div>*@
                                                                             </div>
                                                                         </th>
                                                                     </tr>
@@ -511,6 +513,55 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="tab-pane fade" id="trendCharts" role="tabpanel" aria-labelledby="home-tab" style="overflow-x: hidden;">
+                                                   
+                                                        @*style="max-height: 286px;"*@
+                                                        <div >
+                                                            <div class="row">
+                                                                <div class="col-sm-1" style="padding-top: 0.6%;padding-right:0.1%">
+                                                                    <span style="float: right">Type: </span>
+                                                                </div>
+                                                                <div class="col-sm-1" style="display: inline-block; font-weight: bold; width: 230px; padding-top: 0.3%">
+                                                                    <select class="form-control" ng-model="topNav.trendType"
+                                                                            ng-disabled="topNav.isLoading"
+                                                                            ng-options="tt as tt.trendTypeName for tt in topNav.trendtypes track by tt.typeID"></select>
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.6%; padding-right: 0.1%">
+                                                                    <span style="float: right">Period: </span>
+                                                                </div>
+                                                                <div class="col-sm-1" style="display: inline-block; font-weight: bold; width: 100px; padding-top: 0.3%">
+                                                                    <select class="form-control" ng-model="topNav.period" ng-change="topNav.periodChangeEvent()"
+                                                                            ng-disabled="topNav.isLoading"
+                                                                            ng-options="tt as tt.periodName for tt in topNav.trendPeriod track by tt.periodId"></select>
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.6%; padding-right: 0.1%">
+                                                                    <span style="float: right">From Date </span>
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.3%;">
+                                                                    <input id="txtStartDate" ng-disabled="topNav.isDateDisabled" name="txtStartDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="topNav.startDate" ng-required="">
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.6%; padding-right: 0.1%">
+                                                                    <span style="float: right">To Date </span>
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.3%">
+                                                                    <input id="txtEndDate" ng-disabled="topNav.isDateDisabled" name="txtEndDate" type="date" placeholder="mm/dd/yyyy" class="form-control" ng-model="topNav.endDate" ng-required="">
+                                                                </div>
+                                                                <div class="col-sm-1" style="padding-top: 0.3%">
+                                                                    <button name="btnTrendFilter" id="btnShowCharts" class="btn btn-info" ng-click="topNav.loadTrends(true);" ng-disabled="topNav.isLoading">
+                                                                        Show
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                                
+                                                            <div class="chart-container" style="padding: 10px !important;">
+                                                                <!--<div class="chart-container" style="position: relative; height: 40vh; width: 80vw">-->
+                                                                <canvas  id="trendsChart"></canvas>
+                                                                <!-- </div> -->
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                              
 
                                             </div>
                                         </div>
@@ -706,10 +757,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var y = $(window).height();
-            var b = y / 1.3;
-            $("#testResult2").css('height', b);
-            $("#trends").css('height', b);
+            var windowHeight = $(window).height();
+            var requiredHeight = windowHeight/ 1.3;
+            var chartHeight = windowHeight / 1.4;
+            $("#testResult2").css('height', requiredHeight);
+            $("#trends").css('height', requiredHeight);
+            $("#trendCharts").css('height', requiredHeight);
+            $(".chart-container").css('height', chartHeight);
+          
 
         });
     </script>
