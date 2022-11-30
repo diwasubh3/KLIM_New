@@ -41,6 +41,14 @@
         sOFR: number;
         isNewCalc: boolean;
         cashPer: number;
+        reInvestCash: any;
+        b3ToAssetParPct: any;
+        bMinusToAssetParPct: any;
+        walCushion: any;
+        timeToReinvest: any;
+        wapp: any;
+        bbmvoc: any;
+        dateId: any;
 
     }
 
@@ -111,7 +119,7 @@
         fund8OutcomeDisplay: string;
         fund9OutcomeDisplay: string;
         fund10OutcomeDisplay: string;
-        fund11utcomeDisplay: string;
+        fund11OutcomeDisplay: string;
         testCategoryName: string;
         testDisplayNameBgStyle: any;
         condition: string;
@@ -153,6 +161,7 @@
         fund10BgStyle: any;
         fund11BgStyle: any;
         trendDate: string;
+        hasBlankData: any;
     }
 
     export interface IRule {

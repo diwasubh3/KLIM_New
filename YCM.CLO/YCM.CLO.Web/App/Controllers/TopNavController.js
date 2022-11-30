@@ -3,7 +3,7 @@ var Application;
     var Controllers;
     (function (Controllers) {
         var TopNavController = (function () {
-            function TopNavController(modalService, uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
+            function TopNavController($timeout, modalService, uiService, dataService, $rootScope, ngTableParams, $filter, $window, $interval) {
                 var _this = this;
                 this.appBasePath = pageOptions.appBasePath;
                 this.hideNotActive = false;
@@ -132,11 +132,11 @@ var Application;
                             return period.isDefault === true;
                         });
                         vm.period = defaultPeriod[0];
-                        vm.loadTrends();
+                        vm.loadTrends(true);
                         vm.disableTrendDates();
                     });
                 };
-                this.loadTrends = function () {
+                this.loadTrends = function (isLoadCharts) {
                     var vm = _this;
                     vm.statusText = "Loading";
                     vm.isLoading = true;
@@ -150,7 +150,7 @@ var Application;
                     var periodId = vm.period ? vm.period.periodId : 1;
                     vm.dataService.loadTrends(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString(), trendTypeId, periodId).then(function (trendResultsData) {
                         pageOptions.TrendsResult = trendResultsData;
-                        vm.setTrendsData(trendResultsData);
+                        vm.setTrendsData(trendResultsData, isLoadCharts);
                         vm.setTrendTableParams();
                     });
                     vm.isLoading = false;
@@ -159,7 +159,7 @@ var Application;
                     var vm = _this;
                     vm.uiService.showChartsPopup(vm.modalService, vm.trendsData, vm.trendPeriod, vm.trendtypes, vm.period, vm.trendType);
                 };
-                this.setTrendsData = function (trendResultsData) {
+                this.setTrendsData = function (trendResultsData, isLoadCharts) {
                     var vm = _this;
                     var redColor = { 'background-color': 'lightcoral', 'color': '#333333' };
                     var greenColor = { 'background-color': 'lightgreen', 'color': '#333333' };
@@ -180,11 +180,14 @@ var Application;
                         }
                     });
                     vm.trendsData = trendResultsData;
+                    if (isLoadCharts) {
+                        vm.loadCharts();
+                    }
                 };
                 this.setTestResultsData = function (testResultsData) {
                     var vm = _this;
                     testResultsData.forEach(function (tData) {
-                        var clo = 1;
+                        var CLO = 1;
                         var redColor = { 'background-color': 'RED', 'color': '#333333' };
                         var yellowColor = { 'background-color': 'yellow', 'color': 'rgb(51, 51, 51)' };
                         //var blackFontColor = { 'color': 'black' };
@@ -430,6 +433,216 @@ var Application;
                         dataset: vm.trendsData
                     });
                 };
+                this.loadCharts = function () {
+                    var vm = _this;
+                    var trendsData = vm.trendsData.slice(); // Slice is added to clone data of trendsdata.
+                    trendsData = trendsData.sort(function (a, b) {
+                        return new Date(a.trendDate).getTime() - new Date(b.trendDate).getTime();
+                    });
+                    //Add Filter function to segrgate data
+                    trendsData.forEach(function (tData, idx) {
+                        var hasBlankData = false;
+                        for (var i = 1; i < 11; i++) {
+                            if (tData["fundOvercollateralization" + i] === '') {
+                                hasBlankData = true;
+                                break;
+                            }
+                        }
+                        if (hasBlankData) {
+                            trendsData[idx].hasBlankData = true;
+                        }
+                    });
+                    trendsData = trendsData.filter(function (tData) {
+                        return tData.hasBlankData !== true;
+                    });
+                    vm.timeoutService(function () {
+                        if (vm.trendsChart) {
+                            vm.trendsChart.destroy();
+                        }
+                        var chartDiv = document.getElementById('trendsChart');
+                        var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#7320BD', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399', '#ff6384'];
+                        var chartDataSet = [];
+                        for (var i = 1; i < 11; i++) {
+                            var fundDataSet = {
+                                label: 'CLO' + i,
+                                data: trendsData.map(function (row) { return row["fundOvercollateralization" + i]; }),
+                                borderColor: fundColors[i],
+                                fill: false,
+                                lineTension: 0.4,
+                                hidden: i === 1 ? false : true,
+                                type: 'line'
+                            };
+                            chartDataSet.push(fundDataSet);
+                        }
+                        var newLegendClickHandler = function (e, legendItem, legend) {
+                            var index = legendItem.datasetIndex;
+                            var ci = legend.chart;
+                            if (ci.isDatasetVisible(index)) {
+                                ci.data.datasets[index].hidden = true;
+                                ci.hide(index);
+                                legendItem.hidden = true;
+                            }
+                            else {
+                                ci.data.datasets[index].hidden = false;
+                                ci.show(index);
+                                legendItem.hidden = false;
+                            }
+                        };
+                        vm.trendsChart = new vm.window.Chart(chartDiv, {
+                            data: {
+                                labels: trendsData.map(function (row) { return row.trendDate; }),
+                                datasets: chartDataSet
+                            },
+                            options: {
+                                showLines: true,
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            usePointStyle: true,
+                                            generateLabels: function (chart) {
+                                                //console.log(chart);
+                                                var pointStyle = [];
+                                                chart.data.datasets.forEach(function (dataset, index) {
+                                                    if (dataset.hidden === true) {
+                                                        pointStyle.push({ type: 'crossRot', color: ' #000000' });
+                                                    }
+                                                    else {
+                                                        pointStyle.push({ type: 'circle', color: fundColors[index + 1] });
+                                                    }
+                                                });
+                                                return chart.data.datasets.map(function (dataset, index) { return ({
+                                                    text: dataset.label,
+                                                    fillStyle: pointStyle[index].color,
+                                                    strokeStyle: pointStyle[index].color,
+                                                    pointStyle: pointStyle[index].type,
+                                                    hidden: false,
+                                                    datasetIndex: index
+                                                }); });
+                                            }
+                                        },
+                                        onClick: newLegendClickHandler
+                                    }
+                                },
+                                maintainAspectRatio: false
+                            },
+                        });
+                    });
+                };
+                this.exportToCSV = function () {
+                    var vm = _this;
+                    var activeTab = "trendsData";
+                    var CsvData = [];
+                    var active = $("ul.nav.nav-tabs.testResultsTab li.active a").attr('href');
+                    var dateid = vm.summaryData.length > 0 ? +vm.summaryData[0].dateId.toString().substr(4, 2) + '/' + vm.summaryData[0].dateId.toString().substr(6, 2) + '/' + vm.summaryData[0].dateId.toString().substr(0, 4) : '';
+                    if (active === "#testResult1") {
+                        vm.summaryData.forEach(function (line) {
+                            //let reportDate = new Date(line.tradeDate);
+                            var csvLine = {
+                                'CLO': line.fundCode,
+                                'Total Par': line.par,
+                                'Asset Par': line.assetPar,
+                                'Principal Cash': line.principalCash,
+                                '%Cash': line.cashPer + (line.cashPer != null && line.cashPer.toString().length ? '%' : ''),
+                                'Reinvest Cash': line.reInvestCash,
+                                'WAS': line.wsoSpread,
+                                'SOFR': line.sOFR,
+                                'WARF': line.wsowarf,
+                                'B3%': line.b3ToAssetParPct + (line.b3ToAssetParPct != null && line.b3ToAssetParPct.toString().length ? '%' : ''),
+                                'B-%': line.bMinusToAssetParPct + (line.bMinusToAssetParPct != null && line.bMinusToAssetParPct.toString().length ? '%' : ''),
+                                'WAL Cushion': line.walCushion,
+                                'Time to Reinvest': line.timeToReinvest,
+                                "Moody's Recovery": line.wsoMoodyRecovery,
+                                'Diversity': line.wsoDiversity,
+                                'WA Bid': line.bid,
+                                'WAPP': line.wapp,
+                                'BB MVOC': line.bbmvoc + (line.bbmvoc != null && line.bbmvoc.toString().length ? '%' : ''),
+                                'Clean Nav': line.cleanNav
+                            };
+                            CsvData.push(csvLine);
+                        });
+                        vm.exportToCsv('Summary_' + dateid + '.csv', CsvData);
+                    }
+                    else if (active === "#testResult2") {
+                        vm.testResultsData.forEach(function (line) {
+                            //let reportDate = new Date(line.tradeDate);
+                            var csvLine = {
+                                'Test Name': line.testDisplayName,
+                                CLO1: line.fund1OutcomeDisplay,
+                                CLO2: line.fund2OutcomeDisplay,
+                                CLO3: line.fund3OutcomeDisplay,
+                                CLO4: line.fund4OutcomeDisplay,
+                                CLO5: line.fund5OutcomeDisplay,
+                                CLO6: line.fund6OutcomeDisplay,
+                                CLO7: line.fund7OutcomeDisplay,
+                                CLO8: line.fund8OutcomeDisplay,
+                                CLO9: line.fund9OutcomeDisplay,
+                                CLO10: line.fund10OutcomeDisplay,
+                                CLO11: line.fund11OutcomeDisplay
+                            };
+                            CsvData.push(csvLine);
+                        });
+                        vm.exportToCsv('Compliance_' + dateid + '.csv', CsvData);
+                    }
+                    else if (active === "#trends" || active === "#trendCharts") {
+                        vm.trendsData.forEach(function (line) {
+                            //let reportDate = new Date(line.tradeDate);
+                            var csvLine = {
+                                DATE: line.trendDate,
+                                CLO1: line.fundOvercollateralization1,
+                                CLO2: line.fundOvercollateralization2,
+                                CLO3: line.fundOvercollateralization3,
+                                CLO4: line.fundOvercollateralization4,
+                                CLO5: line.fundOvercollateralization5,
+                                CLO6: line.fundOvercollateralization6,
+                                CLO7: line.fundOvercollateralization7,
+                                CLO8: line.fundOvercollateralization8,
+                                CLO9: line.fundOvercollateralization9,
+                                CLO10: line.fundOvercollateralization10,
+                                CLO11: line.fundOvercollateralization11
+                            };
+                            CsvData.push(csvLine);
+                        });
+                        vm.exportToCsv('trendata_' + dateid + '.csv', CsvData);
+                    }
+                };
+                this.exportToCsv = function (filename, rows) {
+                    if (!rows || !rows.length) {
+                        return;
+                    }
+                    var separator = ',';
+                    var keys = Object.keys(rows[0]);
+                    var csvContent = keys.join(separator) +
+                        '\n' +
+                        rows.map(function (row) {
+                            return keys.map(function (k) {
+                                var cell = row[k] === null || row[k] === undefined ? '' : row[k];
+                                cell = cell instanceof Date
+                                    ? cell.toLocaleString()
+                                    : cell.toString().replace(/"/g, '""');
+                                if (cell.search(/("|,|\n)/g) >= 0) {
+                                    cell = "\"" + cell + "\"";
+                                }
+                                return cell;
+                            }).join(separator);
+                        }).join('\n');
+                    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    if (navigator.msSaveBlob) {
+                        navigator.msSaveBlob(blob, filename);
+                    }
+                    else {
+                        var link = document.createElement('a');
+                        if (link.download !== undefined) {
+                            // Browsers that support HTML5 download attribute
+                            var url = URL.createObjectURL(blob);
+                            link.setAttribute('href', url);
+                            link.setAttribute('download', filename);
+                            link.style.visibility = 'hidden';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
+                };
                 var vm = this;
                 vm.uiService = uiService;
                 vm.rootScope = $rootScope;
@@ -442,6 +655,7 @@ var Application;
                 vm.ngTestTableParamas = ngTableParams;
                 vm.ngTrendTableParams = ngTableParams;
                 vm.modalService = modalService;
+                vm.timeoutService = $timeout;
                 var yesterday = new Date(new Date());
                 yesterday.setDate(yesterday.getDate() - 1);
                 var lastMonthdate = new Date(new Date());
@@ -478,7 +692,7 @@ var Application;
             };
             return TopNavController;
         }());
-        TopNavController.$inject = ["$uibModal", "application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
+        TopNavController.$inject = ['$timeout', "$uibModal", "application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
         Controllers.TopNavController = TopNavController;
         angular.module("app").controller("topNavController", TopNavController);
     })(Controllers = Application.Controllers || (Application.Controllers = {}));
