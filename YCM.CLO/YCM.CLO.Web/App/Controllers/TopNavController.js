@@ -463,15 +463,30 @@ var Application;
                         var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#7320BD', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399', '#ff6384'];
                         var chartDataSet = [];
                         for (var i = 1; i < 11; i++) {
+                            var hidden = true;
+                            if (vm.selectedCLOs.length === 0) {
+                                hidden = i === 1 ? false : true;
+                            }
+                            else {
+                                var activeClo = vm.selectedCLOs.filter(function (clo) {
+                                    return clo == 'CLO' + i;
+                                });
+                                if (activeClo.length) {
+                                    hidden = false;
+                                }
+                            }
                             var fundDataSet = {
                                 label: 'CLO' + i,
                                 data: trendsData.map(function (row) { return row["fundOvercollateralization" + i]; }),
                                 borderColor: fundColors[i],
                                 fill: false,
                                 lineTension: 0.4,
-                                hidden: i === 1 ? false : true,
+                                hidden: hidden,
                                 type: 'line'
                             };
+                            if (!hidden) {
+                                vm.selectedCLOs.push(fundDataSet.label);
+                            }
                             chartDataSet.push(fundDataSet);
                         }
                         var newLegendClickHandler = function (e, legendItem, legend) {
@@ -480,12 +495,16 @@ var Application;
                             if (ci.isDatasetVisible(index)) {
                                 ci.data.datasets[index].hidden = true;
                                 ci.hide(index);
+                                vm.selectedCLOs = vm.selectedCLOs.filter(function (clo) {
+                                    return clo !== legendItem.text;
+                                });
                                 legendItem.hidden = true;
                             }
                             else {
                                 ci.data.datasets[index].hidden = false;
                                 ci.show(index);
                                 legendItem.hidden = false;
+                                vm.selectedCLOs.push(legendItem.text);
                             }
                         };
                         vm.trendsChart = new vm.window.Chart(chartDiv, {
@@ -662,6 +681,7 @@ var Application;
                 lastMonthdate.setDate(lastMonthdate.getDate() - 45);
                 vm.startDate = lastMonthdate;
                 vm.endDate = yesterday;
+                vm.selectedCLOs = [];
                 vm.rootScope.$on('onActivated', function (event, data) {
                     vm.activeView = data;
                     vm.rootScope['activeView'] = data;
