@@ -41,6 +41,7 @@ module Application.Controllers {
         isDateDisabled = false;
         trendsChart: any;
         timeoutService: ng.ITimeoutService;
+        selectedCLOs: any;
 
        
         static $inject = ['$timeout',"$uibModal","application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
@@ -65,6 +66,7 @@ module Application.Controllers {
             lastMonthdate.setDate(lastMonthdate.getDate() - 45);
             vm.startDate = lastMonthdate;
             vm.endDate = yesterday;
+            vm.selectedCLOs = [];
 
             vm.rootScope.$on('onActivated', (event, data) => {
                 vm.activeView = data;
@@ -615,14 +617,29 @@ module Application.Controllers {
                 var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#7320BD', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399', '#ff6384'];
                 var chartDataSet = [];
                 for (var i = 1; i < 11; i++) {
+                    let hidden = true;
+                    if (vm.selectedCLOs.length === 0) {
+                        hidden = i === 1 ? false : true;
+                    } else {
+                        let activeClo =  vm.selectedCLOs.filter(function (clo) {
+                            return  clo == 'CLO' + i
+                        });
+                        if (activeClo.length) {
+                            hidden = false;
+                        }
+                    }
+                  
                     var fundDataSet = {
                         label: 'CLO' + i,
                         data: trendsData.map(row => row["fundOvercollateralization" + i]),
                         borderColor: fundColors[i],
                         fill: false,
                         lineTension: 0.4,
-                        hidden: i === 1 ? false : true,
+                        hidden: hidden,
                         type: 'line'
+                    }
+                    if (!hidden) {
+                        vm.selectedCLOs.push(fundDataSet.label)
                     }
                     chartDataSet.push(fundDataSet);
                 }
@@ -633,11 +650,15 @@ module Application.Controllers {
                     if (ci.isDatasetVisible(index)) {
                         ci.data.datasets[index].hidden = true;
                         ci.hide(index);
+                        vm.selectedCLOs = vm.selectedCLOs.filter(function (clo) {
+                            return clo !== legendItem.text;
+                        });
                         legendItem.hidden = true;
                     } else {
                         ci.data.datasets[index].hidden = false;
                         ci.show(index);
                         legendItem.hidden = false;
+                        vm.selectedCLOs.push(legendItem.text);
                     }
 
                 }
