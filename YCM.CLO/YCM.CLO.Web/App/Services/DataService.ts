@@ -467,8 +467,8 @@
             return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetRatingChanges');
         }
 
-        getTotalParChanges = () => {
-            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParChanges');
+        getTotalParDifferenceforUI = () => {
+            return this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParDifferenceforUI');
         }
 
         getMoodyRecoveryDateChanges = () => {

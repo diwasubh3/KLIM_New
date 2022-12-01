@@ -15,4 +15,12 @@ namespace YCM.CLO.DataAccess.Models
         public IEnumerable<vw_PriceMove> Prev5DayTop { get; set; }
         public IEnumerable<vw_PriceMove> Prev5DayBottom { get; set; }
     }
+
+    public class TotalParChanges
+    {
+        public IEnumerable<TotalParChange> PrevTotalParChange { get; set; }
+        public bool PrevTotal { get; set; }
+        public IEnumerable<TotalParChange> Prev5TotalParChange { get; set; }
+        public bool Prev5Total{ get; set; }
+    }
 }

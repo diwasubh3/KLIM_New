@@ -353,8 +353,8 @@ var Application;
                 this.getRatingchanges = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetRatingChanges');
                 };
-                this.getTotalParChanges = function () {
-                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParChanges');
+                this.getTotalParDifferenceforUI = function () {
+                    return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetTotalParDifferenceforUI');
                 };
                 this.getMoodyRecoveryDateChanges = function () {
                     return _this.httpWrapperFactory.getData(pageOptions.appBasePath + '/data/GetMoodyRecoveryDateChanges');

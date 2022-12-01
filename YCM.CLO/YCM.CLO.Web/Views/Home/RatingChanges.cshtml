@@ -4,66 +4,66 @@
     Layout = "../Shared/_BlankLayout.cshtml";
 }
 
-<div style="padding:20px"> 
+<div style="padding:20px">
 
-<table style="border-collapse: collapse;">
-    <thead>
-        <tr>
-            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                Issuer
-            </th>
-            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                Total Exposure
-            </th>
-            <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border-bottom: 1px solid black;">
-                CFR Adj (New)
-            </th>
-            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                CFR Adj (Old)
-            </th>
-            <th style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                Facility (New)
-            </th>
-            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                Facility (Old)
-            </th>
-            <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                S&P (New)
-            </th>
-            <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
-                S&P (Old)
-            </th>
-        </tr>
-    </thead>
-    @foreach (var rc in Model)
-    {
-        <tr>
-            <td style="text-align: left; padding:  0 20px 0 20px;">
-                @rc.Issuer
-            </td>
-            <td style="text-align: left; padding:  0 20px 0 20px;">
-                @rc.TotalPar
-            </td>
-            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
-                @rc.MoodyCFJAdjNew
-            </td>
-            <td style="text-align: left; padding:  0 20px 0 20px;">
-                @rc.MoodyCFRAdjOld
-            </td>
-            <td style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px;">
-                @rc.MoodyFacitityRatingNew
-            </td>
-            <td style="text-align: left; padding:  0 20px 0 20px;">
-                @rc.MoodyFacitityRatingOld
-            </td>
-            <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
-                @rc.SnPIssuerRatingNew
-            </td>
-            <td style="text-align: left; padding:  0 20px 0 20px;">
-                @rc.SnPIssuerRatingOld
-            </td>
-        </tr>
-    }
-</table>
+    <table style="border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Issuer
+                </th>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Total Exposure
+                </th>
+                <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border-bottom: 1px solid black;">
+                    CFR Adj (Old)
+                </th>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    CFR Adj (New)
+                </th>
+                <th style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Facility (Old)
+                </th>
+                <th style="text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    Facility (New)
+                </th>
+                <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px; border-bottom: 1px solid black;">
+                    S&P (Old)
+                </th>
+                <th style="border-right: 1px solid black; text-align: left; padding: 0 20px 0 20px; border-bottom: 1px solid black;">
+                    S&P (New)
+                </th>
+            </tr>
+        </thead>
+        @foreach (var rc in Model)
+        {
+            <tr>
+                <td style="text-align: left; padding:  0 20px 0 20px;">
+                    @rc.Issuer
+                </td>
+                <td style="text-align: left; padding:  0 20px 0 20px;">
+                    @rc.TotalPar
+                </td>
+                <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                    @rc.MoodyCFRAdjOld
+                </td>
+                <td style="text-align: left; padding:  0 20px 0 20px;">
+                    @rc.MoodyCFJAdjNew
+                </td>
+                <td style="border-left: 1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                    @rc.MoodyFacitityRatingOld
+                </td>
+                <td style="text-align: left; padding:  0 20px 0 20px;">
+                    @rc.MoodyFacitityRatingNew
+                </td>
+                <td style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;">
+                    @rc.SnPIssuerRatingOld
+                </td>
+                <td style="border-right: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                    @rc.SnPIssuerRatingNew
+                </td>                
+            </tr>
+        }
+    </table>
 
 </div>

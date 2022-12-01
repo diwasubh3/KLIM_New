@@ -139,7 +139,7 @@ module Application.Services.Contracts {
         loadTrendTypes: () => ng.IPromise<Array<Models.ITrendType>>;
         loadPeriod: () => ng.IPromise<Array<Models.ITrendPeriod>>;
         getRatingchanges: () => ng.IPromise<Array<Models.IRatingChange>>;
-        getTotalParChanges: () => ng.IPromise<Array<Models.ITotalParChange>>;
+        getTotalParDifferenceforUI: () => ng.IPromise<Array<Models.ITotalParChanges>>;
         getMoodyRecoveryDateChanges: () => ng.IPromise<Array<Models.IMoodyRecoveryChange>>;
         getTopBottomPriceMoversChanges: () => ng.IPromise<Models.ITopBottonPriceMovers>;
 

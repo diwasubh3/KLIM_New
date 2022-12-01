@@ -11,7 +11,6 @@ var Application;
                 this.gridHeight = { 'height': '402px' };
                 this.isRatingDataAvailable = false;
                 this.isMoodyDataAvailable = false;
-                this.isTotalParDataAvailable = false;
                 this.loadRatingChanges = function () {
                     var vm = _this;
                     vm.statusText = "Loading";
@@ -27,11 +26,9 @@ var Application;
                     var vm = _this;
                     vm.statusText = "Loading";
                     vm.isLoading = true;
-                    vm.dataService.getTotalParChanges().then(function (totalpar) {
+                    vm.dataService.getTotalParDifferenceforUI().then(function (totalpar) {
                         vm.totalparchanges = totalpar;
                         vm.isLoading = false;
-                        if (vm.totalparchanges.length <= 0)
-                            vm.isTotalParDataAvailable = true;
                     });
                 };
                 this.loadMoodyRecoveryDateChanges = function () {
