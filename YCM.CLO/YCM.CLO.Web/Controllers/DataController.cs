@@ -785,32 +785,63 @@ namespace YCM.CLO.Web.Controllers
             }
         }
 
-        public JsonNetResult GetTotalParChanges(int? startDateId = null, int? endDateId = null)
+        public JsonNetResult GetTotalParDifferenceforUI(int? startDateId = null, int? endDateId = null)
         {
             try
             {
-                if (endDateId == null)
-                {
-                    var today = DateTime.Today;
+                TotalParChanges totalParChanges = new TotalParChanges();
+                int fromDateId = Helper.GetPrevDayDateId();
+                int toDateId;
 
-                    if (today.DayOfWeek == DayOfWeek.Monday)
-                    {
-                        endDateId = Helper.GetDateId(today.AddDays(-4));
-                    }
-                    else
-                    {
-                        endDateId = Helper.GetDateId(today.AddDays(-2));
-                    }
+                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+                {
+                    toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(3));
+                }
+                else
+                {
+                    toDateId = Helper.GetDateId(Helper.GetPrevBusinessDay(1));
                 }
 
-                if (startDateId == null)
+                DateTime Prev5BusinessDay = new DateTime();
+                if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
                 {
-                    var today = DateTime.Today;
-                    startDateId = Helper.GetDateId(today.AddDays(-1));
+                    Prev5BusinessDay = Helper.GetPrevBusinessDay(7);
                 }
-                _logger.Info($"_repository is null? {_repository == null}");
-                //var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
-                return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
+                else
+                {
+                    Prev5BusinessDay = Helper.GetPrevBusinessDay(5);
+                }
+
+                int to5DateId = Helper.GetDateId(Prev5BusinessDay);
+                totalParChanges.PrevTotalParChange = _repository.GetTotalParDifferenceforUI(fromDateId, toDateId);
+                totalParChanges.PrevTotal = (totalParChanges.PrevTotalParChange.Count() > 0);
+                totalParChanges.Prev5TotalParChange = _repository.GetTotalParDifferenceforUI(fromDateId, to5DateId);
+                totalParChanges.Prev5Total = (totalParChanges.Prev5TotalParChange.Count() > 0);
+
+                return new JsonNetResult() { Data = totalParChanges };
+
+                //if (endDateId == null)
+                //{
+                //    var today = DateTime.Today;
+
+                //    if (today.DayOfWeek == DayOfWeek.Monday)
+                //    {
+                //        endDateId = Helper.GetDateId(today.AddDays(-4));
+                //    }
+                //    else
+                //    {
+                //        endDateId = Helper.GetDateId(today.AddDays(-2));
+                //    }
+                //}
+
+                //if (startDateId == null)
+                //{
+                //    var today = DateTime.Today;
+                //    startDateId = Helper.GetDateId(today.AddDays(-1));
+                //}
+                //_logger.Info($"_repository is null? {_repository == null}");
+                ////var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
+                //return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
             }
             catch (Exception exception)
             {

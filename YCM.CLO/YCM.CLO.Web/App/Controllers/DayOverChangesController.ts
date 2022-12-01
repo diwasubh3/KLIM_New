@@ -13,7 +13,7 @@
         static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', "$scope", 'uiGridConstants', 'uiGridExporterService'];
         gridHeight: any = { 'height': '402px' };
         ratingchanges: Array<Models.IRatingChange>;
-        totalparchanges: Array<Models.ITotalParChange>;
+        totalparchanges: Array<Models.ITotalParChanges>;
         moodyrecoverychanges: Array<Models.IMoodyRecoveryChange>;
         topBottonPriceMovers: Models.ITopBottonPriceMovers;
         pricemovers: any;
@@ -25,7 +25,6 @@
         prev5DayBottomCount: number;
         isRatingDataAvailable: boolean = false;
         isMoodyDataAvailable: boolean = false;
-        isTotalParDataAvailable: boolean = false;
 
         constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, $scope: angular.IScope, uiGridConstants: any, exportUiGridService: any) {
             var vm = this;
@@ -54,11 +53,9 @@
             var vm = this;
             vm.statusText = "Loading";
             vm.isLoading = true;
-            vm.dataService.getTotalParChanges().then((totalpar) => {
+            vm.dataService.getTotalParDifferenceforUI().then((totalpar) => {
                 vm.totalparchanges = totalpar;
-                vm.isLoading = false;
-                if (vm.totalparchanges.length <= 0)
-                    vm.isTotalParDataAvailable  = true;
+                vm.isLoading = false;                
             });
         }
 

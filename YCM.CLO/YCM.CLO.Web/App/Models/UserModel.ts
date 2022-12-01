@@ -1234,12 +1234,6 @@
         newRecovery: number;
     }
 
-    export interface IMoodyRecoveryChange {
-        fund: string;
-        oldRecovery: number;
-        newRecovery: number;
-    }
-
     export interface IPriceMove {
         issuer: string;
         totalPar: number;
@@ -1256,6 +1250,13 @@
         prevDayBottom: Array<Models.IPriceMove>;
         prev5DayTop: Array<Models.IPriceMove>;
         prev5DayBottom: Array<Models.IPriceMove>;
+    }
+
+    export interface ITotalParChanges {
+        prevTotalParChange: Array<Models.ITotalParChange>;
+        prevTotal: boolean;
+        prev5TotalParChange: Array<Models.ITotalParChange>;
+        prev5Total: boolean;
     }
 }
 
