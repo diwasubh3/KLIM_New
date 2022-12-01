@@ -1,6 +1,7 @@
 ﻿
 module Application.Controllers {
     export class TopNavController {
+        modalService: angular.ui.bootstrap.IModalService;
         rootScope: ng.IRootScopeService;
         summaryTableParams: any;
         testResultsTableParams: any;
@@ -38,8 +39,13 @@ module Application.Controllers {
         selectedTrend: any;
         tooltipTextTemplate: string = '<div>__CONTENT__</div>';
         isDateDisabled = false;
-        static $inject = ["application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
-        constructor(uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, ngTableParams: NgTableParams, $filter: ng.IFilterService, $window: ng.IWindowService, $interval: ng.IIntervalService) {
+        trendsChart: any;
+        timeoutService: ng.ITimeoutService;
+        selectedCLOs: any;
+
+       
+        static $inject = ['$timeout',"$uibModal","application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
+        constructor($timeout: ng.ITimeoutService,modalService: angular.ui.bootstrap.IModalService,uiService: Application.Services.Contracts.IUIService, dataService: Application.Services.Contracts.IDataService, $rootScope: ng.IRootScopeService, ngTableParams: NgTableParams, $filter: ng.IFilterService, $window: ng.IWindowService, $interval: ng.IIntervalService) {
             var vm = this;
             vm.uiService = uiService;
             vm.rootScope = $rootScope;
@@ -51,6 +57,8 @@ module Application.Controllers {
             vm.interval = $interval;
             vm.ngTestTableParamas = ngTableParams;
             vm.ngTrendTableParams = ngTableParams;
+            vm.modalService = modalService;
+            vm.timeoutService = $timeout;
             
             const yesterday = new Date(new Date())
             yesterday.setDate(yesterday.getDate() - 1);
@@ -58,6 +66,7 @@ module Application.Controllers {
             lastMonthdate.setDate(lastMonthdate.getDate() - 45);
             vm.startDate = lastMonthdate;
             vm.endDate = yesterday;
+            vm.selectedCLOs = [];
 
             vm.rootScope.$on('onActivated', (event, data) => {
                 vm.activeView = data;
@@ -221,13 +230,13 @@ module Application.Controllers {
                     return period.isDefault === true;
                 });
                 vm.period = defaultPeriod[0];
-                vm.loadTrends();
+                vm.loadTrends(true);
                 vm.disableTrendDates();
             });
         }
 
 
-        loadTrends = () => {
+        loadTrends = (isLoadCharts :any) => {
             var vm = this;
             vm.statusText = "Loading";
             vm.isLoading = true;
@@ -240,29 +249,18 @@ module Application.Controllers {
             
             vm.dataService.loadTrends(vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString(), trendTypeId, periodId).then((trendResultsData) => {
                 pageOptions.TrendsResult = trendResultsData;
-                vm.setTrendsData(trendResultsData);
+                vm.setTrendsData(trendResultsData, isLoadCharts);
                 vm.setTrendTableParams();
             });
-            //if (!pageOptions.TrendsResult) {
-            //    //trendTypeId = vm.trendtype.typeID;
-            //    //if (trendTypeId == 'undefined' || trendTypeId <= 0)
-            //    //    trendTypeId = 1;
-            //    vm.dataService.loadTrends(vm.trendTypeId, vm.startDate.toLocaleDateString(), vm.endDate.toLocaleDateString()).then((trendResultsData) => {
-            //        //debugger;
-            //        pageOptions.TrendsResult = trendResultsData;
-            //        vm.setTrendsData(trendResultsData);
-            //        vm.setTrendTableParams();
-            //    });
-            //}
-            //else {
-            //    vm.setTrendsData(pageOptions.TrendsResult);
-            //    vm.setTrendTableParams();
-            //}
             vm.isLoading = false;
-            //});
         }
 
-        setTrendsData = (trendResultsData: Models.ITrends[]) => {
+        showCharts = () => {
+            var vm = this;
+            vm.uiService.showChartsPopup(vm.modalService, vm.trendsData, vm.trendPeriod, vm.trendtypes, vm.period, vm.trendType );
+        }
+
+        setTrendsData = (trendResultsData: Models.ITrends[],isLoadCharts:any) => {
             var vm = this;
             var redColor = { 'background-color': 'lightcoral', 'color': '#333333' };
             var greenColor = { 'background-color': 'lightgreen', 'color': '#333333'};
@@ -287,6 +285,9 @@ module Application.Controllers {
                 
             });
             vm.trendsData = trendResultsData;
+            if (isLoadCharts) {
+                vm.loadCharts()
+            }
         }
 
         setTestResultsData = (testResultsData: Models.ITestResults[]) => {
@@ -294,7 +295,7 @@ module Application.Controllers {
 
             testResultsData.forEach(function (tData) {
 
-                var clo = 1;
+                var CLO = 1;
                 var redColor = { 'background-color': 'RED', 'color': '#333333' };
                 var yellowColor = { 'background-color': 'yellow', 'color': 'rgb(51, 51, 51)' };
                 //var blackFontColor = { 'color': 'black' };
@@ -581,6 +582,263 @@ module Application.Controllers {
                 counts: [],
                 dataset: vm.trendsData
             });
+        }
+
+
+        loadCharts = () => {
+            var vm = this;
+            var trendsData = vm.trendsData.slice();// Slice is added to clone data of trendsdata.
+            trendsData = trendsData.sort((a, b) => {
+                return new Date(a.trendDate).getTime() - new Date(b.trendDate).getTime();
+            });
+            //Add Filter function to segrgate data
+            trendsData.forEach(function (tData,idx) {
+                let hasBlankData = false
+                for (var i = 1; i < 11; i++) {
+                    if (tData["fundOvercollateralization" + i] === '') {
+                        hasBlankData = true;
+                        break;
+                    }
+                }
+                if (hasBlankData) {
+                    trendsData[idx].hasBlankData = true;
+                }
+            })
+
+            trendsData = trendsData.filter(function (tData) {
+                return tData.hasBlankData !== true;
+            })
+
+            vm.timeoutService(function () {
+                if (vm.trendsChart) {
+                    vm.trendsChart.destroy();
+                }
+                var chartDiv = document.getElementById('trendsChart')
+                var fundColors = ['', '#36a2eb', '#cc65fe', '#00ff80', '#7320BD', '#ff99ff', '#0000ff', '#009999', '#cc0000', '#003399', '#ff6384'];
+                var chartDataSet = [];
+                for (var i = 1; i < 11; i++) {
+                    let hidden = true;
+                    if (vm.selectedCLOs.length === 0) {
+                        hidden = i === 1 ? false : true;
+                    } else {
+                        let activeClo =  vm.selectedCLOs.filter(function (clo) {
+                            return  clo == 'CLO' + i
+                        });
+                        if (activeClo.length) {
+                            hidden = false;
+                        }
+                    }
+                  
+                    var fundDataSet = {
+                        label: 'CLO' + i,
+                        data: trendsData.map(row => row["fundOvercollateralization" + i]),
+                        borderColor: fundColors[i],
+                        fill: false,
+                        lineTension: 0.4,
+                        hidden: hidden,
+                        type: 'line'
+                    }
+                    if (!hidden) {
+                        vm.selectedCLOs.push(fundDataSet.label)
+                    }
+                    chartDataSet.push(fundDataSet);
+                }
+                const newLegendClickHandler = function (e, legendItem, legend) {
+                 
+                    const index = legendItem.datasetIndex;
+                    const ci = legend.chart;
+                    if (ci.isDatasetVisible(index)) {
+                        ci.data.datasets[index].hidden = true;
+                        ci.hide(index);
+                        vm.selectedCLOs = vm.selectedCLOs.filter(function (clo) {
+                            return clo !== legendItem.text;
+                        });
+                        legendItem.hidden = true;
+                    } else {
+                        ci.data.datasets[index].hidden = false;
+                        ci.show(index);
+                        legendItem.hidden = false;
+                        vm.selectedCLOs.push(legendItem.text);
+                    }
+
+                }
+
+
+
+
+                vm.trendsChart = new vm.window.Chart(
+                    chartDiv,
+                    {
+
+                        data: {
+                            labels: trendsData.map(row => row.trendDate),
+                            datasets: chartDataSet
+
+                        },
+                        options: {
+                            showLines: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        usePointStyle: true,
+                                        generateLabels: (chart) => {
+                                            //console.log(chart);
+                                            let pointStyle = [];
+                                            chart.data.datasets.forEach((dataset, index) => {
+                                                if (dataset.hidden === true) {
+                                                    pointStyle.push({ type: 'crossRot', color: ' #000000' })
+                                                } else {
+                                                    pointStyle.push({ type: 'circle', color: fundColors[index + 1] })
+                                                }
+
+                                            })
+                                            return chart.data.datasets.map(
+                                                (dataset, index) => ({
+                                                    text: dataset.label,
+                                                    fillStyle: pointStyle[index].color,
+                                                    strokeStyle: pointStyle[index].color,
+                                                    pointStyle: pointStyle[index].type,
+                                                    hidden: false,
+                                                    datasetIndex: index
+
+                                                })
+                                            )
+                                        }
+                                    },
+                                    onClick: newLegendClickHandler
+                                }
+                            },
+                            maintainAspectRatio: false
+
+                        },
+
+
+                    }
+                );
+
+
+
+
+
+            })
+
+        }
+
+        exportToCSV = () => {
+            var vm = this;
+            var activeTab = "trendsData"
+            var CsvData = [];
+            var active = $("ul.nav.nav-tabs.testResultsTab li.active a").attr('href')
+            var dateid = vm.summaryData.length > 0 ?  + vm.summaryData[0].dateId.toString().substr(4, 2) + '/' + vm.summaryData[0].dateId.toString().substr(6, 2) + '/' + vm.summaryData[0].dateId.toString().substr(0, 4)  : ''
+            if (active === "#testResult1") {
+                vm.summaryData.forEach(line => {
+                    //let reportDate = new Date(line.tradeDate);
+                    let csvLine = {
+                        'CLO': line.fundCode,
+                        'Total Par': line.par,
+                        'Asset Par': line.assetPar,
+                        'Principal Cash': line.principalCash,
+                        '%Cash': line.cashPer + (line.cashPer != null && line.cashPer.toString().length ? '%' : ''),
+                        'Reinvest Cash': line.reInvestCash,
+                        'WAS': line.wsoSpread,
+                        'SOFR': line.sOFR,
+                        'WARF': line.wsowarf,
+                        'B3%': line.b3ToAssetParPct + (line.b3ToAssetParPct != null && line.b3ToAssetParPct.toString().length ? '%' : ''),
+                        'B-%': line.bMinusToAssetParPct +( line.bMinusToAssetParPct != null && line.bMinusToAssetParPct.toString().length ? '%' : ''),
+                        'WAL Cushion': line.walCushion,
+                        'Time to Reinvest': line.timeToReinvest,
+                        "Moody's Recovery": line.wsoMoodyRecovery,
+                        'Diversity': line.wsoDiversity,
+                        'WA Bid': line.bid,
+                        'WAPP': line.wapp,
+                        'BB MVOC': line.bbmvoc +( line.bbmvoc != null && line.bbmvoc.toString().length ? '%' : ''),
+                        'Clean Nav': line.cleanNav
+                    }
+                    CsvData.push(csvLine);
+                });
+                vm.exportToCsv('Summary_' + dateid+'.csv', CsvData);
+              
+            } else if (active === "#testResult2") {
+                vm.testResultsData.forEach(line => {
+                    //let reportDate = new Date(line.tradeDate);
+                    let csvLine = {
+                        'Test Name': line.testDisplayName,
+                        CLO1: line.fund1OutcomeDisplay,
+                        CLO2: line.fund2OutcomeDisplay,
+                        CLO3: line.fund3OutcomeDisplay,
+                        CLO4: line.fund4OutcomeDisplay,
+                        CLO5: line.fund5OutcomeDisplay,
+                        CLO6: line.fund6OutcomeDisplay,
+                        CLO7: line.fund7OutcomeDisplay,
+                        CLO8: line.fund8OutcomeDisplay,
+                        CLO9: line.fund9OutcomeDisplay,
+                        CLO10: line.fund10OutcomeDisplay,
+                        CLO11: line.fund11OutcomeDisplay
+                    }
+                    CsvData.push(csvLine);
+                });
+                vm.exportToCsv('Compliance_' + dateid +'.csv', CsvData);
+
+            } else if (active === "#trends" || active==="#trendCharts") {
+                vm.trendsData.forEach(line => {
+                    //let reportDate = new Date(line.tradeDate);
+                    let csvLine = {
+                        DATE: line.trendDate,
+                        CLO1: line.fundOvercollateralization1,
+                        CLO2: line.fundOvercollateralization2,
+                        CLO3: line.fundOvercollateralization3,
+                        CLO4: line.fundOvercollateralization4,
+                        CLO5: line.fundOvercollateralization5,
+                        CLO6: line.fundOvercollateralization6,
+                        CLO7: line.fundOvercollateralization7,
+                        CLO8: line.fundOvercollateralization8,
+                        CLO9: line.fundOvercollateralization9,
+                        CLO10: line.fundOvercollateralization10,
+                        CLO11: line.fundOvercollateralization11
+                    }
+                    CsvData.push(csvLine);
+                });
+                vm.exportToCsv('trendata_' + dateid +'.csv', CsvData);
+            }
+        }
+        exportToCsv = (filename: string, rows: object[]) => {
+            if (!rows || !rows.length) {
+                return;
+            }
+            const separator = ',';
+            const keys = Object.keys(rows[0]);
+            const csvContent =
+                keys.join(separator) +
+                '\n' +
+                rows.map(row => {
+                    return keys.map(k => {
+                        let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+                        cell = cell instanceof Date
+                            ? cell.toLocaleString()
+                            : cell.toString().replace(/"/g, '""');
+                        if (cell.search(/("|,|\n)/g) >= 0) {
+                            cell = `"${cell}"`;
+                        }
+                        return cell;
+                    }).join(separator);
+                }).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                const link = document.createElement('a');
+                if (link.download !== undefined) {
+                    // Browsers that support HTML5 download attribute
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
         }
     }
 

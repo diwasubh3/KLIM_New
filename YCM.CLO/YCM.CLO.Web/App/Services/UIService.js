@@ -530,6 +530,25 @@ var Application;
                     };
                     return paydown;
                 };
+                this.showChartsPopup = function (modalService, trendsData, trendPeriod, trendtypes, period, trendType) {
+                    var modalInstance = modalService.open({
+                        templateUrl: pageOptions.appBasePath + 'app/views/chartsPopup.html?v=' + pageOptions.appVersion,
+                        controller: 'application.controllers.chartsPopupController',
+                        controllerAs: 'chartsPopup',
+                        windowClass: 'app-modal-window',
+                        resolve: {
+                            sourcedata: function () {
+                                var data = {};
+                                data.trendsData = trendsData;
+                                data.trendPeriod = trendPeriod;
+                                data.trendtypes = trendtypes;
+                                data.period = period;
+                                data.trendType = trendType;
+                                return data;
+                            }
+                        }
+                    });
+                };
                 this.httpWrapperFactory = httpWrapperFactory;
                 this.uiGridConstants = uiGridConstants;
                 this.sce = $sce;
