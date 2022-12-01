@@ -819,29 +819,6 @@ namespace YCM.CLO.Web.Controllers
                 totalParChanges.Prev5Total = (totalParChanges.Prev5TotalParChange.Count() > 0);
 
                 return new JsonNetResult() { Data = totalParChanges };
-
-                //if (endDateId == null)
-                //{
-                //    var today = DateTime.Today;
-
-                //    if (today.DayOfWeek == DayOfWeek.Monday)
-                //    {
-                //        endDateId = Helper.GetDateId(today.AddDays(-4));
-                //    }
-                //    else
-                //    {
-                //        endDateId = Helper.GetDateId(today.AddDays(-2));
-                //    }
-                //}
-
-                //if (startDateId == null)
-                //{
-                //    var today = DateTime.Today;
-                //    startDateId = Helper.GetDateId(today.AddDays(-1));
-                //}
-                //_logger.Info($"_repository is null? {_repository == null}");
-                ////var check = new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
-                //return new JsonNetResult() { Data = Mapper.Map<IEnumerable<TotalParChange>, IEnumerable<TotalParChange>>(_repository.GetTotalParChange(startDateId.Value, endDateId.Value)) };
             }
             catch (Exception exception)
             {
