@@ -822,7 +822,7 @@ namespace YCM.CLO.Web.Controllers
             }
             catch (Exception exception)
             {
-                EmailHelper.SendEmail(exception.ToString(), "Exception occurred in GetTotalParChanges");
+                EmailHelper.SendEmail(exception.ToString(), "Exception occurred in GetTotalParDifferenceforUI");
                 throw;
             }
         }
