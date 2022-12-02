@@ -155,7 +155,7 @@
                             </div>
                             <div id="Moody" class="tab-pane fade" style="overflow-y:auto;">
                                 <table class="table-bordered noth table-3pxcondensed table-fixedheight" id="tblMoodyChanges" name="tblMoodyChanges"
-                                       style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                       style="margin:0 10px; font: 12px/1em 'Open Sans' !important; color: #333; border-spacing: 0">
                                     <thead>
                                         <tr ng-show="dayoverchanges.isMoodyDataAvailable">
                                             <td colspan="16" style="border:0">
@@ -165,38 +165,37 @@
                                             </td>
                                         </tr>
                                         <tr ng-show="!dayoverchanges.isMoodyDataAvailable">
-                                            <th style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px; ">
+                                            <th style="padding: 3px 15px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                 Fund
                                             </th>
-                                            <th style="border: 1px solid black;  text-align: left; padding: 0 20px 0 20px; ">
+                                            <th style="padding: 3px 15px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                 Old Recovery rate
                                             </th>
-                                            <th style="border: 1px solid black;text-align: left; padding: 0 20px 0 20px;">
+                                            <th style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: left; word-break: keep-all; border-right: 1px solid #ddd;">
                                                 New Recovery rate
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="change in dayoverchanges.moodyrecoverychanges" ng-show="!dayoverchanges.isMoodyDataAvailable">
-                                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 15px;vertical-align:top;font-size:x-small;word-break:keep-all;text-align:left">
                                                 {{change.fund}}
                                             </td>
-                                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                            <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 15px;vertical-align:top;font-size:x-small;word-break:keep-all;text-align:left">
                                                 {{change.oldRecovery}}
                                             </td>
-                                            <td style="border: 1px solid black; text-align: left; padding: 0 20px 0 20px;">
+                                            <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; padding: 3px 15px; vertical-align: top; font-size: x-small; word-break: keep-all; text-align: left">
                                                 {{change.newRecovery}}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div id="ParChange" class="tab-pane fade" style="overflow-y:auto;">
+                            <div id="ParChange" class="tab-pane fade" style="overflow-y: auto; padding: 10px">
                                 <table class="table" id="tblMain1" name="tblMain1" style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
                                     <tr>
                                         <td>
-                                            <table class="table table-bordered" id="tblParChanges" name="tblParChanges"
-                                                   style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                            <table id="tblParChanges" name="tblParChanges" class=" table table-bordered" style="margin:0 10px; font: 12px/1em 'Open Sans' !important; color: #333; border-spacing: 0">
                                                 <thead>
                                                     <tr>
                                                         <td colspan="16" style="border:0">
@@ -211,41 +210,40 @@
                                                         </td>
                                                     </tr>
                                                     <tr ng-show="dayoverchanges.totalparchanges.prevTotal">
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th width="20%" style="padding: 3px 15px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             Fund
                                                         </th>
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             Previous Day Total par
                                                         </th>
-                                                        <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             Current Day Total par
                                                         </th>
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: right; word-break: keep-all; border-right: 1px solid #ddd;">
                                                             Total par Difference
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="change in dayoverchanges.totalparchanges.prevTotalParChange" ng-show="dayoverchanges.totalparchanges.prevTotal">
-                                                        <td style="text-align: left; padding:  0 20px 0 20px;">
-                                                            {{change.fund}}
-                                                        </td>
-                                                        <td style="text-align: right; padding:  0 20px 0 20px;">
-                                                            {{change.previous_TotalPar| number: 2}}
-                                                        </td>
-                                                        <td style="text-align: right; padding: 0 20px 0 20px;">
-                                                            {{change.current_TotalPar| number: 2}}
-                                                        </td>
-                                                        <td style="text-align: right; padding: 0 20px 0 20px;">
-                                                            {{change.totalPar_Diff| number: 2}}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                                <!--<tbody>-->
+                                                <tr ng-repeat="change in dayoverchanges.totalparchanges.prevTotalParChange" ng-show="dayoverchanges.totalparchanges.prevTotal">
+                                                    <td width="20%" style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 15px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                        {{change.fund}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 15px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                        {{change.previous_TotalPar| number: 0}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 15px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                        {{change.current_TotalPar| number: 0}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; padding: 3px 15px; vertical-align: top; text-align: right; font-size: x-small; word-break: keep-all;">
+                                                        {{change.totalPar_Diff| number: 0}}
+                                                    </td>
+                                                </tr>
+                                                <!--</tbody>-->
                                             </table>
                                         </td>
                                         <td>
-                                            <table class="table table-bordered" id="tbl5ParChanges" name="tbl5ParChanges"
-                                                   style="border-width: 0;margin-bottom: 0px;border-top-width: 0px">
+                                            <table id="tbl5ParChanges" name="tbl5ParChanges" class=" table table-bordered" style="margin:0 10px; font: 12px/1em 'Open Sans' !important; color: #333; border-spacing: 0">
                                                 <thead>
                                                     <tr>
                                                         <td colspan="16" style="border:0">
@@ -260,42 +258,41 @@
                                                         </td>
                                                     </tr>
                                                     <tr ng-show="dayoverchanges.totalparchanges.prev5Total">
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th width="20%" style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: left; word-break: keep-all;">
                                                             Fund
                                                         </th>
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: right; word-break: keep-all;">
                                                             Previous Day Total par
                                                         </th>
-                                                        <th style="border-left:1px solid black; text-align: left; padding:  0 20px 0 20px;border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: right; word-break: keep-all;">
                                                             Current Day Total par
                                                         </th>
-                                                        <th style="text-align: left; padding:  0 20px 0 20px; border: 1px solid black;">
+                                                        <th style="padding: 3px 15px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; vertical-align: top; font-weight: bold; text-align: right; word-break: keep-all; border-right: 1px solid #ddd;">
                                                             Total par Difference
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="change in dayoverchanges.totalparchanges.prev5TotalParChange" ng-show="dayoverchanges.totalparchanges.prev5Total">
-                                                        <td style="text-align: left; padding:  0 20px 0 20px;">
-                                                            {{change.fund}}
-                                                        </td>
-                                                        <td style="text-align: right; padding:  0 20px 0 20px;">
-                                                            {{change.previous_TotalPar| number: 2}}
-                                                        </td>
-                                                        <td style="text-align: right; padding: 0 20px 0 20px;">
-                                                            {{change.current_TotalPar| number: 2}}
-                                                        </td>
-                                                        <td style="text-align: right; padding: 0 20px 0 20px;">
-                                                            {{change.totalPar_Diff| number: 2}}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
+                                                <!--<tbody>-->
+                                                <tr ng-repeat="change in dayoverchanges.totalparchanges.prev5TotalParChange" ng-show="dayoverchanges.totalparchanges.prev5Total">
+                                                    <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 3px 15px; vertical-align: top; font-size: x-small; word-break: keep-all;">
+                                                        {{change.fund}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 3px 15px; vertical-align: top; text-align: right; font-size: x-small; word-break: keep-all;">
+                                                        {{change.previous_TotalPar| number: 0}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 3px 15px; vertical-align: top; text-align: right; font-size: x-small; word-break: keep-all;">
+                                                        {{change.current_TotalPar| number: 0}}
+                                                    </td>
+                                                    <td style="border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; padding: 3px 15px; vertical-align: top; text-align: right; font-size: x-small; word-break: keep-all;">
+                                                        {{change.totalPar_Diff| number: 0}}
+                                                    </td>
+                                                </tr>
+                                                <!--</tbody>-->
                                             </table>
                                         </td>
                                         <td style="width:20%"></td>
                                     </tr>
                                 </table>
-                                
                             </div>
                             <div id="PriceMover" class="tab-pane fade" style="overflow-y: auto; padding: 10px">
                                 <div ng-if="dayoverchanges.topBottonPriceMovers.isStale">
@@ -314,44 +311,44 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ISSUER
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             TOTAL EXP
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;min-width:57px">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;min-width:57px">
                                                             Px&nbsp;MOVE&nbsp;T-1
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             BID
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             COST
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ADJ CFR
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <!--<tbody>-->
                                                 <tr ng-repeat="daychange in dayoverchanges.topBottonPriceMovers.prevDayTop.slice(0,prevDayTopCount) track by $index">
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.issuer}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.totalPar|number :0}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.priceMove| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.bid| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.costPrice| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.moodyCFR}}
                                                     </td>
                                                 </tr>
@@ -366,43 +363,43 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ISSUER
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             TOTAL EXP
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             Px&nbsp;MOV&nbsp;T-1
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             BID
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             COST
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ADJ CFR
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tr ng-repeat="daychange in dayoverchanges.topBottonPriceMovers.prevDayBottom.slice(0,prevDayBottomCount) track by $index">
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.issuer}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.totalPar|number :0}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.priceMove| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.bid| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.costPrice| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.moodyCFR}}
                                                     </td>
                                                 </tr>
@@ -420,44 +417,44 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ISSUER
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             TOTAL EXP
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             Px&nbsp;MOVE&nbsp;T-1
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             BID
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             COST
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ADJ CFR
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <!--<tbody>-->
                                                 <tr ng-repeat="daychange in dayoverchanges.topBottonPriceMovers.prev5DayTop.slice(0,prev5DayTopCount) track by $index">
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.issuer}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.totalPar|number :0}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.priceMove| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.bid| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.costPrice| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.moodyCFR}}
                                                     </td>
                                                 </tr>
@@ -476,43 +473,43 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ISSUER
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             TOTAL EXP
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             Px&nbsp;MOV&nbsp;T-1
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             BID
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;font-weight:bold;text-align:right;word-break:keep-all;">
                                                             COST
                                                         </th>
-                                                        <th style="padding:3px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
+                                                        <th style="padding: 3px 10px; border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;vertical-align:top;border-right: 1px solid #ddd;font-weight:bold;text-align:left;word-break:keep-all;">
                                                             ADJ CFR
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tr ng-repeat="daychange in dayoverchanges.topBottonPriceMovers.prev5DayBottom.slice(0,prev5DayBottomCount) track by $index">
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.issuer}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.totalPar|number :0}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.priceMove| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.bid| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:3px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 3px 10px;vertical-align:top;text-align:right;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.costPrice| number: 2}}
                                                     </td>
-                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding:3px;vertical-align:top;font-size:x-small;word-break:keep-all;">
+                                                    <td style="border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;padding: 3px 10px;vertical-align:top;font-size:x-small;word-break:keep-all;">
                                                         {{daychange.moodyCFR}}
                                                     </td>
                                                 </tr>
@@ -520,7 +517,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
                             </div>
                         </div>
                     </div>
