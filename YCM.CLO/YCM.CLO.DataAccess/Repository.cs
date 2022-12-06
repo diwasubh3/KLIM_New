@@ -1101,6 +1101,13 @@ namespace YCM.CLO.DataAccess
                 "CLO.spGetTotalParDifference @CurrentDate, @PREVIOUSDATE",
                 new SqlParameter("@CurrentDate", startDateId),
                 new SqlParameter("@PREVIOUSDATE", endDateId));
+
+        IEnumerable<TotalParChange> IRepository.GetTotalParDifferenceforUI(int startDateId, int endDateId)        
+            => _cloContext.Database.SqlQuery<TotalParChange>(
+                "CLO.uspGetTotalParDifferenceforUI @CurrentDate, @PREVIOUSDATE",
+                new SqlParameter("@CurrentDate", startDateId),
+                new SqlParameter("@PREVIOUSDATE", endDateId)).ToList();
+
         IEnumerable<MoodyRecoveryChange> IRepository.GetMoodyRecoveryChange(int startDateId, int endDateId)
             => _cloContext.Database.SqlQuery<MoodyRecoveryChange>(
                 "CLO.spGetMoodyRecoveryChange @startDateId, @endDateId",

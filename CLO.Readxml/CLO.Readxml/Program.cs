@@ -161,14 +161,15 @@ namespace CLO.Readxml
                         {
                             _logger.Error(e);
                         }
+                        if (strStatus == "Error")
+                        {
+                            SendErrorEmail(TradeId, connectionString);
+                        }
                     }
                     _logger.Info(" updating in database completed.");
                 }
 
-                if (strStatus == "Error")
-                {
-                    SendErrorEmail(TradeId, connectionString);
-                }
+              
 
             }
         }

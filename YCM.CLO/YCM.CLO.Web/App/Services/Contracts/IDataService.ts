@@ -138,5 +138,10 @@ module Application.Services.Contracts {
         getFilteredTrades: (startDate: any, endDate: any) => ng.IPromise<Array<Models.ITradeBooking>>;
         loadTrendTypes: () => ng.IPromise<Array<Models.ITrendType>>;
         loadPeriod: () => ng.IPromise<Array<Models.ITrendPeriod>>;
+        getRatingchanges: () => ng.IPromise<Array<Models.IRatingChange>>;
+        getTotalParDifferenceforUI: () => ng.IPromise<Array<Models.ITotalParChanges>>;
+        getMoodyRecoveryDateChanges: () => ng.IPromise<Array<Models.IMoodyRecoveryChange>>;
+        getTopBottomPriceMoversChanges: () => ng.IPromise<Models.ITopBottonPriceMovers>;
+
     }
 }

@@ -272,8 +272,7 @@ namespace YCM.CLO.DataAccess.Contracts
         IEnumerable<Trends> GetTrends(int trendTypeId, DateTime startDate, DateTime endDate, int periodId);
         IEnumerable<TrendType> GetTrendTypes();
         IEnumerable<TrendPeriod> GetTrendPeriod();
-
-
         List<List<DataExceptionObject>> GetDataExceptionReporting();
+        IEnumerable<TotalParChange> GetTotalParDifferenceforUI(int startDateId, int endDateId);
     }
 }

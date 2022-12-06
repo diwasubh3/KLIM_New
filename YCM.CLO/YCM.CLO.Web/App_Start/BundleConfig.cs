@@ -28,7 +28,7 @@ namespace YCM.CLO.Web
                 "~/Scripts/YorkNet/YorkNetAll.js",
                 "~/Scripts/jquery.unhandledexception.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/VendorJS").Include(
+            bundles.Add(new Bundle("~/bundles/VendorJS").Include(
                  "~/Scripts/angular.min.js",
                  "~/Scripts/angular-route.min.js",
                  "~/Scripts/angular-sanitize.js",
@@ -45,7 +45,8 @@ namespace YCM.CLO.Web
                  "~/Scripts/angular-ui/export/csv.min.js",
                  "~/Scripts/angular-ui/export/pdfmake/pdfmake.min.js",
                  "~/Scripts/angular-ui/export/pdfmake/vfs_fonts.js",
-                 "~/Scripts/bootstrap-toggle.js"
+                 "~/Scripts/bootstrap-toggle.js",
+                 "~/Scripts/charts/chart.min.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/AppJS").Include(
@@ -97,7 +98,9 @@ namespace YCM.CLO.Web
                "~/App/Controllers/ConfirmMatrixPointController.js",
                "~/App/Controllers/ReportingController.js",
                "~/App/Controllers/PaydownController.js",
-               "~/App/Controllers/TradeBookingController.js"
+               "~/App/Controllers/TradeBookingController.js",
+               "~/App/Controllers/DayOverChangesController.js",
+                "~/App/Controllers/ChartsPopupController.js"
                ));
 
             bundles.Add(new ScriptBundle("~/bundles/YorkScriptsFinal").Include(

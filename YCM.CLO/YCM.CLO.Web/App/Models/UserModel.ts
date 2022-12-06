@@ -41,6 +41,14 @@
         sOFR: number;
         isNewCalc: boolean;
         cashPer: number;
+        reInvestCash: any;
+        b3ToAssetParPct: any;
+        bMinusToAssetParPct: any;
+        walCushion: any;
+        timeToReinvest: any;
+        wapp: any;
+        bbmvoc: any;
+        dateId: any;
 
     }
 
@@ -111,7 +119,7 @@
         fund8OutcomeDisplay: string;
         fund9OutcomeDisplay: string;
         fund10OutcomeDisplay: string;
-        fund11utcomeDisplay: string;
+        fund11OutcomeDisplay: string;
         testCategoryName: string;
         testDisplayNameBgStyle: any;
         condition: string;
@@ -153,6 +161,7 @@
         fund10BgStyle: any;
         fund11BgStyle: any;
         trendDate: string;
+        hasBlankData: any;
     }
 
     export interface IRule {
@@ -1208,6 +1217,55 @@
         periodId: number;
         periodName: string;
         isDefault: boolean;
+    }
+
+    export interface IRatingChange {
+        issuer: string;
+        totalPar: number;
+        moodyCFJAdjNew: string;
+        moodyCFRAdjOld: string;
+        moodyFacitityRatingNew: string;
+        moodyFacitityRatingOld: string;
+        snPIssuerRatingNew: string;
+        snPIssuerRatingOld: string;
+    }
+
+    export interface ITotalParChange {
+        fund: string;
+        previous_TotalPar: number;
+        current_TotalPar: number;
+        totalPar_Diff: number;
+    }
+
+    export interface IMoodyRecoveryChange {
+        fund: string;
+        oldRecovery: number;
+        newRecovery: number;
+    }
+
+    export interface IPriceMove {
+        issuer: string;
+        totalPar: number;
+        priceMove: number;
+        bid: number;
+        costPrice: number;
+        moodyCFR: string;
+    }
+
+    export interface ITopBottonPriceMovers {
+        isStale: boolean;
+        prev5BusinessDay: string;
+        prevDayTop: Array<Models.IPriceMove>;
+        prevDayBottom: Array<Models.IPriceMove>;
+        prev5DayTop: Array<Models.IPriceMove>;
+        prev5DayBottom: Array<Models.IPriceMove>;
+    }
+
+    export interface ITotalParChanges {
+        prevTotalParChange: Array<Models.ITotalParChange>;
+        prevTotal: boolean;
+        prev5TotalParChange: Array<Models.ITotalParChange>;
+        prev5Total: boolean;
     }
 }
 

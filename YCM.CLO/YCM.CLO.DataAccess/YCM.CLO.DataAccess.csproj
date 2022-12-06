@@ -104,6 +104,7 @@
     <Compile Include="Models\CacheSetting.cs" />
     <Compile Include="Models\CounterParty.cs" />
     <Compile Include="Models\DataExceptionObject.cs" />
+    <Compile Include="Models\DayOverChanges.cs" />
     <Compile Include="Models\DefaultSecurity.cs" />
     <Compile Include="Models\FundAssetClass.cs" />
     <Compile Include="Models\FundCalculation.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Models\MatrixPoint.cs" />
     <Compile Include="Models\EquityOverride.cs" />
     <Compile Include="Models\MoodyRecoveruChange.cs" />
+    <Compile Include="Models\TopBottomPriceMovers.cs" />
     <Compile Include="Models\TradeComment.cs" />
     <Compile Include="Models\TradeReason.cs" />
     <Compile Include="Models\TrendPeriod.cs" />
