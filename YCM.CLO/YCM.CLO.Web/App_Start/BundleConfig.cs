@@ -46,7 +46,9 @@ namespace YCM.CLO.Web
                  "~/Scripts/angular-ui/export/pdfmake/pdfmake.min.js",
                  "~/Scripts/angular-ui/export/pdfmake/vfs_fonts.js",
                  "~/Scripts/bootstrap-toggle.js",
-                 "~/Scripts/charts/chart.min.js"
+                 "~/Scripts/charts/chart.min.js",
+                 "~/Scripts/exportPdf/jspdf.umd.min.js",
+                 "~/Scripts/exportPdf/html2canvas.min.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/AppJS").Include(
