@@ -546,6 +546,8 @@
     <Content Include="Scripts\charts\chart.min.js" />
     <Content Include="Scripts\charts\helpers.esm.min.js" />
     <Content Include="Scripts\DatePicker\angular-bootstrap-datepicker.js" />
+    <Content Include="Scripts\exportPdf\html2canvas.min.js" />
+    <Content Include="Scripts\exportPdf\jspdf.umd.min.js" />
     <Content Include="Scripts\file-saver\bower.json" />
     <Content Include="Scripts\file-saver\demo\index.xhtml" />
     <Content Include="Scripts\file-saver\LICENSE.md" />
