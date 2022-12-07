@@ -60,7 +60,7 @@
         <div ng-app="app">
             <div data-ng-controller="topNavController as topNav" class="row">
 
-                <div ng-show="topNav.pdfLoading" style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;">
+                <div id="lodingDiv"  style="z-index: 2 !important; position: fixed !important; top: 50% !important; left: 50% !important;" hidden="hidden">
                     <img src="@HttpContext.Current.Request.Url.AbsoluteUri/Content/images/ajax-loader.gif" style="height: 50px; width: 50px" /><b>&nbsp;&nbsp;Downloading...</b>
                 </div>
 
