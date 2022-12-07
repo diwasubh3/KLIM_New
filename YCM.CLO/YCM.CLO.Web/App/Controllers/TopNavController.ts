@@ -854,6 +854,7 @@ module Application.Controllers {
             return new vm.window.Promise((resolve, reject) => {
                
                 vm.window.html2canvas(imageElement, {
+                    scale: 2,
                     allowTaint: true,
                     useCORS: true
                 }).then(function (canvas) {

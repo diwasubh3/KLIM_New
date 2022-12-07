@@ -658,6 +658,7 @@ var Application;
                     var imageElement = document.getElementById(src.id);
                     return new vm.window.Promise(function (resolve, reject) {
                         vm.window.html2canvas(imageElement, {
+                            scale: 2,
                             allowTaint: true,
                             useCORS: true
                         }).then(function (canvas) {
