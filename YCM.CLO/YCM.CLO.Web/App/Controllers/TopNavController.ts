@@ -42,6 +42,11 @@ module Application.Controllers {
         trendsChart: any;
         timeoutService: ng.ITimeoutService;
         selectedCLOs: any;
+        source: any;
+        originalElement: any;
+        imagePromises: any;
+       
+
 
        
         static $inject = ['$timeout',"$uibModal","application.services.uiService", "application.services.dataService", "$rootScope", 'NgTableParams', '$filter', '$window', '$interval'];
@@ -722,6 +727,141 @@ module Application.Controllers {
 
             })
 
+        }
+
+
+        exportToPdf = () => {
+            var vm = this;
+            var active = $("ul.nav.nav-tabs.testResultsTab li.active a").attr('href')
+            active = active.split('#')[1];
+            var lodingDiv = document.getElementById('lodingDiv');
+            lodingDiv.hidden = false;
+            vm.window.setTimeout(() => {
+                var dateid = vm.summaryData.length > 0 ? + vm.summaryData[0].dateId.toString().substr(4, 2) + '/' + vm.summaryData[0].dateId.toString().substr(6, 2) + '/' + vm.summaryData[0].dateId.toString().substr(0, 4) : ''
+                //var pdf = new vm.window.jsPDF('l', 'pt', 'letter');
+                var pdfSettings = {
+                    startRow: 0,
+                    rowsPerPage: 45,
+                    downloadFileName: '',
+                    imageHeight : 190
+                }
+                if (active === "testResult1") {
+                    active = "tblSummaryBody";
+                    pdfSettings.downloadFileName = 'Summary_';
+                } else if (active === "testResult2") {
+                    active = "tblTestResult2";
+                    pdfSettings.downloadFileName = 'WSOCompliance_';
+                } else if (active === "trends") {
+                    active = "tbTrends";
+                    pdfSettings.downloadFileName = 'Trends_';
+                } else if (active === "trendCharts") {
+                    pdfSettings.rowsPerPage = 0;
+                    pdfSettings.downloadFileName = 'TrendCharts';
+                    pdfSettings.imageHeight = 150;
+                }
+
+                vm.originalElement = document.getElementById(active);
+                var sourceArray = [];
+
+                if (vm.originalElement.tBodies && vm.originalElement.tBodies.length) {
+                    vm.source = vm.originalElement.cloneNode(true);
+                    let reminder = vm.source.tBodies.length % pdfSettings.rowsPerPage;
+                    let quotient: number = vm.source.tBodies.length / pdfSettings.rowsPerPage;
+                    let pages = 0;
+                    pages = reminder > 0 ? Math.floor(quotient) + 1 : quotient;
+
+                    var startRow = pdfSettings.startRow, endrow = pdfSettings.rowsPerPage;
+
+                    for (var i = 0; i < pages; i++) {
+                        vm.source = vm.originalElement.cloneNode(true);
+                        vm.source.id = vm.source.id + i;
+                        var bodLength = Object.keys(vm.source.tBodies).length;
+                        for (var idx = bodLength - 1; idx >= 0; idx--) {
+                            if (idx >= startRow && idx <= endrow) {
+                                //console.log(idx);
+                            } else {
+                                if (vm.source.tBodies[idx])
+                                    vm.source.tBodies[idx].parentElement.removeChild(vm.source.tBodies[idx]);
+                            }
+                        }
+                        sourceArray.push(vm.source.cloneNode(true));
+                        startRow = endrow + 1;
+                        endrow = startRow + pdfSettings.rowsPerPage - 1;
+                    }
+                    if (sourceArray.length) {
+                        for (var x = 0; x <= sourceArray.length - 1; x++) {
+                            document.body.appendChild(sourceArray[x]);
+                        }
+                    }
+                } else {
+                    sourceArray.push(vm.originalElement)
+                }
+                var canvasImages = [];
+                vm.imagePromises = [];
+
+                for (var x = 0; x <= sourceArray.length - 1; x++) {
+                    vm.imagePromises.push(vm.imagePromise(canvasImages, sourceArray[x], pdfSettings));
+                }
+
+                vm.window.Promise.all(vm.imagePromises).then(function (data) {
+
+                    let pdf = new vm.window.jspdf.jsPDF('l');
+
+
+                    lodingDiv.hidden = true;
+                    canvasImages.forEach(function (canvas, idx) {
+                        pdf.addImage(canvas.image, "JPEG", 15, 15, 265, canvas.imageHeight);
+                        if (canvasImages.length - 1 !== idx) {
+                            pdf.addPage();
+                        }
+                    });
+                    if (active !== "trendCharts") {
+                        for (var x = 0; x <= sourceArray.length - 1; x++) {
+                            document.body.removeChild(sourceArray[x]);
+                        }
+                    }
+
+                    sourceArray = [];
+
+                    pdf.save(pdfSettings.downloadFileName + dateid + ".pdf");
+                });
+            }, 500);
+          
+           
+
+            //vm.window.html2canvas(vm.source, {
+            //    allowTaint: true,
+            //    useCORS: true
+            //}).then(function (canvas) {
+            //    let pdf = new vm.window.jsPDF('l');
+            //    pdf.setFontSize(20)
+            //    pdf.addImage(canvas, "JPEG",0,0,280,205)
+            //    pdf.save("testenrty.pdf")
+
+            //});
+
+        }
+
+        imagePromise = (canvasImages, src, pdfSettings) => {
+            var vm = this;
+            console.log(src.id);
+            var imageHeight = pdfSettings.imageHeight;//as a4 Page Size in mm is 209 mm , 15 mm is added as border
+            if (src.tBodies && src.tBodies.length < pdfSettings.rowsPerPage) {
+                var rowHeight = imageHeight / pdfSettings.rowsPerPage;
+                imageHeight = rowHeight * src.tBodies.length;
+            }
+            var imageElement = document.getElementById(src.id);
+            return new vm.window.Promise((resolve, reject) => {
+               
+                vm.window.html2canvas(imageElement, {
+                    scale: 2,
+                    allowTaint: true,
+                    useCORS: true
+                }).then(function (canvas) {
+                    canvasImages.push({ image: canvas, imageHeight: imageHeight });
+                    resolve(canvas);
+                });
+            })
         }
 
         exportToCSV = () => {
