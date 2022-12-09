@@ -308,7 +308,9 @@ module Application.Controllers {
                 for (var clo = 1; clo < 12; clo++) {
                     if (tData["fund" + clo + "OutcomeDisplay"] && tData["fund" + clo + "OutcomeDisplay"].includes("$")) {//&& typeof tData["fund" + clo + "Outcome"] === "number"
                         var testOutcome = tData["fund" + clo + "OutcomeDisplay"].split("$")[1].replaceAll(",", '');
-
+                        if (testOutcome.includes(")")) {
+                            testOutcome = '-' + testOutcome.replace(')', '');
+                        }
                         if (tData["testDisplayName"] === "OC vs Target Par") {
                             tData["fund" + clo + "OutcomeBgStyle"] = testOutcome < 0 ? redFontColor : '';
                         }
@@ -345,15 +347,17 @@ module Application.Controllers {
                             calcTooltip = calcTooltip + "%";
                             breachToolTip = breachToolTip + "%";
                         }
-                        tData["fund" + clo + "OutcomeTooltip"] = "<div>DANGER &nbsp;" + dangerCondition + "&nbsp;" + calcTooltip + "</div><div>BREACH&nbsp;" + breachCondition + "&nbsp;" + breachToolTip + "</div>";
+                        var dangerDiv = "<div>DANGER &nbsp;" + dangerCondition + "&nbsp;" + calcTooltip + "</div>";
+                        var breachDiv = "<div>BREACH&nbsp;" + breachCondition + "&nbsp;" + breachToolTip + "</div>";
+                        tData["fund" + clo + "OutcomeTooltip"] = tData["hideDanger"] ? breachDiv :  dangerDiv + breachDiv;
                         //console.log("<div>DANGER &nbsp;" + tData.condition + "&nbsp;" + tData["calculatedColumn" + clo].toString() + "</div><div>BREACH&nbsp;" + tData.condition + "&nbsp;" + tData["fund" + clo + "Breach"].toString() + "</div>");
                         if (tData["fund" + clo + "OutcomeDisplay"] !== "N/A") {
                             if (tData.condition === ">=") {
                                 tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] < tData["fund" + clo + "Breach"] ? redColor :
-                                    tData["fund" + clo + "Outcome"] <= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] >= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                                    tData["fund" + clo + "Outcome"] <= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] >= tData["fund" + clo + "Breach"] && !tData["hideDanger"]? yellowColor : {};
                             } else if (tData.condition === "<=") {
                                 tData["fund" + clo + "OutcomeBgStyle"] = tData["fund" + clo + "Outcome"] > tData["fund" + clo + "Breach"] ? redColor :
-                                    tData["fund" + clo + "Outcome"] >= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] <= tData["fund" + clo + "Breach"] ? yellowColor : {};
+                                    tData["fund" + clo + "Outcome"] >= tData["calculatedColumn" + clo] && tData["fund" + clo + "Outcome"] <= tData["fund" + clo + "Breach"] && !tData["hideDanger"] ? yellowColor : {};
                             }
                         }
                     }
