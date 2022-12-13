@@ -306,6 +306,9 @@ module Application.Controllers {
                 //var blackFontColor = { 'color': 'black' };
                 var redFontColor = { 'color': 'red' }
                 for (var clo = 1; clo < 12; clo++) {
+                    if ((tData["testDisplayName"] === "Caa Excess" || tData["testDisplayName"] === "Ccc Excess") && tData["fund" + clo + "OutcomeDisplay"] != '') {
+                        tData["fund" + clo + "OutcomeDisplay"] = tData["fund" + clo + "Outcome"].toFixed(1).toString() + "%";
+                    }
                     if (tData["fund" + clo + "OutcomeDisplay"] && tData["fund" + clo + "OutcomeDisplay"].includes("$")) {//&& typeof tData["fund" + clo + "Outcome"] === "number"
                         var testOutcome = tData["fund" + clo + "OutcomeDisplay"].split("$")[1].replaceAll(",", '');
                         if (testOutcome.includes(")")) {

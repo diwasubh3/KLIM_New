@@ -360,7 +360,9 @@ var Application;
                         vm.isCommentsDisabled = false;
                         vm.isDisabledSettlement = true;
                         vm.setColumnVisibility(allocation);
-                        vm.isHide = false;
+                        if (vm.hasAdminPermission) {
+                            vm.isHide = false;
+                        }
                         vm.isSaveDisabled = true;
                         vm.isLoading = false;
                         vm.checkSaveButton();
