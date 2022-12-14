@@ -69,6 +69,7 @@ namespace YCM.CLO.DataAccess.Models
 		public string TestCategoryName { get; set; }
 		public int SortBy { get; set; }
 		public string TestHoverNote { get; set; }
+		public bool HideDanger { get; set; }
 
 
 		//funs1BgStyle: any;

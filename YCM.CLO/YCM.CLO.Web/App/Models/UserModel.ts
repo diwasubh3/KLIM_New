@@ -124,6 +124,7 @@
         testDisplayNameBgStyle: any;
         condition: string;
         testHoverNote: string;
+        hideDanger: any;
     }
 
     export interface ITrends {
